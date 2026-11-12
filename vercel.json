@@ -1,5 +1,6 @@
 {
   "framework": "vite",
+  "installCommand": "npm install --legacy-peer-deps",
   "buildCommand": "node ./node_modules/vite/bin/vite.js build",
   "outputDirectory": "dist",
   "rewrites": [
@@ -9,4 +10,3 @@
     }
   ]
 }
-
