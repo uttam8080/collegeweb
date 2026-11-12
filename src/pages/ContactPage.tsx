@@ -94,44 +94,75 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
   return (
     <div className="min-h-screen bg-[#FAF9F5] pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 space-y-16">
-        {/* Quick Contact Information Badges */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center shrink-0">
-              <MapPin className="w-6 h-6 text-blue-700" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Campus Address</h3>
-              <p className="text-xs text-stone-600 mt-1 leading-relaxed">
-                {COLLEGE_META.location}
-              </p>
-              <span className="text-[11px] font-mono text-blue-700 mt-1 block">Infocity Tech Corridor</span>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-900 flex items-center justify-center shrink-0">
-              <Phone className="w-6 h-6 text-emerald-700" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Admissions Helplines</h3>
-              <p className="text-xs font-mono text-slate-800 mt-1">{COLLEGE_META.phone}</p>
-              <p className="text-xs text-stone-500 mt-0.5">Toll Free: 1800-345-7788</p>
-              <span className="text-[11px] text-emerald-700 font-semibold block mt-1">Mon – Sat: 9:30 AM – 5:30 PM</span>
+        {/* Big 3 Joined Sharp Contact Information Boxes */}
+        <div className="w-full bg-white border-2 border-stone-300 shadow-md rounded-none grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x-2 divide-stone-200">
+          
+          {/* Box 1: Campus Address */}
+          <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between rounded-none hover:bg-stone-50/70 transition-colors">
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 bg-blue-50 border border-blue-200 text-blue-900 flex items-center justify-center shrink-0 rounded-none shadow-2xs">
+                <MapPin className="w-7 h-7 text-blue-700" />
+              </div>
+              <div className="flex-1">
+                <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-blue-900 block mb-1">
+                  CAMPUS ADDRESS
+                </span>
+                <p className="text-sm sm:text-base text-slate-800 font-semibold leading-relaxed mt-1">
+                  {COLLEGE_META.location}
+                </p>
+                <p className="text-xs font-mono font-medium text-blue-700 mt-2.5 bg-blue-50/80 px-2.5 py-1 border border-blue-200/60 inline-block rounded-none">
+                  Infocity Tech Corridor · Odisha 751024
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-900 flex items-center justify-center shrink-0">
-              <Mail className="w-6 h-6 text-amber-700" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Official Inquiries</h3>
-              <p className="text-xs font-mono text-slate-800 mt-1">{COLLEGE_META.email}</p>
-              <p className="text-xs font-mono text-stone-500 mt-0.5">{COLLEGE_META.admissionsEmail}</p>
-              <span className="text-[11px] text-stone-400 block mt-1">Guaranteed reply within 24 hours</span>
+          {/* Box 2: Admissions Helplines */}
+          <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between rounded-none hover:bg-stone-50/70 transition-colors">
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center justify-center shrink-0 rounded-none shadow-2xs">
+                <Phone className="w-7 h-7 text-emerald-700" />
+              </div>
+              <div className="flex-1">
+                <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-emerald-900 block mb-1">
+                  ADMISSIONS HELPLINES
+                </span>
+                <p className="text-sm sm:text-base font-mono font-bold text-slate-900 mt-1">
+                  {COLLEGE_META.phone} <span className="text-stone-400 font-normal">/</span> 274-0551
+                </p>
+                <p className="text-xs font-mono text-stone-600 mt-1">
+                  Toll Free: 1800-345-7788
+                </p>
+                <p className="text-xs font-semibold text-emerald-800 mt-2.5 bg-emerald-50/80 px-2.5 py-1 border border-emerald-200/60 inline-block rounded-none">
+                  Mon – Sat: 9:30 AM – 5:30 PM
+                </p>
+              </div>
             </div>
           </div>
+
+          {/* Box 3: Official Inquiries */}
+          <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between rounded-none hover:bg-stone-50/70 transition-colors">
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 bg-amber-50 border border-amber-200 text-amber-900 flex items-center justify-center shrink-0 rounded-none shadow-2xs">
+                <Mail className="w-7 h-7 text-amber-700" />
+              </div>
+              <div className="flex-1">
+                <span className="text-[11px] font-mono font-bold tracking-widest uppercase text-amber-900 block mb-1">
+                  OFFICIAL INQUIRIES
+                </span>
+                <p className="text-sm sm:text-base font-mono font-bold text-slate-900 mt-1 hover:text-amber-700 transition-colors">
+                  {COLLEGE_META.email}
+                </p>
+                <p className="text-xs font-mono text-stone-600 mt-1 hover:text-amber-700 transition-colors">
+                  {COLLEGE_META.admissionsEmail}
+                </p>
+                <p className="text-xs font-medium text-amber-900 mt-2.5 bg-amber-50/80 px-2.5 py-1 border border-amber-200/60 inline-block rounded-none">
+                  Guaranteed reply within 24 hours
+                </p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         {/* 2-Col Layout: Inquiry Form (Left) & Departmental Directory (Right) */}
