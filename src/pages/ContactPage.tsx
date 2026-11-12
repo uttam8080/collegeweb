@@ -93,23 +93,7 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
 
   return (
     <div className="min-h-screen bg-[#FAF9F5] pb-24">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 border border-blue-300 text-blue-900 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Mail className="w-4 h-4 text-blue-700" />
-            <span>Connect with {COLLEGE_META.name} · Infocity Bhubaneswar</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-[#172554] tracking-tight leading-tight">
-            Institutional Directory &amp; Campus Admissions Desk
-          </h1>
-          <p className="text-stone-600 text-base sm:text-lg mt-4 leading-relaxed max-w-2xl mx-auto">
-            Whether you are a prospective engineering candidate, corporate hiring partner, academic researcher, or visiting parent—our administrative deans are here to assist.
-          </p>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 space-y-16">
         {/* Quick Contact Information Badges */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs flex items-start gap-4">
