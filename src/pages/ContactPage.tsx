@@ -93,9 +93,9 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
 
   return (
     <div className="min-h-screen bg-[#FAF9F5] pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 space-y-16">
-        {/* Big 3 Joined Sharp Contact Information Boxes */}
-        <div className="w-full bg-white border-2 border-stone-300 shadow-md rounded-none grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x-2 divide-stone-200">
+      {/* Big 3 Joined Sharp Contact Information Boxes: Touching the Navbar at top, with Left & Right side gap */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0">
+        <div className="w-full bg-white border-x-2 border-b-2 border-stone-300 shadow-md rounded-none grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x-2 divide-stone-200">
           
           {/* Box 1: Campus Address */}
           <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-between rounded-none hover:bg-stone-50/70 transition-colors">
@@ -164,6 +164,9 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
           </div>
 
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 space-y-16">
 
         {/* 2-Col Layout: Inquiry Form (Left) & Departmental Directory (Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
