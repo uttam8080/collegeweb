@@ -92,7 +92,7 @@ export const Hero: React.FC<Props> = ({
 
         const completeTimer = setTimeout(() => {
           setIntroStage('completed');
-        }, 850);
+        }, 950);
 
         return () => clearTimeout(completeTimer);
       } else {
@@ -260,6 +260,47 @@ export const Hero: React.FC<Props> = ({
           background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 16%, transparent 34%)'
         }}
       />
+
+      {/* =========================================================================
+          CINEMATIC SPLASH LOGO INTRO (Middle of page -> 1s hold -> Fly to top-left)
+          ========================================================================= */}
+      {introStage !== 'completed' && (
+        <div className="fixed inset-0 z-60 pointer-events-none select-none">
+          {/* Dimmed hero backdrop overlay (keeps hero visible behind with lower opacity) */}
+          <div 
+            className={`absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] transition-opacity duration-800 ease-out ${
+              introStage === 'flying' ? 'opacity-0' : 'opacity-100'
+            }`} 
+          />
+
+          {/* Centered Logo transitioning to Top-Left */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              style={{
+                transform: introStage === 'flying' 
+                  ? `translate3d(${flightDelta.x}px, ${flightDelta.y}px, 0)` 
+                  : 'translate3d(0, 0, 0)',
+                transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
+              }}
+              className="will-change-transform flex items-center justify-center"
+            >
+              <div
+                style={{
+                  transform: introStage === 'flying' 
+                    ? 'scale(1)' 
+                    : typeof window !== 'undefined' && window.innerWidth < 640 
+                      ? 'scale(1.85)' 
+                      : 'scale(2.35)',
+                  transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
+                }}
+                className="will-change-transform filter drop-shadow-[0_0_45px_rgba(6,182,212,0.7)] drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]"
+              >
+                <TekkzyLogo variant="light" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Top Spacer to preserve perfect headline spacing when global navbar is fixed */}
       <div className="w-full h-24 sm:h-28 pointer-events-none select-none" aria-hidden="true" />
