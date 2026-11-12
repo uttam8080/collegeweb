@@ -23,8 +23,9 @@ export const Header: React.FC<Props> = ({
   const [isScrolled, setIsScrolled] = useState(false);
 
   const isHome = currentTab === 'home';
+  const isHeroTransparent = currentTab === 'home' || currentTab === 'programs';
 
-  // Monitor scroll position to adapt home navbar background
+  // Monitor scroll position to adapt navbar background on hero pages
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
@@ -63,13 +64,13 @@ export const Header: React.FC<Props> = ({
   return (
     <header
       className={`${
-        isHome ? 'fixed' : 'sticky'
+        isHeroTransparent ? 'fixed' : 'sticky'
       } top-0 inset-x-0 z-50 transition-all duration-300`}
     >
-      {/* Main Navigation Bar (Translucent over Hero on Home, Frosted Solid Navy on scroll down and across all other sections) */}
+      {/* Main Navigation Bar (Translucent over Hero on Home & Academics, Frosted Solid Navy on scroll down and across other sections) */}
       <div
         className={`px-4 sm:px-8 transition-all duration-300 ${
-          isHome && !isScrolled
+          isHeroTransparent && !isScrolled
             ? 'bg-transparent py-3.5'
             : 'bg-[#1b2a60]/95 backdrop-blur-md shadow-xl border-b border-white/15 py-2.5'
         }`}
