@@ -1,0 +1,6 @@
+{
+  "name": "BharatGyan - Indian Heritage & Education Platform",
+  "description": "Discover India's timeless knowledge, philosophy, ancient science, art, literature, and living traditions through interactive learning paths and lessons.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
