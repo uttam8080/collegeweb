@@ -249,7 +249,7 @@ export const StudentMilestonesSection: React.FC<StudentMilestonesSectionProps> =
   return (
     <section 
       ref={sectionRef}
-      className="relative w-full pt-20 sm:pt-28 pb-32 sm:pb-48 bg-[#FAF8F5] border-b border-stone-200 select-none"
+      className="relative w-full pt-20 sm:pt-28 pb-32 sm:pb-48 bg-[#FAF8F5] select-none"
     >
       {/* Background Pastel Geometric Shapes (Isolated in clipped container to avoid overflow-hidden on section) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">

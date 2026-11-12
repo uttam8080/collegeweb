@@ -101,6 +101,27 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
         backgroundSize: 'cover',
       }}
     >
+      {/* "Curve" Section Divider between Milestones Roadmap and Leadership */}
+      <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">
+        <svg 
+          viewBox="0 0 1440 64" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="w-full h-8 sm:h-12 lg:h-16 block text-[#FAF8F5]"
+        >
+          <path 
+            d="M0,0 Q720,64 1440,0 L1440,0 L0,0 Z" 
+            fill="currentColor" 
+          />
+          <path 
+            d="M0,0 Q720,64 1440,0" 
+            stroke="rgba(214, 211, 209, 0.6)" 
+            strokeWidth="1.5" 
+            fill="none"
+          />
+        </svg>
+      </div>
       
       {/* Dark Vignette & Gradient Overlays so background is static while text & cards pop vividly */}
       <div className="absolute inset-0 bg-[#0B1322]/55 pointer-events-none" />
