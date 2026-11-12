@@ -12,6 +12,7 @@ import { LearningPathsPage } from './pages/LearningPathsPage';
 import { LessonDetailPage } from './pages/LessonDetailPage';
 import { AboutPage } from './pages/AboutPage';
 import { AcademicProgramsPage } from './pages/AcademicProgramsPage';
+import { AdmissionsPage } from './pages/AdmissionsPage';
 import { ResearchLabsPage } from './pages/ResearchLabsPage';
 import { NoticesPage } from './pages/NoticesPage';
 import { CampusLifePage } from './pages/CampusLifePage';
@@ -23,6 +24,7 @@ export type NavigationTab =
   | 'subjects' 
   | 'paths' 
   | 'programs' 
+  | 'admissions'
   | 'research' 
   | 'notices' 
   | 'campus' 
@@ -238,18 +240,15 @@ export default function App() {
         colorSpeed={3.65}
         intensity={0.5}
       />
-      {/* Header on sub-pages */}
-      {currentTab !== 'home' && (
-        <Header
-          currentTab={currentTab}
-          onNavigate={handleNavigate}
-          onOpenSearch={() => setIsSearchOpen(true)}
-          onOpenAuth={handleOpenAuth}
-          user={user}
-          onLogout={handleLogout}
-          completedLessonsCount={completedLessonIds.length}
-        />
-      )}
+      {/* Global Unified Navigation Header - Matching Home Section across ALL sections */}
+      <Header
+        currentTab={currentTab}
+        onNavigate={handleNavigate}
+        onOpenAuth={handleOpenAuth}
+        user={user}
+        onLogout={handleLogout}
+        completedLessonsCount={completedLessonIds.length}
+      />
 
       {/* Main Page Routing */}
       <div className="flex-1">
@@ -296,6 +295,13 @@ export default function App() {
             bookmarkedLessonIds={bookmarkedLessonIds}
             onToggleComplete={handleToggleComplete}
             onToggleBookmark={handleToggleBookmark}
+          />
+        )}
+
+        {currentTab === 'admissions' && (
+          <AdmissionsPage
+            onNavigate={handleNavigate}
+            onOpenAuth={handleOpenAuth}
           />
         )}
 

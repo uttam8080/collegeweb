@@ -69,7 +69,7 @@ export const ImportantAnnouncements: React.FC<ImportantAnnouncementsProps> = ({ 
       subContent: '(Candidates may log in to their respective application portals using their registered Application ID and date of birth to update qualifying scores, domicile status, or program preferences).',
       hasNewTag: true,
       actionText: 'Open Admissions Portal',
-      actionTab: 'programs',
+      actionTab: 'admissions',
       date: 'May 02, 2026',
       refNo: 'TEKKZY/ADM/2026/CIR-14',
       signatory: 'Chairman, Central Admissions Committee',

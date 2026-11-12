@@ -1,6 +1,6 @@
 import React from 'react';
-import { AcademicProgramsSection } from '../components/AcademicProgramsSection';
 import { GraduationCap, ShieldCheck, Download, Award, BookOpen, Clock, Building2 } from 'lucide-react';
+import { AcademicProgramsSection } from '../components/AcademicProgramsSection';
 
 interface AcademicProgramsPageProps {
   onNavigate: (tab: string) => void;
@@ -40,11 +40,6 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
             </span>
           </div>
         </div>
-      </div>
-
-      {/* Main Academic Schools & Degree Programs Component */}
-      <div className="relative">
-        <AcademicProgramsSection onNavigate={onNavigate} />
       </div>
 
       {/* Academic Regulations & Downloads Strip */}
@@ -115,6 +110,9 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
           </div>
         </div>
       </div>
+
+      {/* Comprehensive Academic Programs, Schools & Admissions Console */}
+      <AcademicProgramsSection onNavigate={onNavigate} />
 
     </div>
   );
