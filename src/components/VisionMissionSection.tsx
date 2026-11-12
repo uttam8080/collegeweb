@@ -147,15 +147,34 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
   return (
     <section className="relative w-full border-b border-stone-200 overflow-hidden select-none">
       
-      {/* Top Subtle Wave Separator (Matching Screenshot Top Curved Transition) */}
-      <div className="absolute top-0 inset-x-0 h-4 bg-[#0A1322] z-10" aria-hidden="true" />
+      {/* "Curve" Section Divider between Academic Units and Vision & Mission */}
+      <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">
+        <svg 
+          viewBox="0 0 1440 64" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="w-full h-8 sm:h-12 lg:h-16 block text-[#FAF9F6]"
+        >
+          <path 
+            d="M0,0 Q720,64 1440,0 L1440,0 L0,0 Z" 
+            fill="currentColor" 
+          />
+          <path 
+            d="M0,0 Q720,64 1440,0" 
+            stroke="rgba(214, 211, 209, 0.6)" 
+            strokeWidth="1.5" 
+            fill="none"
+          />
+        </svg>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
         
         {/* =========================================================================
             LEFT COLUMN (Dark Navy: "Built on a foundation of excellence.")
             ========================================================================= */}
-        <div className="lg:col-span-5 bg-[#0E1726] text-white p-8 sm:p-12 lg:p-14 flex flex-col justify-between relative overflow-hidden">
+        <div className="lg:col-span-5 bg-[#0E1726] text-white p-8 sm:p-12 lg:p-14 pt-12 sm:pt-16 lg:pt-20 flex flex-col justify-between relative overflow-hidden">
           
           {/* Subtle Ambient Radial Light in Corner */}
           <div 
@@ -216,7 +235,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
         {/* =========================================================================
             RIGHT COLUMN (Warm Ivory/Cream #FAF7F2: Our Vision & Our Mission)
             ========================================================================= */}
-        <div className="lg:col-span-7 bg-[#FAF7F2] p-8 sm:p-12 lg:p-14 flex flex-col justify-center space-y-10 sm:space-y-12">
+        <div className="lg:col-span-7 bg-[#FAF7F2] p-8 sm:p-12 lg:p-14 pt-12 sm:pt-16 lg:pt-20 flex flex-col justify-center space-y-10 sm:space-y-12">
           
           {/* =======================================================================
               1. OUR VISION BLOCK (Matching Screenshot: Amber Eye Badge + Card)

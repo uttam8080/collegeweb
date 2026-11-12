@@ -44,7 +44,7 @@ export const AcademicUnitsSection: React.FC<AcademicUnitsSectionProps> = ({ onNa
   };
 
   return (
-    <section className="w-full bg-[#FAF9F6] py-14 sm:py-20 border-b border-stone-200 select-none">
+    <section className="w-full bg-[#FAF9F6] py-14 sm:py-20 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* =========================================================================
