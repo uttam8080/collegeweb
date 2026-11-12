@@ -28,7 +28,7 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
       role: 'Chancellor',
       prefix: 'Eminent Academician & Senior Fellow,',
       name: 'Prof. (CA) Rohan K. Mohanty, Ph.D',
-      designation: 'Chancellor\'s Nominee & Dean of Commerce & Management, BPUT Odisha',
+      designation: 'Chancellor\'s Nominee & Dean of Commerce & Management, TAT Bhubaneswar',
       image: caLecturerImg,
       socials: {
         facebook: 'https://facebook.com',
@@ -40,9 +40,9 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
         role: 'Chancellor',
         prefix: 'Eminent Academician & Senior Fellow,',
         name: 'Prof. (CA) Rohan K. Mohanty, Ph.D',
-        designation: 'Chancellor\'s Nominee & Dean of Commerce & Management, BPUT Odisha',
+        designation: 'Chancellor\'s Nominee & Dean of Commerce & Management, TAT Bhubaneswar',
         image: caLecturerImg,
-        bio: 'Distinguished Chartered Accountant, researcher, and corporate financial strategist serving on the Chancellor\'s Higher Education Council at BPUT. Spearheading fintech curriculum integration, enterprise incubators, and modern forensic accounting labs across affiliated colleges.',
+        bio: 'Distinguished Chartered Accountant, researcher, and corporate financial strategist serving on the Chancellor\'s Higher Education Council at TAT. Spearheading fintech curriculum integration, enterprise incubators, and modern forensic accounting labs across affiliated colleges.',
         qualifications: [
           'Ph.D in Financial Economics & Computational Auditing',
           'Fellow Chartered Accountant (FCA), ICAI New Delhi',
@@ -61,7 +61,7 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
       role: 'Vice Chancellor',
       prefix: 'Distinguished Academic Leader & Computing Scientist,',
       name: 'Prof. (Dr.) Amiya Kumar Rath,',
-      designation: 'Vice Chancellor, BPUT Odisha',
+      designation: 'Vice Chancellor, TAT Bhubaneswar',
       image: vcRegaliaImg,
       socials: {
         facebook: 'https://facebook.com',
@@ -73,9 +73,9 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
         role: 'Vice Chancellor',
         prefix: 'Distinguished Academic Leader & Computing Scientist,',
         name: 'Prof. (Dr.) Amiya Kumar Rath',
-        designation: 'Vice Chancellor, BPUT Odisha',
+        designation: 'Vice Chancellor, TAT Bhubaneswar',
         image: vcRegaliaImg,
-        bio: 'Eminent professor, computing scientist, and academic administrator serving as the Vice Chancellor of Biju Patnaik University of Technology (BPUT). Leading comprehensive curricular revisions, SIRO research centers, and global placement ecosystems.',
+        bio: 'Eminent professor, computing scientist, and academic administrator serving as the Vice Chancellor of TAT College of Technology. Leading comprehensive curricular revisions, SIRO research centers, and global placement ecosystems.',
         qualifications: [
           'Ph.D. in Computer Science & Engineering',
           'Senior Member, IEEE & Life Fellow of Computer Society of India',
@@ -86,7 +86,7 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
           'Spearheaded University Management System (UMS) digital reforms for seamless student examination services',
           'Expanded industry-academia collaborations connecting affiliated colleges with global enterprise leaders'
         ],
-        message: 'At BPUT, our mission is to create fearless problem-solvers and ethical technocrats who excel in multidisciplinary engineering and build impactful technologies for the future.'
+        message: 'At TAT, our mission is to create fearless problem-solvers and ethical technocrats who excel in multidisciplinary engineering and build impactful technologies for the future.'
       }
     }
   ];
@@ -104,19 +104,19 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
       {/* "Curve" Section Divider between Milestones Roadmap and Leadership */}
       <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">
         <svg 
-          viewBox="0 0 1440 64" 
+          viewBox="0 0 1440 96" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="w-full h-8 sm:h-12 lg:h-16 block text-[#FAF8F5]"
+          className="w-full h-12 sm:h-18 lg:h-24 block text-[#FAF8F5]"
         >
           <path 
-            d="M0,0 Q720,64 1440,0 L1440,0 L0,0 Z" 
+            d="M0,0 Q720,96 1440,0 L1440,0 L0,0 Z" 
             fill="currentColor" 
           />
           <path 
-            d="M0,0 Q720,64 1440,0" 
-            stroke="rgba(214, 211, 209, 0.6)" 
+            d="M0,0 Q720,96 1440,0" 
+            stroke="rgba(214, 211, 209, 0.75)" 
             strokeWidth="1.5" 
             fill="none"
           />
@@ -244,22 +244,22 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
 
       </div>
 
-      {/* "Curve" Section Divider between Leadership and Notice Board */}
+      {/* "Curve" Section Divider between Leadership and Notice Board (Deeper, bolder arc matching reference) */}
       <div className="absolute bottom-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">
         <svg 
-          viewBox="0 0 1440 64" 
+          viewBox="0 0 1440 96" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="w-full h-8 sm:h-12 lg:h-16 block"
+          className="w-full h-12 sm:h-18 lg:h-24 block"
         >
           <path 
-            d="M0,0 Q720,64 1440,0 L1440,64 L0,64 Z" 
+            d="M0,0 Q720,96 1440,0 L1440,96 L0,96 Z" 
             fill="#FAF9F5" 
           />
           <path 
-            d="M0,0 Q720,64 1440,0" 
-            stroke="rgba(214, 211, 209, 0.6)" 
+            d="M0,0 Q720,96 1440,0" 
+            stroke="rgba(214, 211, 209, 0.75)" 
             strokeWidth="1.5" 
             fill="none" 
           />
