@@ -209,7 +209,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
 
           <div className="rounded-2xl overflow-hidden shadow-md h-72 lg:h-80">
             <img
-              src="/src/assets/images/college_campus_hero_1793988186342.jpg"
+              src="/assets/images/college_campus_hero_1793988186342.jpg"
               alt="Campus hostels"
               className="w-full h-full object-cover"
             />

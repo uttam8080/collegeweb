@@ -123,7 +123,7 @@ export const ACADEMIC_SCHOOLS: AcademicSchool[] = [
       'M.Tech in Computer Science & Engineering',
       'Ph.D in Computer Science & Information Systems',
     ],
-    image: '/src/assets/images/college_tech_lab_1793988185936.jpg',
+    image: '/assets/images/college_tech_lab_1793988185936.jpg',
     gradient: 'from-blue-900/90 to-indigo-950/95',
     stats: [
       { label: 'NBA Accredited', value: 'Tier 1' },
@@ -148,7 +148,7 @@ export const ACADEMIC_SCHOOLS: AcademicSchool[] = [
       'MCA (Master of Computer Applications - Cloud & DevOps)',
       'MCA (Full-Stack & Web Technologies)',
     ],
-    image: '/src/assets/images/college_computer_lab_1793988224067.jpg',
+    image: '/assets/images/college_computer_lab_1793988224067.jpg',
     gradient: 'from-cyan-950/90 to-slate-900/95',
     stats: [
       { label: 'Industry Tie-ups', value: '18+' },
@@ -175,7 +175,7 @@ export const ACADEMIC_SCHOOLS: AcademicSchool[] = [
       'B.Tech in Civil & Environmental Engineering',
       'M.Tech in VLSI & Embedded Systems',
     ],
-    image: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+    image: '/assets/images/college_campus_quad_1793988224316.jpg',
     gradient: 'from-amber-950/90 to-stone-900/95',
     stats: [
       { label: 'Hardware Labs', value: '28 Labs' },
@@ -200,7 +200,7 @@ export const ACADEMIC_SCHOOLS: AcademicSchool[] = [
       'M.Sc in Industrial Microbiology & Bioprocess',
       'Ph.D in Computational Biotechnology & Drug Discovery',
     ],
-    image: '/src/assets/images/college_library_hall_1793988204291.jpg',
+    image: '/assets/images/college_library_hall_1793988204291.jpg',
     gradient: 'from-emerald-950/90 to-slate-900/95',
     stats: [
       { label: 'Specialized Labs', value: '8 Labs' },
@@ -226,7 +226,7 @@ export const ACADEMIC_SCHOOLS: AcademicSchool[] = [
       'MBA in Financial Engineering & Banking Analytics',
       'MBA in Human Resource Leadership & Talent Strategy',
     ],
-    image: '/src/assets/images/college_lecture_hall_1793988205558.jpg',
+    image: '/assets/images/college_lecture_hall_1793988205558.jpg',
     gradient: 'from-rose-950/90 to-slate-900/95',
     stats: [
       { label: 'Corporate Mentors', value: '45+' },
@@ -484,7 +484,7 @@ export const CAMPUS_FACILITIES = [
     tagline: 'Knowledge Sanctuary & E-Resource Hub',
     desc: 'Spanning multiple levels, the central library houses over 100,000 print volumes, 12,000+ national and international e-journals (IEEE, ScienceDirect, ACM, Springer), private study cubicles, and a 24/7 digital browsing center.',
     features: ['100,000+ Print Books & Bound Volumes', 'Access to IEEE Xplore, ACM & SpringerLink', 'Automated RFID Self-Checkout Kiosks', '24/7 Air-Conditioned Reading Concourse'],
-    image: '/src/assets/images/college_library_hall_1793988204291.jpg',
+    image: '/assets/images/college_library_hall_1793988204291.jpg',
   },
   {
     id: 'fac-green-campus',
@@ -492,7 +492,7 @@ export const CAMPUS_FACILITIES = [
     tagline: '10+ Acres of Lush Eco-Friendly Living',
     desc: 'Strategically located in Bhubaneswar’s Infocity tech hub, the campus features manicured lawns, solar power generation, rainwater harvesting, zero-emission battery buggies, and high-speed campus-wide fiber Wi-Fi.',
     features: ['100% Wi-Fi Enabled Academic Precinct', 'Solar Powered Roof-Grid System', 'Serene Student Walkways & Quadrangle', 'Safe Pedestrian-Only Central Zones'],
-    image: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+    image: '/assets/images/college_campus_quad_1793988224316.jpg',
   },
   {
     id: 'fac-dining',
@@ -500,7 +500,7 @@ export const CAMPUS_FACILITIES = [
     tagline: 'Nutritious, Vibrant & Clean Dining',
     desc: 'A modern multi-cuisine cafeteria offering hygienic vegetarian and non-vegetarian meals, fresh fruit juice bar, bakery delights, and relaxed indoor and open-air seating for 600+ students.',
     features: ['HACCP Certified Food Preparation Standards', 'North & South Indian, Continental & Odia Cuisines', 'Café Lounge with High-Speed Charging Outlets', 'Affordable Subsidized Student Meal Plans'],
-    image: '/src/assets/images/college_campus_hero_1793988186342.jpg',
+    image: '/assets/images/college_campus_hero_1793988186342.jpg',
   },
   {
     id: 'fac-athletics',
@@ -508,7 +508,7 @@ export const CAMPUS_FACILITIES = [
     tagline: 'Physical Vitality & Championship Spirit',
     desc: 'Comprehensive outdoor and indoor sports facilities including a floodlit basketball court, volleyball ground, cricket nets, modern fitness gym with cardio stations, and indoor table tennis halls.',
     features: ['Modern Fitness Center & Certified Trainers', 'Floodlit Basketball & Volleyball Courts', 'Annual Inter-College Sports Fest (Olympus)', 'Indoor Badminton Courts & Yoga Pavilion'],
-    image: '/src/assets/images/college_convocation_1793988239815.jpg',
+    image: '/assets/images/college_convocation_1793988239815.jpg',
   },
 ];
 
@@ -599,7 +599,7 @@ export const ALUMNI_SPOTLIGHT: AlumniProfile[] = [
     organization: 'Google',
     location: 'Bengaluru, India',
     quote: 'TEKKZY gave me the foundation I needed to crack into top global tech companies. The faculty mentorship and coding culture here are truly unmatched.',
-    image: '/src/assets/images/college_scholar_woman_1_1793988497967.jpg',
+    image: '/assets/images/college_scholar_woman_1_1793988497967.jpg',
     badge: 'Google Tech Lead',
   },
   {
@@ -611,7 +611,7 @@ export const ALUMNI_SPOTLIGHT: AlumniProfile[] = [
     organization: 'Accenture',
     location: 'Gurugram, India',
     quote: 'The practical approach to learning and modern lab projects helped me stand out in technical interviews and accelerate in enterprise security.',
-    image: '/src/assets/images/college_scholar_man_1_1793988498266.jpg',
+    image: '/assets/images/college_scholar_man_1_1793988498266.jpg',
     badge: 'Security Pioneer',
   },
   {
@@ -623,7 +623,7 @@ export const ALUMNI_SPOTLIGHT: AlumniProfile[] = [
     organization: 'Tata Power Northern Odisha',
     location: 'Bhubaneswar, India',
     quote: 'The research-oriented approach encouraged me to pursue complex industrial systems. The recognition speaks volumes about the institution’s commitment.',
-    image: '/src/assets/images/college_scholar_man_1_1793988498266.jpg',
+    image: '/assets/images/college_scholar_man_1_1793988498266.jpg',
     badge: 'Power Executive',
   },
   {
@@ -635,7 +635,7 @@ export const ALUMNI_SPOTLIGHT: AlumniProfile[] = [
     organization: 'MIDHANI (Ministry of Defence)',
     location: 'Hyderabad, India',
     quote: 'The state-of-the-art labs and industry tie-ups gave me a competitive edge. The placement training was thorough and gave me immense confidence.',
-    image: '/src/assets/images/college_scholar_man_1_1793988498266.jpg',
+    image: '/assets/images/college_scholar_man_1_1793988498266.jpg',
     badge: 'Defence Scientist',
   },
 ];

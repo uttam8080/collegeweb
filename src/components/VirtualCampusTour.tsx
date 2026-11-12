@@ -37,7 +37,7 @@ export const VirtualCampusTour: React.FC<Props> = ({ onNavigate }) => {
         { label: 'E-Journals Access', value: '12,000+' },
         { label: 'Reading Capacity', value: '600+ Scholars' },
       ],
-      image: '/src/assets/images/college_library_hall_1793988204291.jpg',
+      image: '/assets/images/college_library_hall_1793988204291.jpg',
     },
     {
       id: 'sector-quad',
@@ -55,7 +55,7 @@ export const VirtualCampusTour: React.FC<Props> = ({ onNavigate }) => {
         { label: 'Wi-Fi Speeds', value: '1 Gbps Fiber Mesh' },
         { label: 'Green Rating', value: 'Eco-Certified' },
       ],
-      image: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+      image: '/assets/images/college_campus_quad_1793988224316.jpg',
     },
     {
       id: 'sector-labs',
@@ -73,7 +73,7 @@ export const VirtualCampusTour: React.FC<Props> = ({ onNavigate }) => {
         { label: 'Prototypes Built', value: '320+ Units' },
         { label: 'Lab Footprint', value: '15,000 Sq.Ft' },
       ],
-      image: '/src/assets/images/college_tech_lab_1793988185936.jpg',
+      image: '/assets/images/college_tech_lab_1793988185936.jpg',
     },
     {
       id: 'sector-amphitheater',
@@ -91,7 +91,7 @@ export const VirtualCampusTour: React.FC<Props> = ({ onNavigate }) => {
         { label: 'Main Auditorium', value: '1,200 Seater' },
         { label: 'Audio Quality', value: 'NC-25 Studio Rated' },
       ],
-      image: '/src/assets/images/college_lecture_hall_1793988205558.jpg',
+      image: '/assets/images/college_lecture_hall_1793988205558.jpg',
     },
   ];
 

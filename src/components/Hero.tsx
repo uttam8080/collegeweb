@@ -20,31 +20,31 @@ import { TekkzyLogo } from './TekkzyLogo';
 const SLIDES = [
   {
     id: 1,
-    image: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+    image: '/assets/images/college_campus_quad_1793988224316.jpg',
     tag: 'Main Campus Quad',
     caption: 'Lush central quadrangle, modern academic buildings & student walk'
   },
   {
     id: 2,
-    image: '/src/assets/images/college_library_hall_1793988204291.jpg',
+    image: '/assets/images/college_library_hall_1793988204291.jpg',
     tag: 'Central Digital Library',
     caption: 'Expansive multi-tier university library & research study concourse'
   },
   {
     id: 3,
-    image: '/src/assets/images/college_lecture_hall_1793988205558.jpg',
+    image: '/assets/images/college_lecture_hall_1793988205558.jpg',
     tag: 'Engineering Auditorium',
     caption: 'Tiered amphitheater lecture auditorium with smart presentation displays'
   },
   {
     id: 4,
-    image: '/src/assets/images/college_convocation_1793988239815.jpg',
+    image: '/assets/images/college_convocation_1793988239815.jpg',
     tag: 'Annual Convocation',
     caption: 'Celebrating academic excellence, graduating engineers & alumni success'
   },
   {
     id: 5,
-    image: '/src/assets/images/college_campus_hero_1793988186342.jpg',
+    image: '/assets/images/college_campus_hero_1793988186342.jpg',
     tag: 'Technology Precinct',
     caption: 'Modern college architectural complex and engineering faculties'
   }

@@ -1,6 +1,6 @@
 import { Subject, LearningPath, Lesson, Testimonial } from '../types';
 
-export const HERO_IMAGE = '/src/assets/images/college_campus_hero_1793988186342.jpg';
+export const HERO_IMAGE = '/assets/images/college_campus_hero_1793988186342.jpg';
 
 export const SUBJECTS: Subject[] = [
   {
@@ -10,7 +10,7 @@ export const SUBJECTS: Subject[] = [
     category: 'History & Civilization',
     tagline: 'From the Bronze Age Indus Valley to the Golden Ages of Nalanda and Vijayanagara',
     description: 'Explore the profound epochs of the Indian subcontinent: advanced urban planning at Mohenjo-daro, maritime diplomacy of the Cholas, and the scholarly sanctuary of Takshashila.',
-    image: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+    image: '/assets/images/college_campus_quad_1793988224316.jpg',
     iconName: 'Landmark',
     lessonCount: 24,
     pathCount: 4,
@@ -24,7 +24,7 @@ export const SUBJECTS: Subject[] = [
     category: 'Science & Mathematics',
     tagline: 'Pioneering mathematical astronomy, the zero system, metallurgy, and surgical treatises',
     description: 'Discover how Aryabhata, Brahmagupta, and Bhaskara mapped celestial orbits and algebraic polynomials, while Sushruta pioneered rhinoplasty and surgical reconstruction.',
-    image: '/src/assets/images/college_tech_lab_1793988185936.jpg',
+    image: '/assets/images/college_tech_lab_1793988185936.jpg',
     iconName: 'Compass',
     lessonCount: 28,
     pathCount: 5,
@@ -38,7 +38,7 @@ export const SUBJECTS: Subject[] = [
     category: 'Philosophy & Ethics',
     tagline: 'Six orthodox schools of thought, Upanishadic inquiries, and ethics of consciousness',
     description: 'Investigate the Six Darshanas (Nyaya, Vaisheshika, Samkhya, Yoga, Mimamsa, Vedanta), exploring the nature of perception, causality, consciousness, and liberation.',
-    image: '/src/assets/images/college_library_hall_1793988204291.jpg',
+    image: '/assets/images/college_library_hall_1793988204291.jpg',
     iconName: 'Brain',
     lessonCount: 32,
     pathCount: 6,
@@ -52,7 +52,7 @@ export const SUBJECTS: Subject[] = [
     category: 'Arts & Architecture',
     tagline: 'Monolithic rock excavations, sacred Vastu geometry, and classical iconometry',
     description: 'Uncover the engineering marvel of Ellora’s top-down carved Kailasa temple, intricate Chola lost-wax bronzes, Khajuraho sculpture, and cool stepwell hydrology.',
-    image: '/src/assets/images/college_lecture_hall_1793988205558.jpg',
+    image: '/assets/images/college_lecture_hall_1793988205558.jpg',
     iconName: 'Palette',
     lessonCount: 22,
     pathCount: 3,
@@ -66,7 +66,7 @@ export const SUBJECTS: Subject[] = [
     category: 'Literature & Linguistics',
     tagline: 'Panini’s formal generative grammar, timeless epics, and classical poetry',
     description: 'Examine Panini’s Ashtadhyayi—the world’s earliest formal generative linguistic rule-machine—alongside the Ramayana, Mahabharata, and classical Sangam poetry.',
-    image: '/src/assets/images/college_computer_lab_1793988224067.jpg',
+    image: '/assets/images/college_computer_lab_1793988224067.jpg',
     iconName: 'BookOpen',
     lessonCount: 26,
     pathCount: 4,
@@ -80,7 +80,7 @@ export const SUBJECTS: Subject[] = [
     category: 'Culture & Living Heritage',
     tagline: 'The nine rasas of performing arts, sacred rhythm, culinary science, and ecological rites',
     description: 'Experience Bharata Muni’s Natyashastra, the science of micro-tones in Indian classical music, handloom weaving traditions, and the astronomical timing of seasonal festivals.',
-    image: '/src/assets/images/college_convocation_1793988239815.jpg',
+    image: '/assets/images/college_convocation_1793988239815.jpg',
     iconName: 'Music',
     lessonCount: 20,
     pathCount: 3,
@@ -100,7 +100,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     level: 'Beginner',
     duration: '4.5 Hours',
     totalLessons: 6,
-    image: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+    image: '/assets/images/college_campus_quad_1793988224316.jpg',
     prerequisites: ['No prior knowledge required', 'Curiosity about civil engineering and world antiquity'],
     learningOutcomes: [
       'Understand the hydraulic and grid engineering of Harappa and Mohenjo-daro',
@@ -139,7 +139,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     level: 'Intermediate',
     duration: '5.5 Hours',
     totalLessons: 6,
-    image: '/src/assets/images/college_tech_lab_1793988185936.jpg',
+    image: '/assets/images/college_tech_lab_1793988185936.jpg',
     prerequisites: ['Basic high school algebra', 'Interest in the history of scientific thought'],
     learningOutcomes: [
       'Master the conceptual shift from counting tokens to the positional zero system',
@@ -178,7 +178,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     level: 'Intermediate',
     duration: '4.8 Hours',
     totalLessons: 6,
-    image: '/src/assets/images/college_library_hall_1793988204291.jpg',
+    image: '/assets/images/college_library_hall_1793988204291.jpg',
     prerequisites: ['Openness to contemplative inquiry', 'No religious background needed'],
     learningOutcomes: [
       'Distinguish between the 6 Orthodox Darshanas and heterodox Buddhist/Jain schools',
@@ -217,7 +217,7 @@ export const LEARNING_PATHS: LearningPath[] = [
     level: 'Beginner',
     duration: '3.8 Hours',
     totalLessons: 5,
-    image: '/src/assets/images/college_lecture_hall_1793988205558.jpg',
+    image: '/assets/images/college_lecture_hall_1793988205558.jpg',
     prerequisites: ['No art history background needed'],
     learningOutcomes: [
       'Deconstruct the Vastu Purusha Mandala layout inside Dravida and Nagara temples',
@@ -258,7 +258,7 @@ export const LESSONS: Lesson[] = [
     summary: 'How ancient Indian mathematicians formulated the concept of zero as both a symbol and an operational number, calculated Earth’s circumference within 0.2% error, and proposed diurnal planetary rotation in 499 CE.',
     readTime: '12 min read',
     difficulty: 'Intermediate',
-    coverImage: '/src/assets/images/college_tech_lab_1793988185936.jpg',
+    coverImage: '/assets/images/college_tech_lab_1793988185936.jpg',
     author: {
       name: 'Dr. Radhika Sen',
       title: 'Professor of Classical Mathematics & Astronomy',
@@ -359,7 +359,7 @@ export const LESSONS: Lesson[] = [
     summary: 'Step inside the bronze age cities that flourished 4,500 years ago along the Ghaggar-Hakra and Indus river basins, featuring standardized baked bricks, covered municipal drains, and egalitarian civic layouts.',
     readTime: '10 min read',
     difficulty: 'Beginner',
-    coverImage: '/src/assets/images/college_campus_quad_1793988224316.jpg',
+    coverImage: '/assets/images/college_campus_quad_1793988224316.jpg',
     author: {
       name: 'Prof. Arvind Namboodiri',
       title: 'Archaeological Historian & Urbanist',
@@ -430,7 +430,7 @@ export const LESSONS: Lesson[] = [
     summary: 'Explore Bharata Muni’s ancient treatise on theatrical aesthetics, where emotion is transformed into spiritual delight (Ananda) through the interplay of Bhavas and the 9 fundamental Rasas.',
     readTime: '11 min read',
     difficulty: 'Beginner',
-    coverImage: '/src/assets/images/college_convocation_1793988239815.jpg',
+    coverImage: '/assets/images/college_convocation_1793988239815.jpg',
     author: {
       name: 'Padmashri Geeta Kalyani',
       title: 'Classical Exponent & Cultural Theorist',
@@ -498,7 +498,7 @@ export const LESSONS: Lesson[] = [
     summary: 'Deconstruct Adi Shankara’s philosophy of non-dualism, exploring how the individual observer (Atman) and universal ground of reality (Brahman) are fundamentally non-different.',
     readTime: '14 min read',
     difficulty: 'Advanced',
-    coverImage: '/src/assets/images/college_library_hall_1793988204291.jpg',
+    coverImage: '/assets/images/college_library_hall_1793988204291.jpg',
     author: {
       name: 'Acharya V. Subramanian',
       title: 'Senior Fellow in Indic Epistemology',
@@ -559,7 +559,7 @@ export const LESSONS: Lesson[] = [
     summary: 'How Rashtrakuta masons in the 8th century carved an entire multi-story Dravidian cathedral out of a single living basalt cliffside, without any scaffolding or assembled joints.',
     readTime: '13 min read',
     difficulty: 'Intermediate',
-    coverImage: '/src/assets/images/college_lecture_hall_1793988205558.jpg',
+    coverImage: '/assets/images/college_lecture_hall_1793988205558.jpg',
     author: {
       name: 'Dr. Suniti Deshmukh',
       title: 'Architectural Historian of Ancient Monoliths',
