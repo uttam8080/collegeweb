@@ -244,6 +244,28 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
 
       </div>
 
+      {/* "Curve" Section Divider between Leadership and Notice Board */}
+      <div className="absolute bottom-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">
+        <svg 
+          viewBox="0 0 1440 64" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="w-full h-8 sm:h-12 lg:h-16 block"
+        >
+          <path 
+            d="M0,0 Q720,64 1440,0 L1440,64 L0,64 Z" 
+            fill="#FAF9F5" 
+          />
+          <path 
+            d="M0,0 Q720,64 1440,0" 
+            stroke="rgba(214, 211, 209, 0.6)" 
+            strokeWidth="1.5" 
+            fill="none" 
+          />
+        </svg>
+      </div>
+
       {/* Interactive Leader Profile Modal */}
       {selectedLeader && (
         <div 
