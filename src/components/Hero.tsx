@@ -73,6 +73,40 @@ export const Hero: React.FC<Props> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const timerRef = useRef<number | null>(null);
 
+  // Cinematic splash logo intro animation on initial visit
+  const [introStage, setIntroStage] = useState<'center' | 'flying' | 'completed'>('center');
+  const [flightDelta, setFlightDelta] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const targetLogoRef = useRef<HTMLDivElement>(null);
+
+  // Intro choreography: stay 1s in center, then fly to top-left corner
+  useEffect(() => {
+    const holdTimer = setTimeout(() => {
+      if (targetLogoRef.current) {
+        const targetRect = targetLogoRef.current.getBoundingClientRect();
+        const viewportCenterX = window.innerWidth / 2;
+        const viewportCenterY = window.innerHeight / 2;
+        const targetCenterX = targetRect.left + targetRect.width / 2;
+        const targetCenterY = targetRect.top + targetRect.height / 2;
+
+        setFlightDelta({
+          x: targetCenterX - viewportCenterX,
+          y: targetCenterY - viewportCenterY,
+        });
+        setIntroStage('flying');
+
+        const completeTimer = setTimeout(() => {
+          setIntroStage('completed');
+        }, 850);
+
+        return () => clearTimeout(completeTimer);
+      } else {
+        setIntroStage('completed');
+      }
+    }, 1000);
+
+    return () => clearTimeout(holdTimer);
+  }, []);
+
   // Monitor scroll position to keep navbar sticky on downward scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -220,6 +254,43 @@ export const Hero: React.FC<Props> = ({
       />
 
       {/* =========================================================================
+          CINEMATIC SPLASH LOGO INTRO (Middle of page -> 1s hold -> Fly to top-left)
+          ========================================================================= */}
+      {introStage !== 'completed' && (
+        <div className="fixed inset-0 z-60 pointer-events-none select-none">
+          {/* Dimmed hero backdrop overlay (keeps hero visible behind with lower opacity) */}
+          <div 
+            className={`absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] transition-opacity duration-800 ease-out ${
+              introStage === 'flying' ? 'opacity-0' : 'opacity-100'
+            }`} 
+          />
+
+          {/* Centered Logo transitioning to Top-Left */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              style={{
+                transform: introStage === 'flying' 
+                  ? `translate3d(${flightDelta.x}px, ${flightDelta.y}px, 0)` 
+                  : 'translate3d(0, 0, 0)',
+                transition: 'transform 850ms cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              className="will-change-transform flex items-center justify-center"
+            >
+              <div
+                style={{
+                  transform: introStage === 'flying' ? 'scale(1)' : 'scale(1.45)',
+                  transition: 'transform 850ms cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                className="will-change-transform filter drop-shadow-[0_0_35px_rgba(6,182,212,0.65)] drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
+              >
+                <TekkzyLogo variant="light" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
           TOP INSTITUTIONAL HEADER & NAVIGATION BAR (Sticky/Fixed on downward scroll)
           ========================================================================= */}
       <header className="fixed top-0 inset-x-0 z-50 transition-all duration-300">
@@ -232,17 +303,23 @@ export const Hero: React.FC<Props> = ({
           }`}
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            {/* Logo */}
-            <button 
-              onClick={() => handleNavClick('home')}
-              className="group cursor-pointer focus:outline-hidden"
-              aria-label="TEKKZY College of Technology"
-            >
-              <TekkzyLogo variant="light" />
-            </button>
+            {/* Logo Destination Slot */}
+            <div ref={targetLogoRef} className="shrink-0">
+              <button 
+                onClick={() => handleNavClick('home')}
+                className={`group cursor-pointer focus:outline-hidden transition-opacity duration-300 ${
+                  introStage === 'completed' ? 'opacity-100' : 'opacity-0'
+                }`}
+                aria-label="TEKKZY College of Technology"
+              >
+                <TekkzyLogo variant="light" />
+              </button>
+            </div>
 
             {/* Center Navigation Links (Research removed as requested) */}
-            <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
+            <nav className={`hidden xl:flex items-center gap-6 2xl:gap-8 transition-opacity duration-700 ${
+              introStage === 'center' ? 'opacity-0' : 'opacity-100'
+            }`}>
               {[
                 { label: 'ABOUT', tab: 'about' },
                 { label: 'ADMISSIONS', tab: 'programs' },
@@ -263,7 +340,9 @@ export const Hero: React.FC<Props> = ({
             </nav>
 
             {/* Right: APPLY NOW Red CTA Button & Mobile Menu Toggle */}
-            <div className="flex items-center gap-3">
+            <div className={`flex items-center gap-3 transition-opacity duration-700 ${
+              introStage === 'center' ? 'opacity-0' : 'opacity-100'
+            }`}>
               <button
                 onClick={handleApplyClick}
                 className="bg-[#E03D2E] hover:bg-[#c93224] active:scale-98 text-white font-bold text-xs sm:text-sm tracking-wider uppercase px-4 sm:px-6 py-2 sm:py-2.5 rounded-md shadow-lg shadow-red-950/30 transition-all cursor-pointer flex items-center gap-2"
