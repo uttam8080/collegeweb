@@ -64,6 +64,14 @@
 }
 
 /* Explicit Design Font Classes */
+.font-chango {
+  font-family: 'Chango', cursive, sans-serif !important;
+}
+
+.font-changa {
+  font-family: 'Changa', sans-serif !important;
+}
+
 .font-metro {
   font-family: var(--font-metro) !important;
 }

@@ -778,7 +778,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
                     {/* School Title & Motto at Bottom (Matching Reference Video Exactly) */}
                     <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
-                      <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md">
+                      <h3 className="font-chango text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
                         {school.title}
                       </h3>
                       <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-stone-200 font-bold drop-shadow-sm">
@@ -821,7 +821,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     >
                       {/* Header Row: School Title + Circular Arrow Button */}
                       <div className="school-header-reveal flex items-start justify-between gap-4 mb-2">
-                        <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-stone-900 tracking-tight leading-[1.12]">
+                        <h3 className="font-chango text-3xl sm:text-4xl lg:text-[40px] text-stone-900 tracking-normal leading-[1.2]">
                           {school.title}
                         </h3>
 
