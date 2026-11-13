@@ -470,10 +470,17 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
         </div>
 
-        {/* Decorative Wave Divider at bottom */}
-        <div className="w-full overflow-hidden leading-none z-10 bg-white" aria-hidden="true">
-          <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className="w-full h-8 sm:h-12 fill-[#0B1528]">
-            <path d="M0,0 C300,50 600,0 900,40 C1050,60 1150,20 1200,0 L1200,0 L0,0 Z" />
+        {/* Normal Section Divider: "Waves" (Matching Reference Divider Card 1) */}
+        <div className="relative w-full overflow-hidden leading-none z-10 pointer-events-none bg-white -mt-px" aria-hidden="true">
+          <svg 
+            viewBox="0 0 1440 120" 
+            preserveAspectRatio="none" 
+            className="w-full h-10 sm:h-14 md:h-16 lg:h-20 block"
+          >
+            <path 
+              d="M0,0 L0,65 C240,115 480,45 720,55 C960,65 1200,115 1440,80 L1440,0 Z" 
+              className="fill-[#0B1528]"
+            />
           </svg>
         </div>
       </section>
