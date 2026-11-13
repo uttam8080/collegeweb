@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, LogOut } from 'lucide-react';
+import { Menu, X, LogOut, ChevronDown, ChevronRight } from 'lucide-react';
 import { TekkzyLogo } from './TekkzyLogo';
+
+interface SubMenuItem {
+  label: string;
+  tab: string;
+  sectionId?: string;
+  desc?: string;
+}
+
+interface NavLinkItem {
+  label: string;
+  tab: string;
+  dropdown?: SubMenuItem[];
+}
 
 interface Props {
   currentTab: string;
-  onNavigate: (tab: string) => void;
+  onNavigate: (tab: string, sectionId?: string) => void;
   onOpenAuth?: (mode?: 'login' | 'signup') => void;
   user?: { name: string; email: string } | null;
   onLogout?: () => void;
@@ -19,6 +32,7 @@ export const Header: React.FC<Props> = ({
   onLogout,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -36,13 +50,39 @@ export const Header: React.FC<Props> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentTab]);
 
-  // Navigation items matching exactly the home section navigation
-  const navLinks = [
-    { label: 'ABOUT', tab: 'about' },
-    { label: 'ADMISSIONS', tab: 'admissions' },
-    { label: 'ACADEMICS', tab: 'programs' },
+  // Navigation items with custom dropdowns as requested
+  const navLinks: NavLinkItem[] = [
+    { 
+      label: 'ABOUT', 
+      tab: 'about',
+      dropdown: [
+        { label: 'History', tab: 'about', sectionId: 'legacy', desc: 'Two decades of technological heritage' },
+        { label: 'Regulation', tab: 'about', sectionId: 'compliance', desc: 'Statutory approvals & governance' },
+        { label: 'Vision', tab: 'about', sectionId: 'vision', desc: 'Institutional roadmap & philosophy' },
+        { label: 'Mission', tab: 'about', sectionId: 'vision', desc: 'Pedagogical pillars & core directives' },
+        { label: 'Journey of Tekkzy College', tab: 'about', sectionId: 'journey', desc: '2005 – 2026 milestone timeline' },
+      ]
+    },
+    { 
+      label: 'ADMISSIONS', 
+      tab: 'admissions',
+      dropdown: [
+        { label: 'U.G. (Undergraduate)', tab: 'admissions', sectionId: 'admissions-programs', desc: 'B.Tech Engineering in 7 disciplines' },
+        { label: 'P.G. (Postgraduate)', tab: 'admissions', sectionId: 'admissions-programs', desc: 'M.Tech & MCA Master programs' },
+        { label: 'Ph.D. (Doctoral Research)', tab: 'admissions', sectionId: 'admissions-programs', desc: 'Doctoral research fellowships' },
+      ]
+    },
+    { 
+      label: 'ACADEMICS', 
+      tab: 'programs',
+      dropdown: [
+        { label: 'Academic Calendar', tab: 'programs', sectionId: 'academic-regulations', desc: 'Session schedules, terms & exams' },
+        { label: 'Syllabus', tab: 'programs', sectionId: 'autonomous-academics', desc: 'Autonomous curricula & CBCS rubrics' },
+      ]
+    },
     { label: 'CAMPUS LIFE', tab: 'campus' },
     { label: 'PLACEMENT', tab: 'placements' },
+    { label: 'NOTICES', tab: 'notices' },
     { label: 'CONTACT US', tab: 'contact' },
   ];
 
@@ -57,13 +97,22 @@ export const Header: React.FC<Props> = ({
     onNavigate('admissions');
   };
 
+  const handleItemClick = (tab: string, sectionId?: string) => {
+    onNavigate(tab, sectionId);
+    setMobileMenuOpen(false);
+  };
+
+  const toggleMobileExpanded = (label: string) => {
+    setMobileExpanded((prev) => (prev === label ? null : label));
+  };
+
   return (
     <header
       className={`${
         isHeroTransparent ? 'fixed' : 'sticky'
       } top-0 inset-x-0 z-50 transition-all duration-300`}
     >
-      {/* Main Navigation Bar (Translucent over Hero on Home & Academics, Frosted Solid Navy on scroll down and across other sections) */}
+      {/* Main Navigation Bar */}
       <div
         className={`px-4 sm:px-8 transition-all duration-300 ${
           isHeroTransparent && !isScrolled
@@ -84,28 +133,62 @@ export const Header: React.FC<Props> = ({
             <TekkzyLogo variant="light" />
           </button>
 
-          {/* Center Navigation Links (Matching Home Section: ABOUT | ADMISSIONS | ACADEMICS | CAMPUS LIFE | PLACEMENT | CONTACT US) */}
+          {/* Center Navigation Links with Interactive Dropdowns */}
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7 2xl:gap-8">
             {navLinks.map((link) => {
               const active = isLinkActive(link.tab);
+              const hasDropdown = Boolean(link.dropdown && link.dropdown.length > 0);
+
               return (
-                <button
-                  key={link.label}
-                  onClick={() => {
-                    onNavigate(link.tab);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`text-[13px] font-bold tracking-wider uppercase transition-colors py-1 relative group cursor-pointer ${
-                    active ? 'text-[#FF9933]' : 'text-white hover:text-[#FF9933]'
-                  }`}
-                >
-                  {link.label}
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-[#FF9933] transition-all duration-300 ${
-                      active ? 'w-full' : 'w-0 group-hover:w-full'
+                <div key={link.label} className="relative group py-2">
+                  <button
+                    onClick={() => handleItemClick(link.tab)}
+                    className={`text-[13px] font-bold tracking-wider uppercase transition-colors py-1 relative flex items-center gap-1 cursor-pointer ${
+                      active ? 'text-[#FF9933]' : 'text-white hover:text-[#FF9933]'
                     }`}
-                  />
-                </button>
+                  >
+                    <span>{link.label}</span>
+                    {hasDropdown && (
+                      <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180 opacity-70 group-hover:opacity-100" />
+                    )}
+                    <span
+                      className={`absolute bottom-0 left-0 h-0.5 bg-[#FF9933] transition-all duration-300 ${
+                        active ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </button>
+
+                  {/* Dropdown Menu Container */}
+                  {hasDropdown && link.dropdown && (
+                    <div className="absolute top-full left-0 mt-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto z-50">
+                      <div className="w-64 rounded-2xl bg-[#0f172a]/95 backdrop-blur-xl border border-white/15 shadow-2xl p-2 border-t-2 border-t-[#FF9933] overflow-hidden">
+                        <div className="px-3 py-1.5 text-[10px] font-mono font-bold tracking-widest text-[#FF9933] uppercase border-b border-white/10 mb-1">
+                          {link.label} DIRECTORY
+                        </div>
+                        {link.dropdown.map((subItem) => (
+                          <button
+                            key={subItem.label}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleItemClick(subItem.tab, subItem.sectionId);
+                            }}
+                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition-colors group/sub flex flex-col cursor-pointer"
+                          >
+                            <span className="text-xs font-bold text-white group-hover/sub:text-[#FF9933] transition-colors flex items-center justify-between">
+                              <span>{subItem.label}</span>
+                              <ChevronRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all text-[#FF9933]" />
+                            </span>
+                            {subItem.desc && (
+                              <span className="text-[10px] text-stone-400 font-normal leading-tight mt-0.5">
+                                {subItem.desc}
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               );
             })}
           </nav>
@@ -138,6 +221,7 @@ export const Header: React.FC<Props> = ({
                       <p className="font-semibold text-white">{user.name}</p>
                       <p className="text-[11px] text-stone-400 truncate">{user.email}</p>
                     </div>
+
                     {onLogout && (
                       <button
                         onClick={() => {
@@ -167,34 +251,68 @@ export const Header: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Navigation Drawer with Accordion Dropdowns */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#1b2a60]/98 backdrop-blur-xl border-b border-white/20 px-6 py-6 shadow-2xl animate-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col gap-3">
+        <div className="lg:hidden bg-[#1b2a60]/98 backdrop-blur-xl border-b border-white/20 px-6 py-6 shadow-2xl animate-in slide-in-from-top-2 duration-200 max-h-[85vh] overflow-y-auto">
+          <nav className="flex flex-col gap-2">
             {navLinks.map((link) => {
               const active = isLinkActive(link.tab);
+              const hasDropdown = Boolean(link.dropdown && link.dropdown.length > 0);
+              const isExpanded = mobileExpanded === link.label;
+
               return (
-                <button
-                  key={link.label}
-                  onClick={() => {
-                    onNavigate(link.tab);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`text-left text-sm font-bold tracking-wider uppercase py-2.5 border-b border-white/10 transition-colors flex items-center justify-between ${
-                    active ? 'text-[#FF9933]' : 'text-white hover:text-[#FF9933]'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {active && <span className="w-2 h-2 rounded-full bg-[#FF9933]" />}
-                </button>
+                <div key={link.label} className="border-b border-white/10 py-1">
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => handleItemClick(link.tab)}
+                      className={`text-left text-sm font-bold tracking-wider uppercase py-2 transition-colors flex-1 ${
+                        active ? 'text-[#FF9933]' : 'text-white hover:text-[#FF9933]'
+                      }`}
+                    >
+                      {link.label}
+                    </button>
+
+                    {hasDropdown && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleMobileExpanded(link.label);
+                        }}
+                        className="p-2 text-stone-300 hover:text-white"
+                        aria-label={`Toggle ${link.label} Submenu`}
+                      >
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-[#FF9933]' : ''}`} />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Submenu on mobile */}
+                  {hasDropdown && isExpanded && link.dropdown && (
+                    <div className="pl-3 pb-2 space-y-1 animate-in slide-in-from-top-1 duration-150">
+                      {link.dropdown.map((subItem) => (
+                        <button
+                          key={subItem.label}
+                          onClick={() => handleItemClick(subItem.tab, subItem.sectionId)}
+                          className="w-full text-left text-xs font-semibold py-1.5 px-2 rounded-lg text-stone-300 hover:text-[#FF9933] hover:bg-white/5 transition-colors flex items-center justify-between"
+                        >
+                          <span className="flex items-center gap-2">
+                            <span className="text-[#FF9933] text-[10px]">▸</span>
+                            <span>{subItem.label}</span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               );
             })}
+
             <button
               onClick={() => {
                 handleApplyClick();
                 setMobileMenuOpen(false);
               }}
-              className="mt-3 w-full bg-[#E03D2E] hover:bg-[#c93224] text-white font-bold text-xs sm:text-sm tracking-wider uppercase py-3 rounded-md shadow-md text-center transition-all cursor-pointer"
+              className="mt-4 w-full bg-[#E03D2E] hover:bg-[#c93224] text-white font-bold text-xs sm:text-sm tracking-wider uppercase py-3 rounded-md shadow-md text-center transition-all cursor-pointer"
             >
               APPLY NOW
             </button>

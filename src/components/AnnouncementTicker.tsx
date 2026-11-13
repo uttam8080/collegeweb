@@ -18,7 +18,7 @@ export const AnnouncementTicker: React.FC = () => {
     },
     {
       badge: 'EXAMINATIONS',
-      text: 'BPUT End-Semester Examination timetable published. Admit card download active on student portal.',
+      text: 'TCT End-Semester Examination timetable published. Admit card download active on student portal.',
       linkText: 'Download Timetable',
     },
     {

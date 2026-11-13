@@ -168,203 +168,255 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16 space-y-16">
 
-        {/* 2-Col Layout: Inquiry Form (Left) & Departmental Directory (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Inquiry Form (7 Cols) */}
-          <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl bg-white border border-stone-200 shadow-sm">
-            <h3 className="text-2xl font-serif font-bold text-slate-900 mb-1">
-              Submit an Official Inquiry
-            </h3>
-            <p className="text-xs text-stone-500 mb-6">
-              Complete the form below to connect directly with the admissions counselors or departmental heads.
-            </p>
-
-            {submitted ? (
-              <div className="py-12 text-center space-y-3">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <h4 className="text-xl font-serif font-bold text-slate-900">Inquiry Transmitted Successfully</h4>
-                <p className="text-xs text-stone-600 max-w-sm mx-auto">
-                  Thank you, <strong className="text-slate-800">{name}</strong>. Your ticket has been logged and assigned to the relevant department.
-                </p>
+        {/* 2-Col Layout: Left Side (Scrolls past) & Right Side (Form kept constant / sticky) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          
+          {/* =========================================================================
+              LEFT SIDE CONTENT: Moves smoothly while scrolling
+              ========================================================================= */}
+          <div className="lg:col-span-7 space-y-8">
+            
+            {/* Departmental Directory Header */}
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#1b2a60] text-xs font-mono font-semibold uppercase tracking-wider mb-2">
+                <Building className="w-3.5 h-3.5 text-[#1b2a60]" />
+                <span>Administrative &amp; Academic Secretariats</span>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">
+                Departmental Directory
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-500 mt-1">
+                Direct contacts for admissions, academic governance, student welfare, examinations, and corporate relations.
+              </p>
+            </div>
+
+            {/* Departmental Offices Cards */}
+            <div className="space-y-4">
+              {offices.map((off, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 sm:p-6 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:shadow-md transition-shadow space-y-3"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-base">{off.department}</h4>
+                      <p className="text-blue-900 font-semibold text-xs mt-0.5">
+                        {off.inCharge} · <span className="text-stone-500 font-normal">{off.designation}</span>
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-md bg-stone-100 text-stone-600">
+                      {off.officeHours}
+                    </span>
+                  </div>
+                  
+                  <div className="pt-3 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-600">
+                    <p className="flex items-center gap-2 font-mono text-xs">
+                      <Mail className="w-4 h-4 text-stone-400 shrink-0" />
+                      <a href={`mailto:${off.email}`} className="hover:text-[#E03D2E] transition-colors">{off.email}</a>
+                    </p>
+                    <p className="flex items-center gap-2 font-mono text-xs">
+                      <Phone className="w-4 h-4 text-stone-400 shrink-0" />
+                      <a href={`tel:${off.phone.replace(/[^0-9+]/g, '')}`} className="hover:text-[#E03D2E] transition-colors">{off.phone}</a>
+                    </p>
+                    <p className="sm:col-span-2 flex items-center gap-2 text-xs text-stone-500">
+                      <MapPin className="w-4 h-4 text-stone-400 shrink-0" />
+                      <span>{off.location}</span>
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Reaching TEKKZY College of Technology Transit Guide */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-5">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-100 text-amber-900 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
+                  <Compass className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Transit &amp; Campus Access</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-serif font-bold text-slate-900">
+                  Reaching TEKKZY College of Technology
+                </h3>
+                <p className="text-xs text-stone-500 mt-1">Located inside the prime Infocity IT and academic corridor in Bhubaneswar</p>
+              </div>
+
+              <div className="space-y-3.5 text-xs text-stone-700">
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-1.5">
+                  <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
+                    <Plane className="w-4 h-4 text-blue-700" />
+                    <span>From Biju Patnaik International Airport (BBI)</span>
+                  </div>
+                  <p className="leading-relaxed text-stone-600">
+                    Approx. 14 km (30 minutes drive) via Jayadev Vihar - Nandankanan road directly into Infocity Chandaka Estate. Pre-paid taxis and app-based cabs (Ola / Uber) are readily available.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-1.5">
+                  <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
+                    <Train className="w-4 h-4 text-emerald-700" />
+                    <span>From Bhubaneswar Railway Station (BBS)</span>
+                  </div>
+                  <p className="leading-relaxed text-stone-600">
+                    Approx. 12 km (25 minutes drive). MoBus routes 10, 11, and 23 operate directly from Master Canteen terminal to Infocity square every 10 minutes.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-1.5">
+                  <div className="flex items-center gap-2 font-bold text-slate-900 text-sm">
+                    <Car className="w-4 h-4 text-amber-700" />
+                    <span>From Baramunda Inter-State Bus Terminal (ISBT)</span>
+                  </div>
+                  <p className="leading-relaxed text-stone-600">
+                    Approx. 10 km via NH-16 and Patia square into Chandaka Industrial Estate. Dedicated visitor parking passes are issued upon entry at Gate 1.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Campus Security & Visiting Protocol */}
+            <div className="p-6 rounded-2xl bg-[#0E1726] text-white space-y-2.5">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#22D3EE] uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-cyan-400" />
+                <span>Security Control Room &amp; Campus Protocol</span>
+              </div>
+              <p className="text-xs text-stone-300 leading-relaxed">
+                All campus visitors are required to carry a government-issued photo identity card (Aadhaar, Voter ID, Driving License, or Passport) for physical visitor entry passes at Gate 1 &amp; Gate 2 reception desks.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 pt-1.5 text-[11px] font-mono text-cyan-300">
+                <span>Security Control: +91 674 274-0550</span>
+                <span>•</span>
+                <span>Emergency Desk: Ext. 100 / 108</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* =========================================================================
+              RIGHT SIDE: Inquiry Form KEPT CONSTANT (Sticky on scroll)
+              ========================================================================= */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24 self-start">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200/90 shadow-xl shadow-stone-900/5">
+              <h3 className="text-2xl font-serif font-bold text-slate-900 mb-1">
+                Submit an Official Inquiry
+              </h3>
+              <p className="text-xs text-stone-500 mb-6 leading-relaxed">
+                Complete the form below to connect directly with the admissions counselors or departmental heads.
+              </p>
+
+              {submitted ? (
+                <div className="py-12 text-center space-y-3">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-8 h-8" />
+                  </div>
+                  <h4 className="text-xl font-serif font-bold text-slate-900">Inquiry Transmitted Successfully</h4>
+                  <p className="text-xs text-stone-600 max-w-sm mx-auto">
+                    Thank you, <strong className="text-slate-800">{name}</strong>. Your ticket has been logged and assigned to the relevant department.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
+                        Your Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="e.g. Ananya Das"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50/70 focus:bg-white transition-colors"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@domain.com"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50/70 focus:bg-white transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
+                        Mobile Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+91 98765 43210"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50/70 focus:bg-white transition-colors"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
+                        Department / Query Category *
+                      </label>
+                      <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50/70 focus:bg-white transition-colors"
+                      >
+                        <option>Admissions &amp; Degree Enrollment</option>
+                        <option>Training &amp; Placement Cell (Corporate)</option>
+                        <option>Examinations &amp; Transcript Verification</option>
+                        <option>CISCO thingQbator &amp; Research Labs</option>
+                        <option>Alumni Affairs &amp; Transcripts</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
-                      Your Full Name *
+                      Subject / Program Name *
                     </label>
                     <input
                       type="text"
                       required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. Ananya Das"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      placeholder="e.g. Admission in B.Tech CSE (AI &amp; ML) for Session 2026"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50/70 focus:bg-white transition-colors"
                     />
                   </div>
 
                   <div>
                     <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
-                      Email Address *
+                      Your Message / Specific Question *
                     </label>
-                    <input
-                      type="email"
+                    <textarea
+                      rows={4}
                       required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@domain.com"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
-                      Mobile Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+91 98765 43210"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Please specify your query or campus visit request..."
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50/70 focus:bg-white transition-colors"
                     />
                   </div>
 
-                  <div>
-                    <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
-                      Department / Query Category *
-                    </label>
-                    <select
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50"
-                    >
-                      <option>Admissions &amp; Degree Enrollment</option>
-                      <option>Training &amp; Placement Cell (Corporate)</option>
-                      <option>Examinations &amp; Transcript Verification</option>
-                      <option>CISCO thingQbator &amp; Research Labs</option>
-                      <option>Alumni Affairs &amp; Transcripts</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
-                    Subject / Program Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    placeholder="e.g. Admission in B.Tech CSE (AI & ML) for Session 2026"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold text-stone-700 uppercase tracking-wider block mb-1">
-                    Your Message / Specific Question *
-                  </label>
-                  <textarea
-                    rows={4}
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Please specify your query or campus visit request..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:outline-hidden focus:border-blue-600 bg-stone-50"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3 rounded-xl bg-[#E03D2E] hover:bg-[#c93224] text-white font-bold text-xs shadow-md transition-colors cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Transmit Inquiry to Admissions Desk</span>
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* Departmental Directory List (5 Cols) */}
-          <div className="lg:col-span-5 space-y-4">
-            <h3 className="text-xl font-serif font-bold text-slate-900">
-              Departmental Offices
-            </h3>
-
-            {offices.map((off, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs space-y-2 text-xs"
-              >
-                <h4 className="font-bold text-slate-900 text-sm">{off.department}</h4>
-                <p className="text-blue-800 font-semibold text-[11px]">{off.inCharge} ({off.designation})</p>
-                
-                <div className="pt-2 border-t border-stone-100 space-y-1 text-stone-600">
-                  <p className="flex items-center gap-2 font-mono text-[11px]">
-                    <Mail className="w-3.5 h-3.5 text-stone-400" />
-                    <span>{off.email}</span>
-                  </p>
-                  <p className="flex items-center gap-2 font-mono text-[11px]">
-                    <Phone className="w-3.5 h-3.5 text-stone-400" />
-                    <span>{off.phone}</span>
-                  </p>
-                  <p className="flex items-center gap-2 text-[11px] text-stone-400">
-                    <MapPin className="w-3.5 h-3.5 text-stone-400" />
-                    <span>{off.location}</span>
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Reaching the Campus Guide */}
-        <div className="p-8 rounded-3xl bg-stone-100 border border-stone-200">
-          <div className="text-center max-w-2xl mx-auto mb-6">
-            <h3 className="text-xl font-serif font-bold text-slate-900">
-              Reaching TEKKZY College of Technology
-            </h3>
-            <p className="text-xs text-stone-500 mt-1">Located inside the prime Infocity IT and academic hub in Bhubaneswar</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-stone-700">
-            <div className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 font-bold text-slate-900">
-                <Plane className="w-4 h-4 text-blue-700" />
-                <span>From Biju Patnaik Airport (BBI)</span>
-              </div>
-              <p className="leading-relaxed">
-                Approx. 14 km (30 minutes drive) via Jayadev Vihar - Nandankanan road directly into Infocity Chandaka Estate.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 font-bold text-slate-900">
-                <Train className="w-4 h-4 text-emerald-700" />
-                <span>From Bhubaneswar Railway Station (BBS)</span>
-              </div>
-              <p className="leading-relaxed">
-                Approx. 12 km (25 minutes drive). MoBus routes 10, 11, and 23 operate directly from Master Canteen to Infocity.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 font-bold text-slate-900">
-                <Car className="w-4 h-4 text-amber-700" />
-                <span>From Baramunda Inter-State Bus Stand</span>
-              </div>
-              <p className="leading-relaxed">
-                Approx. 10 km via NH-16 and Patia square into Chandaka Industrial Estate. Ample visitor parking available at Gate 1.
-              </p>
+                  <button
+                    type="submit"
+                    className="w-full py-3.5 rounded-xl bg-[#E03D2E] hover:bg-[#c93224] active:scale-98 text-white font-bold text-xs shadow-md shadow-red-950/20 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Transmit Inquiry to Admissions Desk</span>
+                  </button>
+                </form>
+              )}
             </div>
           </div>
+
         </div>
       </div>
     </div>

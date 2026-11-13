@@ -191,7 +191,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 F-2, Chandaka Industrial Estate, Infocity, Patia, Bhubaneswar, Odisha - 751024
               </p>
               <p className="text-[10px] font-mono text-emerald-300/80 mt-0.5 uppercase tracking-wider">
-                AICTE Approved · BPUT Affiliated · DSIR-Certified SIRO
+                AICTE Approved · TCT Affiliated · DSIR-Certified SIRO
               </p>
             </div>
 

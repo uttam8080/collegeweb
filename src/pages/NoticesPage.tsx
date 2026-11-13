@@ -44,12 +44,7 @@ export const NoticesPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
             {[
-              { id: 'all', label: 'All Gazettes' },
-              { id: 'exam', label: 'Examinations' },
-              { id: 'placement', label: 'Placements' },
-              { id: 'academic', label: 'Academic & Library' },
-              { id: 'event', label: 'Events & Fests' },
-              { id: 'administration', label: 'Administration & Hostels' },
+            
             ].map((tab) => (
               <button
                 key={tab.id}
