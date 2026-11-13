@@ -329,7 +329,7 @@ export default function App() {
           <ContactPage onNavigate={handleNavigate} />
         )}
 
-        {currentTab === 'about' && <AboutPage />}
+        {currentTab === 'about' && <AboutPage onNavigate={handleNavigate} />}
       </div>
 
       {/* Global Footer */}
