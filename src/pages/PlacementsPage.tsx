@@ -23,10 +23,12 @@ import {
   X,
   MapPin,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  RefreshCw
 } from 'lucide-react';
 import { ALUMNI_SPOTLIGHT, RecruiterCompany } from '../data/collegeData';
 import { RecruiterLogo } from '../components/RecruiterLogo';
+import { MasonryGallery, MasonryItem } from '../components/MasonryGallery';
 
 // Comprehensive roster of 43 leading global corporate recruiters visiting campus
 const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
@@ -429,7 +431,8 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [viewMode, setViewMode] = useState<'wall' | 'cards'>('wall');
+  const [viewMode, setViewMode] = useState<'masonry' | 'wall' | 'cards'>('masonry');
+  const [galleryKey, setGalleryKey] = useState<number>(0);
   const [selectedCompany, setSelectedCompany] = useState<RecruiterCompany | null>(null);
 
   const [recruiterFormOpen, setRecruiterFormOpen] = useState(false);
@@ -474,6 +477,23 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery]);
+
+  interface CompanyMasonryItem extends MasonryItem {
+    company: RecruiterCompany;
+  }
+
+  const masonryCompanyItems = useMemo<CompanyMasonryItem[]>(() => {
+    return filteredRecruiters.map((company, index) => {
+      const rolesCount = company.rolesHired?.length || 2;
+      const height = rolesCount >= 3 ? 410 : (index % 3 === 0 ? 370 : (index % 2 === 0 ? 340 : 390));
+      return {
+        id: `company-${company.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${index}`,
+        height,
+        title: company.name,
+        company,
+      };
+    });
+  }, [filteredRecruiters]);
 
   const submitRecruiterInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -700,8 +720,19 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                 )}
               </div>
 
-              {/* View Switch: Full Coverage Logo Wall vs Detailed Cards */}
+              {/* View Switch: GSAP Masonry Gallery vs Logo Wall vs Detailed Cards */}
               <div className="flex items-center gap-1.5 p-1 rounded-xl bg-stone-100 border border-stone-200/80 self-end md:self-auto shrink-0">
+                <button
+                  onClick={() => setViewMode('masonry')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    viewMode === 'masonry'
+                      ? 'bg-white text-slate-900 shadow-2xs'
+                      : 'text-stone-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-[#0D9488]" />
+                  <span>Masonry Gallery</span>
+                </button>
                 <button
                   onClick={() => setViewMode('wall')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
@@ -711,7 +742,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                   }`}
                 >
                   <LayoutGrid className="w-3.5 h-3.5 text-[#0D9488]" />
-                  <span>Logo Wall (Full Div)</span>
+                  <span>Logo Wall</span>
                 </button>
                 <button
                   onClick={() => setViewMode('cards')}
@@ -723,6 +754,13 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                 >
                   <ListFilter className="w-3.5 h-3.5 text-[#0D9488]" />
                   <span>Detailed Cards</span>
+                </button>
+                <button
+                  onClick={() => setGalleryKey(prev => prev + 1)}
+                  title="Re-animate Gallery (GSAP Entrance)"
+                  className="p-1.5 rounded-lg text-stone-500 hover:text-slate-900 hover:bg-white transition-all cursor-pointer group"
+                >
+                  <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
                 </button>
               </div>
 
@@ -777,7 +815,99 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
               <span className="text-[11px] text-stone-400">Click any partner card to view package &amp; eligibility specs</span>
             </div>
 
-            {/* 1. LOGO WALL VIEW (Default: Bigger logos & high-impact gradient format) */}
+            {/* 1. MASONRY GALLERY VIEW (GSAP Cinematic Animations & Fluid Interactions) */}
+            {viewMode === 'masonry' && (
+              <div className="w-full">
+                <MasonryGallery<CompanyMasonryItem>
+                  key={`${galleryKey}-${activeCategory}-${searchQuery ? 'search' : 'all'}`}
+                  items={masonryCompanyItems}
+                  animateFrom="bottom"
+                  blurToFocus={true}
+                  stagger={0.04}
+                  scaleOnHover={true}
+                  hoverScale={0.98}
+                  colorShiftOnHover={true}
+                  duration={0.6}
+                  ease="power3.out"
+                  className="w-full"
+                  onItemClick={(item) => setSelectedCompany(item.company)}
+                  renderItem={(item) => {
+                    const company = item.company;
+                    const grad = getCategoryGradient(company.category);
+
+                    return (
+                      <div
+                        onClick={() => setSelectedCompany(company)}
+                        className={`w-full h-full p-5 sm:p-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group`}
+                      >
+                        {/* Top Accent Gradient Line */}
+                        <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
+
+                        <div>
+                          {/* Header Row: Domain tag + Gradient Package Badge */}
+                          <div className="w-full flex items-center justify-between gap-2 mb-3 pt-1">
+                            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-500 truncate max-w-[55%]">
+                              {company.category.split('&')[0]}
+                            </span>
+                            <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
+                              {company.highestPackage}
+                            </span>
+                          </div>
+
+                          {/* Prominent Scaled Logo Well in Gradient Format */}
+                          <div className="w-full h-24 sm:h-28 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-4 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
+                            <RecruiterLogo
+                              name={company.name}
+                              logoText={company.logoText}
+                              className="w-full max-h-16 sm:max-h-20 object-contain transition-transform duration-300 group-hover:scale-108"
+                            />
+                          </div>
+
+                          {/* Roles Hired Badges */}
+                          {company.rolesHired && company.rolesHired.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-3">
+                              {company.rolesHired.slice(0, 2).map((role, rIdx) => (
+                                <span
+                                  key={rIdx}
+                                  className="text-[9px] font-mono px-2 py-0.5 rounded-md bg-white/80 border border-stone-200/70 text-stone-700 truncate"
+                                >
+                                  {role}
+                                </span>
+                              ))}
+                              {company.rolesHired.length > 2 && (
+                                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-md bg-white/50 text-stone-400">
+                                  +{company.rolesHired.length - 2}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Bottom Details Row: Full Company Name & Intake */}
+                        <div className="w-full pt-3 mt-3 border-t border-slate-200/70 flex items-center justify-between text-xs">
+                          <div className="truncate mr-2">
+                            <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-sm">
+                              {company.name}
+                            </span>
+                            <span className="text-[11px] text-stone-500 font-mono truncate block">
+                              {company.location.split('/')[0]}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-white/80 border border-stone-200/60 text-slate-700 shrink-0">
+                            {company.intakeAnnual}
+                          </span>
+                        </div>
+
+                        {/* Fluid Color Shift Overlay on Hover */}
+                        <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/15 via-blue-500/10 to-indigo-500/15 opacity-0 pointer-events-none transition-opacity" />
+                      </div>
+                    );
+                  }}
+                />
+              </div>
+            )}
+
+            {/* 2. LOGO WALL VIEW (Static Grid: Bigger logos & high-impact gradient format) */}
             {viewMode === 'wall' && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 w-full">
                 {filteredRecruiters.map((company) => {

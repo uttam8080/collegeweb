@@ -13,7 +13,6 @@ import { FeaturedLessons } from '../components/FeaturedLessons';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { NewsletterSection } from '../components/NewsletterSection';
 import { NoticeAndEventsSection } from '../components/NoticeAndEventsSection';
-import { AnimatedIconMarquee } from '../components/AnimatedIconMarquee';
 
 interface Props {
   onSelectSubject: (subjectId: string) => void;
@@ -104,11 +103,6 @@ export const HomePage: React.FC<Props> = ({
         enrolledPathIds={enrolledPathIds}
         completedLessonIds={completedLessonIds}
       />
-
-      {/* Modern Animated Icon Integration Marquee Feature Section */}
-      <div id="brand-integrations">
-        <AnimatedIconMarquee />
-      </div>
 
       {/* 10. Institutional Newsletter & Advisory Admissions Connect */}
       <NewsletterSection />
