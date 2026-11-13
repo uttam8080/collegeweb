@@ -3,7 +3,6 @@ import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from './utils/animations';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import SplashCursor from './components/SplashCursor';
 import { SearchModal } from './components/SearchModal';
 import { AuthModal } from './components/AuthModal';
 import { HomePage } from './pages/HomePage';
@@ -222,9 +221,21 @@ export default function App() {
     }, 100);
   };
 
-  const handleNavigate = (tab: string) => {
-    setCurrentTab(tab as NavigationTab);
-    scrollToTop();
+  const handleNavigate = (tab: string, sectionId?: string) => {
+    const [baseTab, targetSection] = tab.includes('#') ? tab.split('#') : [tab, sectionId];
+    setCurrentTab(baseTab as NavigationTab);
+    if (targetSection) {
+      setTimeout(() => {
+        const el = document.getElementById(targetSection);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          scrollToTop();
+        }
+      }, 150);
+    } else {
+      scrollToTop();
+    }
   };
 
   const handleSelectSubject = (subjectId: string) => {
@@ -278,17 +289,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F5] text-slate-800 antialiased selection:bg-[#FF9933]/20 selection:text-[#172554]">
-      {/* Interactive Fluid Splash Cursor Animation from React Bits */}
-      <SplashCursor
-        rainbow
-        size={1}
-        force={0.25}
-        swirl={3}
-        trail={1}
-        clickSplash
-        colorSpeed={3.65}
-        intensity={0.5}
-      />
       {/* Global Unified Navigation Header - Matching Home Section across ALL sections */}
       <Header
         currentTab={currentTab}

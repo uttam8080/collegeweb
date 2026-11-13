@@ -104,7 +104,7 @@ export const ImportantAnnouncements: React.FC<ImportantAnnouncementsProps> = ({ 
     {
       id: 'ann-scroll-4',
       category: 'exam',
-      categoryLabel: 'BPUT Examinations',
+      categoryLabel: 'TCT Examinations',
       title: 'BPUT Even Semester Regular & Back-Paper Examination Form Fill-up',
       content: 'Notice regarding online submission of Even Semester 2025–26 Regular and Back Examination forms for B.Tech, M.Tech, and MCA batches on the BPUT Examination Portal without late fine.',
       subContent: '(All bonafide students are advised to clear semester tuition fees and laboratory clearances on the AIS E-Governance portal prior to form generation).',

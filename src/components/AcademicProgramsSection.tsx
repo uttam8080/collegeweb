@@ -126,7 +126,7 @@ export const AcademicProgramsSection: React.FC<Props> = ({ onNavigate }) => {
       schoolId: 'computing',
       level: 'ug',
       levelLabel: 'Undergraduate Degree',
-      credits: '160 Credits · AICTE & BPUT Model',
+      credits: '160 Credits · AICTE & tekkzy Model',
       accreditation: 'NBA Tier-1 Accredited',
       overview: 'Flagship engineering program focused on computing theory, modern algorithmic design, full-stack enterprise systems, cloud scalability, and cybersecurity.',
       coreModules: [
@@ -458,7 +458,7 @@ export const AcademicProgramsSection: React.FC<Props> = ({ onNavigate }) => {
 
           {/* Subtitle */}
           <p className="text-stone-600 text-sm sm:text-base mt-4 leading-relaxed font-normal">
-            AICTE-approved, BPUT-affiliated, and NBA-accredited degrees across 5 dedicated academic schools, combining rigorous theoretical foundations with world-class laboratory innovation.
+            AICTE-approved, TCT-affiliated, and NBA-accredited degrees across 5 dedicated academic schools, combining rigorous theoretical foundations with world-class laboratory innovation.
           </p>
         </div>
 
