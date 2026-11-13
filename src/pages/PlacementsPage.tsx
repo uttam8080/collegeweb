@@ -16,10 +16,6 @@ import {
   Send,
   Building,
   Target,
-  Sparkles,
-  Search,
-  LayoutGrid,
-  ListFilter,
   X,
   MapPin,
   ArrowRight,
@@ -155,8 +151,6 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
 ];
 
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [viewMode, setViewMode] = useState<'masonry' | 'wall' | 'cards'>('masonry');
   const [galleryKey, setGalleryKey] = useState<number>(0);
   const [selectedCompany, setSelectedCompany] = useState<RecruiterCompany | null>(null);
 
@@ -166,26 +160,12 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [contactEmail, setContactEmail] = useState('');
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
-  // Filtered recruiters based on search query
-  const filteredRecruiters = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return ALL_RECRUITERS_EXPANDED;
-    return ALL_RECRUITERS_EXPANDED.filter((r) => {
-      return (
-        r.name.toLowerCase().includes(query) ||
-        r.location.toLowerCase().includes(query) ||
-        r.logoText.toLowerCase().includes(query) ||
-        r.rolesHired.some((role) => role.toLowerCase().includes(query))
-      );
-    });
-  }, [searchQuery]);
-
   interface CompanyMasonryItem extends MasonryItem {
     company: RecruiterCompany;
   }
 
   const masonryCompanyItems = useMemo<CompanyMasonryItem[]>(() => {
-    return filteredRecruiters.map((company, index) => {
+    return ALL_RECRUITERS_EXPANDED.map((company, index) => {
       const rolesCount = company.rolesHired?.length || 2;
       const height = rolesCount >= 3 ? 410 : (index % 3 === 0 ? 370 : (index % 2 === 0 ? 340 : 390));
       return {
@@ -195,7 +175,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
         company,
       };
     });
-  }, [filteredRecruiters]);
+  }, []);
 
   const submitRecruiterInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -342,77 +322,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
             </div>
           </div>
 
-          {/* Interactive Toolbar: Search Bar & View Toggle */}
-          <div className="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-2xs">
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-              
-              {/* Live Search Input */}
-              <div className="relative flex-1 max-w-md">
-                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search tech & product giants (e.g. Google, Microsoft, Amazon, NVIDIA, Cisco)..."
-                  className="w-full pl-9 pr-8 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-slate-800 placeholder-stone-400 focus:outline-hidden focus:border-[#0D9488] focus:bg-white transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-0.5 cursor-pointer"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-
-              {/* View Switch: GSAP Masonry Gallery vs Logo Wall vs Detailed Cards */}
-              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-stone-100 border border-stone-200/80 self-end md:self-auto shrink-0">
-                <button
-                  onClick={() => setViewMode('masonry')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                    viewMode === 'masonry'
-                      ? 'bg-white text-slate-900 shadow-2xs'
-                      : 'text-stone-600 hover:text-slate-900'
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-[#0D9488]" />
-                  <span>Masonry Gallery</span>
-                </button>
-                <button
-                  onClick={() => setViewMode('wall')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                    viewMode === 'wall'
-                      ? 'bg-white text-slate-900 shadow-2xs'
-                      : 'text-stone-600 hover:text-slate-900'
-                  }`}
-                >
-                  <LayoutGrid className="w-3.5 h-3.5 text-[#0D9488]" />
-                  <span>Logo Wall</span>
-                </button>
-                <button
-                  onClick={() => setViewMode('cards')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                    viewMode === 'cards'
-                      ? 'bg-white text-slate-900 shadow-2xs'
-                      : 'text-stone-600 hover:text-slate-900'
-                  }`}
-                >
-                  <ListFilter className="w-3.5 h-3.5 text-[#0D9488]" />
-                  <span>Detailed Cards</span>
-                </button>
-                <button
-                  onClick={() => setGalleryKey(prev => prev + 1)}
-                  title="Re-animate Gallery (GSAP Entrance)"
-                  className="p-1.5 rounded-lg text-stone-500 hover:text-slate-900 hover:bg-white transition-all cursor-pointer group"
-                >
-                  <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
-                </button>
-              </div>
-
-            </div>
-          </div>
-
           {/* =========================================================================
               MAIN FULL-DIV CONTAINER: HOUSES THE FULL LOGO GRID WALL
               Completely covers the whole div with corporate company logos
@@ -423,17 +332,25 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-stone-500 pb-3 border-b border-stone-100 font-mono">
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Showing <strong>{filteredRecruiters.length}</strong> premier tech &amp; product recruiting partners</span>
+                <span>Showing <strong>{ALL_RECRUITERS_EXPANDED.length}</strong> premier tech &amp; product recruiting partners</span>
               </span>
-              <span className="text-[11px] text-stone-400">Click any partner card to view package &amp; eligibility specs</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] text-stone-400 hidden sm:inline">Click any partner card to view package &amp; eligibility specs</span>
+                <button
+                  onClick={() => setGalleryKey(prev => prev + 1)}
+                  title="Re-animate Gallery (GSAP Entrance)"
+                  className="p-1 rounded-md text-stone-400 hover:text-slate-900 hover:bg-stone-100 transition-all cursor-pointer group"
+                >
+                  <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
+                </button>
+              </div>
             </div>
 
-            {/* 1. MASONRY GALLERY VIEW (GSAP Cinematic Animations & Fluid Interactions) */}
-            {viewMode === 'masonry' && (
-              <div className="w-full">
-                <MasonryGallery<CompanyMasonryItem>
-                  key={`${galleryKey}-${searchQuery ? 'search' : 'all'}`}
-                  items={masonryCompanyItems}
+            {/* MASONRY GALLERY (GSAP Cinematic Animations & Fluid Interactions) */}
+            <div className="w-full">
+              <MasonryGallery<CompanyMasonryItem>
+                key={galleryKey}
+                items={masonryCompanyItems}
                   animateFrom="bottom"
                   blurToFocus={true}
                   stagger={0.04}
@@ -515,143 +432,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                   }}
                 />
               </div>
-            )}
-
-            {/* 2. LOGO WALL VIEW (Static Grid: Bigger logos & high-impact gradient format) */}
-            {viewMode === 'wall' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 w-full">
-                {filteredRecruiters.map((company) => {
-                  const grad = getCategoryGradient(company.category);
-
-                  return (
-                    <div
-                      key={company.name}
-                      onClick={() => setSelectedCompany(company)}
-                      className={`group relative rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between p-5 sm:p-6 cursor-pointer hover:-translate-y-1.5 overflow-hidden`}
-                    >
-                      {/* Top Accent Gradient Line */}
-                      <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
-
-                      {/* Header Row: Gradient Package Badge */}
-                      <div className="w-full flex items-center justify-end mb-3 pt-1">
-                        <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
-                          {company.highestPackage}
-                        </span>
-                      </div>
-
-                      {/* Prominent Scaled Logo Well in Gradient Format */}
-                      <div className="w-full h-28 sm:h-32 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-4 sm:p-5 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
-                        <RecruiterLogo
-                          name={company.name}
-                          logoText={company.logoText}
-                          className="w-full max-h-16 sm:max-h-20 object-contain transition-transform duration-300 group-hover:scale-108"
-                        />
-                      </div>
-
-                      {/* Bottom Details Row: Full Company Name & Intake */}
-                      <div className="w-full pt-4 mt-3 border-t border-slate-200/70 flex items-center justify-between text-xs">
-                        <div className="truncate mr-2">
-                          <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-sm">
-                            {company.name}
-                          </span>
-                          <span className="text-[11px] text-stone-500 font-mono truncate block">
-                            {company.location.split('/')[0]}
-                          </span>
-                        </div>
-                        <span className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-white/80 border border-stone-200/60 text-slate-700 shrink-0">
-                          {company.intakeAnnual}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* 2. DETAILED CARDS VIEW (Bigger logos & gradient format) */}
-            {viewMode === 'cards' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                {filteredRecruiters.map((r) => {
-                  const grad = getCategoryGradient(r.category);
-
-                  return (
-                    <div
-                      key={r.name}
-                      onClick={() => setSelectedCompany(r)}
-                      className={`p-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all flex flex-col justify-between cursor-pointer group hover:-translate-y-1.5 relative overflow-hidden`}
-                    >
-                      {/* Top Accent Gradient Line */}
-                      <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
-
-                      <div>
-                        {/* Top Scaled Logo Well in Gradient Format */}
-                        <div className="w-full h-28 sm:h-32 bg-gradient-to-b from-white/95 to-slate-50/80 rounded-2xl p-4 sm:p-5 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md transition-all mb-4 relative">
-                          <RecruiterLogo 
-                            name={r.name} 
-                            logoText={r.logoText} 
-                            className="max-h-16 sm:max-h-20 max-w-[85%] object-contain transition-transform group-hover:scale-108" 
-                          />
-                          <span className="absolute top-2.5 right-2.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs">
-                            {r.highestPackage}
-                          </span>
-                        </div>
-
-
-
-                        <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors">
-                          {r.name}
-                        </h4>
-                        <p className="text-xs text-stone-500 font-mono mt-0.5 flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-stone-400" />
-                          <span>{r.location}</span>
-                        </p>
-
-                        <div className="mt-4 pt-3 border-t border-slate-200/70">
-                          <span className="text-[10px] uppercase font-bold text-stone-500 block mb-1.5">
-                            Key Roles Recruited:
-                          </span>
-                          <div className="flex flex-wrap gap-1.5">
-                            {r.rolesHired.map((role, i) => (
-                              <span 
-                                key={i} 
-                                className="text-[11px] bg-white/90 border border-stone-200/80 group-hover:border-teal-300 text-slate-800 px-2.5 py-0.5 rounded-lg shadow-2xs transition-colors"
-                              >
-                                {role}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mt-5 pt-3 border-t border-slate-200/70 flex items-center justify-between text-xs font-mono text-[#0D9488] font-bold">
-                        <span>Annual Intake: {r.intakeAnnual}</span>
-                        <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 group-hover:text-[#0D9488] transition-all" />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Zero Results Feedback */}
-            {filteredRecruiters.length === 0 && (
-              <div className="py-16 text-center space-y-3">
-                <div className="w-12 h-12 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center mx-auto">
-                  <Search className="w-6 h-6" />
-                </div>
-                <h4 className="text-base font-bold text-slate-800">No recruiting partner found</h4>
-                <p className="text-xs text-stone-500 max-w-sm mx-auto">
-                  No companies matched "{searchQuery}". Try searching for Google, Microsoft, Amazon, NVIDIA, or clear your search.
-                </p>
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-xs font-bold text-slate-700 cursor-pointer"
-                >
-                  Clear Search
-                </button>
-              </div>
-            )}
-
             {/* Bottom Placement Cell Trust & Invitation Banner */}
             <div className="mt-8 pt-6 border-t border-stone-200/80 bg-gradient-to-r from-slate-900 via-[#1b2a60] to-slate-900 rounded-2xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
               <div className="space-y-1.5 text-center md:text-left">
