@@ -43,7 +43,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [scrollProgress, setScrollProgress] = useState(0);
   const clubsScrollRef = useRef<HTMLDivElement>(null);
   const clubsTriggerRef = useRef<any>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLElement>(null);
   const [stats, setStats] = useState({ clubs: 0, members: 0, events: 0, trophies: 0 });
   const [statsAnimated, setStatsAnimated] = useState(false);
 
@@ -469,46 +469,90 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
     };
   }, []);
 
-  // Count-up animation for Campus Life Highlights stats (screen recording style)
+  // Scroll-triggered text entrance and synchronized 2-second count-up animation
   useEffect(() => {
-    if (!statsRef.current) return;
+    const section = statsRef.current;
+    if (!section) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !statsAnimated) {
-            setStatsAnimated(true);
-            const targets = { clubs: 20, members: 2500, events: 50, trophies: 14 };
-            const startTime = performance.now();
-            const duration = 1800;
+    let animFrame: number;
+    let hasAnimated = false;
 
-            const update = (now: number) => {
-              const elapsed = now - startTime;
-              const progress = Math.min(elapsed / duration, 1);
-              const ease = 1 - Math.pow(1 - progress, 4);
-
-              setStats({
-                clubs: Math.round(targets.clubs * ease),
-                members: Math.round(targets.members * ease),
-                events: Math.round(targets.events * ease),
-                trophies: Math.round(targets.trophies * ease)
-              });
-
-              if (progress < 1) {
-                requestAnimationFrame(update);
-              }
-            };
-            requestAnimationFrame(update);
-            observer.disconnect();
+    const ctx = gsap.context(() => {
+      // 1. Text elements coming out smoothly on scroll with stagger
+      gsap.fromTo(
+        '.stat-text-reveal',
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none none',
           }
-        });
-      },
-      { threshold: 0.15 }
-    );
+        }
+      );
 
-    observer.observe(statsRef.current);
-    return () => observer.disconnect();
-  }, [statsAnimated]);
+      // 2. Division cards coming out smoothly on scroll with stagger
+      gsap.fromTo(
+        '.stat-card-reveal',
+        { opacity: 0, y: 55, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 78%',
+            toggleActions: 'play none none none',
+            onEnter: () => {
+              if (hasAnimated) return;
+              hasAnimated = true;
+
+              // Exact 2-second synchronized count-up: all numbers finish at the exact same millisecond
+              const targets = { clubs: 20, members: 2500, events: 50, trophies: 14 };
+              const startTime = performance.now();
+              const duration = 2000; // exactly 2 seconds
+
+              const update = (now: number) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Unified smooth cubic ease-out
+                const ease = 1 - Math.pow(1 - progress, 3);
+
+                setStats({
+                  clubs: Math.round(targets.clubs * ease),
+                  members: Math.round(targets.members * ease),
+                  events: Math.round(targets.events * ease),
+                  trophies: Math.round(targets.trophies * ease)
+                });
+
+                if (progress < 1) {
+                  animFrame = requestAnimationFrame(update);
+                } else {
+                  // Guarantee all numbers reach their final values simultaneously at 2.0s
+                  setStats(targets);
+                }
+              };
+
+              animFrame = requestAnimationFrame(update);
+            }
+          }
+        }
+      );
+    }, section);
+
+    return () => {
+      ctx.revert();
+      if (animFrame) cancelAnimationFrame(animFrame);
+    };
+  }, []);
 const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAMPUS_FACILITIES[0];
 
   return (
@@ -880,75 +924,186 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
         </div>
       </section>
 
-      {/* HIGHLIGHTS STATS BANNER (Animated Growing Numbers from the Screen Recording) */}
-      <section className="relative w-full py-12 sm:py-16 bg-[#FAF8F5] border-b border-stone-200 select-none">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div 
-            ref={statsRef}
-            className="rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white p-8 sm:p-10 border border-slate-700/60 shadow-xl relative overflow-hidden"
-          >
-            {/* Background Glow */}
-            <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-[#0D9488]/15 blur-3xl pointer-events-none" />
+      {/* HIGHLIGHTS STATS SECTION: Spatial Gradient Background & Full-Width 4-Division Layout */}
+      <section 
+        ref={statsRef}
+        className="relative w-full py-20 sm:py-28 lg:py-32 bg-[#020617] overflow-hidden select-none border-y border-cyan-500/20"
+      >
+        {/* Spatial Cosmic & Nebula Gradient Overlays */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,165,233,0.18),rgba(255,255,255,0))] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#071328] via-50% to-[#020617] pointer-events-none" />
+        
+        {/* Spatial Glowing Nebula Orbs */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-cyan-500/20 blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/2 -right-32 w-[30rem] h-[30rem] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none" />
+        <div className="absolute -bottom-32 left-1/3 w-[26rem] h-[26rem] rounded-full bg-teal-500/15 blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/4 left-2/3 w-80 h-80 rounded-full bg-purple-600/15 blur-[140px] pointer-events-none" />
 
-            <div className="relative z-10">
-              <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
-                <span className="text-[11px] font-mono font-bold tracking-[0.25em] text-[#2DD4BF] uppercase block mb-2">
-                  CAMPUS IMPACT &amp; LEADERSHIP
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-white">
-                  Student Life, At a Glance.
-                </h3>
+        {/* Spatial Grid Texture */}
+        <div 
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px)`,
+            backgroundSize: '36px 36px',
+          }}
+        />
+
+        {/* Subtle Cosmic Light Horizon Lines */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
+
+        <div className="relative z-10 w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
+          {/* Section Header with Scroll-Triggered Text Reveal */}
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+            <div className="stat-text-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-cyan-300 text-[11px] sm:text-xs font-mono font-bold tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              CAMPUS IMPACT &amp; LEADERSHIP
+            </div>
+            
+            <h2 className="stat-text-reveal text-3xl sm:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-white mb-4">
+              Student Life, <span className="bg-gradient-to-r from-cyan-300 via-teal-200 to-sky-300 bg-clip-text text-transparent">At a Glance.</span>
+            </h2>
+
+            <p className="stat-text-reveal text-sm sm:text-base text-slate-300/90 font-sans max-w-2xl mx-auto leading-relaxed">
+              Empowering technical mastery, entrepreneurial ventures, and artistic distinction across an expansive, student-governed ecosystem.
+            </p>
+          </div>
+
+          {/* 4 Expansive Divisions Spanning Across Entire Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 w-full">
+            {/* Division 1: Active Societies */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-emerald-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-emerald-500/10 blur-2xl group-hover:bg-emerald-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300">
+                    Division 01
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+                    <Award className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.clubs}<span className="text-emerald-400">+</span>
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-emerald-300 font-bold mb-2">
+                  Active Societies
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Technical, coding, robotic, cultural &amp; social councils driving student autonomy.
+                </p>
               </div>
 
-              {/* 4 Growing Numbers in Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-white tracking-tight tabular-nums">
-                    {stats.clubs}+
-                  </div>
-                  <div className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
-                    Active Societies
-                  </div>
-                  <div className="text-[11px] text-slate-400 hidden sm:block">
-                    Technical &amp; cultural councils
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Council Governance</span>
+                <span className="text-emerald-400 font-semibold">100% Student-Led</span>
+              </div>
+            </div>
+
+            {/* Division 2: Student Members */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(6,182,212,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-cyan-500/10 blur-2xl group-hover:bg-cyan-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300">
+                    Division 02
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="w-5 h-5" />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-white tracking-tight tabular-nums">
-                    {stats.members.toLocaleString()}+
-                  </div>
-                  <div className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-teal-300 font-bold">
-                    Student Members
-                  </div>
-                  <div className="text-[11px] text-slate-400 hidden sm:block">
-                    Active makers &amp; artists
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.members.toLocaleString()}<span className="text-cyan-400">+</span>
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-cyan-300 font-bold mb-2">
+                  Student Members
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Active makers, coders, startup founders, performing artists and community leads.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Community Footprint</span>
+                <span className="text-cyan-400 font-semibold">Across 4 Batches</span>
+              </div>
+            </div>
+
+            {/* Division 3: Annual Events */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-amber-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-amber-500/10 blur-2xl group-hover:bg-amber-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-amber-950/70 border border-amber-500/30 text-amber-300">
+                    Division 03
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform duration-300">
+                    <Calendar className="w-5 h-5" />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-white tracking-tight tabular-nums">
-                    {stats.events}+
-                  </div>
-                  <div className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-amber-300 font-bold">
-                    Annual Events
-                  </div>
-                  <div className="text-[11px] text-slate-400 hidden sm:block">
-                    Hackathons &amp; fests
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.events}<span className="text-amber-400">+</span>
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-amber-300 font-bold mb-2">
+                  Annual Events
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Round-the-clock hackathons, national cultural fests, athletic meets and speaker summits.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Festive Engagement</span>
+                <span className="text-amber-400 font-semibold">Year-Round Calendar</span>
+              </div>
+            </div>
+
+            {/* Division 4: National Trophies */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-purple-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(168,85,247,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-purple-500/10 blur-2xl group-hover:bg-purple-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-purple-950/70 border border-purple-500/30 text-purple-300">
+                    Division 04
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                    <Trophy className="w-5 h-5" />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-white tracking-tight tabular-nums">
-                    {stats.trophies}
-                  </div>
-                  <div className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-cyan-300 font-bold">
-                    National Trophies
-                  </div>
-                  <div className="text-[11px] text-slate-400 hidden sm:block">
-                    IIT Bombay, SIH &amp; BPUT
-                  </div>
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.trophies}
                 </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-purple-300 font-bold mb-2">
+                  National Trophies
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Championship wins at IIT Bombay Mood Indigo, Smart India Hackathon, BPUT &amp; National Leagues.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Podium Honors</span>
+                <span className="text-purple-400 font-semibold">Tier-1 Circuit</span>
               </div>
             </div>
           </div>
