@@ -27,8 +27,11 @@ import {
   Calendar,
   X,
   Search,
-  BookMarked
+  BookMarked,
+  Wrench,
+  Compass
 } from 'lucide-react';
+import { CircularProgramsOrbit, SchoolProgram } from '../components/CircularProgramsOrbit';
 
 interface AcademicProgramsPageProps {
   onNavigate: (tab: string) => void;
@@ -49,17 +52,20 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
     { label: 'Digital Repository & Journals', href: '#digital-repository' }
   ];
 
-  // 6 Dedicated Academic Schools & Programmes
-  const schoolsData = [
+  // 8 Dedicated Academic Schools & Programmes (Curved Orbital Showcase)
+  const schoolsData: SchoolProgram[] = [
     {
       id: 'computing',
+      numberTag: '01',
       name: 'School of Computer Science & Engineering',
       shortName: 'Computer Science & AI',
       degrees: 'B.Tech (CSE, AI & ML, Data Science) · M.Tech · Ph.D',
       tagline: 'AICTE Approved & NBA Tier-1 Accredited',
       icon: Laptop,
-      accentColor: '#1E40AF',
-      badgeBg: 'bg-blue-50 text-blue-800 border-blue-200',
+      accentColor: '#4F46E5',
+      badgeBg: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+      gradientBadge: 'from-[#4F46E5] to-[#7C3AED]',
+      glowColor: 'shadow-[0_8px_30px_rgba(79,70,229,0.25)]',
       enrolled: '600+ Scholars Enrolled',
       description: 'Flagship engineering school with outcome-based pedagogy focusing on computational logic, distributed cloud systems, cybersecurity, and deep neural network architectures.',
       specializations: [
@@ -72,34 +78,17 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
       credits: '160 Credits'
     },
     {
-      id: 'applications',
-      name: 'School of Computer Applications',
-      shortName: 'Computer Applications',
-      degrees: 'BCA · MCA (Master of Computer Applications)',
-      tagline: 'Industry-Integrated Software Architecture',
-      icon: Code2,
-      accentColor: '#4338CA',
-      badgeBg: 'bg-indigo-50 text-indigo-800 border-indigo-200',
-      enrolled: '300+ Scholars Enrolled',
-      description: 'Transforming computing graduates into senior software architects, DevOps specialists, and enterprise full-stack engineers with intensive coding bootcamps.',
-      specializations: [
-        'Enterprise Java & Spring Cloud Microservices',
-        'Modern Python & Generative AI Pipelines',
-        'Full-Stack Web Development (React / Next.js / Node.js)',
-        'Mobile Application Engineering (Flutter / React Native)'
-      ],
-      labs: ['Advanced Software Engineering Lab', 'Mobile App Development Center', 'Open Source Contribution Hub'],
-      credits: '120 Credits'
-    },
-    {
-      id: 'engineering',
-      name: 'School of Electrical & Electronics Engineering',
-      shortName: 'Electronics & Electrical',
-      degrees: 'B.Tech (ECE, EEE) · M.Tech (VLSI & Embedded)',
+      id: 'electronics',
+      numberTag: '02',
+      name: 'School of Electronics & Telecommunication',
+      shortName: 'Electronics & VLSI',
+      degrees: 'B.Tech (ECE, EEE) · M.Tech (VLSI & Embedded Systems)',
       tagline: 'Semiconductor Physics & Wireless 5G Networks',
       icon: Cpu,
-      accentColor: '#BE123C',
-      badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
+      accentColor: '#0D9488',
+      badgeBg: 'bg-teal-50 text-teal-800 border-teal-200',
+      gradientBadge: 'from-[#0D9488] to-[#059669]',
+      glowColor: 'shadow-[0_8px_30px_rgba(13,148,136,0.25)]',
       enrolled: '360+ Scholars Enrolled',
       description: 'Premier hardware engineering school training students across semiconductor fabrication, Cadence EDA design, embedded microcontrollers, and modern 5G RF communications.',
       specializations: [
@@ -112,14 +101,63 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
       credits: '162 Credits'
     },
     {
+      id: 'applications',
+      numberTag: '03',
+      name: 'School of Computer Applications',
+      shortName: 'Computer Applications',
+      degrees: 'BCA · MCA (Master of Computer Applications)',
+      tagline: 'Industry-Integrated Software Architecture',
+      icon: Code2,
+      accentColor: '#D97706',
+      badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
+      gradientBadge: 'from-[#D97706] to-[#EA580C]',
+      glowColor: 'shadow-[0_8px_30px_rgba(217,119,6,0.25)]',
+      enrolled: '300+ Scholars Enrolled',
+      description: 'Transforming computing graduates into senior software architects, DevOps specialists, and enterprise full-stack engineers with intensive coding bootcamps.',
+      specializations: [
+        'Enterprise Java & Spring Cloud Microservices',
+        'Modern Python & Generative AI Pipelines',
+        'Full-Stack Web Development (React / Next.js / Node.js)',
+        'Mobile Application Engineering (Flutter / React Native)'
+      ],
+      labs: ['Advanced Software Engineering Lab', 'Mobile App Development Center', 'Open Source Contribution Hub'],
+      credits: '120 Credits'
+    },
+    {
+      id: 'mechanical',
+      numberTag: '04',
+      name: 'School of Mechanical & Mechatronics Engineering',
+      shortName: 'Robotics & Mobility',
+      degrees: 'B.Tech (Robotics, CAD/CAM, Autonomous EV Mobility)',
+      tagline: 'Precision Robotics & Electric Powertrains',
+      icon: Wrench,
+      accentColor: '#0284C7',
+      badgeBg: 'bg-sky-50 text-sky-800 border-sky-200',
+      gradientBadge: 'from-[#0284C7] to-[#2563EB]',
+      glowColor: 'shadow-[0_8px_30px_rgba(2,132,199,0.25)]',
+      enrolled: '280+ Scholars Enrolled',
+      description: 'Engineering the physical machines of the 4th Industrial Revolution with deep integration of robotic manipulators, computational aerodynamics, EV powertrains, and multi-axis CNC tooling.',
+      specializations: [
+        'Industrial Robotics & PLC Automation',
+        'Computational Fluid Dynamics & Thermal Modeling',
+        'Electric Vehicle Battery Management Systems',
+        'CAD/CAM Additive 3D Manufacturing'
+      ],
+      labs: ['Haas CNC Advanced Machining Center', 'FESTO Pneumatics & Robotics Hub', 'Dassault CATIA Simulation Lab'],
+      credits: '160 Credits'
+    },
+    {
       id: 'biotech',
-      name: 'School of Biotechnology & Applied Sciences',
-      shortName: 'Biotechnology',
-      degrees: 'B.Sc · M.Sc · Ph.D (Biotechnology)',
-      tagline: 'Molecular Genetics & Bioinformatics',
+      numberTag: '05',
+      name: 'School of Biotechnology & Healthcare Sciences',
+      shortName: 'Biotechnology & Health',
+      degrees: 'B.Sc · M.Sc · Ph.D (Biotechnology & Bioinformatics)',
+      tagline: 'Molecular Genetics & Computational Biology',
       icon: Microscope,
-      accentColor: '#047857',
+      accentColor: '#059669',
       badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+      gradientBadge: 'from-[#059669] to-[#10B981]',
+      glowColor: 'shadow-[0_8px_30px_rgba(5,150,105,0.25)]',
       enrolled: '180+ Scholars Enrolled',
       description: 'Interdisciplinary research center fostering advancements in recombinant DNA technology, industrial bioprocess fermentation, and computational bioinformatics.',
       specializations: [
@@ -133,13 +171,16 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
     },
     {
       id: 'business',
-      name: 'School of Business & Management',
+      numberTag: '06',
+      name: 'School of Business & Management Leadership',
       shortName: 'Business & Management',
       degrees: 'BBA · MBA (Master of Business Administration)',
       tagline: 'Strategic Corporate Leadership & Analytics',
       icon: Briefcase,
-      accentColor: '#B45309',
-      badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
+      accentColor: '#E11D48',
+      badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
+      gradientBadge: 'from-[#E11D48] to-[#BE123C]',
+      glowColor: 'shadow-[0_8px_30px_rgba(225,29,72,0.25)]',
       enrolled: '240+ Scholars Enrolled',
       description: 'Industry-integrated management school preparing future executives with deep capabilities in financial analytics, digital marketing, and agile organizational leadership.',
       specializations: [
@@ -152,14 +193,40 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
       credits: '104 Credits'
     },
     {
+      id: 'civil',
+      numberTag: '07',
+      name: 'School of Civil & Sustainable Infrastructure',
+      shortName: 'Civil & Smart Cities',
+      degrees: 'B.Tech · M.Tech (Structural Dynamics & Smart Cities)',
+      tagline: 'Seismic Structural Modeling & Green Building Tech',
+      icon: Building2,
+      accentColor: '#EA580C',
+      badgeBg: 'bg-orange-50 text-orange-800 border-orange-200',
+      gradientBadge: 'from-[#EA580C] to-[#C2410C]',
+      glowColor: 'shadow-[0_8px_30px_rgba(234,88,12,0.25)]',
+      enrolled: '220+ Scholars Enrolled',
+      description: 'Advancing sustainable built environments, green concrete technology, GIS-driven urban planning, and earthquake-resilient mega-structure structural analysis.',
+      specializations: [
+        'Earthquake-Resistant Structural Dynamics',
+        'Smart City Remote Sensing & GIS Urban Systems',
+        'Sustainable Green Concrete & Highway Engineering',
+        'Building Information Modeling (BIM 3D/4D)'
+      ],
+      labs: ['Bentley Smart City GIS Lab', 'Geotechnical Mechanics Hub', 'Concrete Quality Testing Facility'],
+      credits: '160 Credits'
+    },
+    {
       id: 'humanities',
+      numberTag: '08',
       name: 'School of Humanities & Foundational Sciences',
       shortName: 'Foundational Sciences',
       degrees: 'Foundational Engineering Sciences & Liberal Arts',
       tagline: 'Applied Mathematics, Physics & Professional Ethics',
       icon: BookOpen,
-      accentColor: '#6B21A8',
+      accentColor: '#7C3AED',
       badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
+      gradientBadge: 'from-[#7C3AED] to-[#9333EA]',
+      glowColor: 'shadow-[0_8px_30px_rgba(124,58,237,0.25)]',
       enrolled: 'Core Academic Division',
       description: 'Nurturing foundational analytical rigor, multivariate mathematics, quantum mechanics, and interpersonal executive communication across all undergraduate disciplines.',
       specializations: [
@@ -482,159 +549,13 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
             </div>
           </div>
 
-          {/* 2-Column Schools Showcase (Matching Left Featured Image + Right Stacked Cards) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* LEFT COLUMN: Vertical Featured Tech Card */}
-            <div className="lg:col-span-5 sticky top-24">
-              <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-xl min-h-[580px] flex flex-col justify-between p-8 text-white">
-                {/* Background Tech Image */}
-                <div className="absolute inset-0 z-0">
-                  <img
-                    src="/assets/images/college_tech_lab_1793988185936.jpg"
-                    alt="School of Computing & AI Systems"
-                    className="w-full h-full object-cover object-center opacity-35 scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1528] via-[#0B1528]/80 to-transparent" />
-                </div>
-
-                {/* Top Badge */}
-                <div className="relative z-10 flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[10px] font-mono font-bold uppercase tracking-wider">
-                    FEATURED CURRICULUM
-                  </span>
-                  <span className="text-xs font-mono text-stone-400">
-                    BPUT 2026–27
-                  </span>
-                </div>
-
-                {/* Bottom Content */}
-                <div className="relative z-10 space-y-5">
-                  <div>
-                    <span className="text-xs font-mono text-blue-300 uppercase tracking-wider block mb-1">
-                      {activeSchool.shortName}
-                    </span>
-                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight leading-snug">
-                      {activeSchool.name}
-                    </h3>
-                  </div>
-
-                  <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
-                    {activeSchool.description}
-                  </p>
-
-                  <div className="pt-4 border-t border-white/10 space-y-3">
-                    <div className="flex flex-wrap gap-2 text-[11px] font-mono text-stone-300">
-                      <span className="px-2.5 py-1 rounded-md bg-white/10">{activeSchool.credits}</span>
-                      <span className="px-2.5 py-1 rounded-md bg-white/10">{activeSchool.enrolled}</span>
-                      <span className="px-2.5 py-1 rounded-md bg-white/10">{activeSchool.tagline}</span>
-                    </div>
-
-                    <button
-                      onClick={() => setSelectedSchoolModal(activeSchool)}
-                      className="w-full mt-3 py-3 rounded-xl bg-[#1E3A8A] hover:bg-blue-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                    >
-                      <span>View Full Curriculum &amp; Syllabi</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: Stack of 6 School Cards */}
-            <div className="lg:col-span-7 space-y-4">
-              {schoolsData.map((school) => {
-                const isSelected = activeSchoolId === school.id;
-
-                return (
-                  <div
-                    key={school.id}
-                    onClick={() => setActiveSchoolId(school.id)}
-                    className={`rounded-2xl p-6 sm:p-7 transition-all duration-300 cursor-pointer border ${
-                      isSelected
-                        ? 'bg-white shadow-lg border-stone-300 ring-1 ring-blue-900/10 -translate-y-0.5'
-                        : 'bg-white/70 hover:bg-white border-stone-200 shadow-2xs hover:shadow-sm'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2 mb-1">
-                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">
-                              {school.degrees}
-                            </span>
-                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${school.badgeBg}`}>
-                              {school.tagline}
-                            </span>
-                          </div>
-                          <h4 className="text-lg sm:text-xl font-serif font-bold text-stone-900 tracking-tight">
-                            {school.name}
-                          </h4>
-                          <p className="text-xs text-stone-600 mt-2 line-clamp-2 leading-relaxed">
-                            {school.description}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="shrink-0 pt-1">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform ${
-                          isSelected ? 'bg-blue-100 text-blue-900 translate-x-1' : 'bg-stone-100 text-stone-400'
-                        }`}>
-                          <ChevronRight className="w-4 h-4 stroke-[2.2]" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Expanded details when card is active */}
-                    {isSelected && (
-                      <div className="mt-5 pt-5 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block mb-2">
-                            Specializations &amp; Modules
-                          </span>
-                          <ul className="space-y-1 text-xs text-stone-700">
-                            {school.specializations.map((spec, sIdx) => (
-                              <li key={sIdx} className="flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#1E3A8A]" />
-                                <span>{spec}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block mb-2">
-                            Key Laboratories &amp; Hubs
-                          </span>
-                          <ul className="space-y-1 text-xs text-stone-700">
-                            {school.labs.map((lab, lIdx) => (
-                              <li key={lIdx} className="flex items-center gap-2">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                                <span>{lab}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedSchoolModal(school);
-                            }}
-                            className="mt-4 text-xs font-mono font-bold text-[#1E3A8A] hover:underline flex items-center gap-1 cursor-pointer"
-                          >
-                            <span>Open Detailed Syllabus Outline</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
+          {/* CURVED ORBITAL SHOWCASE (Matching Reference Design: Semi-circle hub with radiating circular cards) */}
+          <CircularProgramsOrbit
+            schools={schoolsData}
+            activeSchoolId={activeSchoolId}
+            onSelectSchool={(school) => setActiveSchoolId(school.id)}
+            onOpenModal={(school) => setSelectedSchoolModal(school)}
+          />
 
         </div>
       </section>
