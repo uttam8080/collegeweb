@@ -8,8 +8,7 @@ import {
   CheckCircle2, 
   Layers, 
   ExternalLink,
-  MousePointer,
-  Compass
+  MousePointer
 } from 'lucide-react';
 
 export interface SchoolProgram {
@@ -45,161 +44,205 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
   onOpenModal,
 }) => {
   const stageRef = useRef<HTMLDivElement>(null);
-  const lastWheelTime = useRef<number>(0);
-  const touchStartY = useRef<number>(0);
+  
+  // Continuous rotational angle state (in degrees)
+  const targetAngle = useRef<number>(0);
+  const currentAngle = useRef<number>(0);
+  const animFrameId = useRef<number | null>(null);
+  const snapTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const [displayAngle, setDisplayAngle] = useState<number>(0);
+
+  // Drag & touch state
   const isDragging = useRef<boolean>(false);
   const dragStartY = useRef<number>(0);
+  const dragStartAngle = useRef<number>(0);
 
-  // Find index of currently active school
-  const initialIndex = Math.max(0, schools.findIndex(s => s.id === activeSchoolId));
-  const [activeIndex, setActiveIndex] = useState<number>(initialIndex >= 0 ? initialIndex : 0);
+  // Spacing between cards along the circular arc
+  const CARD_SPACING = 18; // 18 degrees between cards
+  const TOTAL_SPAN = schools.length * CARD_SPACING; // e.g. 8 * 18 = 144 degrees
+  const HALF_SPAN = TOTAL_SPAN / 2; // 72 degrees
 
-  // Sync activeSchoolId from parent
+  // Initialize targetAngle matching activeSchoolId
   useEffect(() => {
     const idx = schools.findIndex(s => s.id === activeSchoolId);
-    if (idx >= 0 && idx !== activeIndex) {
-      setActiveIndex(idx);
+    if (idx >= 0) {
+      const normalizedCurrent = ((targetAngle.current % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+      const targetIdxAngle = idx * CARD_SPACING;
+      let diff = targetIdxAngle - normalizedCurrent;
+      if (diff > HALF_SPAN) diff -= TOTAL_SPAN;
+      if (diff < -HALF_SPAN) diff += TOTAL_SPAN;
+      targetAngle.current += diff;
     }
-  }, [activeSchoolId, schools]);
+  }, [activeSchoolId, schools, TOTAL_SPAN, HALF_SPAN]);
 
+  // Liquid-smooth inertia animation loop
+  useEffect(() => {
+    let active = true;
+
+    const tick = () => {
+      if (!active) return;
+      const diff = targetAngle.current - currentAngle.current;
+      if (Math.abs(diff) > 0.01) {
+        currentAngle.current += diff * 0.12;
+        setDisplayAngle(currentAngle.current);
+      }
+      animFrameId.current = requestAnimationFrame(tick);
+    };
+
+    animFrameId.current = requestAnimationFrame(tick);
+    return () => {
+      active = false;
+      if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
+    };
+  }, []);
+
+  // Compute current active school from angle
+  const normalizedAngle = ((displayAngle % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+  const activeIndex = Math.min(schools.length - 1, Math.max(0, Math.round(normalizedAngle / CARD_SPACING) % schools.length));
   const activeSchool = schools[activeIndex] || schools[0];
 
-  // Advance to next program (moves upward, new program fades in from bottom)
-  const nextProgram = () => {
-    const nextIdx = (activeIndex + 1) % schools.length;
-    setActiveIndex(nextIdx);
-    onSelectSchool(schools[nextIdx]);
-  };
+  // Notify parent of active school change
+  useEffect(() => {
+    onSelectSchool(activeSchool);
+  }, [activeIndex]);
 
-  // Return to previous program (moves downward, new program fades in from top)
-  const prevProgram = () => {
-    const prevIdx = (activeIndex - 1 + schools.length) % schools.length;
-    setActiveIndex(prevIdx);
-    onSelectSchool(schools[prevIdx]);
-  };
-
-  // Mouse wheel listener: Smoothly rotates circular orbit when scrolling mouse over section
+  // Mouse wheel listener on stage: continuous fluid rotational scrub
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
 
     const onNativeWheel = (e: WheelEvent) => {
-      // Intercept vertical scroll when cursor is over the orbital section
-      if (Math.abs(e.deltaY) > 6) {
+      if (Math.abs(e.deltaY) > 4) {
         e.preventDefault();
-        const now = Date.now();
-        if (now - lastWheelTime.current > 160) {
-          lastWheelTime.current = now;
-          if (e.deltaY > 0) {
-            nextProgram();
-          } else {
-            prevProgram();
-          }
-        }
+        // Scale deltaY: continuous scrub proportional to scroll wheel velocity
+        targetAngle.current += e.deltaY * 0.085;
+
+        // Auto-snap gently to nearest card slot once scrolling stops
+        if (snapTimer.current) clearTimeout(snapTimer.current);
+        snapTimer.current = setTimeout(() => {
+          const nearest = Math.round(targetAngle.current / CARD_SPACING) * CARD_SPACING;
+          targetAngle.current = nearest;
+        }, 180);
       }
     };
 
     el.addEventListener('wheel', onNativeWheel, { passive: false });
     return () => el.removeEventListener('wheel', onNativeWheel);
-  }, [activeIndex, schools]);
+  }, [schools.length, CARD_SPACING]);
 
-  // Touch Swipe for mobile/tablets
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diffY = touchStartY.current - e.changedTouches[0].clientY;
-    if (Math.abs(diffY) > 30) {
-      if (diffY > 0) {
-        nextProgram();
-      } else {
-        prevProgram();
-      }
-    }
-  };
-
-  // Mouse drag to rotate
+  // Drag listeners
   const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     dragStartY.current = e.clientY;
+    dragStartAngle.current = targetAngle.current;
   };
 
-  const handleMouseUp = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging.current) return;
-    isDragging.current = false;
-    const diffY = dragStartY.current - e.clientY;
-    if (Math.abs(diffY) > 30) {
-      if (diffY > 0) {
-        nextProgram();
-      } else {
-        prevProgram();
-      }
+    const dy = dragStartY.current - e.clientY;
+    targetAngle.current = dragStartAngle.current + dy * 0.22;
+  };
+
+  const handleMouseUp = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+      const nearest = Math.round(targetAngle.current / CARD_SPACING) * CARD_SPACING;
+      targetAngle.current = nearest;
     }
   };
 
-  // Keyboard navigation
+  // Touch Swipe for mobile/tablets
+  const handleTouchStart = (e: React.TouchEvent) => {
+    dragStartY.current = e.touches[0].clientY;
+    dragStartAngle.current = targetAngle.current;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const dy = dragStartY.current - e.touches[0].clientY;
+    targetAngle.current = dragStartAngle.current + dy * 0.24;
+  };
+
+  const handleTouchEnd = () => {
+    const nearest = Math.round(targetAngle.current / CARD_SPACING) * CARD_SPACING;
+    targetAngle.current = nearest;
+  };
+
+  // Chevron click actions
+  const rotatePrev = () => {
+    targetAngle.current = Math.round((targetAngle.current - CARD_SPACING) / CARD_SPACING) * CARD_SPACING;
+  };
+
+  const rotateNext = () => {
+    targetAngle.current = Math.round((targetAngle.current + CARD_SPACING) / CARD_SPACING) * CARD_SPACING;
+  };
+
+  // Keyboard controls
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
       e.preventDefault();
-      nextProgram();
+      rotateNext();
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
       e.preventDefault();
-      prevProgram();
+      rotatePrev();
     }
   };
 
   return (
-    <div className="w-full space-y-8 select-none">
+    <div className="w-full space-y-10 select-none">
       {/* =========================================================================
-          UNBOUNDED FULL-WIDTH ORBITAL STAGE (No Inner Box Framing)
+          UNBOUNDED FULL-WIDTH STAGE (Matching Video: Semicircle stuck to right edge)
           ========================================================================= */}
       <div
         ref={stageRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        className="relative w-full h-[620px] sm:h-[700px] md:h-[750px] lg:h-[800px] xl:h-[840px] overflow-hidden outline-none cursor-grab active:cursor-grabbing"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative w-full h-[620px] sm:h-[680px] md:h-[740px] lg:h-[780px] xl:h-[820px] overflow-hidden outline-none cursor-grab active:cursor-grabbing"
       >
-        {/* Soft Ambient Background Aura */}
+        {/* Soft Background Ambiance */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute top-1/4 -left-24 w-[500px] h-[500px] rounded-full bg-blue-100/35 blur-3xl" />
-          <div className="absolute top-1/2 right-0 w-[600px] h-[600px] rounded-full bg-sky-200/25 blur-3xl" />
+          <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-blue-100/30 blur-3xl" />
+          <div className="absolute top-1/2 right-0 w-[600px] h-[600px] rounded-full bg-sky-200/20 blur-3xl" />
         </div>
 
-        {/* Orbit SVG Circular Track Guideline (Curving gracefully across the section) */}
+        {/* Top-Left Cue (Matching Reference Video "CURVED PAGE FLOW") */}
+        <div className="absolute top-4 sm:top-8 left-6 sm:left-12 lg:left-16 z-20 space-y-1">
+          <span className="text-xs font-mono font-bold tracking-widest text-[#1E3A8A] uppercase block">
+            CURVED PAGE FLOW
+          </span>
+          <span className="text-[11px] font-mono text-stone-500 hidden sm:block">
+            Pages move around the semi-circle as you scroll
+          </span>
+        </div>
+
+        {/* Orbit SVG Circular Track Guideline (Curving gracefully across the section through cards) */}
         <svg 
           className="absolute inset-0 w-full h-full pointer-events-none hidden md:block" 
           aria-hidden="true"
         >
-          {/* Main orbital track passing right through the semicircular card caps */}
+          {/* Main light blue arc line passing through the cards' action caps */}
           <path 
-            d="M calc(100% - 440px) -100 A 750 750 0 0 0 calc(100% - 440px) 940" 
+            d="M calc(100% - 370px) -120 A 700 700 0 0 0 calc(100% - 370px) 940" 
             fill="none" 
             stroke="#38BDF8" 
             strokeWidth="2.5" 
-            strokeDasharray="8 10" 
-            opacity="0.45" 
-          />
-          <path 
-            d="M calc(100% - 390px) -50 A 700 700 0 0 0 calc(100% - 390px) 890" 
-            fill="none" 
-            stroke="#38BDF8" 
-            strokeWidth="1.5" 
-            strokeDasharray="4 8" 
-            opacity="0.25" 
+            strokeDasharray="6 8" 
+            opacity="0.5" 
           />
         </svg>
 
         {/* =========================================================================
-            TRUE SEMICIRCLE STUCK TO THE RIGHT (Matching Reference Image "YOUR JOURNEY")
+            TRUE SEMICIRCLE STUCK TO THE RIGHT (Matching Reference Video "YOUR JOURNEY")
             ========================================================================= */}
         <div 
           onClick={() => onOpenModal(activeSchool)}
-          className="absolute top-1/2 -translate-y-1/2 right-0 z-30 w-[240px] sm:w-[300px] md:w-[360px] lg:w-[420px] xl:w-[460px] h-[480px] sm:h-[600px] md:h-[700px] lg:h-[780px] xl:h-[820px] rounded-l-full bg-gradient-to-br from-[#0B1E48] via-[#123068] to-[#0A1633] border-l-[6px] border-y-[6px] border-r-0 border-[#38BDF8] shadow-[-20px_0_60px_rgba(56,189,248,0.38)] flex flex-col items-center justify-center pl-8 sm:pl-14 md:pl-18 pr-4 sm:pr-8 text-white text-center cursor-pointer group transition-all duration-300 hover:shadow-[-25px_0_75px_rgba(56,189,248,0.5)]"
+          className="absolute top-1/2 -translate-y-1/2 right-0 z-30 w-[240px] sm:w-[300px] md:w-[360px] lg:w-[420px] xl:w-[460px] h-[480px] sm:h-[600px] md:h-[700px] lg:h-[780px] xl:h-[820px] rounded-l-full bg-gradient-to-br from-[#0B1E48] via-[#123068] to-[#0A1633] border-l-[6px] border-y-[6px] border-r-0 border-[#38BDF8] shadow-[-25px_0_70px_rgba(56,189,248,0.4)] flex flex-col items-center justify-center pl-8 sm:pl-14 md:pl-20 pr-4 sm:pr-8 text-white text-center cursor-pointer group transition-all duration-300 hover:shadow-[-30px_0_85px_rgba(56,189,248,0.5)]"
           title="Click to explore full curriculum"
         >
           {/* Concentric Pulsing Aura along Semicircular Arc */}
@@ -210,7 +253,7 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              prevProgram();
+              rotatePrev();
             }}
             className="absolute top-6 sm:top-10 left-12 sm:left-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-lg z-20"
             aria-label="Previous programme"
@@ -251,7 +294,7 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              nextProgram();
+              rotateNext();
             }}
             className="absolute bottom-6 sm:bottom-10 left-12 sm:left-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-lg z-20"
             aria-label="Next programme"
@@ -266,73 +309,59 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
             ========================================================================= */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {schools.map((school, index) => {
-            // Compute circular angular offset (-3 to +3 steps)
-            const total = schools.length;
-            let offset = index - activeIndex;
-            // Shortest circular wrap distance
-            if (offset > total / 2) offset -= total;
-            if (offset < -total / 2) offset += total;
+            // Compute signed angular distance from continuous displayAngle
+            const baseAngle = index * CARD_SPACING;
+            const rawOffset = baseAngle - displayAngle;
+            // Shortest circular wrap distance around TOTAL_SPAN
+            const wrappedAngle = (((rawOffset + HALF_SPAN) % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN - HALF_SPAN;
 
-            // Only display cards within visible orbital sweep
-            const isVisible = Math.abs(offset) <= 2;
-            if (!isVisible) return null;
+            // Only render cards within visible orbital range (-45 to +45 deg)
+            if (Math.abs(wrappedAngle) > 46) return null;
 
-            // Rotation angle: 18 degrees per card step
-            const angle = offset * 18; // -36 deg (top) to +36 deg (bottom)
-            const angleRad = (angle * Math.PI) / 180;
+            const angleRad = (wrappedAngle * Math.PI) / 180;
 
-            // Opacity & scaling: Center card is 100% crisp. As it moves upward or downward, it fades away!
-            let opacity = 1;
-            let scale = 1;
-            let zIndex = 30;
+            // Opacity: center card is 100%. As card moves upward (< 0), it smoothly fades away to 0!
+            // When coming from downward (> 0), it smoothly fades in!
+            const absAngle = Math.abs(wrappedAngle);
+            const opacity = Math.max(0, Math.min(1, 1 - Math.pow(absAngle / 44, 1.5)));
+            const scale = Math.max(0.88, 1.02 - (absAngle / 44) * 0.12);
+            const zIndex = Math.round(30 - absAngle);
 
-            if (offset === 0) {
-              opacity = 1;
-              scale = 1.02;
-              zIndex = 30;
-            } else if (Math.abs(offset) === 1) {
-              opacity = 0.88;
-              scale = 0.97;
-              zIndex = 20;
-            } else if (Math.abs(offset) === 2) {
-              opacity = 0.35;
-              scale = 0.92;
-              zIndex = 10;
-            }
+            // Trajectory: radial positions follow the circular orbit around the right semicircle
+            const yOffset = Math.sin(angleRad) * 360;
+            const xOffset = -(1 - Math.cos(angleRad)) * 120;
 
-            // Radial offsets along the circular contour
-            // Top/bottom cards shift slightly based on circle cosine
-            const yOffset = Math.sin(angleRad) * 370;
-            const xOffset = -(1 - Math.cos(angleRad)) * 140;
-
-            const isCurrent = offset === 0;
+            const isCurrent = absAngle < 8;
 
             return (
               <div
                 key={school.id}
                 onClick={() => {
-                  setActiveIndex(index);
-                  onSelectSchool(school);
+                  if (absAngle < 6) {
+                    onOpenModal(school);
+                  } else {
+                    targetAngle.current += wrappedAngle;
+                  }
                 }}
                 style={{
                   top: `calc(50% + ${yOffset}px)`,
-                  // Position right end of card right against the semicircle on the right edge
-                  right: `calc(clamp(200px, 24vw, 420px) + ${xOffset}px)`,
+                  // Position right end of card adjacent to the semicircle on the right edge
+                  right: `calc(clamp(180px, 22vw, 380px) + ${xOffset}px)`,
                   transformOrigin: 'right center',
-                  transform: `translateY(-50%) rotate(${angle}deg) scale(${scale})`,
+                  transform: `translateY(-50%) rotate(${wrappedAngle}deg) scale(${scale})`,
                   opacity,
                   zIndex,
-                  transition: 'transform 0.5s cubic-bezier(0.2, 0.9, 0.35, 1.15), opacity 0.5s ease-out, top 0.5s ease-out'
+                  willChange: 'transform, opacity, top',
                 }}
-                className={`pointer-events-auto absolute w-[85vw] sm:w-[620px] md:w-[720px] lg:w-[820px] xl:w-[920px] h-[130px] sm:h-[150px] lg:h-[168px] rounded-3xl bg-white/95 backdrop-blur-md border cursor-pointer flex items-stretch overflow-hidden transition-all duration-300 group ${
+                className={`pointer-events-auto absolute w-[86vw] sm:w-[620px] md:w-[720px] lg:w-[820px] xl:w-[920px] h-[130px] sm:h-[150px] lg:h-[165px] rounded-3xl bg-white/95 backdrop-blur-md border cursor-pointer flex items-stretch overflow-hidden transition-shadow duration-200 group ${
                   isCurrent 
-                    ? `border-stone-300 shadow-2xl ${school.glowColor} ring-2 ring-sky-400/40 -translate-x-2`
+                    ? `border-stone-300 shadow-2xl ${school.glowColor} ring-2 ring-sky-400/40`
                     : 'border-stone-200/90 shadow-lg hover:shadow-xl hover:border-stone-300'
                 }`}
               >
-                {/* 1. LEFT NUMBER TAG (Big vibrant block matching reference 04, 03, 02) */}
+                {/* 1. LEFT NUMBER TAG (Big vibrant block matching reference 04, 03, 02, 01) */}
                 <div 
-                  className={`w-18 sm:w-22 md:w-26 lg:w-30 bg-gradient-to-br ${school.gradientBadge} text-white flex flex-col items-center justify-center shrink-0 rounded-l-3xl shadow-inner relative p-2`}
+                  className={`w-18 sm:w-22 md:w-26 lg:w-28 bg-gradient-to-br ${school.gradientBadge} text-white flex flex-col items-center justify-center shrink-0 rounded-l-3xl shadow-inner relative p-2`}
                 >
                   <span className="font-mono font-black text-2xl sm:text-3xl md:text-4xl tracking-wider drop-shadow-sm">
                     {school.numberTag}
@@ -401,25 +430,17 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
           })}
         </div>
 
-        {/* Mobile quick indicator pill */}
-        <div className="absolute bottom-4 left-6 right-6 z-20 flex sm:hidden items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-stone-200 text-xs font-mono shadow-md">
-          <span className="font-bold text-stone-800">
-            {activeSchool.shortName}
-          </span>
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={prevProgram}
-              className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-700"
-            >
-              <ChevronUp className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={nextProgram}
-              className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-700"
-            >
-              <ChevronDown className="w-4 h-4" />
-            </button>
+        {/* Bottom-Left Progress Bar (Matching Reference Video) */}
+        <div className="absolute bottom-4 sm:bottom-8 left-6 sm:left-12 lg:left-16 z-20 flex items-center gap-3">
+          <div className="w-28 sm:w-36 h-2 sm:h-2.5 bg-stone-200/90 rounded-full overflow-hidden border border-stone-300/60 p-0.5 shadow-2xs">
+            <div 
+              className="h-full bg-blue-600 rounded-full transition-all duration-75"
+              style={{ width: `${Math.max(14, Math.min(100, (normalizedAngle / TOTAL_SPAN) * 100))}%` }}
+            />
           </div>
+          <span className="text-[11px] font-mono text-stone-500 font-bold">
+            {String(activeIndex + 1).padStart(2, '0')} / {String(schools.length).padStart(2, '0')}
+          </span>
         </div>
       </div>
 
