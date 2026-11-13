@@ -38,7 +38,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [selectedClub, setSelectedClub] = useState<any | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const clubsScrollRef = useRef<HTMLDivElement>(null);
+  const clubsTriggerRef = useRef<any>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const [stats, setStats] = useState({ clubs: 0, members: 0, events: 0, trophies: 0 });
   const [statsAnimated, setStatsAnimated] = useState(false);
@@ -51,12 +53,38 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
   };
 
   const scrollClubs = (direction: 'left' | 'right') => {
-    if (!clubsScrollRef.current) return;
-    const scrollAmount = 390;
-    clubsScrollRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth'
-    });
+    const st = clubsTriggerRef.current;
+    if (st) {
+      const totalDistance = st.end - st.start;
+      const step = totalDistance / 6;
+      const currentY = window.scrollY;
+      let targetY: number;
+
+      if (direction === 'right') {
+        if (currentY < st.start) {
+          targetY = st.start + step;
+        } else {
+          targetY = Math.min(st.end, currentY + step);
+        }
+      } else {
+        if (currentY > st.end) {
+          targetY = st.end - step;
+        } else {
+          targetY = Math.max(st.start, currentY - step);
+        }
+      }
+
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+      });
+    } else if (clubsScrollRef.current) {
+      const scrollAmount = 380;
+      clubsScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
   };
 
   // 6 Student Technical Clubs & Societies (Cinematic Card Carousel & Impact Data)
@@ -338,48 +366,76 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     }
   ];
-  // Horizontal scroll with mouse wheel (right-to-left) & GSAP ScrollTrigger sync
+  // Pinned Horizontal Scroll with GSAP ScrollTrigger: locks section until all divisions/cards complete
   useEffect(() => {
-    const container = clubsScrollRef.current;
-    if (!container) return;
+    const section = clubsSectionRef.current;
+    const track = clubsScrollRef.current;
+    if (!section || !track) return;
 
-    // Direct mouse-wheel horizontal translation: scrolling mouse down moves cards right-to-left
-    const onWheelHandler = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const maxScroll = container.scrollWidth - container.clientWidth;
-        const canScroll = (e.deltaY > 0 && container.scrollLeft < maxScroll - 1) || 
-                          (e.deltaY < 0 && container.scrollLeft > 1);
-        if (canScroll) {
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add('(min-width: 768px)', () => {
+        // Desktop / Laptop: Pin the section and scrub all cards across the screen
+        const getDistance = () => {
+          return track.scrollWidth - window.innerWidth + 140;
+        };
+
+        const tween = gsap.to(track, {
+          x: () => -Math.max(0, getDistance()),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            pin: true,
+            start: 'top 70px',
+            end: () => `+=${Math.max(700, getDistance() + 250)}`,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            onUpdate: (self) => {
+              setScrollProgress(self.progress);
+              setCanScrollLeft(self.progress > 0.02);
+              setCanScrollRight(self.progress < 0.98);
+            }
+          }
+        });
+
+        clubsTriggerRef.current = tween.scrollTrigger;
+
+        return () => {
+          tween.kill();
+        };
+      });
+
+      mm.add('(max-width: 767px)', () => {
+        // Mobile / Small screen: reset x so standard touch swipe works
+        gsap.set(track, { x: 0 });
+        clubsTriggerRef.current = null;
+      });
+    }, section);
+
+    // Trackpad horizontal swipe listener: smoothly maps horizontal deltaX to vertical window scroll when pinned
+    const onTrackpadWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 10) {
+        const st = clubsTriggerRef.current;
+        if (st && window.scrollY >= st.start && window.scrollY <= st.end) {
           e.preventDefault();
-          container.scrollLeft += e.deltaY * 1.3;
-          checkScrollButtons();
+          window.scrollBy({ top: e.deltaX * 1.2 });
         }
       }
     };
 
-    container.addEventListener('wheel', onWheelHandler, { passive: false });
+    window.addEventListener('wheel', onTrackpadWheel, { passive: false });
 
-    // GSAP ScrollTrigger page-scroll scrub: as page scrolls down through the section, translate cards right to left
-    let st: any = null;
-    if (clubsSectionRef.current && ScrollTrigger) {
-      st = ScrollTrigger.create({
-        trigger: clubsSectionRef.current,
-        start: 'top 75%',
-        end: 'bottom 25%',
-        scrub: 1.2,
-        onUpdate: (self) => {
-          const maxScroll = container.scrollWidth - container.clientWidth;
-          if (maxScroll > 0) {
-            container.scrollLeft = self.progress * maxScroll;
-            checkScrollButtons();
-          }
-        }
-      });
-    }
+    // Refresh ScrollTrigger once images/fonts are fully rendered
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 350);
 
     return () => {
-      container.removeEventListener('wheel', onWheelHandler);
-      if (st) st.kill();
+      window.removeEventListener('wheel', onTrackpadWheel);
+      clearTimeout(timer);
+      ctx.revert();
     };
   }, []);
 
@@ -629,12 +685,12 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
       </div>
 
       {/* =========================================================================
-          Student Technical Clubs & Societies (Interactive Card Showcase & Screen Recording Style)
+          Student Technical Clubs & Societies (Pinned Horizontal Scrub & Screen Recording Style)
           ========================================================================= */}
       <section 
         id="student-clubs"
         ref={clubsSectionRef}
-        className="relative w-full pt-16 sm:pt-24 pb-20 sm:pb-28 bg-[#FAF8F5] select-none border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
+        className="relative w-full pt-8 sm:pt-12 pb-10 sm:pb-14 bg-[#FAF8F5] select-none border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
       >
         {/* Subtle Background Pastel Ambience */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -645,15 +701,15 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           {/* Header Row */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6 sm:mb-8">
             <div className="max-w-3xl">
-              <div className="flex items-center gap-2 mb-2.5">
+              <div className="flex items-center gap-2 mb-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
                 <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase">
                   STUDENT CLUBS &amp; SOCIETIES
                 </span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-serif font-extrabold text-[#111827] leading-[1.1] tracking-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold text-[#111827] leading-[1.1] tracking-tight mb-2">
                 Student Technical<br />
                 Clubs &amp; <span className="italic font-serif text-[#0D9488] font-normal">Societies.</span>
               </h2>
@@ -662,11 +718,21 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
               </p>
             </div>
 
-            {/* Scroll Navigation Arrows */}
+            {/* Scroll Navigation Controls & Division Counter */}
             <div className="flex items-center gap-3 shrink-0">
-              <span className="text-xs font-mono text-stone-500 font-semibold hidden sm:inline-block">
-                6 Premier Societies · 20+ Chapters
-              </span>
+              {/* Division Progress Indicator */}
+              <div className="hidden sm:flex items-center gap-2.5 mr-2">
+                <div className="w-20 h-1.5 bg-stone-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-[#0D9488] transition-all duration-150 rounded-full"
+                    style={{ width: `${Math.max(14, Math.min(100, Math.round(scrollProgress * 100)))}%` }}
+                  />
+                </div>
+                <span className="text-xs font-mono text-stone-500 font-semibold">
+                  Division {Math.min(7, Math.max(1, Math.round(scrollProgress * 6) + 1))} / 7
+                </span>
+              </div>
+
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => scrollClubs('left')}
@@ -695,19 +761,20 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
               </div>
             </div>
           </div>
+        </div>
 
-          {/* HORIZONTAL CARDS TRACK (Reference Screen Recording Style: Slanted Bended Boxes, Clear Top / Faded Black Gradient Bottom, No Top Numbering) */}
+        {/* HORIZONTAL CARDS TRACK WRAPPER (Reference Screen Recording Style: Slanted Bended Boxes, Clear Top / Faded Black Gradient Bottom, No Top Numbering) */}
+        <div className="relative w-full overflow-hidden z-10">
           <div 
             ref={clubsScrollRef}
-            onScroll={checkScrollButtons}
-            className="flex gap-7 sm:gap-9 overflow-x-auto no-scrollbar scroll-smooth pb-8 pt-4 -mx-4 sm:-mx-6 lg:-mx-8 px-8 sm:px-12 lg:px-16 snap-x snap-mandatory cursor-grab active:cursor-grabbing"
+            className="flex gap-7 sm:gap-9 pb-8 pt-3 px-4 sm:px-8 lg:px-12 xl:px-16 will-change-transform md:overflow-visible overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing"
           >
             {clubsData.map((club) => (
               <div
                 key={club.id}
                 onClick={() => setSelectedClub(club)}
                 style={{ transform: 'skewX(-6deg)' }}
-                className="w-[310px] sm:w-[350px] md:w-[370px] h-[480px] sm:h-[510px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/90 bg-stone-900 flex flex-col justify-between p-6"
+                className="w-[310px] sm:w-[340px] md:w-[360px] h-[450px] sm:h-[480px] lg:h-[490px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/90 bg-stone-900 flex flex-col justify-between p-6"
               >
                 {/* Clear Background Image (scale-115 to seamlessly fill the 6-deg slanted box without clipping gaps) */}
                 <img
@@ -825,11 +892,15 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* HIGHLIGHTS STATS BANNER (Animated Growing Numbers from the Screen Recording!) */}
+      {/* HIGHLIGHTS STATS BANNER (Animated Growing Numbers from the Screen Recording) */}
+      <section className="relative w-full py-12 sm:py-16 bg-[#FAF8F5] border-b border-stone-200 select-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div 
             ref={statsRef}
-            className="mt-14 sm:mt-16 rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white p-8 sm:p-10 border border-slate-700/60 shadow-xl relative overflow-hidden"
+            className="rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white p-8 sm:p-10 border border-slate-700/60 shadow-xl relative overflow-hidden"
           >
             {/* Background Glow */}
             <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-[#0D9488]/15 blur-3xl pointer-events-none" />
@@ -897,6 +968,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
             </div>
           </div>
         </div>
+      </section>
 
         {/* CLUB DETAILS MODAL (When any card is clicked) */}
         {selectedClub && (
@@ -1005,7 +1077,6 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
             </div>
           </div>
         )}
-      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16 space-y-16">
         {/* Residential Hostels & Life at Bhubaneswar */}
