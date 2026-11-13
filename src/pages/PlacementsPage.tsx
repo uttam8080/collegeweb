@@ -28,12 +28,21 @@ import { RecruiterLogo } from '../components/RecruiterLogo';
 import { gsap } from '../utils/animations';
 import { PlacementHighlightsBanner } from '../components/PlacementHighlightsBanner';
 
-// Comprehensive roster of 43 leading global corporate recruiters visiting campus
-const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
-  // Tech Giants & Product
+// Comprehensive roster of 24 leading global corporate recruiters visiting campus with varied sizes
+interface MasonryRecruiterCompany extends RecruiterCompany {
+  size: 'big' | 'medium' | 'small';
+  marqueeBadge?: string;
+  highlightPill?: string;
+}
+
+const ALL_RECRUITERS_MASONRY: MasonryRecruiterCompany[] = [
+  // Column 1 target group
   {
     name: 'Google',
     category: 'Tech Giants & Product',
+    size: 'big',
+    marqueeBadge: 'TIER-1 LEADER',
+    highlightPill: '12 Offers • ₹44.0 LPA Super-Dream CTC with Mountain View & Bengaluru Labs',
     location: 'Bengaluru / Hyderabad',
     rolesHired: ['Software Engineer', 'Cloud Engineer', 'Staffing Operations'],
     intakeAnnual: '12 Offers',
@@ -41,35 +50,10 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
     logoText: 'Google',
   },
   {
-    name: 'Microsoft',
-    category: 'Tech Giants & Product',
-    location: 'Hyderabad / Noida',
-    rolesHired: ['SDE-1', 'Cloud Solutions Architect', 'Security Analyst'],
-    intakeAnnual: '10 Offers',
-    highestPackage: '₹42.5 LPA',
-    logoText: 'Microsoft',
-  },
-  {
-    name: 'Amazon Web Services',
-    category: 'Tech Giants & Product',
-    location: 'Hyderabad / Bengaluru',
-    rolesHired: ['Cloud Support Associate', 'Software Development Engineer'],
-    intakeAnnual: '14 Offers',
-    highestPackage: '₹38.5 LPA',
-    logoText: 'Amazon',
-  },
-  {
-    name: 'NVIDIA',
-    category: 'Tech Giants & Product',
-    location: 'Pune / Bengaluru',
-    rolesHired: ['AI Systems Engineer', 'CUDA Developer', 'Deep Learning QA'],
-    intakeAnnual: '8 Offers',
-    highestPackage: '₹36.0 LPA',
-    logoText: 'NVIDIA',
-  },
-  {
     name: 'Adobe',
     category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'PRODUCT LEADER',
     location: 'Noida / Bengaluru',
     rolesHired: ['Product Software Engineer', 'Creative Cloud Technologist'],
     intakeAnnual: '8 Offers',
@@ -77,44 +61,20 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
     logoText: 'Adobe',
   },
   {
-    name: 'Cisco Systems',
-    category: 'Tech Giants & Product',
-    location: 'Bengaluru',
-    rolesHired: ['Network Engineer', 'Firmware Engineer', 'Software Engineer'],
-    intakeAnnual: '18 Offers',
-    highestPackage: '₹32.0 LPA',
-    logoText: 'Cisco',
-  },
-  {
-    name: 'Salesforce',
-    category: 'Tech Giants & Product',
-    location: 'Hyderabad / Bengaluru',
-    rolesHired: ['Platform Developer', 'Technical Consultant'],
-    intakeAnnual: '10 Offers',
-    highestPackage: '₹31.0 LPA',
-    logoText: 'Salesforce',
-  },
-  {
-    name: 'Qualcomm',
-    category: 'Tech Giants & Product',
-    location: 'Hyderabad / Chennai',
-    rolesHired: ['Embedded Firmware Engineer', '5G Wireless Protocols', 'SoC Validation'],
-    intakeAnnual: '12 Offers',
-    highestPackage: '₹30.5 LPA',
-    logoText: 'Qualcomm',
-  },
-  {
-    name: 'Intel Corporation',
-    category: 'Tech Giants & Product',
-    location: 'Bengaluru',
-    rolesHired: ['Silicon Design Engineer', 'Systems Software Engineer'],
-    intakeAnnual: '12 Offers',
-    highestPackage: '₹28.0 LPA',
-    logoText: 'Intel',
+    name: 'Infosys',
+    category: 'Consulting & IT Services',
+    size: 'small',
+    location: 'Bhubaneswar / Pune',
+    rolesHired: ['Power Programmer (Specialist)', 'Systems Engineer'],
+    intakeAnnual: '185 Offers',
+    highestPackage: '₹9.5 LPA',
+    logoText: 'Infosys',
   },
   {
     name: 'Oracle',
     category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'CLOUD INFRA',
     location: 'Hyderabad / Bengaluru',
     rolesHired: ['Cloud Database Developer', 'Enterprise Server Engineer'],
     intakeAnnual: '22 Offers',
@@ -122,17 +82,65 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
     logoText: 'Oracle',
   },
   {
+    name: 'Tech Mahindra',
+    category: 'Consulting & IT Services',
+    size: 'small',
+    location: 'Noida / Pune',
+    rolesHired: ['Associate Software Engineer', 'Telecom Systems'],
+    intakeAnnual: '80 Offers',
+    highestPackage: '₹7.5 LPA',
+    logoText: 'Tech Mahindra',
+  },
+  {
     name: 'Samsung R&D',
     category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'AI & VISION',
     location: 'Noida / Bengaluru',
     rolesHired: ['Mobile OS Engineer', 'Computer Vision Specialist'],
     intakeAnnual: '18 Offers',
     highestPackage: '₹22.5 LPA',
     logoText: 'Samsung',
   },
+
+  // Column 2 target group
+  {
+    name: 'Cisco Systems',
+    category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'NETWORKING LEADER',
+    location: 'Bengaluru',
+    rolesHired: ['Network Engineer', 'Firmware Engineer', 'Software Engineer'],
+    intakeAnnual: '18 Offers',
+    highestPackage: '₹32.0 LPA',
+    logoText: 'Cisco',
+  },
+  {
+    name: 'Microsoft',
+    category: 'Tech Giants & Product',
+    size: 'big',
+    marqueeBadge: 'GLOBAL PRODUCT',
+    highlightPill: '10 Offers • Campus Innovation Partner with IDC Noida & Hyderabad Centers',
+    location: 'Hyderabad / Noida',
+    rolesHired: ['SDE-1', 'Cloud Solutions Architect', 'Security Analyst'],
+    intakeAnnual: '10 Offers',
+    highestPackage: '₹42.5 LPA',
+    logoText: 'Microsoft',
+  },
+  {
+    name: 'Wipro',
+    category: 'Consulting & IT Services',
+    size: 'small',
+    location: 'Bengaluru / Hyderabad',
+    rolesHired: ['Turbo Developer', 'Elite ASE'],
+    intakeAnnual: '140 Offers',
+    highestPackage: '₹8.5 LPA',
+    logoText: 'Wipro',
+  },
   {
     name: 'SAP Labs',
     category: 'Tech Giants & Product',
+    size: 'small',
     location: 'Bengaluru',
     rolesHired: ['Enterprise Cloud Developer', 'DevOps Specialist'],
     intakeAnnual: '14 Offers',
@@ -140,21 +148,176 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
     logoText: 'SAP',
   },
   {
+    name: 'Tata Consultancy Services (TCS)',
+    category: 'Consulting & IT Services',
+    size: 'big',
+    marqueeBadge: 'MASS RECRUITER',
+    highlightPill: '210+ Total Offers • Prime (₹11.5 LPA), Digital (₹7.5 LPA) & Ninja Tracks',
+    location: 'Bhubaneswar / Pan-India',
+    rolesHired: ['TCS Prime SDE', 'Digital Developer', 'Innovator'],
+    intakeAnnual: '210 Offers',
+    highestPackage: '₹11.5 LPA',
+    logoText: 'TCS',
+  },
+  {
+    name: 'Tata Power',
+    category: 'Core Engineering & Infra',
+    size: 'small',
+    location: 'Mumbai / Jamshedpur',
+    rolesHired: ['Graduate Engineer Trainee', 'Smart Grid Operations'],
+    intakeAnnual: '35 Offers',
+    highestPackage: '₹8.4 LPA',
+    logoText: 'Tata Power',
+  },
+
+  // Column 3 target group
+  {
+    name: 'Amazon Web Services',
+    category: 'Tech Giants & Product',
+    size: 'big',
+    marqueeBadge: 'CLOUD ECOSYSTEM',
+    highlightPill: '14 Offers • Dedicated AWS Cloud Academy Track with Certifications',
+    location: 'Hyderabad / Bengaluru',
+    rolesHired: ['Cloud Support Associate', 'Software Development Engineer', 'DevOps Specialist'],
+    intakeAnnual: '14 Offers',
+    highestPackage: '₹38.5 LPA',
+    logoText: 'Amazon',
+  },
+  {
     name: 'IBM',
     category: 'Tech Giants & Product',
+    size: 'small',
     location: 'Kolkata / Bengaluru',
     rolesHired: ['Cloud Architect Associate', 'AI & Quantum Developer'],
     intakeAnnual: '35 Offers',
     highestPackage: '₹18.0 LPA',
     logoText: 'IBM',
   },
+  {
+    name: 'Salesforce',
+    category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'ENTERPRISE SAAS',
+    location: 'Hyderabad / Bengaluru',
+    rolesHired: ['Platform Developer', 'Technical Consultant'],
+    intakeAnnual: '10 Offers',
+    highestPackage: '₹31.0 LPA',
+    logoText: 'Salesforce',
+  },
+  {
+    name: 'Cognizant',
+    category: 'Consulting & IT Services',
+    size: 'small',
+    location: 'Kolkata / Chennai',
+    rolesHired: ['GenC Next', 'GenC Elevate SDE'],
+    intakeAnnual: '165 Offers',
+    highestPackage: '₹9.25 LPA',
+    logoText: 'Cognizant',
+  },
+  {
+    name: 'Goldman Sachs',
+    category: 'FinTech & Analytics',
+    size: 'big',
+    marqueeBadge: 'FINTECH & QUANT',
+    highlightPill: '8 Offers • High-Frequency Quantitative Engineering & Global Markets Tech',
+    location: 'Bengaluru',
+    rolesHired: ['Financial Analyst', 'Quant Developer', 'Risk Tech SDE'],
+    intakeAnnual: '8 Offers',
+    highestPackage: '₹26.0 LPA',
+    logoText: 'Goldman Sachs',
+  },
+  {
+    name: 'Accenture',
+    category: 'Consulting & IT Services',
+    size: 'medium',
+    marqueeBadge: 'GLOBAL TECH',
+    location: 'Bengaluru / Kolkata',
+    rolesHired: ['Advanced Application Engineering', 'Cloud First Trainee'],
+    intakeAnnual: '130 Offers',
+    highestPackage: '₹12.0 LPA',
+    logoText: 'Accenture',
+  },
 
+  // Column 4 target group
+  {
+    name: 'Qualcomm',
+    category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'SEMICONDUCTOR & 5G',
+    location: 'Hyderabad / Chennai',
+    rolesHired: ['Embedded Firmware Engineer', '5G Wireless Protocols', 'SoC Validation'],
+    intakeAnnual: '12 Offers',
+    highestPackage: '₹30.5 LPA',
+    logoText: 'Qualcomm',
+  },
+  {
+    name: 'Capgemini',
+    category: 'Consulting & IT Services',
+    size: 'small',
+    location: 'Kolkata / Pune',
+    rolesHired: ['Senior Analyst', 'Cloud Engineer'],
+    intakeAnnual: '95 Offers',
+    highestPackage: '₹8.0 LPA',
+    logoText: 'Capgemini',
+  },
+  {
+    name: 'NVIDIA',
+    category: 'Tech Giants & Product',
+    size: 'big',
+    marqueeBadge: 'AI & GPU SYSTEMS',
+    highlightPill: '8 Offers • CUDA Acceleration & Accelerated Deep Learning QA Track',
+    location: 'Pune / Bengaluru',
+    rolesHired: ['AI Systems Engineer', 'CUDA Developer', 'Deep Learning QA'],
+    intakeAnnual: '8 Offers',
+    highestPackage: '₹36.0 LPA',
+    logoText: 'NVIDIA',
+  },
+  {
+    name: 'Intel Corporation',
+    category: 'Tech Giants & Product',
+    size: 'medium',
+    marqueeBadge: 'SILICON DESIGN',
+    location: 'Bengaluru',
+    rolesHired: ['Silicon Design Engineer', 'Systems Software Engineer'],
+    intakeAnnual: '12 Offers',
+    highestPackage: '₹28.0 LPA',
+    logoText: 'Intel',
+  },
+  {
+    name: 'Larsen & Toubro',
+    category: 'Core Engineering & Infra',
+    size: 'small',
+    location: 'Chennai / Vadodara',
+    rolesHired: ['Graduate Engineer Trainee', 'Heavy Civil Design'],
+    intakeAnnual: '28 Offers',
+    highestPackage: '₹9.0 LPA',
+    logoText: 'Larsen & Toubro',
+  },
+  {
+    name: 'MIDHANI (Ministry of Defence)',
+    category: 'Core Engineering & Infra',
+    size: 'small',
+    location: 'Hyderabad',
+    rolesHired: ['Management Trainee (Technical)', 'Defence Metallurgy'],
+    intakeAnnual: '15 Offers',
+    highestPackage: '₹11.0 LPA',
+    logoText: 'MIDHANI',
+  },
+];
+
+const CATEGORY_TABS = [
+  { id: 'All', label: 'All Partners (24)' },
+  { id: 'Tech Giants', label: 'Tech Giants & Product (10)' },
+  { id: 'Consulting', label: 'Consulting & IT (7)' },
+  { id: 'Core', label: 'Core Engineering & PSUs (4)' },
+  { id: 'FinTech', label: 'FinTech & Analytics (3)' },
 ];
 
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
   const pageRef = useRef<HTMLDivElement>(null);
   usePageTextAnimations(pageRef);
   const [galleryKey, setGalleryKey] = useState<number>(0);
+  const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedCompany, setSelectedCompany] = useState<RecruiterCompany | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [recruiterFormOpen, setRecruiterFormOpen] = useState(false);
@@ -163,6 +326,13 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [contactEmail, setContactEmail] = useState('');
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
+  const displayedRecruiters = useMemo(() => {
+    if (activeCategory === 'All') return ALL_RECRUITERS_MASONRY;
+    return ALL_RECRUITERS_MASONRY.filter(r =>
+      r.category.toLowerCase().includes(activeCategory.toLowerCase().split(' ')[0])
+    );
+  }, [activeCategory]);
+
   // GSAP Entrance animation for cards
   useEffect(() => {
     if (!gridRef.current) return;
@@ -170,13 +340,14 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
     if (cards.length) {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 25 },
+        { opacity: 0, y: 35, scale: 0.96 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.45,
-          stagger: 0.03,
-          ease: 'power2.out',
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.04,
+          ease: 'back.out(1.2)',
           scrollTrigger: {
             trigger: gridRef.current,
             start: 'top 85%',
@@ -185,7 +356,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
         }
       );
     }
-  }, [galleryKey]);
+  }, [galleryKey, activeCategory]);
 
   const submitRecruiterInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,14 +372,45 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   };
 
   // Helper for category-tailored modern gradient cards and accents
-  const getCategoryGradient = (_category?: string) => {
+  const getCategoryGradient = (category?: string) => {
+    if (category?.includes('Tech Giants') || category?.includes('Product')) {
+      return {
+        cardBg: 'bg-white/85 hover:bg-white/95',
+        borderColor: 'border-blue-200/70 hover:border-blue-400/90',
+        accentBar: 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600',
+        badgeBg: 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white',
+        textAccent: 'text-blue-700',
+        shadowGlow: 'hover:shadow-blue-500/10',
+      };
+    }
+    if (category?.includes('FinTech') || category?.includes('Analytics')) {
+      return {
+        cardBg: 'bg-white/85 hover:bg-white/95',
+        borderColor: 'border-purple-200/70 hover:border-purple-400/90',
+        accentBar: 'bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600',
+        badgeBg: 'bg-gradient-to-r from-purple-600 to-pink-600 text-white',
+        textAccent: 'text-purple-700',
+        shadowGlow: 'hover:shadow-purple-500/10',
+      };
+    }
+    if (category?.includes('Core')) {
+      return {
+        cardBg: 'bg-white/85 hover:bg-white/95',
+        borderColor: 'border-amber-200/70 hover:border-amber-400/90',
+        accentBar: 'bg-gradient-to-r from-amber-600 via-orange-500 to-red-500',
+        badgeBg: 'bg-gradient-to-r from-amber-600 to-orange-600 text-white',
+        textAccent: 'text-amber-700',
+        shadowGlow: 'hover:shadow-amber-500/10',
+      };
+    }
+    // Default / Consulting & IT
     return {
-      cardBg: 'bg-gradient-to-br from-blue-50/90 via-white to-cyan-50/70 hover:from-blue-100/90 hover:via-white hover:to-cyan-100/80',
-      borderColor: 'border-blue-200/80 hover:border-blue-400',
-      accentBar: 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600',
-      badgeBg: 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white',
-      textAccent: 'text-blue-700',
-      shadowGlow: 'hover:shadow-cyan-900/15',
+      cardBg: 'bg-white/85 hover:bg-white/95',
+      borderColor: 'border-teal-200/70 hover:border-teal-400/90',
+      accentBar: 'bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-600',
+      badgeBg: 'bg-gradient-to-r from-teal-600 to-emerald-600 text-white',
+      textAccent: 'text-teal-700',
+      shadowGlow: 'hover:shadow-teal-500/10',
     };
   };
 
@@ -252,15 +454,29 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
       {/* Placement Highlights Section (Full-Width Spatial Gradient Background & Expansive 4-Division Layout) */}
       <PlacementHighlightsBanner />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 space-y-16">
-        {/* =========================================================================
-            SECTION: 120+ GLOBAL RECRUITING PARTNERS
-            All companies logos covering the whole div with full responsive coverage
-            ========================================================================= */}
-        <section id="recruiting-partners-section" className="space-y-6">
+      {/* =========================================================================
+          SECTION: ANNUAL CAMPUS RECRUITERS DIRECTORY (MASONRY GALLERY)
+          - Full-width section; not placed inside a box
+          - Sticky reference 3D geometric background
+          - Small, medium, and big divisions with ZERO blank space
+          ========================================================================= */}
+      <section id="recruiting-partners-section" className="relative w-full py-16 sm:py-24 overflow-visible">
+        {/* STICKY REFERENCE GEOMETRIC 3D BACKGROUND */}
+        <div className="sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
+          <img
+            src="/placements/recruiters-geometric-bg.png"
+            alt="Reference Geometric 3D Background"
+            className="w-full h-full object-cover object-center opacity-85"
+          />
+          {/* Subtle gradient overlays to ensure seamless top/bottom transitions into page */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F5] via-white/10 to-[#FAF9F5] pointer-events-none" />
+        </div>
+
+        {/* SECTION CONTENT: Relative z-10 so it scrolls smoothly over the sticky background */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
-          {/* Section Header with Stats Callout */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-stone-200/80">
+          {/* Section Header with Stats Callout & Invite CTA */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-stone-300/60">
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
@@ -271,89 +487,195 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
               <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight">
                 120+ Global Recruiting Partners
               </h2>
-              <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl">
+              <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
                 Global Fortune 500 corporations, product unicorns, defense PSUs, and technology innovators recruiting graduating engineers, MCA, and MBA candidates from Trident.
               </p>
             </div>
 
-            {/* Quick Metrics Strip */}
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="px-4 py-2 rounded-xl bg-white border border-stone-200 shadow-2xs text-left">
+            {/* Quick Metrics Strip & Host Drive Action */}
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <div className="px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200/80 shadow-2xs text-left">
                 <span className="text-[10px] text-stone-400 font-mono uppercase block font-semibold">Highest Package</span>
                 <span className="text-base font-extrabold text-[#0D9488] font-mono">₹44.0 LPA</span>
               </div>
-              <div className="px-4 py-2 rounded-xl bg-white border border-stone-200 shadow-2xs text-left">
+              <div className="px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-stone-200/80 shadow-2xs text-left">
                 <span className="text-[10px] text-stone-400 font-mono uppercase block font-semibold">Annual Intake</span>
                 <span className="text-base font-extrabold text-[#172554] font-mono">450+ Offers</span>
               </div>
+              <button
+                onClick={() => setRecruiterFormOpen(true)}
+                className="px-5 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white font-mono text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Invite to Campus Drive</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Controls Strip (Floating, Not In A Box) */}
+          <div className="flex flex-wrap items-center justify-between gap-4 py-1 font-mono">
+            {/* Category Tabs */}
+            <div className="flex flex-wrap items-center gap-2">
+              {CATEGORY_TABS.map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveCategory(tab.id);
+                    setGalleryKey(k => k + 1);
+                  }}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    activeCategory === tab.id
+                      ? 'bg-[#0D9488] text-white shadow-xs'
+                      : 'bg-white/85 hover:bg-white text-stone-600 border border-stone-200/80 backdrop-blur-xs'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Gallery Info & Re-animate */}
+            <div className="flex items-center gap-3 text-xs text-stone-500">
+              <span className="text-[11px] text-stone-500 hidden md:inline">
+                Showing <strong>{displayedRecruiters.length}</strong> partners • Click any card for package specs
+              </span>
+              <button
+                onClick={() => setGalleryKey(prev => prev + 1)}
+                title="Re-animate Masonry Gallery"
+                className="p-1.5 rounded-lg bg-white/85 backdrop-blur-xs border border-stone-200 text-stone-500 hover:text-slate-900 hover:bg-white transition-all cursor-pointer group shadow-2xs"
+              >
+                <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
+              </button>
             </div>
           </div>
 
           {/* =========================================================================
-              MAIN FULL-DIV CONTAINER: HOUSES THE FULL LOGO GRID WALL
-              Completely covers the whole div with corporate company logos
+              MASONRY GALLERY (NO BOX CONTAINER, 100% GAP-FREE MULTI-COLUMN FLOW)
+              Cards float over the sticky reference background; variable heights
               ========================================================================= */}
-          <div className="w-full bg-white rounded-3xl border border-stone-200/90 shadow-sm p-5 sm:p-7 lg:p-9 space-y-6">
-            
-            {/* Top Container Strip */}
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-stone-500 pb-3 border-b border-stone-100 font-mono">
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Showing <strong>{ALL_RECRUITERS_EXPANDED.length}</strong> premier tech &amp; product recruiting partners</span>
-              </span>
-              <div className="flex items-center gap-3">
-                <span className="text-[11px] text-stone-400 hidden sm:inline">Click any partner card to view package &amp; eligibility specs</span>
-                <button
-                  onClick={() => setGalleryKey(prev => prev + 1)}
-                  title="Re-animate Gallery (GSAP Entrance)"
-                  className="p-1 rounded-md text-stone-400 hover:text-slate-900 hover:bg-stone-100 transition-all cursor-pointer group"
-                >
-                  <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
-                </button>
-              </div>
-            </div>
+          <div 
+            key={galleryKey}
+            ref={gridRef}
+            className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 [column-fill:_balance] w-full"
+          >
+            {displayedRecruiters.map((company) => {
+              const grad = getCategoryGradient(company.category);
 
-            {/* CLEAN EQUAL-HEIGHT CORPORATE PARTNERS GRID */}
-            <div 
-              key={galleryKey}
-              ref={gridRef}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 w-full"
-            >
-              {ALL_RECRUITERS_EXPANDED.map((company) => {
-                const grad = getCategoryGradient(company.category);
-
+              if (company.size === 'big') {
                 return (
                   <div
                     key={company.name}
                     onClick={() => setSelectedCompany(company)}
-                    className={`recruiter-card w-full h-[360px] p-5 sm:p-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group hover:-translate-y-1`}
+                    className={`recruiter-card break-inside-avoid inline-block w-full mb-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_rgb(13,148,136,0.22)] ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group hover:-translate-y-1.5 p-6 sm:p-7 backdrop-blur-md`}
                   >
-                    {/* Top Accent Gradient Line */}
                     <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
 
-                    <div>
-                      {/* Header Row: Category Eyebrow + Highest Package Badge */}
-                      <div className="w-full flex items-center justify-between mb-3 pt-1">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold">
-                          TECH GIANTS
+                    <div className="space-y-4">
+                      {/* Eyebrow */}
+                      <div className="flex items-center justify-between gap-2 pt-1">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50/90 border border-emerald-200/90 text-emerald-800 text-[10px] font-mono font-bold uppercase tracking-wider">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          {company.marqueeBadge || 'TIER-1 RECRUITER'}
                         </span>
-                        <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
+                        <span className="text-xs font-mono font-extrabold px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
                           {company.highestPackage}
                         </span>
                       </div>
 
-                      {/* Prominent Scaled Logo Well in Gradient Format */}
-                      <div className="w-full h-24 sm:h-26 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-4 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
+                      {/* Scaled Logo Well */}
+                      <div className="w-full h-26 sm:h-28 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/90 p-4 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/50 transition-all">
                         <RecruiterLogo
                           name={company.name}
                           logoText={company.logoText}
-                          className="w-full max-h-16 sm:max-h-18 object-contain transition-transform duration-300 group-hover:scale-108"
+                          className="w-full max-h-16 sm:max-h-20 object-contain transition-transform duration-300 group-hover:scale-108"
+                        />
+                      </div>
+
+                      {/* Highlight Feature Strip */}
+                      {company.highlightPill && (
+                        <div className="p-3 rounded-xl bg-teal-50/80 border border-teal-100/90 text-teal-900 text-[11px] leading-relaxed font-medium">
+                          <span className="font-bold text-[#0D9488]">Track Highlight: </span>
+                          {company.highlightPill}
+                        </div>
+                      )}
+
+                      {/* Roles Hired Badges */}
+                      {company.rolesHired && company.rolesHired.length > 0 && (
+                        <div className="space-y-1.5">
+                          <span className="text-[10px] font-mono uppercase text-stone-400 font-bold block">Key Hiring Roles</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {company.rolesHired.slice(0, 3).map((role, rIdx) => (
+                              <span
+                                key={rIdx}
+                                className="text-[10px] font-mono px-2.5 py-1 rounded-lg bg-white/90 border border-stone-200/80 text-stone-700 font-medium shadow-2xs"
+                              >
+                                {role}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Bottom Details Row */}
+                    <div className="w-full pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs">
+                      <div className="truncate mr-2">
+                        <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-base">
+                          {company.name}
+                        </span>
+                        <span className="text-[11px] text-stone-500 font-mono truncate flex items-center gap-1 mt-0.5">
+                          <MapPin className="w-3 h-3 text-stone-400 shrink-0" />
+                          {company.location.split('/')[0]}
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-end shrink-0">
+                        <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-white border border-stone-200 text-slate-800 shadow-2xs">
+                          {company.intakeAnnual}
+                        </span>
+                        <span className="text-[10px] font-mono text-[#0D9488] font-bold mt-1 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+                          Specs <ArrowRight className="w-2.5 h-2.5" />
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Hover Overlay */}
+                    <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/10 via-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300" />
+                  </div>
+                );
+              }
+
+              if (company.size === 'medium') {
+                return (
+                  <div
+                    key={company.name}
+                    onClick={() => setSelectedCompany(company)}
+                    className={`recruiter-card break-inside-avoid inline-block w-full mb-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_16px_36px_rgb(13,148,136,0.18)] ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group hover:-translate-y-1 p-5 sm:p-6 backdrop-blur-md`}
+                  >
+                    <div className={`absolute top-0 inset-x-0 h-1 ${grad.accentBar}`} />
+
+                    <div className="space-y-3.5">
+                      {/* Eyebrow */}
+                      <div className="flex items-center justify-between gap-2 pt-1">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold truncate">
+                          {company.marqueeBadge || company.category.toUpperCase().split('&')[0].trim()}
+                        </span>
+                        <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-900 text-white shadow-xs shrink-0">
+                          {company.highestPackage}
+                        </span>
+                      </div>
+
+                      {/* Logo Well */}
+                      <div className="w-full h-22 sm:h-24 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-3.5 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
+                        <RecruiterLogo
+                          name={company.name}
+                          logoText={company.logoText}
+                          className="w-full max-h-14 sm:max-h-16 object-contain transition-transform duration-300 group-hover:scale-106"
                         />
                       </div>
 
                       {/* Roles Hired Badges */}
                       {company.rolesHired && company.rolesHired.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-3.5">
+                        <div className="flex flex-wrap gap-1.5">
                           {company.rolesHired.slice(0, 2).map((role, rIdx) => (
                             <span
                               key={rIdx}
@@ -371,8 +693,8 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                       )}
                     </div>
 
-                    {/* Bottom Details Row: Full Company Name & Intake */}
-                    <div className="w-full pt-3.5 mt-2 border-t border-slate-200/70 flex items-center justify-between text-xs">
+                    {/* Bottom Details Row */}
+                    <div className="w-full pt-3.5 mt-3 border-t border-slate-200/70 flex items-center justify-between text-xs">
                       <div className="truncate mr-2">
                         <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-sm">
                           {company.name}
@@ -386,54 +708,69 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                       </span>
                     </div>
 
-                    {/* Fluid Color Shift Overlay on Hover */}
-                    <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/15 via-blue-500/10 to-indigo-500/15 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300" />
+                    <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/10 via-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300" />
                   </div>
                 );
-              })}
+              }
 
-              {/* ROW 4 SPANNING FEATURE CARD: Seamlessly fills the remaining 3 columns with zero blank space */}
-              <div className="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-3 rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] p-6 sm:p-7 text-white flex flex-col justify-between border border-slate-700/80 shadow-md relative overflow-hidden h-[360px]">
-                {/* Background Glow */}
-                <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#0D9488]/15 blur-3xl pointer-events-none" />
+              // Small Card
+              return (
+                <div
+                  key={company.name}
+                  onClick={() => setSelectedCompany(company)}
+                  className={`recruiter-card break-inside-avoid inline-block w-full mb-6 rounded-2xl ${grad.cardBg} border ${grad.borderColor} shadow-[0_2px_10px_rgb(0,0,0,0.03)] hover:shadow-[0_12px_28px_rgb(13,148,136,0.16)] ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group hover:-translate-y-1 p-4 sm:p-4.5 backdrop-blur-md`}
+                >
+                  <div className={`absolute top-0 inset-x-0 h-1 bg-stone-200 group-hover:${grad.accentBar} transition-colors`} />
 
-                <div className="relative z-10 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 font-bold">
-                      CORPORATE ENGAGEMENT CELL · RECRUITMENT PARTNER
-                    </span>
+                  <div className="space-y-2.5">
+                    {/* Top Row: Category + Package */}
+                    <div className="flex items-center justify-between gap-1.5 pt-0.5">
+                      <span className="text-[9px] font-mono uppercase tracking-wider text-stone-400 font-bold truncate">
+                        {company.category.split('&')[0].trim()}
+                      </span>
+                      <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-white border border-stone-200 text-emerald-800 shrink-0 shadow-2xs">
+                        {company.highestPackage}
+                      </span>
+                    </div>
+
+                    {/* Compact Logo Well */}
+                    <div className="w-full h-16 sm:h-18 rounded-xl bg-gradient-to-b from-white to-stone-50/70 p-2.5 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-xs group-hover:from-white group-hover:to-teal-50/30 transition-all">
+                      <RecruiterLogo
+                        name={company.name}
+                        logoText={company.logoText}
+                        className="w-full max-h-10 sm:max-h-12 object-contain transition-transform duration-300 group-hover:scale-106"
+                      />
+                    </div>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-bold font-serif leading-snug">
-                    Looking to hire premier engineering &amp; management talent?
-                  </h4>
-                  <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed max-w-xl">
-                    Host an on-campus or virtual recruitment drive at Trident. Access 4,200+ pre-vetted engineers and leaders across Computer Science, AI, Mechanical, Civil, Electrical, MBA &amp; MCA.
-                  </p>
-                </div>
 
-                <div className="relative z-10 pt-4 flex flex-wrap items-center gap-3">
-                  <button
-                    onClick={() => setRecruiterFormOpen(true)}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0D9488] to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>INVITE TO CAMPUS DRIVE</span>
-                    <Send className="w-3.5 h-3.5" />
-                  </button>
-                  <a
-                    href="mailto:placements@tekkzy.com"
-                    className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-wider backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>CONTACT T&amp;P HEAD</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </div>
-            </div>
+                  {/* Bottom Row: Name + Intake */}
+                  <div className="w-full pt-2.5 mt-2 border-t border-slate-200/60 flex items-center justify-between text-xs">
+                    <div className="truncate mr-2">
+                      <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-xs">
+                        {company.name}
+                      </span>
+                      <span className="text-[10px] text-stone-400 font-mono truncate block">
+                        {company.location.split('/')[0]}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1 shrink-0">
+                      <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-md bg-white border border-stone-200 text-stone-600">
+                        {company.intakeAnnual.split(' ')[0]}
+                      </span>
+                      <ArrowRight className="w-3 h-3 text-stone-300 group-hover:text-[#0D9488] group-hover:translate-x-0.5 transition-all" />
+                    </div>
+                  </div>
 
+                  <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/10 via-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300" />
+                </div>
+              );
+            })}
           </div>
-        </section>
 
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 space-y-16">
         {/* Alumni Spotlight */}
         <div className="space-y-6">
           <div className="text-center max-w-2xl mx-auto">
