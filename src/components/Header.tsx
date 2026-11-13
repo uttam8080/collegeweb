@@ -158,13 +158,10 @@ export const Header: React.FC<Props> = ({
                     />
                   </button>
 
-                  {/* Dropdown Menu Container */}
+                  {/* Dropdown Menu Container - Simple & Borderless */}
                   {hasDropdown && link.dropdown && (
-                    <div className="absolute top-full left-0 mt-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto z-50">
-                      <div className="w-64 rounded-2xl bg-[#0f172a]/95 backdrop-blur-xl border border-white/15 shadow-2xl p-2 border-t-2 border-t-[#FF9933] overflow-hidden">
-                        <div className="px-3 py-1.5 text-[10px] font-mono font-bold tracking-widest text-[#FF9933] uppercase border-b border-white/10 mb-1">
-                          {link.label} DIRECTORY
-                        </div>
+                    <div className="absolute top-full left-0 mt-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-1 group-hover:translate-y-0 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto z-50">
+                      <div className="w-56 rounded-xl bg-[#132047] shadow-2xl py-2 px-1.5 overflow-hidden">
                         {link.dropdown.map((subItem) => (
                           <button
                             key={subItem.label}
@@ -172,17 +169,9 @@ export const Header: React.FC<Props> = ({
                               e.stopPropagation();
                               handleItemClick(subItem.tab, subItem.sectionId);
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition-colors group/sub flex flex-col cursor-pointer"
+                            className="w-full text-left px-3.5 py-2 rounded-lg text-xs font-medium text-stone-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer block"
                           >
-                            <span className="text-xs font-bold text-white group-hover/sub:text-[#FF9933] transition-colors flex items-center justify-between">
-                              <span>{subItem.label}</span>
-                              <ChevronRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all text-[#FF9933]" />
-                            </span>
-                            {subItem.desc && (
-                              <span className="text-[10px] text-stone-400 font-normal leading-tight mt-0.5">
-                                {subItem.desc}
-                              </span>
-                            )}
+                            {subItem.label}
                           </button>
                         ))}
                       </div>
@@ -216,10 +205,10 @@ export const Header: React.FC<Props> = ({
                 </button>
 
                 {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-[#0f172a] border border-white/15 rounded-xl shadow-2xl py-2 z-50 text-xs text-white">
-                    <div className="px-4 py-2 border-b border-white/10">
+                  <div className="absolute right-0 mt-2 w-56 bg-[#132047] rounded-xl shadow-2xl py-2 z-50 text-xs text-white">
+                    <div className="px-4 py-2">
                       <p className="font-semibold text-white">{user.name}</p>
-                      <p className="text-[11px] text-stone-400 truncate">{user.email}</p>
+                      <p className="text-[11px] text-stone-300 truncate">{user.email}</p>
                     </div>
 
                     {onLogout && (
@@ -228,7 +217,7 @@ export const Header: React.FC<Props> = ({
                           onLogout();
                           setUserDropdownOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-rose-900/40 text-rose-400 flex items-center gap-2 cursor-pointer transition-colors"
+                        className="w-full text-left px-4 py-2 hover:bg-white/10 text-rose-300 flex items-center gap-2 cursor-pointer transition-colors"
                       >
                         <LogOut className="w-3.5 h-3.5" />
                         <span>Sign Out</span>
@@ -261,7 +250,7 @@ export const Header: React.FC<Props> = ({
               const isExpanded = mobileExpanded === link.label;
 
               return (
-                <div key={link.label} className="border-b border-white/10 py-1">
+                <div key={link.label} className="py-1">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => handleItemClick(link.tab)}

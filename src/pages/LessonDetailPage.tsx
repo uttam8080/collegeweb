@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { Clock, BookOpen, CheckCircle, ArrowLeft, ArrowRight, Share2, Bookmark, Check, User } from 'lucide-react';
 import { LESSONS } from '../data/mockData';
 import { Lesson } from '../types';
@@ -60,8 +61,11 @@ export const LessonDetailPage: React.FC<Props> = ({
     onToggleComplete(lesson.id);
   };
 
+  const pageRef = useRef<HTMLElement>(null);
+  usePageTextAnimations(pageRef, [lessonId, activeSectionId]);
+
   return (
-    <article className="min-h-screen bg-[#FAF9F5] py-10 sm:py-14">
+    <article ref={pageRef} className="min-h-screen bg-[#FAF9F5] py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation Breadcrumb & Actions Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-stone-200">

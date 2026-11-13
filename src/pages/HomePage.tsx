@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { Hero } from '../components/Hero';
 import { StatsBanner } from '../components/StatsBanner';
 import { ImportantAnnouncements } from '../components/ImportantAnnouncements';
@@ -39,8 +40,11 @@ export const HomePage: React.FC<Props> = ({
   onOpenSearch,
   onOpenAuth
 }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
+
   return (
-    <div className="min-h-screen">
+    <div ref={pageRef} className="min-h-screen">
       {/* 1. Full Viewport Hero Banner with 2-Second Swap */}
       <Hero
         onStartLearning={() => {

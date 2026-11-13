@@ -197,6 +197,12 @@ export default function App() {
     } catch {
       // ignore
     }
+
+    // Refresh ScrollTrigger when tab changes so animations know exact scroll coordinates
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
+    return () => clearTimeout(timer);
   }, [currentTab]);
 
   useEffect(() => {
