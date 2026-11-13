@@ -32,7 +32,8 @@ import {
   Briefcase,
   Wrench,
   Cloud,
-  FileCheck2
+  FileCheck2,
+  Radio
 } from 'lucide-react';
 import { gsap, ScrollTrigger } from '../utils/animations';
 
