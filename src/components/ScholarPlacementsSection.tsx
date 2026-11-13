@@ -68,28 +68,39 @@ export const ScholarPlacementsSection: React.FC<Props> = ({ onNavigate }) => {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
             {RECRUITERS.map((r, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs hover:shadow-md hover:border-emerald-400 transition-all text-left flex flex-col justify-between"
+                className="group relative p-5 rounded-2xl bg-gradient-to-br from-white via-slate-50/90 to-teal-50/40 border border-stone-200/80 shadow-2xs hover:shadow-xl hover:border-[#0D9488] transition-all duration-300 text-left flex flex-col justify-between hover:-translate-y-1 overflow-hidden"
               >
+                {/* Top subtle accent gradient */}
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-600 opacity-80" />
+
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="h-7 max-w-[120px] flex items-center justify-start">
-                      <RecruiterLogo name={r.name} logoText={r.logoText} className="max-h-6 max-w-[110px] object-contain" />
-                    </div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  {/* Top Row: Package in Gradient Format */}
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[10px] uppercase font-mono font-bold text-stone-400 truncate">
+                      {r.category.split('&')[0]}
+                    </span>
+                    <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-2xs">
                       {r.highestPackage}
                     </span>
                   </div>
-                  <span className="text-[11px] font-medium text-stone-500 block truncate">
+
+                  {/* Bigger Logo Container in Gradient Format */}
+                  <div className="w-full h-18 sm:h-20 rounded-xl bg-gradient-to-b from-white to-slate-100/70 border border-white p-3 flex items-center justify-center shadow-2xs mb-3 group-hover:from-white group-hover:to-teal-50/30 transition-all">
+                    <RecruiterLogo name={r.name} logoText={r.logoText} className="max-h-12 max-w-[140px] object-contain transition-transform duration-300 group-hover:scale-108" />
+                  </div>
+
+                  <span className="text-xs font-bold text-slate-800 block truncate group-hover:text-[#0D9488] transition-colors">
                     {r.name}
                   </span>
                 </div>
-                <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400 font-mono">
-                  <span>{r.category.split('&')[0]}</span>
-                  <span className="text-emerald-700 font-semibold">{r.intakeAnnual}</span>
+
+                <div className="mt-3 pt-2.5 border-t border-stone-200/60 flex items-center justify-between text-[11px] text-stone-500 font-mono">
+                  <span>Intake</span>
+                  <span className="text-[#0D9488] font-bold">{r.intakeAnnual}</span>
                 </div>
               </div>
             ))}

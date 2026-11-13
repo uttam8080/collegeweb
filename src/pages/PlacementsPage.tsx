@@ -488,6 +488,49 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
     }, 2800);
   };
 
+  // Helper for category-tailored modern gradient cards and accents
+  const getCategoryGradient = (category: string) => {
+    if (category.includes('Tech Giants')) {
+      return {
+        cardBg: 'bg-gradient-to-br from-blue-50/90 via-white to-cyan-50/70 hover:from-blue-100/90 hover:via-white hover:to-cyan-100/80',
+        borderColor: 'border-blue-200/80 hover:border-blue-400',
+        accentBar: 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600',
+        badgeBg: 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white',
+        textAccent: 'text-blue-700',
+        shadowGlow: 'hover:shadow-cyan-900/15',
+      };
+    }
+    if (category.includes('Consulting')) {
+      return {
+        cardBg: 'bg-gradient-to-br from-indigo-50/90 via-white to-purple-50/70 hover:from-indigo-100/90 hover:via-white hover:to-purple-100/80',
+        borderColor: 'border-indigo-200/80 hover:border-purple-400',
+        accentBar: 'bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500',
+        badgeBg: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white',
+        textAccent: 'text-indigo-700',
+        shadowGlow: 'hover:shadow-indigo-900/15',
+      };
+    }
+    if (category.includes('Core Engineering')) {
+      return {
+        cardBg: 'bg-gradient-to-br from-amber-50/90 via-white to-orange-50/70 hover:from-amber-100/90 hover:via-white hover:to-orange-100/80',
+        borderColor: 'border-amber-200/80 hover:border-amber-400',
+        accentBar: 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500',
+        badgeBg: 'bg-gradient-to-r from-amber-600 to-orange-600 text-white',
+        textAccent: 'text-amber-800',
+        shadowGlow: 'hover:shadow-amber-900/15',
+      };
+    }
+    // FinTech & Analytics
+    return {
+      cardBg: 'bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/70 hover:from-emerald-100/90 hover:via-white hover:to-teal-100/80',
+      borderColor: 'border-emerald-200/80 hover:border-teal-400',
+      accentBar: 'bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-600',
+      badgeBg: 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white',
+      textAccent: 'text-emerald-700',
+      shadowGlow: 'hover:shadow-teal-900/15',
+    };
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF9F5] pb-24 text-slate-900 selection:bg-[#0D9488]/20 selection:text-[#0f766e]">
       
@@ -734,101 +777,126 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
               <span className="text-[11px] text-stone-400">Click any partner card to view package &amp; eligibility specs</span>
             </div>
 
-            {/* 1. LOGO WALL VIEW (Default: Covers the entire div wall-to-wall) */}
+            {/* 1. LOGO WALL VIEW (Default: Bigger logos & high-impact gradient format) */}
             {viewMode === 'wall' && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 w-full">
-                {filteredRecruiters.map((company) => (
-                  <div
-                    key={company.name}
-                    onClick={() => setSelectedCompany(company)}
-                    className="group relative p-3 sm:p-4 rounded-2xl bg-[#FAF9F5] hover:bg-white border border-stone-200/80 hover:border-[#0D9488] shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between items-center h-32 sm:h-36 cursor-pointer hover:-translate-y-1 overflow-hidden"
-                  >
-                    {/* Top Row: Category tag + Highest Package Pill */}
-                    <div className="w-full flex items-center justify-between gap-1">
-                      <span className="text-[9px] uppercase tracking-wider text-stone-400 font-mono truncate max-w-[55%]">
-                        {company.category.split('&')[0]}
-                      </span>
-                      <span className="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100/90 px-1.5 py-0.5 rounded-full shrink-0">
-                        {company.highestPackage}
-                      </span>
-                    </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 w-full">
+                {filteredRecruiters.map((company) => {
+                  const grad = getCategoryGradient(company.category);
 
-                    {/* Authentic Logo Container - Scaled to fill & cover the viewing area */}
-                    <div className="w-full flex-1 flex items-center justify-center p-2">
-                      <RecruiterLogo
-                        name={company.name}
-                        logoText={company.logoText}
-                        className="w-full max-h-12 object-contain transition-transform duration-300 group-hover:scale-108"
-                      />
-                    </div>
+                  return (
+                    <div
+                      key={company.name}
+                      onClick={() => setSelectedCompany(company)}
+                      className={`group relative rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between p-5 sm:p-6 cursor-pointer hover:-translate-y-1.5 overflow-hidden`}
+                    >
+                      {/* Top Accent Gradient Line */}
+                      <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
 
-                    {/* Bottom Metadata: Name & Intake */}
-                    <div className="w-full pt-1.5 border-t border-stone-200/60 flex items-center justify-between text-[11px]">
-                      <span className="font-bold text-slate-800 truncate" title={company.name}>
-                        {company.name}
-                      </span>
-                      <span className="text-[10px] text-stone-500 font-mono shrink-0 ml-1 font-semibold">
-                        {company.intakeAnnual.split(' ')[0]}
-                      </span>
+                      {/* Header Row: Domain tag + Gradient Package Badge */}
+                      <div className="w-full flex items-center justify-between gap-2 mb-3 pt-1">
+                        <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-500 truncate max-w-[55%]">
+                          {company.category.split('&')[0]}
+                        </span>
+                        <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
+                          {company.highestPackage}
+                        </span>
+                      </div>
+
+                      {/* Prominent Scaled Logo Well in Gradient Format */}
+                      <div className="w-full h-28 sm:h-32 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-4 sm:p-5 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
+                        <RecruiterLogo
+                          name={company.name}
+                          logoText={company.logoText}
+                          className="w-full max-h-16 sm:max-h-20 object-contain transition-transform duration-300 group-hover:scale-108"
+                        />
+                      </div>
+
+                      {/* Bottom Details Row: Full Company Name & Intake */}
+                      <div className="w-full pt-4 mt-3 border-t border-slate-200/70 flex items-center justify-between text-xs">
+                        <div className="truncate mr-2">
+                          <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-sm">
+                            {company.name}
+                          </span>
+                          <span className="text-[11px] text-stone-500 font-mono truncate block">
+                            {company.location.split('/')[0]}
+                          </span>
+                        </div>
+                        <span className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-white/80 border border-stone-200/60 text-slate-700 shrink-0">
+                          {company.intakeAnnual}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
-            {/* 2. DETAILED CARDS VIEW (Expanded role pills, packages & location) */}
+            {/* 2. DETAILED CARDS VIEW (Bigger logos & gradient format) */}
             {viewMode === 'cards' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
-                {filteredRecruiters.map((r) => (
-                  <div
-                    key={r.name}
-                    onClick={() => setSelectedCompany(r)}
-                    className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-lg hover:border-[#0D9488] transition-all flex flex-col justify-between cursor-pointer group"
-                  >
-                    <div>
-                      {/* Top Logo Container covering the top header div */}
-                      <div className="w-full h-18 bg-[#FAF9F5] rounded-xl p-3 flex items-center justify-center border border-stone-200/70 group-hover:border-[#0D9488]/40 transition-colors mb-3 relative">
-                        <RecruiterLogo 
-                          name={r.name} 
-                          logoText={r.logoText} 
-                          className="max-h-11 max-w-[85%] object-contain transition-transform group-hover:scale-105" 
-                        />
-                        <span className="absolute top-2 right-2 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                          {r.highestPackage}
-                        </span>
-                      </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                {filteredRecruiters.map((r) => {
+                  const grad = getCategoryGradient(r.category);
 
-                      <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors">
-                        {r.name}
-                      </h4>
-                      <p className="text-[11px] text-stone-400 font-mono mt-0.5 flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-stone-400" />
-                        <span>{r.location}</span>
-                      </p>
+                  return (
+                    <div
+                      key={r.name}
+                      onClick={() => setSelectedCompany(r)}
+                      className={`p-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all flex flex-col justify-between cursor-pointer group hover:-translate-y-1.5 relative overflow-hidden`}
+                    >
+                      {/* Top Accent Gradient Line */}
+                      <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
 
-                      <div className="mt-3 pt-3 border-t border-stone-100">
-                        <span className="text-[10px] uppercase font-bold text-stone-400 block mb-1">
-                          Key Roles Recruited:
-                        </span>
-                        <div className="flex flex-wrap gap-1">
-                          {r.rolesHired.map((role, i) => (
-                            <span 
-                              key={i} 
-                              className="text-[10px] bg-stone-100 group-hover:bg-teal-50 group-hover:text-teal-900 text-stone-700 px-2 py-0.5 rounded-md transition-colors"
-                            >
-                              {role}
-                            </span>
-                          ))}
+                      <div>
+                        {/* Top Scaled Logo Well in Gradient Format */}
+                        <div className="w-full h-28 sm:h-32 bg-gradient-to-b from-white/95 to-slate-50/80 rounded-2xl p-4 sm:p-5 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md transition-all mb-4 relative">
+                          <RecruiterLogo 
+                            name={r.name} 
+                            logoText={r.logoText} 
+                            className="max-h-16 sm:max-h-20 max-w-[85%] object-contain transition-transform group-hover:scale-108" 
+                          />
+                          <span className="absolute top-2.5 right-2.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs">
+                            {r.highestPackage}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold">
+                            {r.category}
+                          </span>
+                        </div>
+
+                        <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors">
+                          {r.name}
+                        </h4>
+                        <p className="text-xs text-stone-500 font-mono mt-0.5 flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-stone-400" />
+                          <span>{r.location}</span>
+                        </p>
+
+                        <div className="mt-4 pt-3 border-t border-slate-200/70">
+                          <span className="text-[10px] uppercase font-bold text-stone-500 block mb-1.5">
+                            Key Roles Recruited:
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {r.rolesHired.map((role, i) => (
+                              <span 
+                                key={i} 
+                                className="text-[11px] bg-white/90 border border-stone-200/80 group-hover:border-teal-300 text-slate-800 px-2.5 py-0.5 rounded-lg shadow-2xs transition-colors"
+                              >
+                                {role}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] font-mono text-[#0D9488] font-bold">
-                      <span>Annual Intake: {r.intakeAnnual}</span>
-                      <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 group-hover:text-[#0D9488] transition-all" />
+                      <div className="mt-5 pt-3 border-t border-slate-200/70 flex items-center justify-between text-xs font-mono text-[#0D9488] font-bold">
+                        <span>Annual Intake: {r.intakeAnnual}</span>
+                        <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 group-hover:text-[#0D9488] transition-all" />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
@@ -951,12 +1019,12 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
               <X className="w-4 h-4" />
             </button>
 
-            {/* Top Logo Banner */}
-            <div className="w-full h-24 bg-[#FAF9F5] rounded-2xl p-4 flex items-center justify-center border border-stone-200/80 mb-5">
+            {/* Top Logo Banner in Gradient Format */}
+            <div className="w-full h-32 bg-gradient-to-b from-white via-slate-50 to-teal-50/50 rounded-2xl p-5 flex items-center justify-center border border-stone-200/80 mb-5 shadow-xs">
               <RecruiterLogo
                 name={selectedCompany.name}
                 logoText={selectedCompany.logoText}
-                className="max-h-14 max-w-[80%] object-contain"
+                className="max-h-20 max-w-[85%] object-contain"
               />
             </div>
 
