@@ -32,6 +32,8 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [activeFacility, setActiveFacility] = useState<string>(CAMPUS_FACILITIES[0].id);
   const [activeClubIndex, setActiveClubIndex] = useState<number>(0);
   const clubsSectionRef = useRef<HTMLElement>(null);
+  const clubsHeaderRef = useRef<HTMLDivElement>(null);
+  const clubsTrackContainerRef = useRef<HTMLDivElement>(null);
   const clubCardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // State for horizontal cards carousel & interactive detail modal
@@ -366,30 +368,30 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     }
   ];
-  // Pinned Horizontal Scroll with GSAP ScrollTrigger: locks section until all divisions/cards complete
+  // Pinned Horizontal Scroll with GSAP ScrollTrigger: locks section, smoothly moves heading upward, and scrubs cards
   useEffect(() => {
     const section = clubsSectionRef.current;
     const track = clubsScrollRef.current;
+    const header = clubsHeaderRef.current;
+    const trackContainer = clubsTrackContainerRef.current;
     if (!section || !track) return;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
       mm.add('(min-width: 768px)', () => {
-        // Desktop / Laptop: Pin the section and scrub all cards across the screen
+        // Desktop / Laptop: Pin the section, move heading upward to maximize view, and scrub cards
         const getDistance = () => {
           return track.scrollWidth - window.innerWidth + 140;
         };
 
-        const tween = gsap.to(track, {
-          x: () => -Math.max(0, getDistance()),
-          ease: 'none',
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             pin: true,
             start: 'top 70px',
-            end: () => `+=${Math.max(700, getDistance() + 250)}`,
-            scrub: 1,
+            end: () => `+=${Math.max(1100, getDistance() + 450)}`,
+            scrub: 0.8,
             invalidateOnRefresh: true,
             anticipatePin: 1,
             onUpdate: (self) => {
@@ -400,16 +402,44 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
           }
         });
 
-        clubsTriggerRef.current = tween.scrollTrigger;
+        // 1. As user begins scrolling: heading moves UPWARD and fades out cleanly
+        if (header) {
+          tl.to(header, {
+            y: -240,
+            opacity: 0,
+            ease: 'power1.out',
+            duration: 0.18,
+          }, 0);
+        }
+
+        // 2. Simultaneously: cards track container moves UPWARD so the full cards fit the viewport
+        if (trackContainer) {
+          tl.to(trackContainer, {
+            y: -200,
+            ease: 'power1.out',
+            duration: 0.18,
+          }, 0);
+        }
+
+        // 3. Scrub cards track horizontally across the screen
+        tl.to(track, {
+          x: () => -Math.max(0, getDistance()),
+          ease: 'none',
+          duration: 0.94,
+        }, 0.06);
+
+        clubsTriggerRef.current = tl.scrollTrigger;
 
         return () => {
-          tween.kill();
+          tl.kill();
         };
       });
 
       mm.add('(max-width: 767px)', () => {
-        // Mobile / Small screen: reset x so standard touch swipe works
+        // Mobile / Small screen: reset x and y so standard touch swipe works
         gsap.set(track, { x: 0 });
+        if (header) gsap.set(header, { y: 0, opacity: 1 });
+        if (trackContainer) gsap.set(trackContainer, { y: 0 });
         clubsTriggerRef.current = null;
       });
     }, section);
@@ -699,7 +729,53 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
           <div className="absolute bottom-10 left-1/3 w-[400px] h-[400px] rounded-full bg-[#FBEFE3]/60 blur-3xl" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        {/* Floating Division Indicator bar (Sleek pill that appears when the main header moves upward during scroll) */}
+        <div 
+          className={`hidden md:flex absolute top-5 right-6 lg:right-12 z-30 items-center gap-3 transition-all duration-300 ${
+            scrollProgress > 0.04 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+          }`}
+        >
+          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-sm">
+            <div className="w-16 h-1.5 bg-stone-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-[#0D9488] transition-all duration-150 rounded-full"
+                style={{ width: `${Math.max(14, Math.min(100, Math.round(scrollProgress * 100)))}%` }}
+              />
+            </div>
+            <span className="text-xs font-mono text-stone-700 font-bold">
+              Division {Math.min(7, Math.max(1, Math.round(scrollProgress * 6) + 1))} / 7
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => scrollClubs('left')}
+              disabled={!canScrollLeft}
+              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+                canScrollLeft
+                  ? 'bg-white hover:bg-stone-50 border-stone-300 text-stone-800 shadow-xs cursor-pointer hover:scale-105 active:scale-95'
+                  : 'bg-stone-100/70 border-stone-200 text-stone-300 cursor-not-allowed opacity-60'
+              }`}
+              aria-label="Previous clubs"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => scrollClubs('right')}
+              disabled={!canScrollRight}
+              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+                canScrollRight
+                  ? 'bg-white hover:bg-stone-50 border-stone-300 text-stone-800 shadow-xs cursor-pointer hover:scale-105 active:scale-95'
+                  : 'bg-stone-100/70 border-stone-200 text-stone-300 cursor-not-allowed opacity-60'
+              }`}
+              aria-label="Next clubs"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <div ref={clubsHeaderRef} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 will-change-transform">
           {/* Header Row */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6 sm:mb-8">
             <div className="max-w-3xl">
@@ -763,18 +839,18 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
           </div>
         </div>
 
-        {/* HORIZONTAL CARDS TRACK WRAPPER (Reference Screen Recording Style: Slanted Bended Boxes, Clear Top / Faded Black Gradient Bottom, No Top Numbering) */}
-        <div className="relative w-full overflow-hidden z-10">
+        {/* HORIZONTAL CARDS TRACK WRAPPER (Smoothly moves upward during scroll to fill viewport perfectly) */}
+        <div ref={clubsTrackContainerRef} className="relative w-full overflow-hidden z-10 will-change-transform">
           <div 
             ref={clubsScrollRef}
-            className="flex gap-7 sm:gap-9 pb-8 pt-3 px-4 sm:px-8 lg:px-12 xl:px-16 will-change-transform md:overflow-visible overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing"
+            className="flex gap-6 sm:gap-8 pb-6 pt-2 px-4 sm:px-8 lg:px-12 xl:px-16 will-change-transform md:overflow-visible overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing"
           >
             {clubsData.map((club) => (
               <div
                 key={club.id}
                 onClick={() => setSelectedClub(club)}
                 style={{ transform: 'skewX(-6deg)' }}
-                className="w-[310px] sm:w-[340px] md:w-[360px] h-[450px] sm:h-[480px] lg:h-[490px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/90 bg-stone-900 flex flex-col justify-between p-6"
+                className="w-[295px] sm:w-[325px] md:w-[345px] h-[430px] sm:h-[455px] lg:h-[470px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/90 bg-stone-900 flex flex-col justify-between p-5 sm:p-6"
               >
                 {/* Clear Background Image (scale-115 to seamlessly fill the 6-deg slanted box without clipping gaps) */}
                 <img
@@ -799,7 +875,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
                 {/* Card Bottom Container: Unskewed for crystal-clear readability */}
                 <div 
                   style={{ transform: 'skewX(6deg)' }}
-                  className="relative z-10 space-y-2.5 pt-6"
+                  className="relative z-10 space-y-2.5 pt-4"
                 >
                   {/* Eyebrow Tagline */}
                   <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-cyan-300 block drop-shadow-sm">
@@ -807,7 +883,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
                   </span>
 
                   {/* Club Title */}
-                  <h3 className="text-2xl sm:text-[26px] font-serif font-bold text-white tracking-tight leading-snug drop-shadow-md group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-xl sm:text-[23px] font-serif font-bold text-white tracking-tight leading-snug drop-shadow-md group-hover:text-emerald-300 transition-colors">
                     {club.name}
                   </h3>
 
@@ -823,8 +899,8 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
                     </span>
 
                     {/* Circular Action Button with ↗ (Diagonal Arrow) */}
-                    <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center group-hover:bg-[#0D9488] group-hover:border-[#0D9488] group-hover:text-white transition-all duration-300 shadow-md group-hover:scale-110">
-                      <ArrowUpRight className="w-5 h-5 stroke-[2.2]" />
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center group-hover:bg-[#0D9488] group-hover:border-[#0D9488] group-hover:text-white transition-all duration-300 shadow-md group-hover:scale-110">
+                      <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
                     </div>
                   </div>
                 </div>
@@ -835,7 +911,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
             <div
               onClick={() => onNavigate('contact')}
               style={{ transform: 'skewX(-6deg)' }}
-              className="w-[310px] sm:w-[350px] md:w-[370px] h-[480px] sm:h-[510px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-blue-400/40 bg-gradient-to-br from-[#1E3A8A] via-[#1D4ED8] to-[#0F172A] flex flex-col justify-between p-7 text-white"
+              className="w-[295px] sm:w-[325px] md:w-[345px] h-[430px] sm:h-[455px] lg:h-[470px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-blue-400/40 bg-gradient-to-br from-[#1E3A8A] via-[#1D4ED8] to-[#0F172A] flex flex-col justify-between p-6 text-white"
             >
               {/* Subtle Dotted Pattern Overlay */}
               <div 
