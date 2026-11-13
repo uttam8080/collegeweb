@@ -252,48 +252,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
       <PlacementHighlightsBanner />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 space-y-16">
-        {/* T&P 4-Step Career Preparation Framework */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#1b2a60] text-white shadow-lg">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-cyan-300 uppercase block mb-1">
-              SYSTEMATIC TALENT INCUBATION
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-serif font-bold">The T&amp;P Career Acceleration Model</h3>
-            <p className="text-xs text-blue-200 mt-1">Four rigorous stages preparing students from year 1 to final placement day</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            {[
-              {
-                step: '01',
-                title: 'Coding & Algorithmic Bootcamps',
-                desc: 'Intensive practice in Data Structures, Algorithms in C++, Java, and Python on platforms like LeetCode and HackerRank.',
-              },
-              {
-                step: '02',
-                title: 'Full-Stack & Cloud Projects',
-                desc: 'Building working production prototypes, microservices, and IoT systems verified by industry mentors.',
-              },
-              {
-                step: '03',
-                title: 'Mock Technical & HR Panels',
-                desc: 'Simulated interview rounds conducted by senior alumni and corporate leaders from Google, TCS, and Accenture.',
-              },
-              {
-                step: '04',
-                title: 'On-Campus Placement Drives',
-                desc: 'Direct recruitment drives, pre-placement talks (PPT), and offer negotiations facilitating 94.8% placement conversion.',
-              },
-            ].map((st, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-xs">
-                <span className="text-2xl font-extrabold text-cyan-300 font-mono block mb-2">{st.step}</span>
-                <h4 className="text-sm font-bold text-white mb-1.5">{st.title}</h4>
-                <p className="text-xs text-blue-100 leading-relaxed">{st.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* =========================================================================
             SECTION: 120+ GLOBAL RECRUITING PARTNERS
             All companies logos covering the whole div with full responsive coverage
