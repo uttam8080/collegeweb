@@ -1,6 +1,7 @@
 import React from 'react';
 import { Award, Building2, Globe, TrendingUp, CheckCircle, Quote, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { RECRUITERS, ALUMNI_SPOTLIGHT } from '../data/collegeData';
+import { RecruiterLogo } from './RecruiterLogo';
 
 interface Props {
   onNavigate?: (tab: string) => void;
@@ -75,9 +76,9 @@ export const ScholarPlacementsSection: React.FC<Props> = ({ onNavigate }) => {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-base font-extrabold text-slate-900 tracking-tight">
-                      {r.logoText}
-                    </span>
+                    <div className="h-7 max-w-[120px] flex items-center justify-start">
+                      <RecruiterLogo name={r.name} logoText={r.logoText} className="max-h-6 max-w-[110px] object-contain" />
+                    </div>
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
                       {r.highestPackage}
                     </span>
