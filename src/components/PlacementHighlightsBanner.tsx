@@ -6,7 +6,6 @@ interface HighlightMetric {
   target: number;
   suffix: string;
   label: string;
-  subtext: string;
   formatFn: (val: number) => string;
 }
 
@@ -16,7 +15,6 @@ const METRICS: HighlightMetric[] = [
     target: 5000,
     suffix: '+',
     label: 'PLACED',
-    subtext: '5,000+ Career Milestone Achieved',
     formatFn: (val: number) => `${Math.floor(val).toLocaleString('en-US')}+`,
   },
   {
@@ -24,7 +22,6 @@ const METRICS: HighlightMetric[] = [
     target: 120,
     suffix: '+',
     label: 'COMPANIES',
-    subtext: '120+ Global Recruiting Partners',
     formatFn: (val: number) => `${Math.floor(val)}+`,
   },
   {
@@ -32,7 +29,6 @@ const METRICS: HighlightMetric[] = [
     target: 94,
     suffix: '%',
     label: 'RATE',
-    subtext: '94.8% Verified Placement Rate',
     formatFn: (val: number) => `${Math.floor(val)}%`,
   },
   {
@@ -40,17 +36,72 @@ const METRICS: HighlightMetric[] = [
     target: 44,
     suffix: ' LPA',
     label: 'HIGHEST',
-    subtext: '₹44.0 LPA Premier Package',
     formatFn: (val: number) => `${Math.floor(val)} LPA`,
   },
 ];
+
+type ClassicTheme = 'oxford' | 'charcoal' | 'ivory' | 'forest';
+
+const THEMES: Record<ClassicTheme, {
+  name: string;
+  containerBg: string;
+  border: string;
+  headlineText: string;
+  highlightText: string;
+  numberText: string;
+  labelText: string;
+  accentPill: string;
+}> = {
+  oxford: {
+    name: 'Oxford Navy',
+    containerBg: 'bg-[#0E1D38]',
+    border: 'border border-blue-900/40 shadow-xl',
+    headlineText: 'text-white',
+    highlightText: 'text-white',
+    numberText: 'text-white',
+    labelText: 'text-slate-300',
+    accentPill: 'bg-white/10 text-white hover:bg-white/20',
+  },
+  charcoal: {
+    name: 'Charcoal',
+    containerBg: 'bg-[#181F2B]',
+    border: 'border border-slate-700/60 shadow-xl',
+    headlineText: 'text-white',
+    highlightText: 'text-white',
+    numberText: 'text-white',
+    labelText: 'text-slate-300',
+    accentPill: 'bg-white/10 text-white hover:bg-white/20',
+  },
+  ivory: {
+    name: 'Warm Ivory',
+    containerBg: 'bg-[#F9F8F5]',
+    border: 'border border-stone-300/80 shadow-md',
+    headlineText: 'text-stone-900',
+    highlightText: 'text-[#1E3A8A]',
+    numberText: 'text-[#1E3A8A]',
+    labelText: 'text-stone-500',
+    accentPill: 'bg-stone-200/80 text-stone-800 hover:bg-stone-300',
+  },
+  forest: {
+    name: 'Classic Forest',
+    containerBg: 'bg-[#0A2219]',
+    border: 'border border-emerald-900/40 shadow-xl',
+    headlineText: 'text-white',
+    highlightText: 'text-white',
+    numberText: 'text-white',
+    labelText: 'text-emerald-100/80',
+    accentPill: 'bg-white/10 text-white hover:bg-white/20',
+  }
+};
 
 export const PlacementHighlightsBanner: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   const [counts, setCounts] = useState<number[]>([0, 0, 0, 0]);
-  const [scaleProgress, setScaleProgress] = useState<number>(0.75);
   const [animKey, setAnimKey] = useState(0);
+  const [activeTheme, setActiveTheme] = useState<ClassicTheme>('oxford');
+
+  const currentTheme = THEMES[activeTheme];
 
   // Trigger on scroll into view
   useEffect(() => {
@@ -70,13 +121,12 @@ export const PlacementHighlightsBanner: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Smooth count-up and growing scale animation
+  // Smooth count-up animation without vibration or layout shifts
   useEffect(() => {
     if (!inView) return;
 
-    const duration = 1600; // 1.6 seconds smooth animation
+    const duration = 1400; // 1.4 seconds smooth animation
     const startTime = performance.now();
-
     let animationFrameId: number;
 
     const updateAnimation = (currentTime: number) => {
@@ -85,17 +135,12 @@ export const PlacementHighlightsBanner: React.FC = () => {
       // Smooth cubic ease-out
       const easeOut = 1 - Math.pow(1 - progress, 3);
 
-      // Growing values
       setCounts(METRICS.map(m => m.target * easeOut));
-
-      // Growing scale: 0.75 -> 1.0
-      setScaleProgress(0.75 + 0.25 * easeOut);
 
       if (progress < 1) {
         animationFrameId = requestAnimationFrame(updateAnimation);
       } else {
         setCounts(METRICS.map(m => m.target));
-        setScaleProgress(1);
       }
     };
 
@@ -106,46 +151,64 @@ export const PlacementHighlightsBanner: React.FC = () => {
   const handleReplay = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCounts([0, 0, 0, 0]);
-    setScaleProgress(0.75);
     setAnimKey(prev => prev + 1);
   };
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full rounded-3xl overflow-hidden shadow-2xl border border-white/10 select-none bg-gradient-to-br from-[#070D1E] via-[#0E1A38] to-[#0A1329] py-12 sm:py-16 lg:py-20 px-6 sm:px-10 lg:px-16"
+      className={`relative w-full rounded-3xl overflow-hidden select-none transition-colors duration-500 ${currentTheme.containerBg} ${currentTheme.border} py-12 sm:py-16 lg:py-20 px-6 sm:px-10 lg:px-16`}
     >
-      {/* Decorative Modern Background Elements (Different from reference image) */}
-      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-60" />
+      {/* Top Controls: Replay Animation & Classic Palette Switcher */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 z-20">
+        {/* Simple & Classic Color Palette Switcher */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-black/20 backdrop-blur-xs border border-white/10">
+          {(['oxford', 'charcoal', 'ivory', 'forest'] as ClassicTheme[]).map((themeKey) => {
+            const isSelected = activeTheme === themeKey;
+            const themeObj = THEMES[themeKey];
 
-      {/* Top subtle accent highlight line */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+            return (
+              <button
+                key={themeKey}
+                onClick={() => setActiveTheme(themeKey)}
+                title={`Switch to ${themeObj.name}`}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                  isSelected
+                    ? 'bg-white text-stone-900 shadow-xs'
+                    : 'text-stone-300 hover:text-white'
+                }`}
+              >
+                {themeObj.name.split(' ')[0]}
+              </button>
+            );
+          })}
+        </div>
 
-      {/* Ambient Radial Lighting Glows */}
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 right-10 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 left-10 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Replay button in the top right corner */}
-      <button
-        onClick={handleReplay}
-        title="Replay count-up animation"
-        className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-stone-400 hover:text-white transition-all cursor-pointer group z-20"
-      >
-        <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
-      </button>
+        {/* Replay Counter Animation */}
+        <button
+          onClick={handleReplay}
+          title="Replay count-up animation"
+          className="p-2 rounded-xl bg-black/20 hover:bg-black/30 border border-white/10 text-stone-300 hover:text-white transition-all cursor-pointer group"
+        >
+          <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
+        </button>
+      </div>
 
       <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
         {/* Main Section Headline: "Placement highlights." matching reference typography */}
         <div className="text-center mb-10 sm:mb-14 lg:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-[46px] xl:text-[50px] text-white tracking-tight leading-tight">
-            <span className="font-sans font-extrabold text-white">Placement</span>{' '}
-            <span className="font-serif italic font-normal text-white">highlights.</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-[46px] xl:text-[50px] tracking-tight leading-tight">
+            <span className={`font-sans font-extrabold ${currentTheme.headlineText}`}>
+              Placement
+            </span>{' '}
+            <span className={`font-serif italic font-normal ${currentTheme.highlightText}`}>
+              highlights.
+            </span>
           </h2>
         </div>
 
-        {/* 4 Large Animated Numbers Row in Growing Manner */}
-        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 items-center justify-items-center">
+        {/* 4 Steady Numbers Row: Rigid Height, Tabular Digits, No Wrapping, Zero Vibration */}
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 items-center justify-items-center">
           {METRICS.map((metric, idx) => {
             const rawCount = inView ? counts[idx] : 0;
             const formatted = metric.formatFn(rawCount);
@@ -153,23 +216,21 @@ export const PlacementHighlightsBanner: React.FC = () => {
             return (
               <div
                 key={metric.id}
-                className="flex flex-col items-center justify-center text-center group cursor-default"
+                className="w-full flex flex-col items-center justify-center text-center group cursor-default"
               >
-                {/* Number with growing scale and count-up */}
-                <div
-                  className="font-sans font-extrabold text-white tracking-tight leading-none drop-shadow-md select-none group-hover:scale-108 transition-all duration-300"
-                  style={{
-                    fontSize: 'clamp(2.5rem, 5vw, 4.25rem)',
-                    transform: `scale(${scaleProgress})`,
-                    transformOrigin: 'center center',
-                    willChange: 'transform, contents',
-                  }}
-                >
-                  {formatted}
+                {/* Fixed-height number container: prevents any vertical or horizontal layout shifts */}
+                <div className="h-14 sm:h-16 lg:h-20 flex items-center justify-center">
+                  <span
+                    className={`font-sans font-extrabold tracking-tight leading-none drop-shadow-xs select-none tabular-nums whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-[52px] ${currentTheme.numberText}`}
+                  >
+                    {formatted}
+                  </span>
                 </div>
 
                 {/* Clean uppercase tracked label below number */}
-                <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.24em] uppercase text-stone-300/90 mt-3 sm:mt-4 block select-none group-hover:text-cyan-300 transition-colors">
+                <span
+                  className={`text-[11px] sm:text-xs font-mono font-bold tracking-[0.24em] uppercase mt-2 sm:mt-3 block select-none ${currentTheme.labelText}`}
+                >
                   {metric.label}
                 </span>
               </div>
@@ -182,4 +243,3 @@ export const PlacementHighlightsBanner: React.FC = () => {
 };
 
 export default PlacementHighlightsBanner;
-
