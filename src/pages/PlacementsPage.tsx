@@ -29,6 +29,7 @@ import {
 import { ALUMNI_SPOTLIGHT, RecruiterCompany } from '../data/collegeData';
 import { RecruiterLogo } from '../components/RecruiterLogo';
 import { MasonryGallery, MasonryItem } from '../components/MasonryGallery';
+import { PlacementHighlightsBanner } from '../components/PlacementHighlightsBanner';
 
 // Comprehensive roster of 43 leading global corporate recruiters visiting campus
 const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
@@ -441,13 +442,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [contactEmail, setContactEmail] = useState('');
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
-  const stats = [
-    { label: 'Overall Placement Rate', value: '94.8%', change: 'Highest across Eastern India', icon: TrendingUp },
-    { label: 'Highest Salary Package', value: '₹44.0 LPA', change: 'International Product Giants', icon: Award },
-    { label: 'Average Branch Package', value: '₹7.8 LPA', change: '+18.2% Year-on-Year Growth', icon: Briefcase },
-    { label: 'Recruiting Companies', value: '120+', change: 'Fortune 500 & Tech Leaders', icon: Globe },
-  ];
-
   // Category counts
   const categoryCounts = useMemo(() => {
     return {
@@ -590,33 +584,8 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-16">
-        {/* Placement Key Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {stats.map((s, idx) => {
-            const Icon = s.icon;
-            return (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-md transition-all text-left"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-3xl sm:text-4xl font-metro font-extrabold text-[#172554]">
-                    {s.value}
-                  </span>
-                  <div className="w-10 h-10 rounded-xl bg-teal-50 text-[#0D9488] flex items-center justify-center">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                </div>
-                <span className="text-xs sm:text-sm font-bold text-slate-900 block font-metro">
-                  {s.label}
-                </span>
-                <span className="text-[11px] text-[#0D9488] font-semibold mt-1 block">
-                  {s.change}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+        {/* Placement Highlights Banner (Reference Style: Growing Numbers & Distinct Premium Background) */}
+        <PlacementHighlightsBanner />
 
         {/* T&P 4-Step Career Preparation Framework */}
         <div className="p-8 sm:p-10 rounded-3xl bg-[#1b2a60] text-white shadow-lg">
