@@ -464,12 +464,12 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
         {/* STICKY REFERENCE GEOMETRIC 3D BACKGROUND */}
         <div className="sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
           <img
-            src="/placements/recruiters-geometric-bg.png"
-            alt="Reference Geometric 3D Background"
-            className="w-full h-full object-cover object-center opacity-85"
+            src="/placements/recruiters-geometric-3d-bg.jpg"
+            alt="3D Minimalist Geometric Floating Tiles Background"
+            className="w-full h-full object-cover object-center"
           />
-          {/* Subtle gradient overlays to ensure seamless top/bottom transitions into page */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F5] via-white/10 to-[#FAF9F5] pointer-events-none" />
+          {/* Subtle gradient overlays to ensure seamless top/bottom transitions into page without washing out the center */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F5] via-transparent to-[#FAF9F5] opacity-75 pointer-events-none" />
         </div>
 
         {/* SECTION CONTENT: Relative z-10 so it scrolls smoothly over the sticky background */}
