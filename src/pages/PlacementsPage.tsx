@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { 
   Briefcase, 
   TrendingUp, 
@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { ALUMNI_SPOTLIGHT, RecruiterCompany } from '../data/collegeData';
 import { RecruiterLogo } from '../components/RecruiterLogo';
-import { MasonryGallery, MasonryItem } from '../components/MasonryGallery';
+import { gsap } from '../utils/animations';
 import { PlacementHighlightsBanner } from '../components/PlacementHighlightsBanner';
 
 // Comprehensive roster of 43 leading global corporate recruiters visiting campus
@@ -153,6 +153,7 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
   const [galleryKey, setGalleryKey] = useState<number>(0);
   const [selectedCompany, setSelectedCompany] = useState<RecruiterCompany | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [recruiterFormOpen, setRecruiterFormOpen] = useState(false);
   const [orgName, setOrgName] = useState('');
@@ -160,22 +161,29 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [contactEmail, setContactEmail] = useState('');
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
-  interface CompanyMasonryItem extends MasonryItem {
-    company: RecruiterCompany;
-  }
-
-  const masonryCompanyItems = useMemo<CompanyMasonryItem[]>(() => {
-    return ALL_RECRUITERS_EXPANDED.map((company, index) => {
-      const rolesCount = company.rolesHired?.length || 2;
-      const height = rolesCount >= 3 ? 410 : (index % 3 === 0 ? 370 : (index % 2 === 0 ? 340 : 390));
-      return {
-        id: `company-${company.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${index}`,
-        height,
-        title: company.name,
-        company,
-      };
-    });
-  }, []);
+  // GSAP Entrance animation for cards
+  useEffect(() => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.querySelectorAll('.recruiter-card');
+    if (cards.length) {
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 25 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.45,
+          stagger: 0.03,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+  }, [galleryKey]);
 
   const submitRecruiterInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -346,120 +354,121 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
               </div>
             </div>
 
-            {/* MASONRY GALLERY (GSAP Cinematic Animations & Fluid Interactions) */}
-            <div className="w-full">
-              <MasonryGallery<CompanyMasonryItem>
-                key={galleryKey}
-                items={masonryCompanyItems}
-                  animateFrom="bottom"
-                  blurToFocus={true}
-                  stagger={0.04}
-                  scaleOnHover={true}
-                  hoverScale={0.98}
-                  colorShiftOnHover={true}
-                  duration={0.6}
-                  ease="power3.out"
-                  className="w-full"
-                  onItemClick={(item) => setSelectedCompany(item.company)}
-                  renderItem={(item) => {
-                    const company = item.company;
-                    const grad = getCategoryGradient(company.category);
+            {/* CLEAN EQUAL-HEIGHT CORPORATE PARTNERS GRID */}
+            <div 
+              key={galleryKey}
+              ref={gridRef}
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 w-full"
+            >
+              {ALL_RECRUITERS_EXPANDED.map((company) => {
+                const grad = getCategoryGradient(company.category);
 
-                    return (
-                      <div
-                        onClick={() => setSelectedCompany(company)}
-                        className={`w-full h-full p-5 sm:p-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group`}
-                      >
-                        {/* Top Accent Gradient Line */}
-                        <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
+                return (
+                  <div
+                    key={company.name}
+                    onClick={() => setSelectedCompany(company)}
+                    className={`recruiter-card w-full h-[360px] p-5 sm:p-6 rounded-3xl ${grad.cardBg} border ${grad.borderColor} shadow-xs hover:shadow-2xl ${grad.shadowGlow} transition-all duration-300 flex flex-col justify-between cursor-pointer relative overflow-hidden group hover:-translate-y-1`}
+                  >
+                    {/* Top Accent Gradient Line */}
+                    <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
 
-                        <div>
-                          {/* Header Row: Gradient Package Badge */}
-                          <div className="w-full flex items-center justify-end mb-3 pt-1">
-                            <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
-                              {company.highestPackage}
+                    <div>
+                      {/* Header Row: Category Eyebrow + Highest Package Badge */}
+                      <div className="w-full flex items-center justify-between mb-3 pt-1">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold">
+                          TECH GIANTS
+                        </span>
+                        <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
+                          {company.highestPackage}
+                        </span>
+                      </div>
+
+                      {/* Prominent Scaled Logo Well in Gradient Format */}
+                      <div className="w-full h-24 sm:h-26 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-4 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
+                        <RecruiterLogo
+                          name={company.name}
+                          logoText={company.logoText}
+                          className="w-full max-h-16 sm:max-h-18 object-contain transition-transform duration-300 group-hover:scale-108"
+                        />
+                      </div>
+
+                      {/* Roles Hired Badges */}
+                      {company.rolesHired && company.rolesHired.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-3.5">
+                          {company.rolesHired.slice(0, 2).map((role, rIdx) => (
+                            <span
+                              key={rIdx}
+                              className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/85 border border-stone-200/70 text-stone-700 truncate"
+                            >
+                              {role}
                             </span>
-                          </div>
-
-                          {/* Prominent Scaled Logo Well in Gradient Format */}
-                          <div className="w-full h-24 sm:h-28 rounded-2xl bg-gradient-to-b from-white/95 to-slate-50/80 p-4 flex items-center justify-center border border-white shadow-2xs group-hover:shadow-md group-hover:from-white group-hover:to-teal-50/40 transition-all">
-                            <RecruiterLogo
-                              name={company.name}
-                              logoText={company.logoText}
-                              className="w-full max-h-16 sm:max-h-20 object-contain transition-transform duration-300 group-hover:scale-108"
-                            />
-                          </div>
-
-                          {/* Roles Hired Badges */}
-                          {company.rolesHired && company.rolesHired.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-3">
-                              {company.rolesHired.slice(0, 2).map((role, rIdx) => (
-                                <span
-                                  key={rIdx}
-                                  className="text-[9px] font-mono px-2 py-0.5 rounded-md bg-white/80 border border-stone-200/70 text-stone-700 truncate"
-                                >
-                                  {role}
-                                </span>
-                              ))}
-                              {company.rolesHired.length > 2 && (
-                                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-md bg-white/50 text-stone-400">
-                                  +{company.rolesHired.length - 2}
-                                </span>
-                              )}
-                            </div>
+                          ))}
+                          {company.rolesHired.length > 2 && (
+                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-white/60 text-stone-400">
+                              +{company.rolesHired.length - 2}
+                            </span>
                           )}
                         </div>
+                      )}
+                    </div>
 
-                        {/* Bottom Details Row: Full Company Name & Intake */}
-                        <div className="w-full pt-3 mt-3 border-t border-slate-200/70 flex items-center justify-between text-xs">
-                          <div className="truncate mr-2">
-                            <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-sm">
-                              {company.name}
-                            </span>
-                            <span className="text-[11px] text-stone-500 font-mono truncate block">
-                              {company.location.split('/')[0]}
-                            </span>
-                          </div>
-                          <span className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-white/80 border border-stone-200/60 text-slate-700 shrink-0">
-                            {company.intakeAnnual}
-                          </span>
-                        </div>
-
-                        {/* Fluid Color Shift Overlay on Hover */}
-                        <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/15 via-blue-500/10 to-indigo-500/15 opacity-0 pointer-events-none transition-opacity" />
+                    {/* Bottom Details Row: Full Company Name & Intake */}
+                    <div className="w-full pt-3.5 mt-2 border-t border-slate-200/70 flex items-center justify-between text-xs">
+                      <div className="truncate mr-2">
+                        <span className="font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors block truncate text-sm">
+                          {company.name}
+                        </span>
+                        <span className="text-[11px] text-stone-500 font-mono truncate block">
+                          {company.location.split('/')[0]}
+                        </span>
                       </div>
-                    );
-                  }}
-                />
-              </div>
-            {/* Bottom Placement Cell Trust & Invitation Banner */}
-            <div className="mt-8 pt-6 border-t border-stone-200/80 bg-gradient-to-r from-slate-900 via-[#1b2a60] to-slate-900 rounded-2xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
-              <div className="space-y-1.5 text-center md:text-left">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 font-bold block">
-                  CORPORATE ENGAGEMENT CELL
-                </span>
-                <h4 className="text-lg sm:text-xl font-bold font-serif">
-                  Looking to hire top technical &amp; engineering talent?
-                </h4>
-                <p className="text-xs text-blue-100 max-w-xl">
-                  Host an on-campus or virtual placement drive at Trident. Over 4,200+ students across Computer Science, AI, Mechanical, Civil, Electrical, MBA &amp; MCA ready for corporate onboarding.
-                </p>
-              </div>
+                      <span className="text-[11px] font-mono font-semibold px-2 py-1 rounded-lg bg-white/90 border border-stone-200/70 text-slate-700 shrink-0">
+                        {company.intakeAnnual}
+                      </span>
+                    </div>
 
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
-                <button
-                  onClick={() => setRecruiterFormOpen(true)}
-                  className="px-5 py-3 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-bold shadow-md cursor-pointer transition-all flex items-center gap-2"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Send Placement Invite</span>
-                </button>
-                <a
-                  href="mailto:placements@tekkzy.com"
-                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold cursor-pointer transition-all"
-                >
-                  Contact T&amp;P Head
-                </a>
+                    {/* Fluid Color Shift Overlay on Hover */}
+                    <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/15 via-blue-500/10 to-indigo-500/15 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300" />
+                  </div>
+                );
+              })}
+
+              {/* ROW 4 SPANNING FEATURE CARD: Seamlessly fills the remaining 3 columns with zero blank space */}
+              <div className="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-3 rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] p-6 sm:p-7 text-white flex flex-col justify-between border border-slate-700/80 shadow-md relative overflow-hidden h-[360px]">
+                {/* Background Glow */}
+                <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#0D9488]/15 blur-3xl pointer-events-none" />
+
+                <div className="relative z-10 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 font-bold">
+                      CORPORATE ENGAGEMENT CELL · RECRUITMENT PARTNER
+                    </span>
+                  </div>
+                  <h4 className="text-xl sm:text-2xl font-bold font-serif leading-snug">
+                    Looking to hire premier engineering &amp; management talent?
+                  </h4>
+                  <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed max-w-xl">
+                    Host an on-campus or virtual recruitment drive at Trident. Access 4,200+ pre-vetted engineers and leaders across Computer Science, AI, Mechanical, Civil, Electrical, MBA &amp; MCA.
+                  </p>
+                </div>
+
+                <div className="relative z-10 pt-4 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => setRecruiterFormOpen(true)}
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0D9488] to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>INVITE TO CAMPUS DRIVE</span>
+                    <Send className="w-3.5 h-3.5" />
+                  </button>
+                  <a
+                    href="mailto:placements@tekkzy.com"
+                    className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-wider backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>CONTACT T&amp;P HEAD</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
               </div>
             </div>
 
