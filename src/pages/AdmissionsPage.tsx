@@ -47,6 +47,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   const [activeSchoolIndex, setActiveSchoolIndex] = useState<number>(0);
   const programsSectionRef = useRef<HTMLElement>(null);
   const scholarshipSectionRef = useRef<HTMLElement>(null);
+  const placementSectionRef = useRef<HTMLElement>(null);
   const schoolRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Direct Application Modal state
@@ -242,6 +243,73 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         });
       });
     }, programsSectionRef.current);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ScrollTrigger: Placement Highlights section texts, cards & pills popping out while scrolling down
+  useEffect(() => {
+    const section = placementSectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Header texts popping out smoothly
+      gsap.fromTo(
+        '.placement-text-reveal',
+        { opacity: 0, y: 35, scale: 0.94 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.14,
+          ease: 'back.out(1.4)',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // 2. Stat cards popping out with stagger
+      gsap.fromTo(
+        '.placement-card-reveal',
+        { opacity: 0, y: 55, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.14,
+          ease: 'back.out(1.5)',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 78%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // 3. Recruiter badges popping out with rapid stagger
+      gsap.fromTo(
+        '.placement-badge-reveal',
+        { opacity: 0, y: 25, scale: 0.85 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.05,
+          ease: 'back.out(1.6)',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 72%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, section);
 
     return () => ctx.revert();
   }, []);
@@ -990,50 +1058,80 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 6: "Placement Highlights"
+          SECTION 6: "Placement Highlights" (Reference Modern Grey/White Tech Pill Background & Pop-Out Scroll Animation)
           ========================================================================= */}
-      <section className="relative py-16 sm:py-20 bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] text-white overflow-hidden shadow-inner">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+      <section 
+        ref={placementSectionRef}
+        className="relative py-20 sm:py-28 bg-[#F8F9FA] text-slate-900 overflow-hidden border-y border-slate-200/80 select-none"
+      >
+        {/* Reference Modern Light Tech Capsules/Circuits Background */}
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-90 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('/admissions-programs/placement-highlights-tech-bg.jpg')`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+          }}
+        />
+
+        {/* Ambient Subtle Light Teal Glow Accent */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42rem] h-[22rem] rounded-full bg-teal-500/5 blur-[130px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-10">
           
-          <div className="space-y-2">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-              Placement Highlights
+          <div className="space-y-3 max-w-2xl mx-auto">
+            <div className="placement-text-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/5 border border-slate-900/10 text-slate-700 text-[11px] font-mono font-bold tracking-[0.25em] uppercase shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#0D9488] animate-pulse" />
+              CAREER EXCELLENCE &amp; CORPORATE OUTCOMES
+            </div>
+
+            <h2 className="placement-text-reveal text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0B1528]">
+              Placement <span className="italic font-serif font-normal text-[#0D9488]">Highlights.</span>
             </h2>
-            <p className="text-emerald-100 text-xs sm:text-sm max-w-xl mx-auto">
+
+            <p className="placement-text-reveal text-slate-600 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed font-sans">
               Consistently recognized among Eastern India&apos;s leading technical institutions for corporate ascendancy and high-tier recruitment.
             </p>
           </div>
 
           {/* Big Key Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto pt-2">
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/15">
-              <span className="text-3xl sm:text-5xl font-black text-white block">1,203+</span>
-              <span className="text-xs text-emerald-100 font-medium uppercase tracking-wider mt-1 block">Placement Offers</span>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/15">
-              <span className="text-3xl sm:text-5xl font-black text-white block">28+ LPA</span>
-              <span className="text-xs text-emerald-100 font-medium uppercase tracking-wider mt-1 block">Highest Package</span>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/15">
-              <span className="text-3xl sm:text-5xl font-black text-white block">94.8%</span>
-              <span className="text-xs text-emerald-100 font-medium uppercase tracking-wider mt-1 block">Placement Rate</span>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/15">
-              <span className="text-3xl sm:text-5xl font-black text-white block">120+</span>
-              <span className="text-xs text-emerald-100 font-medium uppercase tracking-wider mt-1 block">Hiring Partners</span>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 max-w-5xl mx-auto pt-2">
+            {[
+              { number: '1,203+', label: 'Placement Offers', border: 'from-emerald-400 to-teal-500' },
+              { number: '28+ LPA', label: 'Highest Package', border: 'from-cyan-400 to-blue-500' },
+              { number: '94.8%', label: 'Placement Rate', border: 'from-amber-400 to-orange-500' },
+              { number: '120+', label: 'Hiring Partners', border: 'from-purple-400 to-indigo-500' },
+            ].map((stat, i) => (
+              <div 
+                key={i} 
+                className="placement-card-reveal group relative p-6 sm:p-7 rounded-3xl bg-white/85 hover:bg-white backdrop-blur-xl border border-slate-200/80 hover:border-teal-500/50 shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(13,148,136,0.12)] transition-all duration-300 overflow-hidden text-center"
+              >
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.border} opacity-80 group-hover:h-1.5 transition-all duration-300`} />
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 font-mono tracking-tight block tabular-nums group-hover:text-[#0D9488] transition-colors">
+                  {stat.number}
+                </span>
+                <span className="text-xs font-mono uppercase tracking-[0.18em] text-slate-500 font-bold mt-2.5 block">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
           </div>
 
-          {/* Top Recruiters Marquee Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-4 text-xs font-semibold text-emerald-950">
-            {['TCS Digital', 'Infosys', 'Wipro', 'Cognizant GenC', 'Amazon AWS', 'Cisco Systems', 'Capgemini', 'Accenture', 'Tech Mahindra'].map((rec, i) => (
-              <span key={i} className="px-3.5 py-1.5 rounded-full bg-white/90 shadow-sm">
-                {rec}
-              </span>
-            ))}
+          {/* Top Recruiters Badges */}
+          <div className="space-y-3 pt-2">
+            <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase block">
+              PREMIER HIRING RECRUITERS
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl mx-auto">
+              {['TCS Digital', 'Infosys', 'Wipro', 'Cognizant GenC', 'Amazon AWS', 'Cisco Systems', 'Capgemini', 'Accenture', 'Tech Mahindra'].map((rec, i) => (
+                <span 
+                  key={i} 
+                  className="placement-badge-reveal px-4 py-2 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-200 shadow-2xs text-xs font-semibold transition-all hover:scale-105 hover:border-teal-400/50 cursor-default"
+                >
+                  {rec}
+                </span>
+              ))}
+            </div>
           </div>
 
         </div>
