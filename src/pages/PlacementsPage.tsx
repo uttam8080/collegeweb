@@ -248,10 +248,10 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-16">
-        {/* Placement Highlights Banner (Reference Style: Growing Numbers & Distinct Premium Background) */}
-        <PlacementHighlightsBanner />
+      {/* Placement Highlights Section (Full-Width Spatial Gradient Background & Expansive 4-Division Layout) */}
+      <PlacementHighlightsBanner />
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 space-y-16">
         {/* T&P 4-Step Career Preparation Framework */}
         <div className="p-8 sm:p-10 rounded-3xl bg-[#1b2a60] text-white shadow-lg">
           <div className="text-center max-w-2xl mx-auto mb-10">
