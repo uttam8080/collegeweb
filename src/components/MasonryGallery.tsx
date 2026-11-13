@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { gsap } from 'gsap';
+import { gsap, ScrollTrigger } from '../utils/animations';
 
 type ClassValue = string | number | boolean | undefined | null | { [key: string]: any } | ClassValue[];
 
@@ -120,6 +120,10 @@ export interface MasonryGalleryProps<T extends MasonryItem = MasonryItem> {
   onItemClick?: (item: T) => void;
   /** Custom render function for rich item content (e.g., Company cards) */
   renderItem?: (item: T, isHovered: boolean) => React.ReactNode;
+  /** Whether entrance animation triggers on scroll into view (default: true) */
+  scrollTrigger?: boolean;
+  /** Viewport trigger point for scroll entrance (default: 'top 85%') */
+  scrollStart?: string;
 }
 
 export const MasonryGallery = <T extends MasonryItem = MasonryItem>({
@@ -136,7 +140,9 @@ export const MasonryGallery = <T extends MasonryItem = MasonryItem>({
   className,
   itemClassName,
   onItemClick,
-  renderItem
+  renderItem,
+  scrollTrigger = true,
+  scrollStart = 'top 85%'
 }: MasonryGalleryProps<T>) => {
   const responsiveColumns = useMedia(
     ['(min-width: 1440px)', '(min-width: 1024px)', '(min-width: 640px)', '(min-width: 440px)'],
@@ -150,6 +156,7 @@ export const MasonryGallery = <T extends MasonryItem = MasonryItem>({
   const [imagesReady, setImagesReady] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const hasMounted = useRef(false);
+  const isEntranceTriggered = useRef(false);
 
   // Initial animation calculations
   const getInitialPosition = (item: GridItem) => {
@@ -213,50 +220,125 @@ export const MasonryGallery = <T extends MasonryItem = MasonryItem>({
     return { grid: gridItems, containerHeight: Math.max(...colHeights, 300) };
   }, [columns, items, width]);
 
-  // Animation logic
+  // Animation logic with ScrollTrigger & viewport detection
   useLayoutEffect(() => {
     if (!imagesReady || !grid.length || !containerRef.current) return;
 
-    grid.forEach((item, index) => {
-      const escapedId = CSS.escape ? CSS.escape(item.id) : item.id;
-      const element = containerRef.current?.querySelector(`[data-key="${escapedId}"]`) as HTMLElement | null;
-      if (!element) return;
+    // Helper to execute the entrance animation for all cards
+    const triggerEntrance = () => {
+      if (isEntranceTriggered.current) return;
+      isEntranceTriggered.current = true;
+      hasMounted.current = true;
 
-      const animProps = { x: item.x, y: item.y, width: item.w, height: item.h };
+      grid.forEach((item, index) => {
+        const escapedId = (typeof CSS !== 'undefined' && CSS.escape) ? CSS.escape(item.id) : item.id;
+        const element = containerRef.current?.querySelector(`[data-key="${escapedId}"]`) as HTMLElement | null;
+        if (!element) return;
 
-      if (!hasMounted.current) {
-        const start = getInitialPosition(item);
-        gsap.fromTo(
-          element,
-          {
-            opacity: 0,
-            x: start.x,
-            y: start.y,
-            width: item.w,
-            height: item.h,
-            ...(blurToFocus && { filter: 'blur(20px)' })
-          },
-          {
-            opacity: 1,
-            ...animProps,
-            ...(blurToFocus && { filter: 'blur(0px)' }),
-            duration: 1.0,
-            ease: 'power3.out',
-            delay: index * stagger
-          }
-        );
-      } else {
         gsap.to(element, {
-          ...animProps,
+          opacity: 1,
+          x: item.x,
+          y: item.y,
+          width: item.w,
+          height: item.h,
+          ...(blurToFocus && { filter: 'blur(0px)' }),
+          duration: 1.0,
+          ease: ease || 'power3.out',
+          delay: index * stagger,
+          overwrite: 'auto'
+        });
+      });
+    };
+
+    // If entrance has already happened, simply animate layout updates (resize, columns, etc.)
+    if (hasMounted.current) {
+      grid.forEach((item) => {
+        const escapedId = (typeof CSS !== 'undefined' && CSS.escape) ? CSS.escape(item.id) : item.id;
+        const element = containerRef.current?.querySelector(`[data-key="${escapedId}"]`) as HTMLElement | null;
+        if (!element) return;
+
+        gsap.to(element, {
+          x: item.x,
+          y: item.y,
+          width: item.w,
+          height: item.h,
           duration,
           ease,
           overwrite: 'auto'
         });
-      }
+      });
+      return;
+    }
+
+    // Pre-entrance setup: set cards to initial offset & invisible state
+    grid.forEach((item) => {
+      const escapedId = (typeof CSS !== 'undefined' && CSS.escape) ? CSS.escape(item.id) : item.id;
+      const element = containerRef.current?.querySelector(`[data-key="${escapedId}"]`) as HTMLElement | null;
+      if (!element) return;
+
+      const start = getInitialPosition(item);
+      gsap.set(element, {
+        opacity: 0,
+        x: start.x,
+        y: start.y,
+        width: item.w,
+        height: item.h,
+        ...(blurToFocus && { filter: 'blur(20px)' })
+      });
     });
 
-    if (grid.length > 0) hasMounted.current = true;
-  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
+    // If scroll triggering is disabled, play entrance immediately
+    if (!scrollTrigger) {
+      triggerEntrance();
+      return;
+    }
+
+    // If container is already within the viewport threshold (e.g. refresh button clicked while in section)
+    const rect = containerRef.current.getBoundingClientRect();
+    const isAlreadyInView = typeof window !== 'undefined' && rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+    if (isAlreadyInView) {
+      triggerEntrance();
+      return;
+    }
+
+    // Otherwise, delay animation until scrolled into view
+    let stKill: (() => void) | null = null;
+    if (ScrollTrigger && containerRef.current) {
+      const st = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: scrollStart,
+        once: true,
+        onEnter: () => {
+          triggerEntrance();
+        }
+      });
+      stKill = () => st.kill();
+    }
+
+    // Fallback IntersectionObserver for guaranteed activation across all scroll wrappers / Lenis
+    let observer: IntersectionObserver | null = null;
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window && containerRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              triggerEntrance();
+              if (observer && containerRef.current) {
+                observer.unobserve(containerRef.current);
+              }
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (stKill) stKill();
+      if (observer) observer.disconnect();
+    };
+  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease, scrollTrigger, scrollStart]);
 
   const handleMouseEnter = (id: string, element: HTMLElement) => {
     setHoveredId(id);
