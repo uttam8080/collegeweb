@@ -9,7 +9,6 @@ import { VisionMissionSection } from '../components/VisionMissionSection';
 import { StudentMilestonesSection } from '../components/StudentMilestonesSection';
 import { UniversityLeadershipSection } from '../components/UniversityLeadershipSection';
 import { FeaturedSubjects } from '../components/FeaturedSubjects';
-import { LearningPathsSection } from '../components/LearningPathsSection';
 import { FeaturedLessons } from '../components/FeaturedLessons';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { NewsletterSection } from '../components/NewsletterSection';
@@ -98,14 +97,6 @@ export const HomePage: React.FC<Props> = ({
       <FeaturedSubjects
         onSelectSubject={onSelectSubject}
         onViewAllSubjects={() => onNavigate('programs')}
-      />
-
-      {/* 9. Structured Certification Tracks */}
-      <LearningPathsSection
-        onSelectPath={onSelectPath}
-        onViewAllPaths={() => onNavigate('programs')}
-        enrolledPathIds={enrolledPathIds}
-        completedLessonIds={completedLessonIds}
       />
 
       {/* 10. Institutional Newsletter & Advisory Admissions Connect */}
