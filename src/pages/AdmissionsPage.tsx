@@ -43,10 +43,10 @@ interface AdmissionsPageProps {
 }
 
 export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOpenAuth }) => {
-  // Active Program index for the sticky right column ("From First Principles" architecture)
-  const [activeProgramIndex, setActiveProgramIndex] = useState<number>(0);
+  // Active School index for sticky left showcase
+  const [activeSchoolIndex, setActiveSchoolIndex] = useState<number>(0);
   const programsSectionRef = useRef<HTMLElement>(null);
-  const programCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const schoolRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Direct Application Modal state
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
@@ -65,289 +65,167 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   const [helpdeskExam, setHelpdeskExam] = useState('JEE Main');
   const [helpdeskSubmitted, setHelpdeskSubmitted] = useState(false);
 
-  // Program offerings data ("From First Principles" 2-Col Interactive Architecture)
-  const programsData = [
+  // School offerings & categorized disciplines data matching reference design
+  const schoolsData = [
     {
       id: '01',
-      progKey: 'btech',
-      tabCategory: 'UNDERGRADUATE',
-      tabTitle: 'B.Tech Engineering (7 Disciplines)',
-      schoolTitle: 'School of Engineering & Technology',
-      motto: 'OUTCOME-BASED RIGOR & GLOBAL PRODUCT CAREERS',
-      headerTag: 'B.TECH · 4-YEAR UG DEGREE',
-      headerDotColor: 'bg-[#1E3A8A]',
-      headerTextColor: 'text-[#1E3A8A]',
+      title: 'School of Engineering',
+      motto: 'BUILDING THE FUTURE, ONE INNOVATION AT A TIME',
       image: '/admissions-programs/btech-engineering.jpg',
-      imageAlt: 'Undergraduate B.Tech Engineering Robotics and Computing Lab',
-      title: 'B.Tech',
-      fullName: 'Bachelor of Technology',
-      level: 'Undergraduate Program',
-      duration: '4 Years (8 Semesters)',
-      intake: '600+ Seats Across 7 Disciplines',
-      annualFee: '₹89,000 / Year',
-      ctaLabel: 'APPLY FOR B.TECH',
-      pillars: [
+      imageAlt: 'School of Engineering Prototyping and Robotics Laboratory',
+      description:
+        'The School of Engineering delivers outcome-based engineering education accredited by NBA Tier-1. Through cutting-edge maker labs, Cisco thingQbator innovation centers, and world-class faculty mentoring, students master engineering fundamentals and emerge as pioneering builders.',
+      badge: null,
+      categories: [
         {
-          badgeBg: 'bg-[#1E3A8A]',
-          iconColor: 'text-white',
-          icon: Terminal,
-          eyebrow: 'AICTE APPROVED & BPUT AFFILIATED',
-          headline: 'Outcome-Based Rigor',
-          headlineColor: 'text-[#1E3A8A]',
-          description:
-            'Comprehensive 4-year engineering curriculum NBA Tier-1 accredited, with intensive hands-on laboratory immersion, Cisco thingQbator makerspace access, and faculty-mentored research patent creation.'
+          name: '1. Computer Science & AI',
+          programs: [
+            { name: 'Computer Science and Engineering (B.Tech)', degree: 'B.Tech' },
+            { name: 'Artificial Intelligence & Machine Learning (B.Tech)', degree: 'B.Tech' },
+            { name: 'Computer Science & Technology (B.Tech)', degree: 'B.Tech' },
+            { name: 'Computer Science & Engineering (M.Tech)', degree: 'M.Tech' },
+          ]
         },
         {
-          badgeBg: 'bg-[#047857]',
-          iconColor: 'text-white',
-          icon: Code2,
-          eyebrow: 'SPECIALIZATIONS & DISCIPLINES',
-          headline: '7 Core Engineering Branches',
-          headlineColor: 'text-[#047857]',
-          description:
-            'Computer Science & Engineering (CSE), AI & Machine Learning, Data Science, Electronics & Telecommunication (ETC), Electrical & Electronics (EEE), Mechanical Engineering (ME), and Civil Engineering (CE).'
+          name: '2. Electrical & Power / Vehicle Technology',
+          programs: [
+            { name: 'Electrical and Electronics Engineering (B.Tech)', degree: 'B.Tech' },
+            { name: 'Electrical Engineering (Diploma)', degree: 'Diploma' },
+            { name: 'Electrical Vehicle Technology (M.Tech)', degree: 'M.Tech' },
+            { name: 'Energy and Environmental Engineering (M.Tech)', degree: 'M.Tech' },
+          ]
         },
         {
-          badgeBg: 'bg-[#926315]',
-          iconColor: 'text-white',
-          icon: Award,
-          eyebrow: 'ELIGIBILITY, INTAKE & ANNUAL TUITION',
-          headline: '600+ Seats · ₹89,000 / Year',
-          headlineColor: 'text-[#926315]',
-          description:
-            'Eligibility: 10+2 with Physics & Mathematics (Min 45% aggregate; 40% for SC/ST). Official admission pathway through JEE (Main) 2026 / OJEE Web Counseling.'
+          name: '3. Mechanical Engineering',
+          programs: [
+            { name: 'Mechanical Engineering (B.Tech / Diploma)', degree: 'B.Tech / Diploma' },
+          ]
+        },
+        {
+          name: '4. Civil & Structural Engineering',
+          programs: [
+            { name: 'Civil Engineering (B.Tech / Diploma)', degree: 'B.Tech / Diploma' },
+            { name: 'Structural Engineering (M.Tech)', degree: 'M.Tech' },
+          ]
+        },
+        {
+          name: '5. Environmental Engineering',
+          programs: [
+            { name: 'Environmental Engineering (M.Tech)', degree: 'M.Tech' },
+            { name: 'Energy and Environmental Engineering (M.Tech)', degree: 'M.Tech' },
+          ]
+        },
+        {
+          name: '6. Safety Engineering',
+          programs: [
+            { name: 'Industrial Safety Engineering (M.Tech)', degree: 'M.Tech' },
+          ]
         }
       ]
     },
     {
       id: '02',
-      progKey: 'mca',
-      tabCategory: 'POSTGRADUATE',
-      tabTitle: 'MCA Cloud & Software Architecture',
-      schoolTitle: 'School of Computing & AI Architecture',
-      motto: 'FULL-STACK CLOUD ARCHITECTS & APPLIED AI',
-      headerTag: 'MCA · 2-YEAR PG DEGREE',
-      headerDotColor: 'bg-[#047857]',
-      headerTextColor: 'text-[#047857]',
-      image: '/admissions-programs/mca-software-cloud.jpg',
-      imageAlt: 'MCA Cloud Architecture and AI Computing Laboratory',
-      title: 'MCA',
-      fullName: 'Master of Computer Applications',
-      level: 'Postgraduate Program',
-      duration: '2 Years (4 Semesters)',
-      intake: '120 Seats',
-      annualFee: '₹75,000 / Year',
-      ctaLabel: 'APPLY FOR MCA',
-      pillars: [
+      title: 'School of Biotechnology',
+      motto: 'INNOVATING FOR A HEALTHIER TOMORROW',
+      image: '/admissions-programs/biotechnology-bioinformatics.jpg',
+      imageAlt: 'School of Biotechnology and Bioinformatics Research Laboratory',
+      description:
+        'The School of Biotechnology offers advanced programmes fostering research and innovation in healthcare, agriculture, and environmental sustainability. Students work on cutting-edge projects in state-of-the-art labs, bridging the gap between science and real-world impact.',
+      badge: null,
+      categories: [
         {
-          badgeBg: 'bg-[#047857]',
-          iconColor: 'text-white',
-          icon: Cloud,
-          eyebrow: 'ENTERPRISE SOFTWARE & DEVOPS',
-          headline: 'Production-Scale Systems',
-          headlineColor: 'text-[#047857]',
-          description:
-            'Advanced postgraduate software curriculum transforming graduates into senior cloud architects, DevOps engineers, distributed database specialists, and enterprise technology innovators.'
-        },
-        {
-          badgeBg: 'bg-[#1E3A8A]',
-          iconColor: 'text-white',
-          icon: Layers,
-          eyebrow: 'SPECIALIZED TRACKS',
-          headline: 'Full-Stack, Cloud & Applied AI',
-          headlineColor: 'text-[#1E3A8A]',
-          description:
-            'Specializations in Full Stack Cloud Architecture, Enterprise Software Engineering, Distributed Systems, Data Engineering, and Cybersecurity & Network Systems.'
-        },
-        {
-          badgeBg: 'bg-[#926315]',
-          iconColor: 'text-white',
-          icon: FileCheck2,
-          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
-          headline: '120 Seats · ₹75,000 / Year',
-          headlineColor: 'text-[#926315]',
-          description:
-            'Eligibility: BCA / B.Sc (Computer Science / Mathematics) with min 50% marks (45% for SC/ST). Admission through OJEE 2026 / NIMCET centralized web counseling.'
+          name: 'PROGRAMMES OFFERED',
+          programs: [
+            { name: 'B.Tech in Biotechnology Engineering', degree: 'B.Tech' },
+            { name: 'Integrated M.Tech in Biotechnology', degree: 'M.Tech' },
+            { name: 'Applied Biosciences & Bioinformatics (M.Tech)', degree: 'M.Tech' },
+          ]
         }
       ]
     },
     {
       id: '03',
-      progKey: 'mba',
-      tabCategory: 'MANAGEMENT',
-      tabTitle: 'MBA Business Administration & Analytics',
-      schoolTitle: 'School of Business',
+      title: 'School of Business',
       motto: 'SHAPING LEADERS FOR A DYNAMIC WORLD',
-      headerTag: 'MBA · 2-YEAR PG DEGREE',
-      headerDotColor: 'bg-[#926315]',
-      headerTextColor: 'text-[#926315]',
       image: '/admissions-programs/mba-business-leadership.jpg',
       imageAlt: 'School of Business Executive Case Study and Strategy Boardroom',
-      title: 'MBA',
-      fullName: 'Master of Business Administration',
-      level: 'Postgraduate Program',
-      duration: '2 Years (4 Semesters)',
-      intake: '120 Seats',
-      annualFee: '₹85,000 / Year',
-      ctaLabel: 'APPLY FOR MBA',
-      pillars: [
+      description:
+        'The School of Business develops strategic thinkers and future corporate leaders through MBA and specialized management programmes. Strong industry partnerships enable students to gain real-world exposure through internships, live projects, and case studies.',
+      badge: {
+        eyebrow: 'NBA-ACCREDITED',
+        title: 'MBA'
+      },
+      categories: [
         {
-          badgeBg: 'bg-[#926315]',
-          iconColor: 'text-white',
-          icon: Briefcase,
-          eyebrow: 'INDUSTRY-INTEGRATED MANAGEMENT',
-          headline: 'Corporate Leadership',
-          headlineColor: 'text-[#926315]',
-          description:
-            'Industry-integrated management degree featuring Fortune 500 corporate internships, CXO mentorship roundtables, executive case studies, and career ascendancy with multinational business conglomerates.'
-        },
-        {
-          badgeBg: 'bg-[#C41F3B]',
-          iconColor: 'text-white',
-          icon: Binary,
-          eyebrow: 'MANAGEMENT CONCENTRATIONS',
-          headline: 'Finance, Marketing, HR & Analytics',
-          headlineColor: 'text-[#C41F3B]',
-          description:
-            'Specialized master tracks in Financial Analytics & Banking, Digital Marketing & Transformation, Strategic Human Resource Management (HRM), and Operations & Global Supply Chain.'
-        },
-        {
-          badgeBg: 'bg-[#1E3A8A]',
-          iconColor: 'text-white',
-          icon: Award,
-          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
-          headline: '120 Seats · ₹85,000 / Year',
-          headlineColor: 'text-[#1E3A8A]',
-          description:
-            'Eligibility: Recognized Bachelor Degree in any discipline with min 50% aggregate marks (45% for reserved). Admission via CAT / MAT / XAT / CMAT / OJEE 2026.'
+          name: 'PROGRAMMES OFFERED',
+          programs: [
+            { name: 'Master of Business Administration (MBA)', degree: 'MBA' },
+            { name: 'MBA in Financial Technology & Analytics', degree: 'MBA' },
+            { name: 'BBA (Honours in Digital Business Strategy)', degree: 'BBA' },
+          ]
         }
       ]
     },
     {
       id: '04',
-      progKey: 'mtech',
-      tabCategory: 'RESEARCH & PG',
-      tabTitle: 'M.Tech Advanced Embedded & Power Systems',
-      schoolTitle: 'School of Advanced Research & VLSI',
-      motto: 'TRANSLATIONAL RESEARCH, PATENTS & CHIP DESIGN',
-      headerTag: 'M.TECH · 2-YEAR RESEARCH DEGREE',
-      headerDotColor: 'bg-[#C41F3B]',
-      headerTextColor: 'text-[#C41F3B]',
-      image: '/admissions-programs/mtech-advanced-research.jpg',
-      imageAlt: 'Advanced VLSI and Semiconductor Cleanroom Research Laboratory',
-      title: 'M.Tech',
-      fullName: 'Master of Technology',
-      level: 'Postgraduate Research Program',
-      duration: '2 Years (4 Semesters)',
-      intake: '36 Seats',
-      annualFee: '₹70,000 / Year',
-      ctaLabel: 'APPLY FOR M.TECH',
-      pillars: [
+      title: 'School of Computer Applications',
+      motto: 'EMPOWERING SOFTWARE ARCHITECTS & PRACTITIONERS',
+      image: '/admissions-programs/mca-software-cloud.jpg',
+      imageAlt: 'School of Computer Applications Cloud Computing and DevOps Lab',
+      description:
+        'The School of Computer Applications prepares students for fast-paced careers in enterprise software engineering, cloud architecture, and full-stack systems. Students build production-ready applications with hands-on labs and Fortune 500 mentor workshops.',
+      badge: null,
+      categories: [
         {
-          badgeBg: 'bg-[#C41F3B]',
-          iconColor: 'text-white',
-          icon: Cpu,
-          eyebrow: 'DSIR-SIRO RECOGNIZED RESEARCH',
-          headline: 'Translational Research & Patents',
-          headlineColor: 'text-[#C41F3B]',
-          description:
-            'High-rigor research-driven post-graduate engineering curriculum in DST-SIRO approved labs, focusing on patent creation, IEEE peer-reviewed publications, and direct doctoral PhD progression.'
-        },
-        {
-          badgeBg: 'bg-[#1E3A8A]',
-          iconColor: 'text-white',
-          icon: Wrench,
-          eyebrow: 'ADVANCED DISCIPLINES',
-          headline: 'VLSI, AI Systems & Smart Energy',
-          headlineColor: 'text-[#1E3A8A]',
-          description:
-            'Specializations in Computer Science & Engineering, VLSI & Embedded Systems Design, and Power Systems & Clean Renewable Energy.'
-        },
-        {
-          badgeBg: 'bg-[#047857]',
-          iconColor: 'text-white',
-          icon: ShieldCheck,
-          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
-          headline: '36 Seats · ₹70,000 / Year',
-          headlineColor: 'text-[#047857]',
-          description:
-            'Eligibility: B.Tech / B.E. in relevant engineering discipline with min 50% marks (45% for reserved category). Admission through GATE 2026 / OJEE PGAT.'
+          name: 'PROGRAMMES OFFERED',
+          programs: [
+            { name: 'Master of Computer Applications (MCA Full-Stack)', degree: 'MCA' },
+            { name: 'MCA in Cloud Architecture & DevOps', degree: 'MCA' },
+            { name: 'Bachelor of Computer Applications (BCA)', degree: 'BCA' },
+          ]
         }
       ]
     },
     {
       id: '05',
-      progKey: 'diploma',
-      tabCategory: 'POLYTECHNIC',
-      tabTitle: 'Diploma Core Engineering Fundamentals',
-      schoolTitle: 'School of Polytechnic Engineering',
-      motto: 'HANDS-ON FOUNDATIONAL WORKSHOP RIGOR',
-      headerTag: 'DIPLOMA · 3-YEAR / 2-YEAR LATERAL',
-      headerDotColor: 'bg-[#0D9488]',
-      headerTextColor: 'text-[#0D9488]',
+      title: 'School of Advanced Research & Polytechnic',
+      motto: 'HANDS-ON TECHNICAL RIGOR & DIPLOMA WORKSHOPS',
       image: '/admissions-programs/diploma-polytechnic-workshop.jpg',
-      imageAlt: 'Polytechnic Engineering and CNC Machine Hands-on Workshop',
-      title: 'Diploma',
-      fullName: 'Polytechnic Engineering Diploma',
-      level: 'Diploma Program',
-      duration: '3 Years (Lateral: 2 Years)',
-      intake: '180 Seats',
-      annualFee: '₹35,000 / Year',
-      ctaLabel: 'APPLY FOR DIPLOMA',
-      pillars: [
+      imageAlt: 'School of Polytechnic Engineering and CNC Machining Workshop',
+      description:
+        'Delivering foundational technical education, heavy machine tool immersion, and cutting-edge prototyping workshops, providing direct lateral entry pathways into 2nd year B.Tech alongside specialized industrial diplomas.',
+      badge: null,
+      categories: [
         {
-          badgeBg: 'bg-[#0D9488]',
-          iconColor: 'text-white',
-          icon: Radio,
-          eyebrow: 'PRACTICAL INDUSTRY-ALIGNED TRAINING',
-          headline: 'Foundational Polytechnic Rigor',
-          headlineColor: 'text-[#0D9488]',
-          description:
-            'Practical, hands-on foundational polytechnic technical training providing direct lateral entry into 2nd year B.Tech and immediate technical employment in core industries.'
-        },
-        {
-          badgeBg: 'bg-[#1E3A8A]',
-          iconColor: 'text-white',
-          icon: Layers,
-          eyebrow: 'CORE DISCIPLINES',
-          headline: 'Civil, Mechanical & Electrical',
-          headlineColor: 'text-[#1E3A8A]',
-          description:
-            'Intensive workshop training in Civil Engineering, Mechanical Engineering, and Electrical Engineering with modern machine tools and CAD labs.'
-        },
-        {
-          badgeBg: 'bg-[#926315]',
-          iconColor: 'text-white',
-          icon: CheckCircle2,
-          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
-          headline: '180 Seats · ₹35,000 / Year',
-          headlineColor: 'text-[#926315]',
-          description:
-            'Eligibility: 10th Standard / Matriculation with Mathematics & Science (Min 35% marks). Direct 2nd-year lateral entry available for 12th Vocational or ITI certified holders.'
+          name: 'PROGRAMMES OFFERED',
+          programs: [
+            { name: 'Polytechnic Diploma in Mechanical Engineering', degree: 'Diploma' },
+            { name: 'Polytechnic Diploma in Electrical Engineering', degree: 'Diploma' },
+            { name: 'Polytechnic Diploma in Civil Engineering', degree: 'Diploma' },
+            { name: 'Advanced Post-Diploma in Tool Design & CAD/CAM', degree: 'Post-Diploma' },
+          ]
         }
       ]
     }
   ];
 
-  const activeProgram = programsData[activeProgramIndex] || programsData[0];
-
-  // ScrollTrigger: Smooth entrance for each card and sync active program with right sticky sidebar
+  // ScrollTrigger: Smooth entrance for each school section and sync active school with left sticky showcase
   useEffect(() => {
     if (!programsSectionRef.current) return;
     const ctx = gsap.context(() => {
-      programCardRefs.current.forEach((card, index) => {
-        if (!card) return;
+      schoolRefs.current.forEach((schoolEl, index) => {
+        if (!schoolEl) return;
 
         gsap.fromTo(
-          card,
-          { opacity: 0, y: 40 },
+          schoolEl,
+          { opacity: 0, y: 35 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.7,
+            duration: 0.6,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: card,
+              trigger: schoolEl,
               start: 'top 85%',
               toggleActions: 'play none none none'
             }
@@ -355,29 +233,17 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         );
 
         ScrollTrigger.create({
-          trigger: card,
-          start: index === programsData.length - 1 ? 'top 75%' : 'top 45%',
-          end: index === programsData.length - 1 ? 'bottom 15%' : 'bottom 45%',
-          onEnter: () => setActiveProgramIndex(index),
-          onEnterBack: () => setActiveProgramIndex(index)
+          trigger: schoolEl,
+          start: index === 0 ? 'top 70%' : 'top 45%',
+          end: index === schoolsData.length - 1 ? 'bottom 20%' : 'bottom 45%',
+          onEnter: () => setActiveSchoolIndex(index),
+          onEnterBack: () => setActiveSchoolIndex(index)
         });
       });
     }, programsSectionRef.current);
 
     return () => ctx.revert();
   }, []);
-
-  const scrollToProgram = (index: number) => {
-    setActiveProgramIndex(index);
-    const targetCard = programCardRefs.current[index];
-    if (targetCard) {
-      const topOffset = targetCard.getBoundingClientRect().top + window.pageYOffset - 100;
-      window.scrollTo({
-        top: topOffset,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   const handleOpenApplyModal = (programName?: string) => {
     if (programName) setModalProgram(programName);
@@ -684,200 +550,139 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         </div>
 
         {/* ---------------------------------------------------------------------
-            PART B: MAIN INTERACTIVE SCROLLING CONTENT
-            Distinct fresh canvas background (#FAF9F6)
-            LEFT: Full-bleed image card with crossfade animation (covers whole card)
-            RIGHT: Detailed pillars for each program
+            PART B: 50/50 SPLIT SHOWCASE (EXACT MATCH TO REFERENCE VIDEO)
+            - ZERO GAP between Left Sticky Image and Right Scrolling Content
+            - Left: 50% width sticky image (full screen height) with smooth crossfade, dark gradient & School Title + Motto
+            - Right: 50% width scrolling content with seamless warm parchment background (#FAF6EF)
+            - NO white card boxes - open editorial typography with vertical brown accent line
+            - School title with circular arrow button
+            - Categorized disciplines with clean divided rows and right arrows
             --------------------------------------------------------------------- */}
-        <div className="w-full bg-[#FAF9F6] py-16 sm:py-24 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-              
-              {/* LEFT SIDE: STICKY COLUMN (Full-Bleed Dynamic Image Showcase) */}
-              <div className="lg:col-span-5 lg:sticky lg:top-24 self-start">
-                <div className="relative w-full h-[560px] sm:h-[620px] lg:h-[660px] rounded-3xl overflow-hidden shadow-2xl border border-stone-200/90 bg-stone-950 group">
-                  
-                  {/* 5 Stacked Program Images with Smooth Crossfade & Cinematic Scale Animation */}
-                  {programsData.map((prog, idx) => {
-                    const isActive = activeProgramIndex === idx;
+        <div className="w-full bg-[#FAF6EF] relative">
+          <div className="w-full flex flex-col lg:flex-row items-start">
+            
+            {/* LEFT COLUMN: 50% WIDTH STICKY SHOWCASE (ZERO GAP, FULL BLEED) */}
+            <div className="w-full lg:w-1/2 lg:sticky lg:top-0 h-[480px] sm:h-[600px] lg:h-screen self-start overflow-hidden bg-stone-950 z-20">
+              {schoolsData.map((school, sIdx) => {
+                const isActive = activeSchoolIndex === sIdx;
 
-                    return (
-                      <div
-                        key={prog.id}
-                        className={`absolute inset-0 transition-all duration-700 ease-out ${
-                          isActive
-                            ? 'opacity-100 scale-100 z-10'
-                            : 'opacity-0 scale-105 z-0 pointer-events-none'
-                        }`}
-                      >
-                        {/* Full-Bleed Image covering the whole card */}
-                        <img
-                          src={prog.image}
-                          alt={prog.imageAlt}
-                          className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-                        />
+                return (
+                  <div
+                    key={school.id}
+                    className={`absolute inset-0 transition-all duration-700 ease-out ${
+                      isActive
+                        ? 'opacity-100 scale-100 z-10'
+                        : 'opacity-0 scale-105 z-0 pointer-events-none'
+                    }`}
+                  >
+                    {/* Full 50% width image */}
+                    <img
+                      src={school.image}
+                      alt={school.imageAlt}
+                      className="w-full h-full object-cover"
+                    />
 
-                        {/* Smooth Cinematic Gradient Overlay (Dark at bottom & top for crisp text legibility) */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-slate-900/35" />
+                    {/* Smooth Cinematic Gradient Overlay (Dark at bottom for crisp title legibility) */}
+                    <div 
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: 'linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 24%, rgba(15, 23, 42, 0.2) 44%, transparent 70%)'
+                      }}
+                    />
 
-                        {/* Top Header Row inside Image */}
-                        <div className="absolute top-5 inset-x-5 flex items-center justify-between z-20">
-                          <div className="flex items-center gap-2">
-                            <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-stone-900 text-[10px] font-mono font-bold tracking-wider uppercase shadow-md">
-                              {prog.tabCategory}
-                            </span>
-                            <span className="px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-white text-[10px] font-mono font-semibold border border-white/20">
-                              {prog.duration}
-                            </span>
-                          </div>
-                          <span className="px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white font-mono text-xs font-bold border border-white/25">
-                            {prog.id} / 05
-                          </span>
-                        </div>
-
-                        {/* Bottom Info Container inside Image (Matches Reference Video "School of Business / Shaping Leaders...") */}
-                        <div className="absolute bottom-6 inset-x-6 z-20 space-y-3 text-white">
-                          {/* Motto / Eyebrow */}
-                          <span className="text-[11px] font-mono uppercase tracking-[0.22em] text-cyan-300 font-bold block drop-shadow-sm">
-                            {prog.motto}
-                          </span>
-
-                          {/* Prominent School / Program Title */}
-                          <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md">
-                            {prog.schoolTitle}
-                          </h3>
-
-                          <p className="text-xs sm:text-[13px] text-stone-200 font-sans line-clamp-2 leading-relaxed drop-shadow-sm">
-                            {prog.fullName} · {prog.level}
-                          </p>
-
-                          {/* Quick Stats Pill Strip */}
-                          <div className="grid grid-cols-2 gap-2.5 pt-1">
-                            <div className="px-3.5 py-2 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20">
-                              <span className="text-stone-300 text-[9px] font-mono uppercase block">Annual Intake</span>
-                              <span className="font-bold text-xs font-mono text-white truncate block">{prog.intake}</span>
-                            </div>
-                            <div className="px-3.5 py-2 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20">
-                              <span className="text-stone-300 text-[9px] font-mono uppercase block">Tuition</span>
-                              <span className="font-bold text-xs font-mono text-cyan-300 truncate block">{prog.annualFee}</span>
-                            </div>
-                          </div>
-
-                          {/* Direct Action Button */}
-                          <button
-                            onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
-                            className="w-full mt-2 py-3 rounded-2xl bg-[#0D9488] hover:bg-[#0f766e] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xl hover:shadow-teal-950/60 flex items-center justify-center gap-2 cursor-pointer group/btn"
-                          >
-                            <span>{prog.ctaLabel}</span>
-                            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
-                          </button>
-                        </div>
-
-                      </div>
-                    );
-                  })}
-
-                  {/* Step Indicator Pills on bottom right */}
-                  <div className="absolute top-5 right-5 z-30 hidden sm:flex items-center gap-1.5 pointer-events-none">
-                    {programsData.map((_, i) => (
-                      <span
-                        key={i}
-                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                          activeProgramIndex === i ? 'w-6 bg-cyan-400' : 'w-1.5 bg-white/40'
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                </div>
-              </div>
-
-              {/* RIGHT SIDE: SCROLLING DETAILS RELATED TO MAIN TOPICS */}
-              <div className="lg:col-span-7 space-y-16 sm:space-y-24">
-                {programsData.map((prog, pIdx) => {
-                  const isLastProg = pIdx === programsData.length - 1;
-                  const isActive = activeProgramIndex === pIdx;
-
-                  return (
-                    <div
-                      key={prog.id}
-                      ref={(el) => { programCardRefs.current[pIdx] = el; }}
-                      className={`program-card transition-all duration-500 rounded-3xl p-6 sm:p-8 bg-white border shadow-sm ${
-                        isActive ? 'border-[#0D9488]/60 shadow-lg ring-1 ring-[#0D9488]/20' : 'border-stone-200/90'
-                      }`}
-                    >
-                      {/* Top Status Header Strip */}
-                      <div className="flex items-center justify-between gap-4 pb-5 border-b border-stone-200/80 mb-8 sm:mb-10">
-                        {/* Left: Indicator Dot + Header Tag */}
-                        <div className="flex items-center gap-2.5 shrink-0">
-                          <span className={`w-2.5 h-2.5 rounded-full ${prog.headerDotColor}`} />
-                          <span className={`text-xs font-mono font-bold tracking-[0.2em] uppercase ${prog.headerTextColor}`}>
-                            {prog.headerTag}
-                          </span>
-                        </div>
-
-                        {/* Connecting hairline rule */}
-                        <div className="flex-1 h-px bg-stone-200/70 mx-3 hidden sm:block" />
-
-                        {/* Right: Step Counter ("01", "02"...) + Action Pill */}
-                        <div className="flex items-center gap-3.5 shrink-0">
-                          <span className="text-xs font-mono font-bold text-stone-400">
-                            {prog.id}
-                          </span>
-
-                          <button
-                            onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
-                            className="group px-4 py-1.5 rounded-full bg-stone-50 hover:bg-[#0D9488] hover:text-white border border-stone-300/80 text-stone-800 text-[11px] font-mono font-bold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs"
-                          >
-                            <span>{prog.ctaLabel}</span>
-                            <div className="w-4 h-4 rounded-full bg-stone-200 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center transition-colors">
-                              <ArrowRight className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5" />
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* 3 Stacked Pillars for this Program */}
-                      <div className="space-y-8 sm:space-y-10">
-                        {prog.pillars.map((pillar, pillarIdx) => {
-                          const isLastPillar = pillarIdx === prog.pillars.length - 1;
-
-                          return (
-                            <div 
-                              key={`${prog.id}-${pillarIdx}`}
-                              className={`${
-                                !isLastPillar ? 'pb-8 sm:pb-10 border-b border-stone-100' : ''
-                              }`}
-                            >
-                              {/* Text Block */}
-                              <div className="min-w-0">
-                                {/* Eyebrow Label */}
-                                <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] uppercase text-stone-400 mb-1.5">
-                                  {pillar.eyebrow}
-                                </div>
-
-                                {/* Large Bold Headline */}
-                                <h3 
-                                  className={`text-2xl sm:text-3xl lg:text-[36px] font-serif font-bold tracking-tight leading-tight mb-2.5 ${pillar.headlineColor}`}
-                                >
-                                  {pillar.headline}
-                                </h3>
-
-                                {/* Descriptive Paragraph */}
-                                <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
-                                  {pillar.description}
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+                    {/* School Title & Motto at Bottom (Matching Reference Video Exactly) */}
+                    <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
+                      <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md">
+                        {school.title}
+                      </h3>
+                      <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-stone-200 font-bold drop-shadow-sm">
+                        {school.motto}
+                      </p>
                     </div>
-                  );
-                })}
-              </div>
-
+                  </div>
+                );
+              })}
             </div>
+
+            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT (SEAMLESS PARCHMENT, ZERO BOXES) */}
+            <div className="w-full lg:w-1/2 bg-[#FAF6EF] px-8 sm:px-12 lg:px-16 xl:px-20 py-16 sm:py-24 space-y-24 sm:space-y-32">
+              {schoolsData.map((school, sIdx) => {
+                return (
+                  <div
+                    key={school.id}
+                    ref={(el) => { schoolRefs.current[sIdx] = el; }}
+                    className="school-section relative pl-6 sm:pl-8 border-l-[3.5px] border-[#784421]"
+                  >
+                    {/* Header Row: School Title + Circular Arrow Button */}
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-stone-900 tracking-tight leading-[1.12]">
+                        {school.title}
+                      </h3>
+
+                      <button
+                        onClick={() => handleOpenApplyModal(school.title)}
+                        aria-label={`Apply for ${school.title}`}
+                        className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#8E877E] hover:bg-[#784421] text-white flex items-center justify-center shrink-0 transition-all duration-300 shadow-sm hover:scale-105 cursor-pointer mt-1"
+                      >
+                        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                      </button>
+                    </div>
+
+                    {/* Motto */}
+                    <p className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
+                      {school.motto}
+                    </p>
+
+                    {/* Editorial Description */}
+                    <p className="text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
+                      {school.description}
+                    </p>
+
+                    {/* Optional Accreditation Badge (e.g. School of Business) */}
+                    {school.badge && (
+                      <div className="mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
+                        <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
+                          {school.badge.eyebrow}
+                        </span>
+                        <span className="text-base font-bold text-stone-900 block mt-0.5">
+                          {school.badge.title}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Categories and Divided Program Rows */}
+                    <div className="space-y-6">
+                      {school.categories.map((category, cIdx) => (
+                        <div key={cIdx} className="space-y-1">
+                          {/* Category Header */}
+                          <h4 className="text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
+                            {category.name}
+                          </h4>
+
+                          {/* Program Rows with horizontal dividing lines on every row and right arrows */}
+                          <div className="space-y-0">
+                            {category.programs.map((prog, pIdx) => (
+                              <div
+                                key={pIdx}
+                                onClick={() => handleOpenApplyModal(prog.name)}
+                                className="group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
+                              >
+                                <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
+                                  {prog.name}
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#784421] group-hover:translate-x-1 transition-all shrink-0" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                  </div>
+                );
+              })}
+            </div>
+
           </div>
         </div>
       </section>
