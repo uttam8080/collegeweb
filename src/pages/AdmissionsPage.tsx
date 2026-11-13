@@ -50,6 +50,14 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   const placementSectionRef = useRef<HTMLElement>(null);
   const schoolRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Animated 2-second increment counters for Admission Placement Highlights
+  const [placementStats, setPlacementStats] = useState({
+    offers: 0,
+    highest: 0,
+    rate: 0,
+    partners: 0,
+  });
+
   // Direct Application Modal state
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [modalProgram, setModalProgram] = useState('B.Tech (Computer Science & Engineering)');
@@ -271,10 +279,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
     return () => ctx.revert();
   }, []);
 
-  // ScrollTrigger: Placement Highlights section texts, cards & pills popping out while scrolling down
+  // ScrollTrigger: Placement Highlights section texts, cards & pills popping out while scrolling down, and 2-second number increment
   useEffect(() => {
     const section = placementSectionRef.current;
     if (!section) return;
+
+    let animFrame: number;
+    let hasAnimated = false;
 
     const ctx = gsap.context(() => {
       // 1. Header texts popping out smoothly
@@ -296,7 +307,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         }
       );
 
-      // 2. Stat cards popping out with stagger
+      // 2. Stat cards popping out with stagger and synchronized 2-second number increment
       gsap.fromTo(
         '.placement-card-reveal',
         { opacity: 0, y: 55, scale: 0.9 },
@@ -310,7 +321,39 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           scrollTrigger: {
             trigger: section,
             start: 'top 78%',
-            toggleActions: 'play none none none'
+            toggleActions: 'play none none none',
+            onEnter: () => {
+              if (hasAnimated) return;
+              hasAnimated = true;
+
+              // Exact 2-second synchronized increment for all 4 numbers
+              const targets = { offers: 1203, highest: 28, rate: 94.8, partners: 120 };
+              const startTime = performance.now();
+              const duration = 2000; // exactly 2.0 seconds
+
+              const update = (now: number) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Unified smooth cubic ease-out
+                const ease = 1 - Math.pow(1 - progress, 3);
+
+                setPlacementStats({
+                  offers: Math.round(targets.offers * ease),
+                  highest: Math.round(targets.highest * ease),
+                  rate: Math.round(targets.rate * ease * 10) / 10,
+                  partners: Math.round(targets.partners * ease),
+                });
+
+                if (progress < 1) {
+                  animFrame = requestAnimationFrame(update);
+                } else {
+                  // Guarantee all numbers reach final values simultaneously at 2.0s
+                  setPlacementStats(targets);
+                }
+              };
+
+              animFrame = requestAnimationFrame(update);
+            }
           }
         }
       );
@@ -335,7 +378,10 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       );
     }, section);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      if (animFrame) cancelAnimationFrame(animFrame);
+    };
   }, []);
 
   // ScrollTrigger: Scholarship section texts and cards popping out while scrolling down
@@ -1082,18 +1128,18 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 6: "Placement Highlights" (Reference Modern Grey/White Tech Pill Background & Pop-Out Scroll Animation)
+          SECTION 6: "Placement Highlights" (Reference 3D White Isometric Hexagons Background & 2s Pop-Out Counter Animation)
           ========================================================================= */}
       <section 
         ref={placementSectionRef}
-        className="relative py-20 sm:py-28 bg-[#F8F9FA] text-slate-900 overflow-hidden border-y border-slate-200/80 select-none"
+        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80 select-none"
       >
-        {/* Reference Modern Light Tech Capsules/Circuits Background */}
+        {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
         <div 
-          className="absolute inset-0 pointer-events-none opacity-90 bg-cover bg-center"
+          className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-left sm:bg-center"
           style={{
-            backgroundImage: `url('/admissions-programs/placement-highlights-tech-bg.jpg')`,
-            backgroundPosition: 'center',
+            backgroundImage: `url('/admissions-programs/white-hexagons-bg.png')`,
+            backgroundPosition: 'left center',
             backgroundSize: 'cover',
           }}
         />
@@ -1118,21 +1164,37 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             </p>
           </div>
 
-          {/* Big Key Stats */}
+          {/* Big Key Stats (Animated 2-Second Increments) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 max-w-5xl mx-auto pt-2">
             {[
-              { number: '1,203+', label: 'Placement Offers', border: 'from-emerald-400 to-teal-500' },
-              { number: '28+ LPA', label: 'Highest Package', border: 'from-cyan-400 to-blue-500' },
-              { number: '94.8%', label: 'Placement Rate', border: 'from-amber-400 to-orange-500' },
-              { number: '120+', label: 'Hiring Partners', border: 'from-purple-400 to-indigo-500' },
+              { 
+                value: `${placementStats.offers.toLocaleString()}+`, 
+                label: 'Placement Offers', 
+                border: 'from-emerald-400 to-teal-500' 
+              },
+              { 
+                value: `${placementStats.highest}+ LPA`, 
+                label: 'Highest Package', 
+                border: 'from-cyan-400 to-blue-500' 
+              },
+              { 
+                value: `${placementStats.rate.toFixed(1)}%`, 
+                label: 'Placement Rate', 
+                border: 'from-amber-400 to-orange-500' 
+              },
+              { 
+                value: `${placementStats.partners}+`, 
+                label: 'Hiring Partners', 
+                border: 'from-purple-400 to-indigo-500' 
+              },
             ].map((stat, i) => (
               <div 
                 key={i} 
-                className="placement-card-reveal group relative p-6 sm:p-7 rounded-3xl bg-white/85 hover:bg-white backdrop-blur-xl border border-slate-200/80 hover:border-teal-500/50 shadow-[0_10px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(13,148,136,0.12)] transition-all duration-300 overflow-hidden text-center"
+                className="placement-card-reveal group relative p-6 sm:p-7 rounded-3xl bg-white/90 hover:bg-white backdrop-blur-xl border border-slate-200/90 hover:border-teal-500/50 shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(13,148,136,0.12)] transition-all duration-300 overflow-hidden text-center"
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.border} opacity-80 group-hover:h-1.5 transition-all duration-300`} />
                 <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 font-mono tracking-tight block tabular-nums group-hover:text-[#0D9488] transition-colors">
-                  {stat.number}
+                  {stat.value}
                 </span>
                 <span className="text-xs font-mono uppercase tracking-[0.18em] text-slate-500 font-bold mt-2.5 block">
                   {stat.label}
@@ -1150,7 +1212,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               {['TCS Digital', 'Infosys', 'Wipro', 'Cognizant GenC', 'Amazon AWS', 'Cisco Systems', 'Capgemini', 'Accenture', 'Tech Mahindra'].map((rec, i) => (
                 <span 
                   key={i} 
-                  className="placement-badge-reveal px-4 py-2 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-200 shadow-2xs text-xs font-semibold transition-all hover:scale-105 hover:border-teal-400/50 cursor-default"
+                  className="placement-badge-reveal px-4 py-2 rounded-full bg-white/95 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-200 shadow-2xs text-xs font-semibold transition-all hover:scale-105 hover:border-teal-400/50 cursor-default"
                 >
                   {rec}
                 </span>
