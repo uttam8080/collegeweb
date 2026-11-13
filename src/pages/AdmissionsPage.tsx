@@ -1135,9 +1135,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       >
         {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-left sm:bg-center"
+          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-left sm:bg-center"
           style={{
-            backgroundImage: `url('/admissions-programs/white-hexagons-bg.png')`,
+            backgroundImage: `url('/admissions-programs/white-hexagons-3d-bg.jpg')`,
             backgroundPosition: 'left center',
             backgroundSize: 'cover',
           }}
