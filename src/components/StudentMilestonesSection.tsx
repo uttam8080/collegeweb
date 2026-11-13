@@ -312,25 +312,17 @@ export const StudentMilestonesSection: React.FC<StudentMilestonesSectionProps> =
                   {/* 3 Stacked Pillars for this Year with Minimal Gap */}
                   <div className="space-y-8 sm:space-y-10">
                     {year.pillars.map((pillar, pIdx) => {
-                      const IconComp = pillar.icon;
                       const isLastPillar = pIdx === year.pillars.length - 1;
 
                       return (
                         <div 
                           key={`${year.id}-${pIdx}`}
-                          className={`flex items-start gap-4 sm:gap-6 ${
+                          className={`${
                             !isLastPillar ? 'pb-8 sm:pb-10 border-b border-stone-200/80' : ''
                           }`}
                         >
-                          {/* Rounded Icon Badge */}
-                          <div 
-                            className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-xs transition-transform duration-300 hover:scale-105 ${pillar.badgeBg} ${pillar.iconColor}`}
-                          >
-                            <IconComp className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
-                          </div>
-
-                          {/* Right Text Block */}
-                          <div className="flex-1 min-w-0">
+                          {/* Text Block */}
+                          <div className="min-w-0">
                             {/* Eyebrow Label */}
                             <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] uppercase text-stone-400 mb-1.5">
                               {pillar.eyebrow}

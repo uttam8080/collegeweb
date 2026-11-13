@@ -510,9 +510,6 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
 
                 {/* Bottom Content */}
                 <div className="relative z-10 space-y-5">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-400/30 flex items-center justify-center text-blue-300">
-                    <Laptop className="w-6 h-6 stroke-[2]" />
-                  </div>
                   <div>
                     <span className="text-xs font-mono text-blue-300 uppercase tracking-wider block mb-1">
                       {activeSchool.shortName}
@@ -548,7 +545,6 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
             {/* RIGHT COLUMN: Stack of 6 School Cards */}
             <div className="lg:col-span-7 space-y-4">
               {schoolsData.map((school) => {
-                const IconComp = school.icon;
                 const isSelected = activeSchoolId === school.id;
 
                 return (
@@ -562,12 +558,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-4">
-                        <div className={`w-12 h-12 rounded-2xl shrink-0 flex items-center justify-center transition-colors ${
-                          isSelected ? 'bg-[#1E3A8A] text-white shadow-xs' : 'bg-stone-100 text-stone-700'
-                        }`}>
-                          <IconComp className="w-6 h-6 stroke-[2]" />
-                        </div>
+                      <div className="flex-1 min-w-0">
                         <div>
                           <div className="flex flex-wrap items-center gap-2 mb-1">
                             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500">
