@@ -308,7 +308,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         eyebrow: 'CULINARY EXCELLENCE & NUTRITION',
         title: '650+ Seating Capacity · HACCP Certified'
       },
-      image: '/assets/images/college_campus_hero_1793988186342.jpg',
+      image: '/campus-facilities/cafeteria_dining_court.jpg',
       imageAlt: 'Multi-Cuisine Student Cafeteria',
       snapshots: ['HACCP Certified Kitchen', '650+ Seating Concourse', 'Multi-Cuisine Counters', 'Industrial RO Plant'],
       categories: [
@@ -342,7 +342,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         eyebrow: 'PHYSICAL WELLNESS & TROPHIES',
         title: 'Multi-Sport Complex · Certified Fitness Trainers'
       },
-      image: '/assets/images/college_convocation_1793988239815.jpg',
+      image: '/campus-facilities/sports_athletics_complex.jpg',
       imageAlt: 'College Athletics and Sports Arena',
       snapshots: ['FIFA Football Turf', 'Floodlit Basketball Arena', 'BWF Badminton Courts', 'Air-Conditioned Gym'],
       categories: [
@@ -867,7 +867,50 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
     };
   }, []);
 
-  // ScrollTrigger: Facilities sticky left showcase syncing & entrance animations
+  // Direct jump to any facility photo & details
+  const handleSelectFacility = (index: number) => {
+    setActiveFacilityIndex(index);
+    const targetEl = facilityRefs.current[index];
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // Dual-Engine Sync: Native IntersectionObserver + GSAP ScrollTrigger
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const indexStr = entry.target.getAttribute('data-facility-index');
+            if (indexStr !== null) {
+              const idx = parseInt(indexStr, 10);
+              setActiveFacilityIndex(idx);
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '-20% 0px -40% 0px',
+        threshold: 0.1
+      }
+    );
+
+    facilityRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 450);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // ScrollTrigger: Facilities entrance animations
   useEffect(() => {
     const section = facilitiesSectionRef.current;
     if (!section) return;
@@ -1055,14 +1098,15 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       {/* =========================================================================
           WORLD-CLASS CAMPUS INFRASTRUCTURE (50/50 SPLIT CINEMATIC SECTION)
           - Headings: Playfair Display font (font-playfair font-bold)
-          - 9 Premier Campus Facilities showcasing all campus spaces & images
+          - 9 Premier Campus Facilities with complete photos (Central Library, Computing, Robotics, Lecture Halls, Workshops, VR Studio, Dining, Sports, Hostels)
           - Divider: The image container itself is curved (S-curve clipPath) - NOT curved lines drawn on top!
-          - Background: 2D multi-colored flowing wavy background matching reference image
+          - Background: 100% Sticky 2D multi-colored flowing wavy background matching reference image
+          - Quick-Jump Pill Bar for instant access to every facility & photo
           ========================================================================= */}
       <section
         id="campus-facilities"
         ref={facilitiesSectionRef}
-        className="relative w-full bg-[#FAF7F2] border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
+        className="relative w-full bg-[#FAF7F2] border-t border-b border-stone-200 scroll-mt-10"
       >
         {/* SVG Curved Divider ClipPath Definition (The boundary itself is an S-curve, no drawn lines) */}
         <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
@@ -1115,9 +1159,40 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
           </div>
         </div>
 
+        {/* Quick-Jump Facility Navigation Pills (1-Click Direct Access to all 9 Facilities & Photos) */}
+        <div className="w-full bg-[#FAF7F2] border-b border-stone-300/70 py-3.5 px-4 sm:px-8 overflow-x-auto no-scrollbar shadow-2xs">
+          <div className="max-w-7xl mx-auto flex items-center justify-start lg:justify-center gap-2 sm:gap-2.5">
+            {campusFacilitiesData.map((f, idx) => (
+              <button
+                key={f.id}
+                onClick={() => handleSelectFacility(idx)}
+                className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-mono font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                  activeFacilityIndex === idx
+                    ? 'bg-[#0D9488] text-white shadow-sm scale-102 font-bold'
+                    : 'bg-white/90 text-stone-700 hover:bg-stone-100 border border-stone-300/80'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${activeFacilityIndex === idx ? 'bg-white' : 'bg-[#0D9488]'}`} />
+                <span>{f.id} {f.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* PART B: 50/50 SPLIT SHOWCASE WITH CURVED BOUNDARY */}
-        <div className="w-full relative overflow-hidden bg-[#FAF7F2]">
-          <div className="w-full flex flex-col lg:flex-row items-start relative">
+        <div className="w-full relative bg-[#FAF7F2]">
+          {/* STICKY REFERENCE 2D MULTI-COLORED WAVY BACKGROUND */}
+          <div className="sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
+            <img
+              src="/campus-facilities/wavy-2d-colored-bg.jpg"
+              alt="2D Wavy Background"
+              className="w-full h-full object-cover object-center opacity-85"
+            />
+            {/* Subtle gentle gradient blend at top & bottom */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/40 via-transparent to-[#FAF7F2]/40 pointer-events-none" />
+          </div>
+
+          <div className="w-full flex flex-col lg:flex-row items-start relative z-10">
 
             {/* LEFT COLUMN: 50% WIDTH STICKY SHOWCASE WITH CURVED RIGHT EDGE (THE DIVIDER IS THE CURVE) */}
             <div className="w-full lg:w-[52%] lg:sticky lg:top-0 h-[480px] sm:h-[600px] lg:h-screen self-start overflow-hidden bg-stone-950 z-20 lg:[clip-path:url(#curved-divider-clip)] lg:[filter:drop-shadow(10px_0_24px_rgba(0,0,0,0.22))]">
@@ -1165,34 +1240,17 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
               })}
             </div>
 
-            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT WITH 2D MULTI-COLORED WAVY REFERENCE BACKGROUND */}
-            <div className="w-full lg:w-[50%] lg:-ml-[2%] relative bg-[#FAF7F2]">
-              {/* STICKY REFERENCE 2D MULTI-COLORED WAVY BACKGROUND (DESKTOP) */}
-              <div className="hidden lg:block sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
-                <img
-                  src="/campus-facilities/wavy-2d-colored-bg.jpg"
-                  alt=""
-                  className="w-full h-full object-cover object-center opacity-85"
-                />
-              </div>
-
-              {/* MOBILE BACKGROUND */}
-              <div className="lg:hidden absolute inset-0 pointer-events-none z-0 overflow-hidden">
-                <img
-                  src="/campus-facilities/wavy-2d-colored-bg.jpg"
-                  alt=""
-                  className="w-full h-full object-cover object-center opacity-85"
-                />
-              </div>
-
+            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT */}
+            <div className="w-full lg:w-[50%] lg:-ml-[2%] relative">
               {/* Scrolling Content */}
               <div className="relative z-10 px-8 sm:px-12 lg:pl-16 lg:pr-12 xl:pl-20 xl:pr-16 py-16 sm:py-24 space-y-24 sm:space-y-32">
                 {campusFacilitiesData.map((facility, fIdx) => {
                   return (
                     <div
                       key={facility.id}
+                      data-facility-index={fIdx}
                       ref={(el) => { facilityRefs.current[fIdx] = el; }}
-                      className="facility-section relative"
+                      className="facility-section relative scroll-mt-36"
                     >
                       {/* Header Row: Facility Title in Playfair Display Font + Circular Action Button */}
                       <div className="facility-header-reveal flex items-start justify-between gap-4 mb-2">
@@ -1218,6 +1276,29 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                       <p className="facility-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-stone-600 mb-4">
                         {facility.motto}
                       </p>
+
+                      {/* Facility Photo Snapshot Card inside the section */}
+                      <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-md my-6 group border border-stone-300/80">
+                        <img
+                          src={facility.image}
+                          alt={facility.imageAlt}
+                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent pointer-events-none" />
+                        <div className="absolute bottom-4 left-5 right-5 text-white flex items-end justify-between">
+                          <div>
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 block mb-0.5">
+                              Space {facility.id} · Campus Space
+                            </span>
+                            <h4 className="font-playfair text-xl sm:text-2xl font-bold text-white drop-shadow-sm">
+                              {facility.title}
+                            </h4>
+                          </div>
+                          <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white shrink-0">
+                            Verified Space
+                          </span>
+                        </div>
+                      </div>
 
                       {/* Editorial Description */}
                       <p className="facility-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-6">
