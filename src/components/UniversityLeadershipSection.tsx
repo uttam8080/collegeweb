@@ -93,7 +93,7 @@ export const UniversityLeadershipSection: React.FC<UniversityLeadershipSectionPr
 
   return (
     <section 
-      className="relative w-full overflow-hidden select-none py-20 sm:py-28 lg:py-32 bg-fixed bg-center bg-cover bg-no-repeat"
+      className="relative w-full overflow-hidden py-20 sm:py-28 lg:py-32 bg-fixed bg-center bg-cover bg-no-repeat"
       style={{
         backgroundImage: "url('/college-campus-bg1.jpg')",
         backgroundAttachment: 'fixed',

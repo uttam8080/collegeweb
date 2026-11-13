@@ -145,7 +145,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
   ];
 
   return (
-    <section className="relative w-full -mt-px bg-[#0E1726] border-b border-stone-200 overflow-hidden select-none">
+    <section className="relative w-full -mt-px bg-[#0E1726] border-b border-stone-200 overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
         
         {/* =========================================================================

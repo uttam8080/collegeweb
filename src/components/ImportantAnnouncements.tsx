@@ -132,7 +132,7 @@ export const ImportantAnnouncements: React.FC<ImportantAnnouncementsProps> = ({ 
   ];
 
   return (
-    <section className="w-full bg-[#FAFAFA] py-14 sm:py-20 border-b border-stone-200 select-none">
+    <section className="w-full bg-[#FAFAFA] py-14 sm:py-20 border-b border-stone-200">
       {/* Embedded CSS Keyframes for GPU-Accelerated Smooth Vertical Upward Animation */}
       <style>{`
         @keyframes scrollNoticesUpward {

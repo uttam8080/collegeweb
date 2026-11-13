@@ -103,7 +103,7 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ onNavigate }) => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full bg-[#991B1B] border-b border-[#7F1D1D] overflow-hidden select-none py-10 md:py-14"
+      className="relative w-full bg-[#991B1B] border-b border-[#7F1D1D] overflow-hidden py-10 md:py-14"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* 4 Clean Columns with Simple White Vertical Dividers */}

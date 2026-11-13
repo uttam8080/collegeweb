@@ -201,7 +201,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
     },
     {
       id: '05',
-      title: 'School of Advanced Research & Polytechnic',
+      title: 'School of Polytechnic',
       motto: 'HANDS-ON TECHNICAL RIGOR & DIPLOMA WORKSHOPS',
       image: '/admissions-programs/diploma-polytechnic-workshop.jpg',
       imageAlt: 'School of Polytechnic Engineering and CNC Machining Workshop',
@@ -472,7 +472,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       {/* =========================================================================
           SECTION 1: HERO BANNER ("Begin your journey at Trident")
           ========================================================================= */}
-      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between">
         {/* Background Hero Image (Uploaded Seminar/Mentorship Photo) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
@@ -673,7 +673,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       <section
         id="admissions-programs"
         ref={programsSectionRef}
-        className="relative w-full select-none"
+        className="relative w-full"
       >
         {/* Wave Section Divider: Flowing from Section 2 (White) into Header */}
         <div className="overflow-hidden leading-none z-10 pointer-events-none -mb-px" aria-hidden="true">
@@ -999,13 +999,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section
         ref={scholarshipSectionRef}
-        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10 select-none"
+        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10"
       >
         {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-center"
+          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-center"
           style={{
-            backgroundImage: `url('/admissions-programs/scholarship-geometric-bg.jpg')`,
+            backgroundImage: `url('/admissions-programs/scholarship-mint-geometric-bg.jpg')`,
             backgroundPosition: 'center',
             backgroundSize: 'cover',
           }}
@@ -1134,13 +1134,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section
         ref={placementSectionRef}
-        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80 select-none"
+        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80"
       >
         {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-left sm:bg-center"
+          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-left sm:bg-center"
           style={{
-            backgroundImage: `url('/admissions-programs/white-hexagons-bg.png')`,
+            backgroundImage: `url('/admissions-programs/white-hexagons-3d-bg.jpg')`,
             backgroundPosition: 'left center',
             backgroundSize: 'cover',
           }}

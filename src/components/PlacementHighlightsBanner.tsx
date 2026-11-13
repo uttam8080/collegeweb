@@ -261,7 +261,7 @@ export const PlacementHighlightsBanner: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full py-20 sm:py-28 lg:py-32 bg-[#020617] overflow-hidden select-none border-y border-cyan-500/20"
+      className="relative w-full py-20 sm:py-28 lg:py-32 bg-[#020617] overflow-hidden border-y border-cyan-500/20"
     >
       {/* Spatial Cosmic & Nebula Gradient Overlays */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,165,233,0.18),rgba(255,255,255,0))] pointer-events-none" />

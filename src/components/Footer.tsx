@@ -100,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <footer className="w-full select-none font-sans text-stone-100">
+    <footer className="w-full font-sans text-stone-100">
       
       {/* =========================================================================
           1. TOP ACCREDITATION & RECOGNITION LOGOS CAROUSEL (WHITE RIBBON)

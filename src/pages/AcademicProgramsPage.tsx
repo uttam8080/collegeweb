@@ -270,7 +270,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
       {/* =========================================================================
           HERO SECTION: Preserved 100% as requested by User
           ========================================================================= */}
-      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between">
         
         {/* Background Convocation Hero Image */}
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -708,7 +708,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
               </div>
 
               {/* Right: Academic Gazette Preview Document Card */}
-              <div className="lg:col-span-6 bg-stone-50 border border-stone-300/80 rounded-2xl p-6 sm:p-8 font-serif shadow-xs select-none">
+              <div className="lg:col-span-6 bg-stone-50 border border-stone-300/80 rounded-2xl p-6 sm:p-8 font-serif shadow-xs">
                 <div className="border-b-2 border-stone-800 pb-3 mb-4 text-center">
                   <span className="text-[10px] font-mono tracking-widest uppercase text-stone-500 block">
                     BIJU PATNAIK UNIVERSITY OF TECHNOLOGY, ODISHA

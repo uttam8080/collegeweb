@@ -427,7 +427,7 @@ export const AcademicProgramsSection: React.FC<Props> = ({ onNavigate }) => {
   return (
     <section 
       ref={sectionRef}
-      className="relative w-full bg-[#FAF9F6] border-b border-stone-200 py-16 sm:py-24 lg:py-28 overflow-hidden select-none"
+      className="relative w-full bg-[#FAF9F6] border-b border-stone-200 py-16 sm:py-24 lg:py-28 overflow-hidden"
     >
       
       {/* Background Architectural Ambient Radial Glows */}
