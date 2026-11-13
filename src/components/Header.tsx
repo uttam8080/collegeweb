@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, LogOut, ChevronDown, ChevronRight } from 'lucide-react';
 import { TekkzyLogo } from './TekkzyLogo';
+import { gsap } from '../utils/animations';
 
 interface SubMenuItem {
   label: string;
@@ -35,6 +36,88 @@ export const Header: React.FC<Props> = ({
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Initial center-to-corner logo entrance animation
+  const targetLogoRef = useRef<HTMLButtonElement>(null);
+  const flyingLogoRef = useRef<HTMLDivElement>(null);
+  const overlayBackdropRef = useRef<HTMLDivElement>(null);
+  const [showIntroAnimation, setShowIntroAnimation] = useState(true);
+
+  // Play initial logo animation: large in center -> hold 1s -> move to top-left corner
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const timeout = setTimeout(() => {
+      const targetEl = targetLogoRef.current;
+      const flyingEl = flyingLogoRef.current;
+      const backdrop = overlayBackdropRef.current;
+
+      if (!targetEl || !flyingEl) {
+        setShowIntroAnimation(false);
+        return;
+      }
+
+      // Hide target logo in navbar before animation starts
+      gsap.set(targetEl, { opacity: 0 });
+
+      // Large logo initially hidden in the center of the screen
+      gsap.set(flyingEl, {
+        opacity: 0,
+        scale: 1.4,
+        x: 0,
+        y: 0,
+      });
+
+      const tl = gsap.timeline();
+
+      // 1. First, large logo is shown in the middle
+      tl.to(flyingEl, {
+        opacity: 1,
+        scale: 2.2,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+      // 2. Stay 1 second in the center
+      .to({}, { duration: 1.0 })
+      // 3. Move smoothly to top-left corner
+      .add(() => {
+        const targetRect = targetEl.getBoundingClientRect();
+        const flyingRect = flyingEl.getBoundingClientRect();
+
+        const targetCenterX = targetRect.left + targetRect.width / 2;
+        const targetCenterY = targetRect.top + targetRect.height / 2;
+        const flyingCenterX = flyingRect.left + flyingRect.width / 2;
+        const flyingCenterY = flyingRect.top + flyingRect.height / 2;
+
+        const deltaX = targetCenterX - flyingCenterX;
+        const deltaY = targetCenterY - flyingCenterY;
+        const scaleRatio = targetRect.height / (flyingRect.height || 1);
+
+        gsap.to(flyingEl, {
+          x: deltaX,
+          y: deltaY,
+          scale: scaleRatio || 0.45,
+          duration: 1.15,
+          ease: 'power3.inOut',
+          onComplete: () => {
+            // Target logo becomes permanently visible in navbar
+            gsap.set(targetEl, { opacity: 1 });
+            setShowIntroAnimation(false);
+          },
+        });
+
+        if (backdrop) {
+          gsap.to(backdrop, {
+            opacity: 0,
+            duration: 0.95,
+            ease: 'power2.out',
+          });
+        }
+      });
+    }, 60);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const isHome = currentTab === 'home';
   const isHeroTransparent = currentTab === 'home' || currentTab === 'programs' || currentTab === 'campus' || currentTab === 'admissions';
@@ -121,13 +204,15 @@ export const Header: React.FC<Props> = ({
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          {/* Logo */}
+          {/* Logo (invisible before animation, reveals when logo lands in corner) */}
           <button
+            ref={targetLogoRef}
             onClick={() => {
               onNavigate('home');
               setMobileMenuOpen(false);
             }}
-            className="group cursor-pointer focus:outline-hidden"
+            className="group cursor-pointer focus:outline-hidden transition-opacity duration-200"
+            style={{ opacity: showIntroAnimation ? 0 : 1 }}
             aria-label="TEKKZY College of Technology"
           >
             <TekkzyLogo variant="light" />
@@ -306,6 +391,25 @@ export const Header: React.FC<Props> = ({
               APPLY NOW
             </button>
           </nav>
+        </div>
+      )}
+
+      {/* Initial Center-to-Corner Logo Entrance Animation */}
+      {showIntroAnimation && (
+        <div className="fixed inset-0 z-[100000] pointer-events-none flex items-center justify-center overflow-hidden">
+          {/* Subtle cinematic backdrop that fades out smoothly as logo flies */}
+          <div 
+            ref={overlayBackdropRef} 
+            className="absolute inset-0 bg-[#07130b]/85 backdrop-blur-md" 
+          />
+          {/* Large Logo centered initially, stays 1s, then glides to top-left corner */}
+          <div
+            ref={flyingLogoRef}
+            className="relative z-10 flex items-center justify-center will-change-transform filter drop-shadow-[0_12px_40px_rgba(6,182,212,0.4)]"
+            style={{ opacity: 0 }}
+          >
+            <TekkzyLogo variant="light" size="xl" />
+          </div>
         </div>
       )}
     </header>
