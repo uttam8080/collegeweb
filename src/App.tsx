@@ -17,6 +17,7 @@ import { NoticesPage } from './pages/NoticesPage';
 import { CampusLifePage } from './pages/CampusLifePage';
 import { PlacementsPage } from './pages/PlacementsPage';
 import { ContactPage } from './pages/ContactPage';
+import { StaffSecurityPage } from './pages/StaffSecurityPage';
 
 export type NavigationTab = 
   | 'home' 
@@ -30,22 +31,28 @@ export type NavigationTab =
   | 'placements' 
   | 'contact' 
   | 'about' 
-  | 'lesson-detail';
+  | 'lesson-detail'
+  | 'staff/security'
+  | 'security';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<NavigationTab>(() => {
     try {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      const validTabs: NavigationTab[] = [
+      const validTabs: string[] = [
         'home', 'subjects', 'paths', 'programs', 'admissions',
-        'research', 'notices', 'campus', 'placements', 'contact', 'about'
+        'research', 'notices', 'campus', 'placements', 'contact', 'about',
+        'staff/security', 'security'
       ];
-      if (validTabs.includes(hash as NavigationTab)) {
+      if (validTabs.includes(hash)) {
         return hash as NavigationTab;
       }
-      const path = window.location.pathname.replace(/^\//, '').toLowerCase();
-      if (validTabs.includes(path as NavigationTab)) {
-        return path as NavigationTab;
+      const rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
+      if (validTabs.includes(rawPath)) {
+        return rawPath as NavigationTab;
+      }
+      if (rawPath === 'staff/security' || rawPath === 'security') {
+        return 'staff/security';
       }
     } catch {
       // ignore
@@ -196,11 +203,12 @@ export default function App() {
     const handleHashChange = () => {
       try {
         const hash = window.location.hash.replace('#', '').toLowerCase();
-        const validTabs: NavigationTab[] = [
+        const validTabs: string[] = [
           'home', 'subjects', 'paths', 'programs', 'admissions',
-          'research', 'notices', 'campus', 'placements', 'contact', 'about'
+          'research', 'notices', 'campus', 'placements', 'contact', 'about',
+          'staff/security', 'security'
         ];
-        if (validTabs.includes(hash as NavigationTab)) {
+        if (validTabs.includes(hash)) {
           setCurrentTab(hash as NavigationTab);
         }
       } catch {
@@ -382,6 +390,26 @@ export default function App() {
         )}
 
         {currentTab === 'about' && <AboutPage onNavigate={handleNavigate} />}
+
+        {(currentTab === 'staff/security' || currentTab === 'security') && (
+          <StaffSecurityPage onNavigate={handleNavigate} />
+        )}
+
+        {/* Fallback to Home if unknown tab to guarantee NO blank screens ever */}
+        {!['home', 'subjects', 'paths', 'lesson-detail', 'admissions', 'programs', 'research', 'notices', 'campus', 'placements', 'contact', 'about', 'staff/security', 'security'].includes(currentTab) && (
+          <HomePage
+            onSelectSubject={handleSelectSubject}
+            onSelectPath={handleSelectPath}
+            onSelectLesson={handleSelectLesson}
+            onNavigate={handleNavigate}
+            completedLessonIds={completedLessonIds}
+            bookmarkedLessonIds={bookmarkedLessonIds}
+            enrolledPathIds={enrolledPathIds}
+            onToggleBookmark={handleToggleBookmark}
+            onOpenSearch={() => setIsSearchOpen(true)}
+            onOpenAuth={handleOpenAuth}
+          />
+        )}
       </div>
 
       {/* Global Footer */}
