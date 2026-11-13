@@ -310,6 +310,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
   // ScrollTrigger: Smooth entrance for each card and sync active program with right sticky sidebar
   useEffect(() => {
+    if (!programsSectionRef.current) return;
     const ctx = gsap.context(() => {
       programCardRefs.current.forEach((card, index) => {
         if (!card) return;
@@ -338,7 +339,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           onEnterBack: () => setActiveProgramIndex(index)
         });
       });
-    }, programsSectionRef);
+    }, programsSectionRef.current);
 
     return () => ctx.revert();
   }, []);

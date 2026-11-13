@@ -34,7 +34,25 @@ export type NavigationTab =
   | 'lesson-detail';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<NavigationTab>('home');
+  const [currentTab, setCurrentTab] = useState<NavigationTab>(() => {
+    try {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      const validTabs: NavigationTab[] = [
+        'home', 'subjects', 'paths', 'programs', 'admissions',
+        'research', 'notices', 'campus', 'placements', 'contact', 'about'
+      ];
+      if (validTabs.includes(hash as NavigationTab)) {
+        return hash as NavigationTab;
+      }
+      const path = window.location.pathname.replace(/^\//, '').toLowerCase();
+      if (validTabs.includes(path as NavigationTab)) {
+        return path as NavigationTab;
+      }
+    } catch {
+      // ignore
+    }
+    return 'home';
+  });
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [selectedPathId, setSelectedPathId] = useState<string | null>(null);
   const [activeLessonId, setActiveLessonId] = useState<string>('lesson-aryabhata-zero');
@@ -159,6 +177,37 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Sync currentTab with URL hash for persistent navigation and bookmarking
+  useEffect(() => {
+    try {
+      if (window.location.hash.replace('#', '') !== currentTab) {
+        window.location.hash = currentTab;
+      }
+    } catch {
+      // ignore
+    }
+  }, [currentTab]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      try {
+        const hash = window.location.hash.replace('#', '').toLowerCase();
+        const validTabs: NavigationTab[] = [
+          'home', 'subjects', 'paths', 'programs', 'admissions',
+          'research', 'notices', 'campus', 'placements', 'contact', 'about'
+        ];
+        if (validTabs.includes(hash as NavigationTab)) {
+          setCurrentTab(hash as NavigationTab);
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   // Handlers

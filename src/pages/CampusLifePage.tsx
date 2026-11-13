@@ -295,6 +295,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
 
   // ScrollTrigger: Smooth entrance for each card and sync active club with right sticky sidebar
   useEffect(() => {
+    if (!clubsSectionRef.current) return;
     const ctx = gsap.context(() => {
       clubCardRefs.current.forEach((card, index) => {
         if (!card) return;
@@ -323,7 +324,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
           onEnterBack: () => setActiveClubIndex(index)
         });
       });
-    }, clubsSectionRef);
+    }, clubsSectionRef.current);
 
     return () => ctx.revert();
   }, []);
