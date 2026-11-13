@@ -1000,9 +1000,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       >
         {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-center"
+          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-center"
           style={{
-            backgroundImage: `url('/admissions-programs/scholarship-geometric-bg.jpg')`,
+            backgroundImage: `url('/admissions-programs/scholarship-mint-geometric-bg.jpg')`,
             backgroundPosition: 'center',
             backgroundSize: 'cover',
           }}
