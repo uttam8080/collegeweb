@@ -4,7 +4,7 @@ import logoBadge from '../assets/images/Tekkzy College Tech Badge.png';
 interface Props {
   className?: string;
   variant?: 'light' | 'dark';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   showText?: boolean;
 }
 
@@ -20,6 +20,7 @@ export const TekkzyLogo: React.FC<Props> = ({
     sm: { icon: 'w-8 h-8 sm:w-9 sm:h-9', mainText: 'text-lg', subText: 'text-[7.5px]' },
     md: { icon: 'w-10 h-10 sm:w-11 sm:h-11', mainText: 'text-xl sm:text-2xl', subText: 'text-[8.5px] sm:text-[9.5px]' },
     lg: { icon: 'w-16 h-16 sm:w-20 sm:h-20', mainText: 'text-3xl', subText: 'text-[11px]' },
+    xl: { icon: 'w-24 h-24 sm:w-28 sm:h-28', mainText: 'text-4xl sm:text-5xl', subText: 'text-xs sm:text-sm tracking-[0.35em]' },
   }[size];
 
   return (

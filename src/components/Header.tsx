@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, LogOut, ChevronDown, ChevronRight } from 'lucide-react';
 import { TekkzyLogo } from './TekkzyLogo';
+import { gsap } from '../utils/animations';
 
 interface SubMenuItem {
   label: string;
@@ -24,6 +25,9 @@ interface Props {
   completedLessonsCount?: number;
 }
 
+// Module-level guard ensuring the intro animation runs strictly ONCE across the entire session
+let globalLogoIntroDone = false;
+
 export const Header: React.FC<Props> = ({
   currentTab,
   onNavigate,
@@ -35,6 +39,97 @@ export const Header: React.FC<Props> = ({
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Initial center-to-corner logo entrance animation
+  const targetLogoRef = useRef<HTMLButtonElement>(null);
+  const flyingLogoRef = useRef<HTMLDivElement>(null);
+  const overlayBackdropRef = useRef<HTMLDivElement>(null);
+  const [showIntroAnimation, setShowIntroAnimation] = useState(() => !globalLogoIntroDone);
+
+  // Play initial logo animation: large in center -> hold 1s -> move to top-left corner
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (globalLogoIntroDone) {
+      setShowIntroAnimation(false);
+      if (targetLogoRef.current) {
+        gsap.set(targetLogoRef.current, { opacity: 1 });
+      }
+      return;
+    }
+    globalLogoIntroDone = true;
+
+    const timeout = setTimeout(() => {
+      const targetEl = targetLogoRef.current;
+      const flyingEl = flyingLogoRef.current;
+      const backdrop = overlayBackdropRef.current;
+
+      if (!targetEl || !flyingEl) {
+        setShowIntroAnimation(false);
+        return;
+      }
+
+      // Hide target logo in navbar before animation starts
+      gsap.set(targetEl, { opacity: 0 });
+
+      // Large logo initially hidden in the center of the screen
+      gsap.set(flyingEl, {
+        opacity: 0,
+        scale: 1.4,
+        x: 0,
+        y: 0,
+      });
+
+      const tl = gsap.timeline();
+
+      // 1. First, large logo is shown in the middle
+      tl.to(flyingEl, {
+        opacity: 1,
+        scale: 2.2,
+        duration: 0.7,
+        ease: 'power3.out',
+      })
+      // 2. Stay 1 second in the center
+      .to({}, { duration: 1.0 })
+      // 3. Move smoothly to top-left corner
+      .add(() => {
+        const targetRect = targetEl.getBoundingClientRect();
+        const flyingRect = flyingEl.getBoundingClientRect();
+
+        const targetCenterX = targetRect.left + targetRect.width / 2;
+        const targetCenterY = targetRect.top + targetRect.height / 2;
+        const flyingCenterX = flyingRect.left + flyingRect.width / 2;
+        const flyingCenterY = flyingRect.top + flyingRect.height / 2;
+
+        const deltaX = targetCenterX - flyingCenterX;
+        const deltaY = targetCenterY - flyingCenterY;
+        const scaleRatio = targetRect.height / (flyingRect.height || 1);
+
+        gsap.to(flyingEl, {
+          x: deltaX,
+          y: deltaY,
+          scale: scaleRatio || 0.45,
+          duration: 1.15,
+          ease: 'power3.inOut',
+          onComplete: () => {
+            // Target logo becomes permanently visible in navbar
+            gsap.set(targetEl, { opacity: 1 });
+            setShowIntroAnimation(false);
+          },
+        });
+
+        if (backdrop) {
+          gsap.to(backdrop, {
+            opacity: 0,
+            duration: 0.95,
+            ease: 'power2.out',
+          });
+        }
+      });
+    }, 60);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const isHome = currentTab === 'home';
   const isHeroTransparent = currentTab === 'home' || currentTab === 'programs' || currentTab === 'campus' || currentTab === 'admissions';
@@ -121,13 +216,15 @@ export const Header: React.FC<Props> = ({
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          {/* Logo */}
+          {/* Logo (invisible before animation, reveals when logo lands in corner) */}
           <button
+            ref={targetLogoRef}
             onClick={() => {
               onNavigate('home');
               setMobileMenuOpen(false);
             }}
-            className="group cursor-pointer focus:outline-hidden"
+            className="group cursor-pointer focus:outline-hidden transition-opacity duration-200"
+            style={{ opacity: showIntroAnimation ? 0 : 1 }}
             aria-label="TEKKZY College of Technology"
           >
             <TekkzyLogo variant="light" />
@@ -158,13 +255,10 @@ export const Header: React.FC<Props> = ({
                     />
                   </button>
 
-                  {/* Dropdown Menu Container */}
+                  {/* Dropdown Menu Container - Simple & Borderless */}
                   {hasDropdown && link.dropdown && (
-                    <div className="absolute top-full left-0 mt-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto z-50">
-                      <div className="w-64 rounded-2xl bg-[#0f172a]/95 backdrop-blur-xl border border-white/15 shadow-2xl p-2 border-t-2 border-t-[#FF9933] overflow-hidden">
-                        <div className="px-3 py-1.5 text-[10px] font-mono font-bold tracking-widest text-[#FF9933] uppercase border-b border-white/10 mb-1">
-                          {link.label} DIRECTORY
-                        </div>
+                    <div className="absolute top-full left-0 mt-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-1 group-hover:translate-y-0 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto z-50">
+                      <div className="w-56 rounded-xl bg-[#132047] shadow-2xl py-2 px-1.5 overflow-hidden">
                         {link.dropdown.map((subItem) => (
                           <button
                             key={subItem.label}
@@ -172,17 +266,9 @@ export const Header: React.FC<Props> = ({
                               e.stopPropagation();
                               handleItemClick(subItem.tab, subItem.sectionId);
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition-colors group/sub flex flex-col cursor-pointer"
+                            className="w-full text-left px-3.5 py-2 rounded-lg text-xs font-medium text-stone-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer block"
                           >
-                            <span className="text-xs font-bold text-white group-hover/sub:text-[#FF9933] transition-colors flex items-center justify-between">
-                              <span>{subItem.label}</span>
-                              <ChevronRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all text-[#FF9933]" />
-                            </span>
-                            {subItem.desc && (
-                              <span className="text-[10px] text-stone-400 font-normal leading-tight mt-0.5">
-                                {subItem.desc}
-                              </span>
-                            )}
+                            {subItem.label}
                           </button>
                         ))}
                       </div>
@@ -216,10 +302,10 @@ export const Header: React.FC<Props> = ({
                 </button>
 
                 {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-[#0f172a] border border-white/15 rounded-xl shadow-2xl py-2 z-50 text-xs text-white">
-                    <div className="px-4 py-2 border-b border-white/10">
+                  <div className="absolute right-0 mt-2 w-56 bg-[#132047] rounded-xl shadow-2xl py-2 z-50 text-xs text-white">
+                    <div className="px-4 py-2">
                       <p className="font-semibold text-white">{user.name}</p>
-                      <p className="text-[11px] text-stone-400 truncate">{user.email}</p>
+                      <p className="text-[11px] text-stone-300 truncate">{user.email}</p>
                     </div>
 
                     {onLogout && (
@@ -228,7 +314,7 @@ export const Header: React.FC<Props> = ({
                           onLogout();
                           setUserDropdownOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-rose-900/40 text-rose-400 flex items-center gap-2 cursor-pointer transition-colors"
+                        className="w-full text-left px-4 py-2 hover:bg-white/10 text-rose-300 flex items-center gap-2 cursor-pointer transition-colors"
                       >
                         <LogOut className="w-3.5 h-3.5" />
                         <span>Sign Out</span>
@@ -261,7 +347,7 @@ export const Header: React.FC<Props> = ({
               const isExpanded = mobileExpanded === link.label;
 
               return (
-                <div key={link.label} className="border-b border-white/10 py-1">
+                <div key={link.label} className="py-1">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => handleItemClick(link.tab)}
@@ -317,6 +403,25 @@ export const Header: React.FC<Props> = ({
               APPLY NOW
             </button>
           </nav>
+        </div>
+      )}
+
+      {/* Initial Center-to-Corner Logo Entrance Animation */}
+      {showIntroAnimation && (
+        <div className="fixed inset-0 z-[100000] pointer-events-none flex items-center justify-center overflow-hidden">
+          {/* Subtle cinematic backdrop that fades out smoothly as logo flies */}
+          <div 
+            ref={overlayBackdropRef} 
+            className="absolute inset-0 bg-[#07130b]/85 backdrop-blur-md" 
+          />
+          {/* Large Logo centered initially, stays 1s, then glides to top-left corner */}
+          <div
+            ref={flyingLogoRef}
+            className="relative z-10 flex items-center justify-center will-change-transform filter drop-shadow-[0_12px_40px_rgba(6,182,212,0.4)]"
+            style={{ opacity: 0 }}
+          >
+            <TekkzyLogo variant="light" size="xl" />
+          </div>
         </div>
       )}
     </header>

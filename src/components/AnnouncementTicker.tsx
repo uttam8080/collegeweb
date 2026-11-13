@@ -8,7 +8,7 @@ export const AnnouncementTicker: React.FC = () => {
   const announcements = [
     {
       badge: 'ADMISSIONS 2026',
-      text: 'Admissions open for B.Tech (CSE, AI/ML, Data Science, ECE), MCA, MBA & Ph.D under BPUT norms.',
+      text: 'Admissions open for B.Tech (CSE, AI/ML, Data Science, ECE), MCA, MBA & Ph.D under CTT norms.',
       linkText: 'Apply Online',
     },
     {

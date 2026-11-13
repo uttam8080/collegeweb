@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { 
   Briefcase, 
   TrendingUp, 
@@ -151,10 +152,11 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
 ];
 
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
   const [galleryKey, setGalleryKey] = useState<number>(0);
   const [selectedCompany, setSelectedCompany] = useState<RecruiterCompany | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-
   const [recruiterFormOpen, setRecruiterFormOpen] = useState(false);
   const [orgName, setOrgName] = useState('');
   const [contactPerson, setContactPerson] = useState('');
@@ -211,8 +213,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] pb-24 text-slate-900 selection:bg-[#0D9488]/20 selection:text-[#0f766e]">
-      
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24 text-slate-900 selection:bg-[#0D9488]/20 selection:text-[#0f766e]">
       {/* Header Banner */}
       <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">

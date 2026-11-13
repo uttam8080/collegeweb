@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { Bell, FileText, Calendar, Search, Filter, Download, ArrowRight, CheckCircle2, Clock, MapPin, Tag } from 'lucide-react';
 import { INSTITUTIONAL_NOTICES, CampusNotice } from '../data/collegeData';
 
 export const NoticesPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
   const [filterCat, setFilterCat] = useState<'all' | 'exam' | 'placement' | 'academic' | 'event' | 'administration'>('all');
   const [searchKey, setSearchKey] = useState('');
+  usePageTextAnimations(pageRef, [filterCat, searchKey]);
   const [selectedNotice, setSelectedNotice] = useState<CampusNotice | null>(null);
 
   const filtered = INSTITUTIONAL_NOTICES.filter((n) => {
@@ -18,7 +21,7 @@ export const NoticesPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
   });
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] pb-24">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24">
       {/* Header Banner */}
       <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
@@ -44,7 +47,12 @@ export const NoticesPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
             {[
-            
+              { id: 'all', label: 'All Gazettes' },
+              { id: 'exam', label: 'Examinations' },
+              { id: 'placement', label: 'Placements' },
+              { id: 'academic', label: 'Academic & Library' },
+              { id: 'event', label: 'Events & Fests' },
+              { id: 'administration', label: 'Administration & Hostels' },
             ].map((tab) => (
               <button
                 key={tab.id}

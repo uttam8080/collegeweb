@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { Clock, BookOpen, CheckCircle2, ArrowRight, Award, Compass, Check, ChevronRight } from 'lucide-react';
 import { LEARNING_PATHS, LESSONS } from '../data/mockData';
 import { LearningPath } from '../types';
@@ -28,8 +29,11 @@ export const LearningPathsPage: React.FC<Props> = ({
   const completedCount = allPathLessonIds.filter((id) => completedLessonIds.includes(id)).length;
   const progressPercent = allPathLessonIds.length > 0 ? Math.round((completedCount / allPathLessonIds.length) * 100) : 0;
 
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef, [activePathId]);
+
   return (
-    <div className="min-h-screen bg-[#FAF9F5] py-12 sm:py-16">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="border-b border-stone-200 pb-8 mb-10">

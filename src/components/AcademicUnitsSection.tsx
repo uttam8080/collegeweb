@@ -44,7 +44,7 @@ export const AcademicUnitsSection: React.FC<AcademicUnitsSectionProps> = ({ onNa
   };
 
   return (
-    <section className="relative w-full py-16 sm:py-24 select-none overflow-hidden bg-gradient-to-r from-[#0b6623] via-[#074626] to-[#04140c]">
+    <section className="relative w-full pt-16 sm:pt-20 pb-20 sm:pb-28 select-none overflow-hidden bg-gradient-to-r from-[#0b6623] via-[#074626] to-[#04140c]">
       {/* Dark gradient overlay rolling in from the right side */}
       <div 
         className="absolute inset-0 pointer-events-none"

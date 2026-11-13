@@ -2,17 +2,17 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface State {
   hasError: boolean;
-  error: Error | null;
+  error?: Error;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
-    error: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -20,32 +20,34 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Unhandled React Error:', error, errorInfo);
+    console.error('Uncaught error caught by ErrorBoundary:', error, errorInfo);
   }
 
   public render() {
     if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
       return (
-        <div className="min-h-screen flex items-center justify-center bg-[#FAF9F5] p-6 text-center">
-          <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-stone-200 shadow-xl space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto text-xl font-bold">
-              !
+        <div className="min-h-screen flex items-center justify-center bg-[#07130b] text-white p-6 font-sans">
+          <div className="max-w-lg w-full bg-[#0b2214] border border-emerald-500/30 rounded-2xl p-8 text-center shadow-2xl">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 mx-auto flex items-center justify-center text-2xl font-bold mb-4">
+              TAT
             </div>
-            <h2 className="text-xl font-serif font-bold text-stone-900">
-              Something went wrong loading this section
-            </h2>
-            <p className="text-xs text-stone-600 leading-relaxed">
-              {this.state.error?.message || 'An unexpected rendering error occurred.'}
+            <h1 className="text-2xl font-bold tracking-tight text-white mb-2">
+              TEKKZY College of Technology
+            </h1>
+            <p className="text-sm text-emerald-200/80 mb-6">
+              {this.state.error?.message || 'A temporary rendering issue occurred. Click below to return to the homepage.'}
             </p>
             <button
               onClick={() => {
-                this.setState({ hasError: false, error: null });
-                window.location.hash = 'home';
-                window.location.reload();
+                this.setState({ hasError: false, error: undefined });
+                window.location.href = '/#home';
               }}
-              className="px-6 py-2.5 rounded-full bg-[#1b2a60] text-white text-xs font-bold uppercase tracking-wider hover:bg-blue-900 transition-colors"
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-500 hover:to-green-600 text-white font-semibold text-sm shadow-lg transition-all cursor-pointer"
             >
-              Return to Home
+              Return to Campus Home
             </button>
           </div>
         </div>
@@ -55,4 +57,3 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-

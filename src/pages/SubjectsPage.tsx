@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { Search, Filter, Landmark, Compass, Brain, Palette, BookOpen, Music, ArrowRight, BookMarked } from 'lucide-react';
 import { SUBJECTS, LESSONS } from '../data/mockData';
 import { Subject, Difficulty } from '../types';
@@ -66,8 +67,11 @@ export const SubjectsPage: React.FC<Props> = ({
     ? LESSONS.filter((l) => l.subjectId === activeSubject.id)
     : [];
 
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef, [selectedCategory, searchQuery, activeSubjectId]);
+
   return (
-    <div className="min-h-screen bg-[#FAF9F5] py-12 sm:py-16">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="border-b border-stone-200 pb-8 mb-10">

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { 
   Mail, 
   Phone, 
@@ -30,6 +31,8 @@ interface OfficeContact {
 }
 
 export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -92,7 +95,7 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] pb-24">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24">
       {/* Large Red Backdrop Div in the backside touching the navbar */}
       <div className="relative w-full bg-[#E03D2E] pt-8 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-red-700/40 shadow-inner overflow-hidden">
         {/* Subtle geometric grid texture for modern depth */}
