@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   GraduationCap, 
   CheckCircle2, 
@@ -23,8 +23,18 @@ import {
   ExternalLink,
   Check,
   Send,
-  X
+  X,
+  Code2,
+  Terminal,
+  Cpu,
+  Layers,
+  Binary,
+  Briefcase,
+  Wrench,
+  Cloud,
+  FileCheck2
 } from 'lucide-react';
+import { gsap, ScrollTrigger } from '../utils/animations';
 
 interface AdmissionsPageProps {
   onNavigate: (tab: string) => void;
@@ -32,9 +42,11 @@ interface AdmissionsPageProps {
 }
 
 export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOpenAuth }) => {
-  // Programs filter state for "Choose your path"
-  const [selectedProgramCategory, setSelectedProgramCategory] = useState<string>('all');
-  
+  // Active Program index for the sticky right column ("From First Principles" architecture)
+  const [activeProgramIndex, setActiveProgramIndex] = useState<number>(0);
+  const programsSectionRef = useRef<HTMLElement>(null);
+  const programCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   // Direct Application Modal state
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [modalProgram, setModalProgram] = useState('B.Tech (Computer Science & Engineering)');
@@ -52,109 +64,296 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   const [helpdeskExam, setHelpdeskExam] = useState('JEE Main');
   const [helpdeskSubmitted, setHelpdeskSubmitted] = useState(false);
 
-  // Program offerings data
+  // Program offerings data ("From First Principles" 2-Col Interactive Architecture)
   const programsData = [
     {
-      id: 'btech',
-      category: 'btech',
+      id: '01',
+      progKey: 'btech',
+      tabCategory: 'UNDERGRADUATE',
+      tabTitle: 'B.Tech Engineering (7 Disciplines)',
+      headerTag: 'B.TECH · 4-YEAR UG DEGREE',
+      headerDotColor: 'bg-[#1E3A8A]',
+      headerTextColor: 'text-[#1E3A8A]',
       title: 'B.Tech',
       fullName: 'Bachelor of Technology',
       level: 'Undergraduate Program',
       duration: '4 Years (8 Semesters)',
       intake: '600+ Seats Across 7 Disciplines',
-      eligibility: '10+2 with Physics & Mathematics (Min 45% aggregate; 40% for SC/ST)',
-      exam: 'JEE (Main) 2026 / OJEE 2026',
       annualFee: '₹89,000 / Year',
-      branches: [
-        'Computer Science & Engineering (CSE)',
-        'Artificial Intelligence & Machine Learning (AI & ML)',
-        'Computer Science & Engineering (Data Science)',
-        'Electronics & Telecommunication Engineering (ETC)',
-        'Electrical & Electronics Engineering (EEE)',
-        'Mechanical Engineering (ME)',
-        'Civil Engineering (CE)'
-      ],
-      description: 'Comprehensive 4-year engineering curriculum approved by AICTE, affiliated with BPUT, and NBA Tier-1 accredited, with intensive hands-on lab training and Cisco thingQbator makerspace access.'
+      ctaLabel: 'APPLY FOR B.TECH',
+      pillars: [
+        {
+          badgeBg: 'bg-[#1E3A8A]',
+          iconColor: 'text-white',
+          icon: Terminal,
+          eyebrow: 'AICTE APPROVED & BPUT AFFILIATED',
+          headline: 'Outcome-Based Rigor',
+          headlineColor: 'text-[#1E3A8A]',
+          description:
+            'Comprehensive 4-year engineering curriculum NBA Tier-1 accredited, with intensive hands-on laboratory immersion, Cisco thingQbator makerspace access, and faculty-mentored research patent creation.'
+        },
+        {
+          badgeBg: 'bg-[#047857]',
+          iconColor: 'text-white',
+          icon: Code2,
+          eyebrow: 'SPECIALIZATIONS & DISCIPLINES',
+          headline: '7 Core Engineering Branches',
+          headlineColor: 'text-[#047857]',
+          description:
+            'Computer Science & Engineering (CSE), AI & Machine Learning, Data Science, Electronics & Telecommunication (ETC), Electrical & Electronics (EEE), Mechanical Engineering (ME), and Civil Engineering (CE).'
+        },
+        {
+          badgeBg: 'bg-[#926315]',
+          iconColor: 'text-white',
+          icon: Award,
+          eyebrow: 'ELIGIBILITY, INTAKE & ANNUAL TUITION',
+          headline: '600+ Seats · ₹89,000 / Year',
+          headlineColor: 'text-[#926315]',
+          description:
+            'Eligibility: 10+2 with Physics & Mathematics (Min 45% aggregate; 40% for SC/ST). Official admission pathway through JEE (Main) 2026 / OJEE Web Counseling.'
+        }
+      ]
     },
     {
-      id: 'mca',
-      category: 'mca',
+      id: '02',
+      progKey: 'mca',
+      tabCategory: 'POSTGRADUATE',
+      tabTitle: 'MCA Cloud & Software Architecture',
+      headerTag: 'MCA · 2-YEAR PG DEGREE',
+      headerDotColor: 'bg-[#047857]',
+      headerTextColor: 'text-[#047857]',
       title: 'MCA',
       fullName: 'Master of Computer Applications',
       level: 'Postgraduate Program',
       duration: '2 Years (4 Semesters)',
       intake: '120 Seats',
-      eligibility: 'BCA / B.Sc (Computer Science) / B.Sc with Mathematics (Min 50% marks; 45% for SC/ST)',
-      exam: 'OJEE / NIMCET 2026',
       annualFee: '₹75,000 / Year',
-      branches: [
-        'Full Stack Cloud Architecture',
-        'Enterprise Software Development',
-        'Data Engineering & Applied AI',
-        'Cybersecurity & Network Systems'
-      ],
-      description: 'Advanced postgraduate software program transforming computer science graduates into senior software architects, DevOps specialists, and enterprise technology innovators.'
+      ctaLabel: 'APPLY FOR MCA',
+      pillars: [
+        {
+          badgeBg: 'bg-[#047857]',
+          iconColor: 'text-white',
+          icon: Cloud,
+          eyebrow: 'ENTERPRISE SOFTWARE & DEVOPS',
+          headline: 'Production-Scale Systems',
+          headlineColor: 'text-[#047857]',
+          description:
+            'Advanced postgraduate software curriculum transforming graduates into senior cloud architects, DevOps engineers, distributed database specialists, and enterprise technology innovators.'
+        },
+        {
+          badgeBg: 'bg-[#1E3A8A]',
+          iconColor: 'text-white',
+          icon: Layers,
+          eyebrow: 'SPECIALIZED TRACKS',
+          headline: 'Full-Stack, Cloud & Applied AI',
+          headlineColor: 'text-[#1E3A8A]',
+          description:
+            'Specializations in Full Stack Cloud Architecture, Enterprise Software Engineering, Distributed Systems, Data Engineering, and Cybersecurity & Network Systems.'
+        },
+        {
+          badgeBg: 'bg-[#926315]',
+          iconColor: 'text-white',
+          icon: FileCheck2,
+          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
+          headline: '120 Seats · ₹75,000 / Year',
+          headlineColor: 'text-[#926315]',
+          description:
+            'Eligibility: BCA / B.Sc (Computer Science / Mathematics) with min 50% marks (45% for SC/ST). Admission through OJEE 2026 / NIMCET centralized web counseling.'
+        }
+      ]
     },
     {
-      id: 'mba',
-      category: 'mba',
+      id: '03',
+      progKey: 'mba',
+      tabCategory: 'MANAGEMENT',
+      tabTitle: 'MBA Business Administration & Analytics',
+      headerTag: 'MBA · 2-YEAR PG DEGREE',
+      headerDotColor: 'bg-[#926315]',
+      headerTextColor: 'text-[#926315]',
       title: 'MBA',
       fullName: 'Master of Business Administration',
       level: 'Postgraduate Program',
       duration: '2 Years (4 Semesters)',
       intake: '120 Seats',
-      eligibility: 'Bachelor Degree in any discipline with at least 50% marks (45% for reserved category)',
-      exam: 'CAT / MAT / XAT / CMAT / OJEE 2026',
       annualFee: '₹85,000 / Year',
-      branches: [
-        'Financial Analytics & Banking',
-        'Marketing & Digital Transformation',
-        'Human Resource Management (HRM)',
-        'Operations, Logistics & Supply Chain'
-      ],
-      description: 'Industry-integrated management degree with corporate internships, leadership mentoring, case studies, and career ascendancy with Fortune 500 business conglomerates.'
+      ctaLabel: 'APPLY FOR MBA',
+      pillars: [
+        {
+          badgeBg: 'bg-[#926315]',
+          iconColor: 'text-white',
+          icon: Briefcase,
+          eyebrow: 'INDUSTRY-INTEGRATED MANAGEMENT',
+          headline: 'Corporate Leadership',
+          headlineColor: 'text-[#926315]',
+          description:
+            'Industry-integrated management degree featuring Fortune 500 corporate internships, CXO mentorship roundtables, executive case studies, and career ascendancy with multinational business conglomerates.'
+        },
+        {
+          badgeBg: 'bg-[#C41F3B]',
+          iconColor: 'text-white',
+          icon: Binary,
+          eyebrow: 'MANAGEMENT CONCENTRATIONS',
+          headline: 'Finance, Marketing, HR & Analytics',
+          headlineColor: 'text-[#C41F3B]',
+          description:
+            'Specialized master tracks in Financial Analytics & Banking, Digital Marketing & Transformation, Strategic Human Resource Management (HRM), and Operations & Global Supply Chain.'
+        },
+        {
+          badgeBg: 'bg-[#1E3A8A]',
+          iconColor: 'text-white',
+          icon: Award,
+          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
+          headline: '120 Seats · ₹85,000 / Year',
+          headlineColor: 'text-[#1E3A8A]',
+          description:
+            'Eligibility: Recognized Bachelor Degree in any discipline with min 50% aggregate marks (45% for reserved). Admission via CAT / MAT / XAT / CMAT / OJEE 2026.'
+        }
+      ]
     },
     {
-      id: 'mtech',
-      category: 'mtech',
+      id: '04',
+      progKey: 'mtech',
+      tabCategory: 'RESEARCH & PG',
+      tabTitle: 'M.Tech Advanced Embedded & Power Systems',
+      headerTag: 'M.TECH · 2-YEAR RESEARCH DEGREE',
+      headerDotColor: 'bg-[#C41F3B]',
+      headerTextColor: 'text-[#C41F3B]',
       title: 'M.Tech',
       fullName: 'Master of Technology',
       level: 'Postgraduate Research Program',
       duration: '2 Years (4 Semesters)',
       intake: '36 Seats',
-      eligibility: 'B.Tech / B.E. in relevant engineering branch with min 50% marks (45% for reserved)',
-      exam: 'GATE / OJEE PGAT 2026',
       annualFee: '₹70,000 / Year',
-      branches: [
-        'Computer Science & Engineering',
-        'VLSI & Embedded Systems Design',
-        'Power Systems & Renewable Energy'
-      ],
-      description: 'High-rigor research-driven post-graduate engineering curriculum in DST-SIRO recognized centers, focusing on patent creation, IEEE publications, and doctoral pathways.'
+      ctaLabel: 'APPLY FOR M.TECH',
+      pillars: [
+        {
+          badgeBg: 'bg-[#C41F3B]',
+          iconColor: 'text-white',
+          icon: Cpu,
+          eyebrow: 'DSIR-SIRO RECOGNIZED RESEARCH',
+          headline: 'Translational Research & Patents',
+          headlineColor: 'text-[#C41F3B]',
+          description:
+            'High-rigor research-driven post-graduate engineering curriculum in DST-SIRO approved labs, focusing on patent creation, IEEE peer-reviewed publications, and direct doctoral PhD progression.'
+        },
+        {
+          badgeBg: 'bg-[#1E3A8A]',
+          iconColor: 'text-white',
+          icon: Wrench,
+          eyebrow: 'ADVANCED DISCIPLINES',
+          headline: 'VLSI, AI Systems & Smart Energy',
+          headlineColor: 'text-[#1E3A8A]',
+          description:
+            'Specializations in Computer Science & Engineering, VLSI & Embedded Systems Design, and Power Systems & Clean Renewable Energy.'
+        },
+        {
+          badgeBg: 'bg-[#047857]',
+          iconColor: 'text-white',
+          icon: ShieldCheck,
+          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
+          headline: '36 Seats · ₹70,000 / Year',
+          headlineColor: 'text-[#047857]',
+          description:
+            'Eligibility: B.Tech / B.E. in relevant engineering discipline with min 50% marks (45% for reserved category). Admission through GATE 2026 / OJEE PGAT.'
+        }
+      ]
     },
     {
-      id: 'diploma',
-      category: 'diploma',
+      id: '05',
+      progKey: 'diploma',
+      tabCategory: 'POLYTECHNIC',
+      tabTitle: 'Diploma Core Engineering Fundamentals',
+      headerTag: 'DIPLOMA · 3-YEAR / 2-YEAR LATERAL',
+      headerDotColor: 'bg-[#0D9488]',
+      headerTextColor: 'text-[#0D9488]',
       title: 'Diploma',
       fullName: 'Polytechnic Engineering Diploma',
       level: 'Diploma Program',
       duration: '3 Years (Lateral: 2 Years)',
       intake: '180 Seats',
-      eligibility: '10th Standard / Matriculation with Mathematics & Science (Min 35% marks)',
-      exam: 'Merit-Based / SCTE&VT Odisha',
       annualFee: '₹35,000 / Year',
-      branches: [
-        'Civil Engineering',
-        'Mechanical Engineering',
-        'Electrical Engineering'
-      ],
-      description: 'Practical, industry-aligned foundational polytechnic technical training providing direct lateral entry into 2nd year B.Tech and immediate technical employment.'
+      ctaLabel: 'APPLY FOR DIPLOMA',
+      pillars: [
+        {
+          badgeBg: 'bg-[#0D9488]',
+          iconColor: 'text-white',
+          icon: Radio,
+          eyebrow: 'PRACTICAL INDUSTRY-ALIGNED TRAINING',
+          headline: 'Foundational Polytechnic Rigor',
+          headlineColor: 'text-[#0D9488]',
+          description:
+            'Practical, hands-on foundational polytechnic technical training providing direct lateral entry into 2nd year B.Tech and immediate technical employment in core industries.'
+        },
+        {
+          badgeBg: 'bg-[#1E3A8A]',
+          iconColor: 'text-white',
+          icon: Layers,
+          eyebrow: 'CORE DISCIPLINES',
+          headline: 'Civil, Mechanical & Electrical',
+          headlineColor: 'text-[#1E3A8A]',
+          description:
+            'Intensive workshop training in Civil Engineering, Mechanical Engineering, and Electrical Engineering with modern machine tools and CAD labs.'
+        },
+        {
+          badgeBg: 'bg-[#926315]',
+          iconColor: 'text-white',
+          icon: CheckCircle2,
+          eyebrow: 'ELIGIBILITY, INTAKE & TUITION',
+          headline: '180 Seats · ₹35,000 / Year',
+          headlineColor: 'text-[#926315]',
+          description:
+            'Eligibility: 10th Standard / Matriculation with Mathematics & Science (Min 35% marks). Direct 2nd-year lateral entry available for 12th Vocational or ITI certified holders.'
+        }
+      ]
     }
   ];
 
-  const filteredPrograms = selectedProgramCategory === 'all' 
-    ? programsData 
-    : programsData.filter(p => p.category === selectedProgramCategory);
+  // ScrollTrigger: Smooth entrance for each card and sync active program with right sticky sidebar
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      programCardRefs.current.forEach((card, index) => {
+        if (!card) return;
+
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+
+        ScrollTrigger.create({
+          trigger: card,
+          start: index === programsData.length - 1 ? 'top 75%' : 'top 45%',
+          end: index === programsData.length - 1 ? 'bottom 15%' : 'bottom 45%',
+          onEnter: () => setActiveProgramIndex(index),
+          onEnterBack: () => setActiveProgramIndex(index)
+        });
+      });
+    }, programsSectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const scrollToProgram = (index: number) => {
+    setActiveProgramIndex(index);
+    const targetCard = programCardRefs.current[index];
+    if (targetCard) {
+      const topOffset = targetCard.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({
+        top: topOffset,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   const handleOpenApplyModal = (programName?: string) => {
     if (programName) setModalProgram(programName);
@@ -356,128 +555,189 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 3: "Choose your path." (Programs Showcase Console)
+          SECTION 3: "Choose your path." (Milestones-Style 2-Col Interactive Showcase)
           ========================================================================= */}
-      <section className="relative py-16 sm:py-24 bg-[#0B1528] text-white overflow-hidden">
-        {/* Soft Ambient Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/30 via-transparent to-transparent pointer-events-none" />
+      <section 
+        id="admissions-programs"
+        ref={programsSectionRef}
+        className="relative w-full pt-20 sm:pt-28 pb-32 sm:pb-44 bg-[#FAF8F5] select-none"
+      >
+        {/* Background Pastel Geometric Shapes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div className="absolute top-12 -left-20 w-[460px] h-[460px] rounded-full bg-[#EADBEC]/65 blur-3xl" />
+          <div className="absolute top-1/2 -right-24 w-[420px] h-[420px] rounded-full bg-[#E2EFE7]/70 blur-3xl" />
+          <div className="absolute bottom-24 left-1/3 w-[380px] h-[380px] rounded-full bg-[#FBEFE3]/75 blur-3xl" />
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
-          
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs font-mono font-bold tracking-widest text-[#22D3EE] uppercase block">
-              PROGRAMS
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Choose your <span className="italic font-serif font-normal text-[#22D3EE]">path.</span>
-            </h2>
-            <p className="text-slate-300 text-sm leading-relaxed">
-              Explore our degree programs designed to blend robust theoretical pedagogy with world-class engineering practice.
-            </p>
-          </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            
+            {/* ===================================================================
+                LEFT SIDE: MAIN DATA IN SERIES FORMAT
+                (Bottom-to-top smooth ScrollTrigger animation, clean canvas layout)
+                =================================================================== */}
+            <div className="lg:col-span-7 space-y-16 sm:space-y-24 order-2 lg:order-1">
+              {programsData.map((prog, pIdx) => {
+                const isLastProg = pIdx === programsData.length - 1;
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            {[
-              { id: 'all', label: 'ALL' },
-              { id: 'btech', label: 'B.TECH' },
-              { id: 'mtech', label: 'M.TECH' },
-              { id: 'mca', label: 'MCA' },
-              { id: 'mba', label: 'MBA' },
-              { id: 'diploma', label: 'DIPLOMA' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedProgramCategory(tab.id)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${
-                  selectedProgramCategory === tab.id
-                    ? 'bg-[#4F46E5] text-white shadow-lg shadow-indigo-900/50'
-                    : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Program Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-            {filteredPrograms.map((prog) => (
-              <div
-                key={prog.id}
-                className="bg-white/5 hover:bg-white/8 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:-translate-y-1 shadow-xl"
-              >
-                <div className="space-y-4">
-                  {/* Badge & Level */}
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 text-white flex items-center justify-center font-bold shadow-md">
-                      <GraduationCap className="w-6 h-6" />
-                    </div>
-                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-cyan-300 bg-cyan-950/60 border border-cyan-800/50 px-2.5 py-1 rounded-full">
-                      {prog.level}
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">
-                      {prog.title}
-                    </h3>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      {prog.fullName}
-                    </p>
-                  </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {prog.description}
-                  </p>
-
-                  {/* Branches List */}
-                  <div className="pt-2 space-y-1.5">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 block">
-                      Specializations &amp; Disciplines:
-                    </span>
-                    <ul className="text-xs text-slate-200 space-y-1">
-                      {prog.branches.slice(0, 4).map((b, i) => (
-                        <li key={i} className="flex items-start gap-1.5">
-                          <span className="text-cyan-400 font-bold">•</span>
-                          <span className="truncate">{b}</span>
-                        </li>
-                      ))}
-                      {prog.branches.length > 4 && (
-                        <li className="text-[11px] text-cyan-300 font-semibold pl-3">
-                          + {prog.branches.length - 4} more disciplines
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-
-                  {/* Program Meta */}
-                  <div className="pt-4 border-t border-white/10 grid grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <span className="text-[10px] text-slate-400 block uppercase font-mono">Duration</span>
-                      <span className="font-semibold text-white">{prog.duration}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-slate-400 block uppercase font-mono">Annual Tuition</span>
-                      <span className="font-semibold text-amber-300">{prog.annualFee}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-6">
-                  <button
-                    onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
-                    className="w-full py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338ca] text-white text-xs font-bold tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                return (
+                  <div
+                    key={prog.id}
+                    ref={(el) => { programCardRefs.current[pIdx] = el; }}
+                    className={`program-card transition-all duration-300 ${
+                      !isLastProg ? 'pb-16 sm:pb-20 border-b border-stone-200/80' : 'pb-24 sm:pb-36'
+                    }`}
                   >
-                    <span>Apply for {prog.title}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+                    {/* Top Status Header Strip */}
+                    <div className="flex items-center justify-between gap-4 pb-5 border-b border-stone-200/80 mb-8 sm:mb-10">
+                      {/* Left: Indicator Dot + Header Tag */}
+                      <div className="flex items-center gap-2.5 shrink-0">
+                        <span className={`w-2.5 h-2.5 rounded-full ${prog.headerDotColor}`} />
+                        <span className={`text-xs font-mono font-bold tracking-[0.2em] uppercase ${prog.headerTextColor}`}>
+                          {prog.headerTag}
+                        </span>
+                      </div>
 
+                      {/* Connecting hairline rule */}
+                      <div className="flex-1 h-px bg-stone-200/70 mx-3 hidden sm:block" />
+
+                      {/* Right: Step Counter ("01", "02"...) + Action Pill */}
+                      <div className="flex items-center gap-3.5 shrink-0">
+                        <span className="text-xs font-mono font-bold text-stone-400">
+                          {prog.id}
+                        </span>
+
+                        <button
+                          onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
+                          className="group px-4 py-1.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300/80 text-stone-800 text-[11px] font-mono font-bold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs"
+                        >
+                          <span>{prog.ctaLabel}</span>
+                          <div className="w-4 h-4 rounded-full bg-stone-100 group-hover:bg-[#0D9488] group-hover:text-white flex items-center justify-center transition-colors">
+                            <ArrowRight className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5" />
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 3 Stacked Pillars for this Program */}
+                    <div className="space-y-8 sm:space-y-10">
+                      {prog.pillars.map((pillar, pillarIdx) => {
+                        const IconComp = pillar.icon;
+                        const isLastPillar = pillarIdx === prog.pillars.length - 1;
+
+                        return (
+                          <div 
+                            key={`${prog.id}-${pillarIdx}`}
+                            className={`flex items-start gap-4 sm:gap-6 ${
+                              !isLastPillar ? 'pb-8 sm:pb-10 border-b border-stone-200/80' : ''
+                            }`}
+                          >
+                            {/* Rounded Icon Badge */}
+                            <div 
+                              className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-xs transition-transform duration-300 hover:scale-105 ${pillar.badgeBg} ${pillar.iconColor}`}
+                            >
+                              <IconComp className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
+                            </div>
+
+                            {/* Right Text Block */}
+                            <div className="flex-1 min-w-0">
+                              {/* Eyebrow Label */}
+                              <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] uppercase text-stone-400 mb-1.5">
+                                {pillar.eyebrow}
+                              </div>
+
+                              {/* Large Bold Headline */}
+                              <h3 
+                                className={`text-2xl sm:text-3xl lg:text-[38px] font-serif font-bold tracking-tight leading-tight mb-2.5 ${pillar.headlineColor}`}
+                              >
+                                {pillar.headline}
+                              </h3>
+
+                              {/* Descriptive Paragraph */}
+                              <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
+                                {pillar.description}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ===================================================================
+                RIGHT SIDE: STICKY COLUMN
+                =================================================================== */}
+            <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-20 xl:top-24 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar">
+              <div className="pr-2 sm:pr-4">
+                
+                <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase block mb-2">
+                  PROGRAMS
+                </span>
+
+                {/* Main Headline */}
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] xl:text-[44px] font-serif font-bold text-[#111827] leading-[1.10] tracking-tight mb-3">
+                  Choose your<br />
+                  Degree<br />
+                  <span className="italic font-serif text-[#0D9488] font-normal">Programs &amp; Path.</span>
+                </h2>
+
+                {/* Subtitle Description */}
+                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 font-sans max-w-md">
+                  Explore our premier undergraduate, postgraduate, and diploma technical curricula approved by AICTE, NBA Tier-1 accredited, and affiliated with BPUT.
+                </p>
+
+                {/* 5 Interactive Vertical Program Tabs */}
+                <div className="space-y-2 max-w-md">
+                  {programsData.map((prog, idx) => {
+                    const isActive = activeProgramIndex === idx;
+
+                    return (
+                      <button
+                        key={prog.id}
+                        onClick={() => scrollToProgram(idx)}
+                        className={`w-full px-3.5 py-2.5 sm:py-3 rounded-xl text-left transition-all duration-300 flex items-center gap-3.5 cursor-pointer ${
+                          isActive
+                            ? 'bg-white text-stone-900 shadow-md border border-stone-200/90 ring-1 ring-black/5 translate-x-1.5'
+                            : 'bg-transparent text-stone-800 hover:bg-white/50 border border-transparent'
+                        }`}
+                      >
+                        {/* Circular Number Badge: 01, 02, 03... */}
+                        <div 
+                          className={`w-7 h-7 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0 transition-colors ${
+                            isActive
+                              ? 'border-2 border-stone-900 text-stone-900 bg-stone-50'
+                              : 'border border-stone-300 text-stone-400 group-hover:border-stone-400'
+                          }`}
+                        >
+                          {prog.id}
+                        </div>
+
+                        {/* Tab Content: Category & Title */}
+                        <div className="min-w-0 flex-1">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block leading-tight">
+                            {prog.tabCategory}
+                          </span>
+                          <h4 className="text-xs sm:text-[14px] font-serif font-bold text-stone-900 tracking-tight truncate leading-snug">
+                            {prog.tabTitle}
+                          </h4>
+                        </div>
+
+                        {/* Clean arrow on active tab */}
+                        {isActive && (
+                          <ArrowRight className="w-4 h-4 text-[#0D9488] shrink-0 stroke-[2.2]" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
