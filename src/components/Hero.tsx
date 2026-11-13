@@ -281,11 +281,11 @@ export const Hero: React.FC<Props> = ({
                   transform: introStage === 'flying' 
                     ? 'scale(1)' 
                     : typeof window !== 'undefined' && window.innerWidth < 640 
-                      ? 'scale(1.85)' 
-                      : 'scale(2.35)',
+                      ? 'scale(2.05)' 
+                      : 'scale(2.6)',
                   transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
                 }}
-                className="will-change-transform filter drop-shadow-[0_0_45px_rgba(6,182,212,0.7)] drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]"
+                className="will-change-transform filter drop-shadow-[0_0_50px_rgba(6,182,212,0.75)] drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)]"
               >
                 <TekkzyLogo variant="light" />
               </div>

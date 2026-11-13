@@ -209,10 +209,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
                 loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E1726]/80 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-3 left-4 flex items-center gap-1.5 text-xs font-mono font-medium text-amber-300/95 tracking-wider uppercase">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>AI & Robotics Innovation Lab</span>
-              </div>
+              
             </div>
 
             {/* Overlapping Inset Faculty / Testing Workbench Photo */}
@@ -224,9 +221,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
                 loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E1726]/75 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-2.5 left-3 text-[10px] font-mono font-semibold text-white/95 tracking-wide uppercase">
-                Hardware Prototyping
-              </div>
+              
             </div>
           </div>
 
@@ -243,12 +238,10 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
           <div>
             {/* Header: Amber Eye Icon + "Our Vision" */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-[#E5A93C] text-white flex items-center justify-center shadow-xs">
-                <Eye className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <h3 className="text-2xl sm:text-[26px] font-serif font-bold text-[#1E293B] tracking-tight">
-                Our Vision
-              </h3>
+
+              <h3 className="text-3xl sm:text-4xl font-serif font-bold text-[#1E293B] tracking-tight">
+  Our Vision
+</h3>
             </div>
 
             {/* Vision Statement Card (Matching Screenshot with Amber Top Accent Bar) */}
