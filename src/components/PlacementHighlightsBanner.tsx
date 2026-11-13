@@ -182,3 +182,4 @@ export const PlacementHighlightsBanner: React.FC = () => {
 };
 
 export default PlacementHighlightsBanner;
+

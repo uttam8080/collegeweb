@@ -75,6 +75,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       headerTag: 'B.TECH · 4-YEAR UG DEGREE',
       headerDotColor: 'bg-[#1E3A8A]',
       headerTextColor: 'text-[#1E3A8A]',
+      image: '/campus-students-16x9-enhanced.png',
+      imageAlt: 'Undergraduate B.Tech Engineering Students on Campus',
       title: 'B.Tech',
       fullName: 'Bachelor of Technology',
       level: 'Undergraduate Program',
@@ -123,6 +125,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       headerTag: 'MCA · 2-YEAR PG DEGREE',
       headerDotColor: 'bg-[#047857]',
       headerTextColor: 'text-[#047857]',
+      image: '/thumb_college_computer_lab_1793988224067.jpg',
+      imageAlt: 'MCA Cloud Computing & Software Architecture Computer Laboratory',
       title: 'MCA',
       fullName: 'Master of Computer Applications',
       level: 'Postgraduate Program',
@@ -171,6 +175,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       headerTag: 'MBA · 2-YEAR PG DEGREE',
       headerDotColor: 'bg-[#926315]',
       headerTextColor: 'text-[#926315]',
+      image: '/meeting-16x9-cropped-enhanced.png',
+      imageAlt: 'MBA Leadership and Executive Case Study Roundtables',
       title: 'MBA',
       fullName: 'Master of Business Administration',
       level: 'Postgraduate Program',
@@ -219,6 +225,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       headerTag: 'M.TECH · 2-YEAR RESEARCH DEGREE',
       headerDotColor: 'bg-[#C41F3B]',
       headerTextColor: 'text-[#C41F3B]',
+      image: '/new-research-inset.jpg',
+      imageAlt: 'M.Tech Advanced Embedded Systems & VLSI Research Lab',
       title: 'M.Tech',
       fullName: 'Master of Technology',
       level: 'Postgraduate Research Program',
@@ -267,6 +275,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       headerTag: 'DIPLOMA · 3-YEAR / 2-YEAR LATERAL',
       headerDotColor: 'bg-[#0D9488]',
       headerTextColor: 'text-[#0D9488]',
+      image: '/thumb_college_tech_lab_1793988185936.jpg',
+      imageAlt: 'Polytechnic Diploma Hands-on Engineering Workshop',
       title: 'Diploma',
       fullName: 'Polytechnic Engineering Diploma',
       level: 'Diploma Program',
@@ -308,6 +318,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       ]
     }
   ];
+
+  const activeProgram = programsData[activeProgramIndex] || programsData[0];
 
   // ScrollTrigger: Smooth entrance for each card and sync active program with right sticky sidebar
   useEffect(() => {
@@ -625,13 +637,162 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          
+          {/* ===================================================================
+              TOP SECTION: SECTION HEADING & INTRO DETAILS
+              =================================================================== */}
+          <div className="mb-12 sm:mb-16 pb-8 border-b border-stone-200/80">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+              <div className="max-w-2xl">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
+                  <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase">
+                    ACADEMIC DEGREES &amp; PROGRAMMES
+                  </span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#111827] leading-[1.12] tracking-tight mb-3">
+                  Choose your Degree{' '}
+                  <span className="italic font-serif text-[#0D9488] font-normal">Programs &amp; Path.</span>
+                </h2>
+                <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
+                  Explore our premier undergraduate, postgraduate, and diploma technical curricula approved by AICTE, NBA Tier-1 accredited, and affiliated with BPUT Odisha.
+                </p>
+              </div>
+
+              {/* Quality Accreditations Strip */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] font-mono shrink-0">
+                <span className="px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-stone-700 font-semibold flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  AICTE Approved New Delhi
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-stone-700 font-semibold flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  BPUT Affiliated (Autonomous)
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-stone-700 font-semibold flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                  NBA Tier-1 &amp; NAAC A+
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ===================================================================
+              TWO-COLUMN MAIN SCROLLING LAYOUT:
+              LEFT SIDE: Sticky Column with Main Topics & Specific Topic Image
+              RIGHT SIDE: Detailed Pillars for that Topic
+              =================================================================== */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             
-            {/* ===================================================================
-                LEFT SIDE: MAIN DATA IN SERIES FORMAT
-                (Bottom-to-top smooth ScrollTrigger animation, clean canvas layout)
-                =================================================================== */}
-            <div className="lg:col-span-7 space-y-16 sm:space-y-24 order-2 lg:order-1">
+            {/* LEFT SIDE: STICKY COLUMN (Main Topics with Specific Image) */}
+            <div className="lg:col-span-5 lg:sticky lg:top-24 self-start space-y-6">
+              
+              {/* Active Topic Card with Specific Image */}
+              <div className="bg-white rounded-3xl border border-stone-200/90 shadow-md overflow-hidden transition-all duration-300">
+                {/* Specific Image Container */}
+                <div className="relative aspect-16/10 w-full overflow-hidden bg-stone-100 group">
+                  <img
+                    key={activeProgram.image}
+                    src={activeProgram.image}
+                    alt={activeProgram.imageAlt}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+
+                  {/* Level Pill */}
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-white/95 text-stone-900 text-[10px] font-mono font-bold tracking-wider uppercase shadow-xs">
+                      {activeProgram.tabCategory}
+                    </span>
+                    <span className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-xs text-white text-[10px] font-mono">
+                      {activeProgram.duration}
+                    </span>
+                  </div>
+
+                  {/* Program Title on Image */}
+                  <div className="absolute bottom-3.5 inset-x-3.5 text-white">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 block mb-0.5">
+                      {activeProgram.headerTag}
+                    </span>
+                    <h3 className="text-lg sm:text-xl font-serif font-bold text-white tracking-tight leading-snug drop-shadow-sm">
+                      {activeProgram.fullName}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Details Strip Below Image */}
+                <div className="p-4 sm:p-5 space-y-3.5">
+                  <div className="flex items-center justify-between text-xs font-mono text-stone-600 border-b border-stone-100 pb-3">
+                    <div>
+                      <span className="text-stone-400 text-[10px] block uppercase">Annual Intake</span>
+                      <span className="font-bold text-stone-900">{activeProgram.intake}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-stone-400 text-[10px] block uppercase">Annual Tuition</span>
+                      <span className="font-bold text-[#0D9488]">{activeProgram.annualFee}</span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => handleOpenApplyModal(`${activeProgram.title} (${activeProgram.fullName})`)}
+                    className="w-full py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  >
+                    <span>{activeProgram.ctaLabel}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Topics Selector Tabs */}
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-stone-400 block px-1">
+                  MAIN TOPICS &amp; DISCIPLINES
+                </span>
+                {programsData.map((prog, idx) => {
+                  const isActive = activeProgramIndex === idx;
+
+                  return (
+                    <button
+                      key={prog.id}
+                      onClick={() => scrollToProgram(idx)}
+                      className={`w-full px-3.5 py-2.5 sm:py-3 rounded-2xl text-left transition-all duration-300 flex items-center gap-3.5 cursor-pointer ${
+                        isActive
+                          ? 'bg-white text-stone-900 shadow-md border-l-4 border-l-[#0D9488] border-y border-r border-stone-200/90 ring-1 ring-black/5 translate-x-1'
+                          : 'bg-white/60 hover:bg-white text-stone-700 border border-stone-200/60'
+                      }`}
+                    >
+                      {/* Circular Number Badge: 01, 02, 03... */}
+                      <div
+                        className={`w-7 h-7 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0 transition-colors ${
+                          isActive
+                            ? 'bg-[#0D9488] text-white'
+                            : 'bg-stone-100 text-stone-500'
+                        }`}
+                      >
+                        {prog.id}
+                      </div>
+
+                      {/* Tab Content: Category & Title */}
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block leading-tight">
+                          {prog.tabCategory}
+                        </span>
+                        <h4 className="text-xs sm:text-[13px] font-serif font-bold text-stone-900 tracking-tight truncate leading-snug">
+                          {prog.tabTitle}
+                        </h4>
+                      </div>
+
+                      <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${
+                        isActive ? 'text-[#0D9488] translate-x-0.5' : 'text-stone-300'
+                      }`} />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* RIGHT SIDE: SCROLLING DETAILS RELATED TO MAIN TOPICS */}
+            <div className="lg:col-span-7 space-y-16 sm:space-y-24">
               {programsData.map((prog, pIdx) => {
                 const isLastProg = pIdx === programsData.length - 1;
 
@@ -713,77 +874,6 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                 );
               })}
             </div>
-
-            {/* ===================================================================
-                RIGHT SIDE: STICKY COLUMN
-                =================================================================== */}
-            <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-20 xl:top-24 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar">
-              <div className="pr-2 sm:pr-4">
-                
-                <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase block mb-2">
-                  PROGRAMS
-                </span>
-
-                {/* Main Headline */}
-                <h2 className="text-3xl sm:text-4xl lg:text-[38px] xl:text-[44px] font-serif font-bold text-[#111827] leading-[1.10] tracking-tight mb-3">
-                  Choose your<br />
-                  Degree<br />
-                  <span className="italic font-serif text-[#0D9488] font-normal">Programs &amp; Path.</span>
-                </h2>
-
-                {/* Subtitle Description */}
-                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 font-sans max-w-md">
-                  Explore our premier undergraduate, postgraduate, and diploma technical curricula approved by AICTE, NBA Tier-1 accredited, and affiliated with BPUT.
-                </p>
-
-                {/* 5 Interactive Vertical Program Tabs */}
-                <div className="space-y-2 max-w-md">
-                  {programsData.map((prog, idx) => {
-                    const isActive = activeProgramIndex === idx;
-
-                    return (
-                      <button
-                        key={prog.id}
-                        onClick={() => scrollToProgram(idx)}
-                        className={`w-full px-3.5 py-2.5 sm:py-3 rounded-xl text-left transition-all duration-300 flex items-center gap-3.5 cursor-pointer ${
-                          isActive
-                            ? 'bg-white text-stone-900 shadow-md border border-stone-200/90 ring-1 ring-black/5 translate-x-1.5'
-                            : 'bg-transparent text-stone-800 hover:bg-white/50 border border-transparent'
-                        }`}
-                      >
-                        {/* Circular Number Badge: 01, 02, 03... */}
-                        <div 
-                          className={`w-7 h-7 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0 transition-colors ${
-                            isActive
-                              ? 'border-2 border-stone-900 text-stone-900 bg-stone-50'
-                              : 'border border-stone-300 text-stone-400 group-hover:border-stone-400'
-                          }`}
-                        >
-                          {prog.id}
-                        </div>
-
-                        {/* Tab Content: Category & Title */}
-                        <div className="min-w-0 flex-1">
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block leading-tight">
-                            {prog.tabCategory}
-                          </span>
-                          <h4 className="text-xs sm:text-[14px] font-serif font-bold text-stone-900 tracking-tight truncate leading-snug">
-                            {prog.tabTitle}
-                          </h4>
-                        </div>
-
-                        {/* Clean arrow on active tab */}
-                        {isActive && (
-                          <ArrowRight className="w-4 h-4 text-[#0D9488] shrink-0 stroke-[2.2]" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
