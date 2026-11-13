@@ -12,7 +12,6 @@ import {
   Sparkles,
   ExternalLink
 } from 'lucide-react';
-import { TekkzyLogo } from './TekkzyLogo';
 
 // College images for the 2-second right-to-left swapping hero slider
 const SLIDES = [
@@ -68,40 +67,6 @@ export const Hero: React.FC<Props> = ({
   const [direction, setDirection] = useState<'right-to-left' | 'left-to-right'>('right-to-left');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef<number | null>(null);
-
-  // Cinematic splash logo intro animation on initial visit
-  const [introStage, setIntroStage] = useState<'center' | 'flying' | 'completed'>('center');
-  const [flightDelta, setFlightDelta] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  // Intro choreography: stay 1s in center, then fly to top-left corner
-  useEffect(() => {
-    const holdTimer = setTimeout(() => {
-      const targetElement = document.querySelector('[aria-label="TEKKZY College of Technology"]');
-      if (targetElement) {
-        const targetRect = targetElement.getBoundingClientRect();
-        const viewportCenterX = window.innerWidth / 2;
-        const viewportCenterY = window.innerHeight / 2;
-        const targetCenterX = targetRect.left + targetRect.width / 2;
-        const targetCenterY = targetRect.top + targetRect.height / 2;
-
-        setFlightDelta({
-          x: targetCenterX - viewportCenterX,
-          y: targetCenterY - viewportCenterY,
-        });
-        setIntroStage('flying');
-
-        const completeTimer = setTimeout(() => {
-          setIntroStage('completed');
-        }, 950);
-
-        return () => clearTimeout(completeTimer);
-      } else {
-        setIntroStage('completed');
-      }
-    }, 1000);
-
-    return () => clearTimeout(holdTimer);
-  }, []);
 
   // Preload carousel images for instantaneous rendering
   useEffect(() => {
@@ -198,47 +163,6 @@ export const Hero: React.FC<Props> = ({
       </div>
 
       {/* =========================================================================
-          CINEMATIC SPLASH LOGO INTRO (Middle of page -> 1s hold -> Fly to top-left)
-          ========================================================================= */}
-      {introStage !== 'completed' && (
-        <div className="fixed inset-0 z-60 pointer-events-none select-none">
-          {/* Dimmed hero backdrop overlay */}
-          <div 
-            className={`absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] transition-opacity duration-800 ease-out ${
-              introStage === 'flying' ? 'opacity-0' : 'opacity-100'
-            }`} 
-          />
-
-          {/* Centered Logo transitioning to Top-Left */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              style={{
-                transform: introStage === 'flying' 
-                  ? `translate3d(${flightDelta.x}px, ${flightDelta.y}px, 0)` 
-                  : 'translate3d(0, 0, 0)',
-                transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
-              }}
-              className="will-change-transform flex items-center justify-center"
-            >
-              <div
-                style={{
-                  transform: introStage === 'flying' 
-                    ? 'scale(1)' 
-                    : typeof window !== 'undefined' && window.innerWidth < 640 
-                      ? 'scale(2.05)' 
-                      : 'scale(2.6)',
-                  transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
-                }}
-                className="will-change-transform filter drop-shadow-[0_0_50px_rgba(6,182,212,0.75)] drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)]"
-              >
-                <TekkzyLogo variant="light" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* =========================================================================
           SOFT BLACK GRADIENT ON THE LEFT SIDE:
           Guarantees maximum text legibility while keeping the right side vibrant
           ========================================================================= */}
@@ -264,47 +188,6 @@ export const Hero: React.FC<Props> = ({
           background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 16%, transparent 34%)'
         }}
       />
-
-      {/* =========================================================================
-          CINEMATIC SPLASH LOGO INTRO (Middle of page -> 1s hold -> Fly to top-left)
-          ========================================================================= */}
-      {introStage !== 'completed' && (
-        <div className="fixed inset-0 z-60 pointer-events-none select-none">
-          {/* Dimmed hero backdrop overlay (keeps hero visible behind with lower opacity) */}
-          <div 
-            className={`absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] transition-opacity duration-800 ease-out ${
-              introStage === 'flying' ? 'opacity-0' : 'opacity-100'
-            }`} 
-          />
-
-          {/* Centered Logo transitioning to Top-Left */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              style={{
-                transform: introStage === 'flying' 
-                  ? `translate3d(${flightDelta.x}px, ${flightDelta.y}px, 0)` 
-                  : 'translate3d(0, 0, 0)',
-                transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
-              }}
-              className="will-change-transform flex items-center justify-center"
-            >
-              <div
-                style={{
-                  transform: introStage === 'flying' 
-                    ? 'scale(1)' 
-                    : typeof window !== 'undefined' && window.innerWidth < 640 
-                      ? 'scale(2.05)' 
-                      : 'scale(2.6)',
-                  transition: 'transform 950ms cubic-bezier(0.2, 0.95, 0.25, 1)',
-                }}
-                className="will-change-transform filter drop-shadow-[0_0_50px_rgba(6,182,212,0.75)] drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)]"
-              >
-                <TekkzyLogo variant="light" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Top Spacer to preserve perfect headline spacing when global navbar is fixed */}
       <div className="w-full h-24 sm:h-28 pointer-events-none select-none" aria-hidden="true" />

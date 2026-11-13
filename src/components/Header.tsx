@@ -25,6 +25,9 @@ interface Props {
   completedLessonsCount?: number;
 }
 
+// Module-level guard ensuring the intro animation runs strictly ONCE across the entire session
+let globalLogoIntroDone = false;
+
 export const Header: React.FC<Props> = ({
   currentTab,
   onNavigate,
@@ -41,11 +44,20 @@ export const Header: React.FC<Props> = ({
   const targetLogoRef = useRef<HTMLButtonElement>(null);
   const flyingLogoRef = useRef<HTMLDivElement>(null);
   const overlayBackdropRef = useRef<HTMLDivElement>(null);
-  const [showIntroAnimation, setShowIntroAnimation] = useState(true);
+  const [showIntroAnimation, setShowIntroAnimation] = useState(() => !globalLogoIntroDone);
 
   // Play initial logo animation: large in center -> hold 1s -> move to top-left corner
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    if (globalLogoIntroDone) {
+      setShowIntroAnimation(false);
+      if (targetLogoRef.current) {
+        gsap.set(targetLogoRef.current, { opacity: 1 });
+      }
+      return;
+    }
+    globalLogoIntroDone = true;
 
     const timeout = setTimeout(() => {
       const targetEl = targetLogoRef.current;
