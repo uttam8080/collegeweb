@@ -394,40 +394,65 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       {/* =========================================================================
           SECTION 1: HERO BANNER ("Begin your journey at Trident")
           ========================================================================= */}
-      <section className="relative w-full min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] flex flex-col justify-between overflow-hidden bg-slate-950">
-        {/* Background Image: Trident Entrance Arch with Students */}
-        <div className="absolute inset-0 z-0">
+      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+        {/* Background Hero Image (Uploaded Seminar/Mentorship Photo) */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src="/trident-gate-hero.jpg"
-            alt="Trident Academy of Technology Campus Entrance Gate"
-            className="w-full h-full object-cover object-center scale-102 filter brightness-85"
+            src="/admissions_hero.jpg"
+            alt="Students and Faculty Mentorship at Trident"
+            className="w-full h-full object-cover object-center scale-102"
             onError={(e) => {
-              // Fallback to high-res campus hero if needed
-              (e.target as HTMLImageElement).src = '/assets/images/college_campus_hero_1793988186342.jpg';
+              // Fallback to campus hero if needed
+              (e.target as HTMLImageElement).src = '/trident-gate-hero.jpg';
             }}
           />
-          {/* Subtle multi-tier dark gradient for text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/60" />
         </div>
 
+        {/* Soft black gradient on the left side: Exactly matching landing page */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to right, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.86) 28%, rgba(0, 0, 0, 0.65) 48%, rgba(0, 0, 0, 0.3) 68%, rgba(0, 0, 0, 0.08) 84%, transparent 100%)'
+          }}
+        />
+
+        {/* Top subtle gradient for header legibility */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.3) 18%, transparent 35%)'
+          }}
+        />
+
+        {/* Bottom subtle gradient for bottom strip */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 16%, transparent 34%)'
+          }}
+        />
+
+        {/* Top Spacer to preserve perfect headline spacing when navbar is fixed */}
+        <div className="w-full h-24 sm:h-28 pointer-events-none select-none" aria-hidden="true" />
+
         {/* Hero Content Area */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto pt-24 sm:pt-28 pb-12 sm:pb-16">
-          <div className="max-w-2xl text-left space-y-5">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 w-full my-auto pb-6">
+          <div className="max-w-2xl text-left">
             
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.08]">
-              Begin your journey at<br />
-              <span className="text-white drop-shadow-md">Trident</span>
+            {/* Main Huge Serif Headline (Matching Landing Page Hero typography) */}
+            <h1 className="font-serif font-bold text-white text-5xl sm:text-6xl md:text-7xl lg:text-[78px] leading-[1.06] tracking-tight drop-shadow-md">
+              Begin your<br />
+              journey at<br />
+              Trident
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl font-normal drop-shadow-sm">
-              Discover your potential at one of Eastern India&apos;s leading institutions. Admissions are now open for B.Tech, MCA, MBA &amp; M.Tech programs under BPUT and AICTE norms.
+            {/* Subtitle / Descriptive Text */}
+            <p className="text-white/90 text-sm sm:text-base md:text-lg font-normal leading-relaxed max-w-xl mt-5 drop-shadow-xs">
+              Discover your potential at one of Eastern India&apos;s leading autonomous technical institutions. Admissions are now open for B.Tech, MCA, MBA &amp; M.Tech programs under BPUT and AICTE norms.
             </p>
 
             {/* CTA Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <button
                 onClick={() => handleOpenApplyModal()}
                 className="px-6 sm:px-8 py-3.5 rounded-md bg-[#0D9488] hover:bg-[#0f766e] active:scale-98 text-white font-bold text-xs sm:text-sm tracking-wider uppercase transition-all shadow-lg shadow-teal-950/40 flex items-center gap-2 cursor-pointer"
@@ -437,8 +462,21 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               </button>
 
               <button
+                onClick={() => {
+                  const target = document.getElementById('admissions-programs');
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="px-6 py-3.5 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all cursor-pointer flex items-center gap-2"
+              >
+                <span>Explore Programs</span>
+                <ChevronRight className="w-4 h-4 text-cyan-300" />
+              </button>
+
+              <button
                 onClick={() => onNavigate('campus')}
-                className="px-5 sm:px-6 py-3.5 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all cursor-pointer flex items-center gap-2"
+                className="px-5 py-3.5 rounded-md bg-white/5 hover:bg-white/15 backdrop-blur-md border border-white/15 text-white/90 hover:text-white font-semibold text-xs sm:text-sm tracking-wide transition-all cursor-pointer flex items-center gap-2"
               >
                 <Compass className="w-4 h-4 text-cyan-300" />
                 <span>Virtual Campus Tour</span>
@@ -448,9 +486,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
         </div>
 
-        {/* Quick Facts Dark Navy Bottom Strip - Clean Straight Section Transition */}
-        <div className="relative z-10 w-full bg-[#0B1528]/95 backdrop-blur-md border-t border-b border-white/10 py-3.5 px-4 sm:px-8">
-          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs text-slate-300">
+        {/* Hero Bottom Strip: Accreditations & Key Indicators */}
+        <div className="relative z-20 w-full px-4 sm:px-8 pb-7 sm:pb-9">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/15 text-xs text-white/90">
             <span className="flex items-center gap-2 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>AICTE Approved New Delhi</span>
