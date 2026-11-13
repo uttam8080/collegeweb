@@ -104,3 +104,25 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* 40-Second Infinite Marquee Animation for Icon Integration */
+@keyframes infinite-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-40s {
+  display: flex;
+  width: max-content;
+  animation: infinite-marquee 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-40s:hover,
+.group-marquee:hover .animate-marquee-40s {
+  animation-play-state: paused;
+}
