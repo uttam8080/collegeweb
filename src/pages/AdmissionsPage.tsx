@@ -72,11 +72,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       progKey: 'btech',
       tabCategory: 'UNDERGRADUATE',
       tabTitle: 'B.Tech Engineering (7 Disciplines)',
+      schoolTitle: 'School of Engineering & Technology',
+      motto: 'OUTCOME-BASED RIGOR & GLOBAL PRODUCT CAREERS',
       headerTag: 'B.TECH · 4-YEAR UG DEGREE',
       headerDotColor: 'bg-[#1E3A8A]',
       headerTextColor: 'text-[#1E3A8A]',
-      image: '/campus-students-16x9-enhanced.png',
-      imageAlt: 'Undergraduate B.Tech Engineering Students on Campus',
+      image: '/admissions-programs/btech-engineering.jpg',
+      imageAlt: 'Undergraduate B.Tech Engineering Robotics and Computing Lab',
       title: 'B.Tech',
       fullName: 'Bachelor of Technology',
       level: 'Undergraduate Program',
@@ -122,11 +124,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       progKey: 'mca',
       tabCategory: 'POSTGRADUATE',
       tabTitle: 'MCA Cloud & Software Architecture',
+      schoolTitle: 'School of Computing & AI Architecture',
+      motto: 'FULL-STACK CLOUD ARCHITECTS & APPLIED AI',
       headerTag: 'MCA · 2-YEAR PG DEGREE',
       headerDotColor: 'bg-[#047857]',
       headerTextColor: 'text-[#047857]',
-      image: '/thumb_college_computer_lab_1793988224067.jpg',
-      imageAlt: 'MCA Cloud Computing & Software Architecture Computer Laboratory',
+      image: '/admissions-programs/mca-software-cloud.jpg',
+      imageAlt: 'MCA Cloud Architecture and AI Computing Laboratory',
       title: 'MCA',
       fullName: 'Master of Computer Applications',
       level: 'Postgraduate Program',
@@ -172,11 +176,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       progKey: 'mba',
       tabCategory: 'MANAGEMENT',
       tabTitle: 'MBA Business Administration & Analytics',
+      schoolTitle: 'School of Business',
+      motto: 'SHAPING LEADERS FOR A DYNAMIC WORLD',
       headerTag: 'MBA · 2-YEAR PG DEGREE',
       headerDotColor: 'bg-[#926315]',
       headerTextColor: 'text-[#926315]',
-      image: '/meeting-16x9-cropped-enhanced.png',
-      imageAlt: 'MBA Leadership and Executive Case Study Roundtables',
+      image: '/admissions-programs/mba-business-leadership.jpg',
+      imageAlt: 'School of Business Executive Case Study and Strategy Boardroom',
       title: 'MBA',
       fullName: 'Master of Business Administration',
       level: 'Postgraduate Program',
@@ -222,11 +228,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       progKey: 'mtech',
       tabCategory: 'RESEARCH & PG',
       tabTitle: 'M.Tech Advanced Embedded & Power Systems',
+      schoolTitle: 'School of Advanced Research & VLSI',
+      motto: 'TRANSLATIONAL RESEARCH, PATENTS & CHIP DESIGN',
       headerTag: 'M.TECH · 2-YEAR RESEARCH DEGREE',
       headerDotColor: 'bg-[#C41F3B]',
       headerTextColor: 'text-[#C41F3B]',
-      image: '/new-research-inset.jpg',
-      imageAlt: 'M.Tech Advanced Embedded Systems & VLSI Research Lab',
+      image: '/admissions-programs/mtech-advanced-research.jpg',
+      imageAlt: 'Advanced VLSI and Semiconductor Cleanroom Research Laboratory',
       title: 'M.Tech',
       fullName: 'Master of Technology',
       level: 'Postgraduate Research Program',
@@ -272,11 +280,13 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       progKey: 'diploma',
       tabCategory: 'POLYTECHNIC',
       tabTitle: 'Diploma Core Engineering Fundamentals',
+      schoolTitle: 'School of Polytechnic Engineering',
+      motto: 'HANDS-ON FOUNDATIONAL WORKSHOP RIGOR',
       headerTag: 'DIPLOMA · 3-YEAR / 2-YEAR LATERAL',
       headerDotColor: 'bg-[#0D9488]',
       headerTextColor: 'text-[#0D9488]',
-      image: '/thumb_college_tech_lab_1793988185936.jpg',
-      imageAlt: 'Polytechnic Diploma Hands-on Engineering Workshop',
+      image: '/admissions-programs/diploma-polytechnic-workshop.jpg',
+      imageAlt: 'Polytechnic Engineering and CNC Machine Hands-on Workshop',
       title: 'Diploma',
       fullName: 'Polytechnic Engineering Diploma',
       level: 'Diploma Program',
@@ -600,279 +610,273 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 3: "Choose your path." (Milestones-Style 2-Col Interactive Showcase)
+          SECTION 3: "Choose your Degree Programs & Path."
+          PART A: HEADING BLOCK (Distinct Architectural Sand/Stone Background #EFEAE1)
+          PART B: MAIN CONTENT (Distinct Clean Canvas #FAF9F6 with Full-Bleed Sticky Dynamic Showcase)
           ========================================================================= */}
       <section 
         id="admissions-programs"
         ref={programsSectionRef}
-        className="relative w-full pt-16 sm:pt-24 pb-32 sm:pb-44 bg-[#FAF8F5] select-none"
+        className="relative w-full select-none"
       >
-        {/* Wave Section Divider: Flowing from Section 2 (White) into Section 3 (Warm Cream #FAF8F5) */}
-        <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-10 pointer-events-none -mt-px" aria-hidden="true">
+        {/* Wave Section Divider: Flowing from Section 2 (White) into Header */}
+        <div className="overflow-hidden leading-none z-10 pointer-events-none -mb-px" aria-hidden="true">
           <svg 
-            viewBox="0 0 1440 120" 
+            viewBox="0 0 1440 80" 
             preserveAspectRatio="none" 
-            className="w-full h-10 sm:h-14 md:h-16 lg:h-20 block"
+            className="w-full h-8 sm:h-12 md:h-14 block"
           >
-            {/* White wave fill from Section 2 */}
             <path 
-              d="M0,0 L0,65 C240,115 480,45 720,55 C960,65 1200,115 1440,80 L1440,0 Z" 
+              d="M0,0 L0,45 C240,75 480,25 720,35 C960,45 1200,75 1440,50 L1440,0 Z" 
               className="fill-white"
-            />
-            {/* Subtle hairline edge stroke for crisp definition against cream canvas */}
-            <path 
-              d="M0,65 C240,115 480,45 720,55 C960,65 1200,115 1440,80" 
-              fill="none" 
-              stroke="rgba(0,0,0,0.06)" 
-              strokeWidth="1.5"
             />
           </svg>
         </div>
 
-        {/* Background Pastel Geometric Shapes */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div className="absolute top-12 -left-20 w-[460px] h-[460px] rounded-full bg-[#EADBEC]/65 blur-3xl" />
-          <div className="absolute top-1/2 -right-24 w-[420px] h-[420px] rounded-full bg-[#E2EFE7]/70 blur-3xl" />
-          <div className="absolute bottom-24 left-1/3 w-[380px] h-[380px] rounded-full bg-[#FBEFE3]/75 blur-3xl" />
-        </div>
+        {/* ---------------------------------------------------------------------
+            PART A: GRAND HEADING BLOCK
+            Distinct warm architectural stone/parchment background (#EFEAE1)
+            Bigger prominent typography as per reference
+            --------------------------------------------------------------------- */}
+        <div className="w-full bg-[#EFEAE1] border-b border-stone-300/80 pt-12 sm:pt-16 pb-16 sm:pb-20 relative overflow-hidden">
+          {/* Subtle decorative background blur shapes */}
+          <div className="absolute top-0 right-0 w-[480px] h-[480px] rounded-full bg-[#E2EFE7]/60 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-8 w-[380px] h-[380px] rounded-full bg-[#EADBEC]/50 blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          
-          {/* ===================================================================
-              TOP SECTION: SECTION HEADING & INTRO DETAILS
-              =================================================================== */}
-          <div className="mb-12 sm:mb-16 pb-8 border-b border-stone-200/80">
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <div className="max-w-2xl">
-                <div className="flex items-center gap-2 mb-2">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+              <div className="max-w-3xl">
+                <div className="flex items-center gap-2 mb-3">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
-                  <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase">
-                    ACADEMIC DEGREES &amp; PROGRAMMES
+                  <span className="text-xs sm:text-sm font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase">
+                    ACADEMIC DISCIPLINES &amp; PROGRAMMES
                   </span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#111827] leading-[1.12] tracking-tight mb-3">
+                {/* Grand Larger Heading */}
+                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold text-[#111827] leading-[1.05] tracking-tight mb-4">
                   Choose your Degree{' '}
-                  <span className="italic font-serif text-[#0D9488] font-normal">Programs &amp; Path.</span>
+                  <span className="italic font-serif text-[#0D9488] font-normal block sm:inline">
+                    Programs &amp; Path.
+                  </span>
                 </h2>
-                <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
+                <p className="text-stone-700 text-sm sm:text-base lg:text-lg sm:leading-relaxed font-sans max-w-2xl">
                   Explore our premier undergraduate, postgraduate, and diploma technical curricula approved by AICTE, NBA Tier-1 accredited, and affiliated with BPUT Odisha.
                 </p>
               </div>
 
               {/* Quality Accreditations Strip */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] font-mono shrink-0">
-                <span className="px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-stone-700 font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono shrink-0">
+                <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
                   AICTE Approved New Delhi
                 </span>
-                <span className="px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-stone-700 font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500" />
                   BPUT Affiliated (Autonomous)
                 </span>
-                <span className="px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-stone-700 font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-500" />
                   NBA Tier-1 &amp; NAAC A+
                 </span>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* ===================================================================
-              TWO-COLUMN MAIN SCROLLING LAYOUT:
-              LEFT SIDE: Sticky Column with Main Topics & Specific Topic Image
-              RIGHT SIDE: Detailed Pillars for that Topic
-              =================================================================== */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-            
-            {/* LEFT SIDE: STICKY COLUMN (Main Topics with Specific Image) */}
-            <div className="lg:col-span-5 lg:sticky lg:top-24 self-start space-y-6">
+        {/* ---------------------------------------------------------------------
+            PART B: MAIN INTERACTIVE SCROLLING CONTENT
+            Distinct fresh canvas background (#FAF9F6)
+            LEFT: Full-bleed image card with crossfade animation (covers whole card)
+            RIGHT: Detailed pillars for each program
+            --------------------------------------------------------------------- */}
+        <div className="w-full bg-[#FAF9F6] py-16 sm:py-24 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
               
-              {/* Active Topic Card with Specific Image */}
-              <div className="bg-white rounded-3xl border border-stone-200/90 shadow-md overflow-hidden transition-all duration-300">
-                {/* Specific Image Container */}
-                <div className="relative aspect-16/10 w-full overflow-hidden bg-stone-100 group">
-                  <img
-                    key={activeProgram.image}
-                    src={activeProgram.image}
-                    alt={activeProgram.imageAlt}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+              {/* LEFT SIDE: STICKY COLUMN (Full-Bleed Dynamic Image Showcase) */}
+              <div className="lg:col-span-5 lg:sticky lg:top-24 self-start">
+                <div className="relative w-full h-[560px] sm:h-[620px] lg:h-[660px] rounded-3xl overflow-hidden shadow-2xl border border-stone-200/90 bg-stone-950 group">
+                  
+                  {/* 5 Stacked Program Images with Smooth Crossfade & Cinematic Scale Animation */}
+                  {programsData.map((prog, idx) => {
+                    const isActive = activeProgramIndex === idx;
 
-                  {/* Level Pill */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-white/95 text-stone-900 text-[10px] font-mono font-bold tracking-wider uppercase shadow-xs">
-                      {activeProgram.tabCategory}
-                    </span>
-                    <span className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-xs text-white text-[10px] font-mono">
-                      {activeProgram.duration}
-                    </span>
+                    return (
+                      <div
+                        key={prog.id}
+                        className={`absolute inset-0 transition-all duration-700 ease-out ${
+                          isActive
+                            ? 'opacity-100 scale-100 z-10'
+                            : 'opacity-0 scale-105 z-0 pointer-events-none'
+                        }`}
+                      >
+                        {/* Full-Bleed Image covering the whole card */}
+                        <img
+                          src={prog.image}
+                          alt={prog.imageAlt}
+                          className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                        />
+
+                        {/* Smooth Cinematic Gradient Overlay (Dark at bottom & top for crisp text legibility) */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-slate-900/35" />
+
+                        {/* Top Header Row inside Image */}
+                        <div className="absolute top-5 inset-x-5 flex items-center justify-between z-20">
+                          <div className="flex items-center gap-2">
+                            <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-stone-900 text-[10px] font-mono font-bold tracking-wider uppercase shadow-md">
+                              {prog.tabCategory}
+                            </span>
+                            <span className="px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-white text-[10px] font-mono font-semibold border border-white/20">
+                              {prog.duration}
+                            </span>
+                          </div>
+                          <span className="px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white font-mono text-xs font-bold border border-white/25">
+                            {prog.id} / 05
+                          </span>
+                        </div>
+
+                        {/* Bottom Info Container inside Image (Matches Reference Video "School of Business / Shaping Leaders...") */}
+                        <div className="absolute bottom-6 inset-x-6 z-20 space-y-3 text-white">
+                          {/* Motto / Eyebrow */}
+                          <span className="text-[11px] font-mono uppercase tracking-[0.22em] text-cyan-300 font-bold block drop-shadow-sm">
+                            {prog.motto}
+                          </span>
+
+                          {/* Prominent School / Program Title */}
+                          <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md">
+                            {prog.schoolTitle}
+                          </h3>
+
+                          <p className="text-xs sm:text-[13px] text-stone-200 font-sans line-clamp-2 leading-relaxed drop-shadow-sm">
+                            {prog.fullName} · {prog.level}
+                          </p>
+
+                          {/* Quick Stats Pill Strip */}
+                          <div className="grid grid-cols-2 gap-2.5 pt-1">
+                            <div className="px-3.5 py-2 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20">
+                              <span className="text-stone-300 text-[9px] font-mono uppercase block">Annual Intake</span>
+                              <span className="font-bold text-xs font-mono text-white truncate block">{prog.intake}</span>
+                            </div>
+                            <div className="px-3.5 py-2 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20">
+                              <span className="text-stone-300 text-[9px] font-mono uppercase block">Tuition</span>
+                              <span className="font-bold text-xs font-mono text-cyan-300 truncate block">{prog.annualFee}</span>
+                            </div>
+                          </div>
+
+                          {/* Direct Action Button */}
+                          <button
+                            onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
+                            className="w-full mt-2 py-3 rounded-2xl bg-[#0D9488] hover:bg-[#0f766e] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xl hover:shadow-teal-950/60 flex items-center justify-center gap-2 cursor-pointer group/btn"
+                          >
+                            <span>{prog.ctaLabel}</span>
+                            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
+                          </button>
+                        </div>
+
+                      </div>
+                    );
+                  })}
+
+                  {/* Step Indicator Pills on bottom right */}
+                  <div className="absolute top-5 right-5 z-30 hidden sm:flex items-center gap-1.5 pointer-events-none">
+                    {programsData.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          activeProgramIndex === i ? 'w-6 bg-cyan-400' : 'w-1.5 bg-white/40'
+                        }`}
+                      />
+                    ))}
                   </div>
 
-                  {/* Program Title on Image */}
-                  <div className="absolute bottom-3.5 inset-x-3.5 text-white">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 block mb-0.5">
-                      {activeProgram.headerTag}
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-serif font-bold text-white tracking-tight leading-snug drop-shadow-sm">
-                      {activeProgram.fullName}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Details Strip Below Image */}
-                <div className="p-4 sm:p-5 space-y-3.5">
-                  <div className="flex items-center justify-between text-xs font-mono text-stone-600 border-b border-stone-100 pb-3">
-                    <div>
-                      <span className="text-stone-400 text-[10px] block uppercase">Annual Intake</span>
-                      <span className="font-bold text-stone-900">{activeProgram.intake}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-stone-400 text-[10px] block uppercase">Annual Tuition</span>
-                      <span className="font-bold text-[#0D9488]">{activeProgram.annualFee}</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleOpenApplyModal(`${activeProgram.title} (${activeProgram.fullName})`)}
-                    className="w-full py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-                  >
-                    <span>{activeProgram.ctaLabel}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
                 </div>
               </div>
 
-              {/* Main Topics Selector Tabs */}
-              <div className="space-y-2">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-stone-400 block px-1">
-                  MAIN TOPICS &amp; DISCIPLINES
-                </span>
-                {programsData.map((prog, idx) => {
-                  const isActive = activeProgramIndex === idx;
+              {/* RIGHT SIDE: SCROLLING DETAILS RELATED TO MAIN TOPICS */}
+              <div className="lg:col-span-7 space-y-16 sm:space-y-24">
+                {programsData.map((prog, pIdx) => {
+                  const isLastProg = pIdx === programsData.length - 1;
+                  const isActive = activeProgramIndex === pIdx;
 
                   return (
-                    <button
+                    <div
                       key={prog.id}
-                      onClick={() => scrollToProgram(idx)}
-                      className={`w-full px-3.5 py-2.5 sm:py-3 rounded-2xl text-left transition-all duration-300 flex items-center gap-3.5 cursor-pointer ${
-                        isActive
-                          ? 'bg-white text-stone-900 shadow-md border-l-4 border-l-[#0D9488] border-y border-r border-stone-200/90 ring-1 ring-black/5 translate-x-1'
-                          : 'bg-white/60 hover:bg-white text-stone-700 border border-stone-200/60'
+                      ref={(el) => { programCardRefs.current[pIdx] = el; }}
+                      className={`program-card transition-all duration-500 rounded-3xl p-6 sm:p-8 bg-white border shadow-sm ${
+                        isActive ? 'border-[#0D9488]/60 shadow-lg ring-1 ring-[#0D9488]/20' : 'border-stone-200/90'
                       }`}
                     >
-                      {/* Circular Number Badge: 01, 02, 03... */}
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0 transition-colors ${
-                          isActive
-                            ? 'bg-[#0D9488] text-white'
-                            : 'bg-stone-100 text-stone-500'
-                        }`}
-                      >
-                        {prog.id}
+                      {/* Top Status Header Strip */}
+                      <div className="flex items-center justify-between gap-4 pb-5 border-b border-stone-200/80 mb-8 sm:mb-10">
+                        {/* Left: Indicator Dot + Header Tag */}
+                        <div className="flex items-center gap-2.5 shrink-0">
+                          <span className={`w-2.5 h-2.5 rounded-full ${prog.headerDotColor}`} />
+                          <span className={`text-xs font-mono font-bold tracking-[0.2em] uppercase ${prog.headerTextColor}`}>
+                            {prog.headerTag}
+                          </span>
+                        </div>
+
+                        {/* Connecting hairline rule */}
+                        <div className="flex-1 h-px bg-stone-200/70 mx-3 hidden sm:block" />
+
+                        {/* Right: Step Counter ("01", "02"...) + Action Pill */}
+                        <div className="flex items-center gap-3.5 shrink-0">
+                          <span className="text-xs font-mono font-bold text-stone-400">
+                            {prog.id}
+                          </span>
+
+                          <button
+                            onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
+                            className="group px-4 py-1.5 rounded-full bg-stone-50 hover:bg-[#0D9488] hover:text-white border border-stone-300/80 text-stone-800 text-[11px] font-mono font-bold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs"
+                          >
+                            <span>{prog.ctaLabel}</span>
+                            <div className="w-4 h-4 rounded-full bg-stone-200 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center transition-colors">
+                              <ArrowRight className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5" />
+                            </div>
+                          </button>
+                        </div>
                       </div>
 
-                      {/* Tab Content: Category & Title */}
-                      <div className="min-w-0 flex-1">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block leading-tight">
-                          {prog.tabCategory}
-                        </span>
-                        <h4 className="text-xs sm:text-[13px] font-serif font-bold text-stone-900 tracking-tight truncate leading-snug">
-                          {prog.tabTitle}
-                        </h4>
-                      </div>
+                      {/* 3 Stacked Pillars for this Program */}
+                      <div className="space-y-8 sm:space-y-10">
+                        {prog.pillars.map((pillar, pillarIdx) => {
+                          const isLastPillar = pillarIdx === prog.pillars.length - 1;
 
-                      <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${
-                        isActive ? 'text-[#0D9488] translate-x-0.5' : 'text-stone-300'
-                      }`} />
-                    </button>
+                          return (
+                            <div 
+                              key={`${prog.id}-${pillarIdx}`}
+                              className={`${
+                                !isLastPillar ? 'pb-8 sm:pb-10 border-b border-stone-100' : ''
+                              }`}
+                            >
+                              {/* Text Block */}
+                              <div className="min-w-0">
+                                {/* Eyebrow Label */}
+                                <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] uppercase text-stone-400 mb-1.5">
+                                  {pillar.eyebrow}
+                                </div>
+
+                                {/* Large Bold Headline */}
+                                <h3 
+                                  className={`text-2xl sm:text-3xl lg:text-[36px] font-serif font-bold tracking-tight leading-tight mb-2.5 ${pillar.headlineColor}`}
+                                >
+                                  {pillar.headline}
+                                </h3>
+
+                                {/* Descriptive Paragraph */}
+                                <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
+                                  {pillar.description}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   );
                 })}
               </div>
-            </div>
 
-            {/* RIGHT SIDE: SCROLLING DETAILS RELATED TO MAIN TOPICS */}
-            <div className="lg:col-span-7 space-y-16 sm:space-y-24">
-              {programsData.map((prog, pIdx) => {
-                const isLastProg = pIdx === programsData.length - 1;
-
-                return (
-                  <div
-                    key={prog.id}
-                    ref={(el) => { programCardRefs.current[pIdx] = el; }}
-                    className={`program-card transition-all duration-300 ${
-                      !isLastProg ? 'pb-16 sm:pb-20 border-b border-stone-200/80' : 'pb-24 sm:pb-36'
-                    }`}
-                  >
-                    {/* Top Status Header Strip */}
-                    <div className="flex items-center justify-between gap-4 pb-5 border-b border-stone-200/80 mb-8 sm:mb-10">
-                      {/* Left: Indicator Dot + Header Tag */}
-                      <div className="flex items-center gap-2.5 shrink-0">
-                        <span className={`w-2.5 h-2.5 rounded-full ${prog.headerDotColor}`} />
-                        <span className={`text-xs font-mono font-bold tracking-[0.2em] uppercase ${prog.headerTextColor}`}>
-                          {prog.headerTag}
-                        </span>
-                      </div>
-
-                      {/* Connecting hairline rule */}
-                      <div className="flex-1 h-px bg-stone-200/70 mx-3 hidden sm:block" />
-
-                      {/* Right: Step Counter ("01", "02"...) + Action Pill */}
-                      <div className="flex items-center gap-3.5 shrink-0">
-                        <span className="text-xs font-mono font-bold text-stone-400">
-                          {prog.id}
-                        </span>
-
-                        <button
-                          onClick={() => handleOpenApplyModal(`${prog.title} (${prog.fullName})`)}
-                          className="group px-4 py-1.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300/80 text-stone-800 text-[11px] font-mono font-bold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs"
-                        >
-                          <span>{prog.ctaLabel}</span>
-                          <div className="w-4 h-4 rounded-full bg-stone-100 group-hover:bg-[#0D9488] group-hover:text-white flex items-center justify-center transition-colors">
-                            <ArrowRight className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5" />
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* 3 Stacked Pillars for this Program */}
-                    <div className="space-y-8 sm:space-y-10">
-                      {prog.pillars.map((pillar, pillarIdx) => {
-                        const isLastPillar = pillarIdx === prog.pillars.length - 1;
-
-                        return (
-                          <div 
-                            key={`${prog.id}-${pillarIdx}`}
-                            className={`${
-                              !isLastPillar ? 'pb-8 sm:pb-10 border-b border-stone-200/80' : ''
-                            }`}
-                          >
-                            {/* Text Block */}
-                            <div className="min-w-0">
-                              {/* Eyebrow Label */}
-                              <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] uppercase text-stone-400 mb-1.5">
-                                {pillar.eyebrow}
-                              </div>
-
-                              {/* Large Bold Headline */}
-                              <h3 
-                                className={`text-2xl sm:text-3xl lg:text-[38px] font-serif font-bold tracking-tight leading-tight mb-2.5 ${pillar.headlineColor}`}
-                              >
-                                {pillar.headline}
-                              </h3>
-
-                              {/* Descriptive Paragraph */}
-                              <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
-                                {pillar.description}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         </div>
