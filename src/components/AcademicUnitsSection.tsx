@@ -44,23 +44,39 @@ export const AcademicUnitsSection: React.FC<AcademicUnitsSectionProps> = ({ onNa
   };
 
   return (
-    <section className="w-full bg-[#FAF9F6] py-14 sm:py-20 select-none">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full py-16 sm:py-24 select-none overflow-hidden bg-gradient-to-r from-[#0b6623] via-[#074626] to-[#04140c]">
+      {/* Dark gradient overlay rolling in from the right side */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to left, rgba(2, 8, 5, 0.95) 0%, rgba(4, 24, 15, 0.82) 32%, rgba(6, 48, 28, 0.35) 65%, transparent 100%)'
+        }}
+      />
+
+      {/* Subtle organic radial depth in the background */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          background: 'radial-gradient(circle at 15% 30%, rgba(52, 211, 153, 0.22) 0%, transparent 60%)'
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* =========================================================================
-            SECTION HEADER: Matching Screenshot ("ACADEMIC UNITS" + Red Line)
+            SECTION HEADER: Matching Screenshot ("ACADEMIC UNITS" + Accent Line)
             ========================================================================= */}
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight uppercase">
-            <span className="text-[#991B1B] font-extrabold">ACADEMIC</span>{' '}
-            <span className="text-[#1E293B]">UNITS</span>
+        <div className="text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight uppercase drop-shadow-md">
+            <span className="text-white font-extrabold">ACADEMIC</span>{' '}
+            <span className="text-[#34D399]">UNITS</span>
           </h2>
 
-          {/* Centered Decorative Red Divider: —— • —— (Matching Screenshot Exactly) */}
+          {/* Centered Decorative Emerald Divider: —— • —— (Matching Screenshot Exactly) */}
           <div className="flex items-center justify-center gap-1.5 mt-3">
-            <span className="w-9 h-0.5 bg-[#991B1B]" />
-            <span className="w-3.5 h-1.5 bg-[#991B1B] rounded-full" />
-            <span className="w-9 h-0.5 bg-[#991B1B]" />
+            <span className="w-10 h-0.5 bg-[#34D399]" />
+            <span className="w-3.5 h-1.5 bg-[#34D399] rounded-full" />
+            <span className="w-10 h-0.5 bg-[#34D399]" />
           </div>
         </div>
 
