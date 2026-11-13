@@ -83,6 +83,10 @@
 }
 
 /* Explicit Design Font Classes */
+.font-playfair {
+  font-family: 'Playfair Display', Georgia, serif !important;
+}
+
 .font-chango {
   font-family: 'Chango', cursive, sans-serif !important;
 }
