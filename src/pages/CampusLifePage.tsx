@@ -26,12 +26,13 @@ import {
   X
 } from 'lucide-react';
 import { gsap, ScrollTrigger, usePageTextAnimations } from '../utils/animations';
-import { CAMPUS_FACILITIES } from '../data/collegeData';
 
 export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
   const pageRef = useRef<HTMLDivElement>(null);
   usePageTextAnimations(pageRef);
-  const [activeFacility, setActiveFacility] = useState<string>(CAMPUS_FACILITIES[0].id);
+  const [activeFacilityIndex, setActiveFacilityIndex] = useState<number>(0);
+  const facilitiesSectionRef = useRef<HTMLElement>(null);
+  const facilityRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeClubIndex, setActiveClubIndex] = useState<number>(0);
   const clubsSectionRef = useRef<HTMLElement>(null);
   const clubsHeaderRef = useRef<HTMLDivElement>(null);
@@ -90,6 +91,208 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       });
     }
   };
+
+  // 6 World-Class Campus Infrastructure Facilities matching Admissions 50/50 split layout
+  const campusFacilitiesData = [
+    {
+      id: '01',
+      title: 'Central Digital Library',
+      motto: 'KNOWLEDGE SANCTUARY & 24/7 E-RESOURCE HUB',
+      description:
+        'Spanning multiple architectural levels, our central library houses over 100,000 print volumes, 12,000+ subscribed e-journals (IEEE, ScienceDirect, ACM, Springer), dedicated doctoral research cubicles, and a round-the-clock air-conditioned digital reading hall.',
+      badge: {
+        eyebrow: 'DIGITAL REPOSITORY & ACCESS',
+        title: '100,000+ Volumes · IEEE & ACM Access'
+      },
+      image: '/assets/images/college_library_hall_1793988204291.jpg',
+      imageAlt: 'Central Digital Library Concourse',
+      categories: [
+        {
+          name: '1. Print Collections & Digital Hubs',
+          items: [
+            '100,000+ Print Volumes & Bound Journal Archives',
+            'Subscribed IEEE Xplore, ScienceDirect & SpringerLink',
+            'Automated RFID Self-Checkout & Book Drop Kiosks',
+            'National Digital Library of India (NDLI) Institutional Portal'
+          ]
+        },
+        {
+          name: '2. Research Spaces & Scholar Amenities',
+          items: [
+            '24/7 Air-Conditioned Central Reading Concourse (500+ Seating)',
+            '80 Private Individual Doctoral & Faculty Research Carrels',
+            'High-Speed Digital Browsing Terminal Pavilion with 1 Gbps Fiber',
+            'Turnitin Plagiarism Detection & Grammatical Research Suite'
+          ]
+        }
+      ]
+    },
+    {
+      id: '02',
+      title: 'Advanced Computing Labs',
+      motto: 'HIGH-PERFORMANCE COMPUTE & GENERATIVE AI LABS',
+      description:
+        'Engineered for intensive deep learning, cyber defense simulations, and cloud virtualization, the computing center features NVIDIA GPU clusters, 1,200+ high-end workstations, and enterprise cloud testbeds.',
+      badge: {
+        eyebrow: 'ENTERPRISE TECH ECOSYSTEM',
+        title: '1,200+ High-End Nodes · NVIDIA GPU Clusters'
+      },
+      image: '/assets/images/college_computer_lab_1793988224067.jpg',
+      imageAlt: 'Advanced Computing and AI Laboratory',
+      categories: [
+        {
+          name: '1. Compute Architecture & Systems',
+          items: [
+            'NVIDIA A100 & RTX High-Performance GPU AI Clusters',
+            '1,200+ Intel Core i7 / i9 High-Speed Workstations',
+            'Dedicated Cloud Sandbox on AWS & Google Cloud Infrastructure',
+            'Redundant 10 Gbps Tier-3 Optical Fiber Campus Backbone'
+          ]
+        },
+        {
+          name: '2. Specialized Domain Labs',
+          items: [
+            'Generative AI & Deep Learning Research Foundry',
+            'Cyber Security, Ethical Hacking & Digital Forensics Lab',
+            'Full-Stack Cloud Engineering & DevOps Deployment Lab',
+            'Big Data Analytics & Apache Spark Parallel Processing Arena'
+          ]
+        }
+      ]
+    },
+    {
+      id: '03',
+      title: 'Robotics & Maker FabLab',
+      motto: 'HARDWARE INNOVATION & AUTONOMOUS UAV FABLAB',
+      description:
+        'A state-of-the-art maker haven equipped with rapid 3D prototyping printers, precision CNC mills, Cadence PCB fabrication, and autonomous drone flight testing cages for student inventors.',
+      badge: {
+        eyebrow: 'HARDWARE PROTOTYPING & PATENTS',
+        title: 'Texas Instruments & ARM Partner Lab'
+      },
+      image: '/assets/images/college_drone_lab_hero.jpg',
+      imageAlt: 'Robotics and Drone Prototyping FabLab',
+      categories: [
+        {
+          name: '1. Fabrication & Prototyping Equipment',
+          items: [
+            'Industrial Dual-Extrusion 3D Printers & Laser Cutters',
+            'Cadence Allegro PCB Design & Surface Mount Soldering Stations',
+            'Precision CNC Milling, Lathe & Mechanical Fabrication Shop',
+            'Digital Storage Oscilloscopes & Spectrum RF Analyzers'
+          ]
+        },
+        {
+          name: '2. Autonomous Systems & Robotics',
+          items: [
+            'ROS2 Autonomous Rover Navigation & Obstacle Traversal Arenas',
+            'Quadcopter Drone Indoor Testing Flight Enclosure',
+            'Industrial Robotic Arm Kinematics & Vision Inspection Stations',
+            'Embedded IoT Sensor Networks & Telemetry Testbeds'
+          ]
+        }
+      ]
+    },
+    {
+      id: '04',
+      title: 'Cafeteria & Dining Court',
+      motto: 'HYGIENIC DINING & VIBRANT STUDENT SOCIAL HUB',
+      description:
+        'Our modern cafeteria concourse seats over 650 students across indoor air-conditioned and open-air terrace pavilions, offering wholesome multi-cuisine culinary options prepared to strict HACCP food safety standards.',
+      badge: {
+        eyebrow: 'CULINARY EXCELLENCE & NUTRITION',
+        title: '650+ Seating Capacity · HACCP Certified'
+      },
+      image: '/assets/images/college_campus_hero_1793988186342.jpg',
+      imageAlt: 'Multi-Cuisine Student Cafeteria',
+      categories: [
+        {
+          name: '1. Food Standards & Dining Amenities',
+          items: [
+            'HACCP & FSSAI Certified Hygienic Food Preparation Standards',
+            'North Indian, South Indian, Continental & Odia Cuisines',
+            'Fresh Fruit Juice Bar, Espresso Coffee Lounge & Bakery Counter',
+            'Multi-Stage Industrial RO Water Purification Plants'
+          ]
+        },
+        {
+          name: '2. Student Dining Experience',
+          items: [
+            '650+ Indoor Air-Conditioned & Al-Fresco Terrace Seating',
+            'Subsidized Monthly Student Meal Passes & Cashless Digital Billing',
+            'Special Dietary Vegetarian & Protein Fitness Meal Options',
+            'Extended Night Concourse Hours During Examination Weeks'
+          ]
+        }
+      ]
+    },
+    {
+      id: '05',
+      title: 'Sports & Athletics Arena',
+      motto: 'PHYSICAL VITALITY & CHAMPIONSHIP ATHLETICS',
+      description:
+        'A comprehensive multi-sport stadium ecosystem featuring floodlit basketball courts, FIFA-standard turf football grounds, cricket training nets, indoor badminton pavilions, and a modern air-conditioned gym.',
+      badge: {
+        eyebrow: 'PHYSICAL WELLNESS & TROPHIES',
+        title: 'Multi-Sport Complex · Certified Fitness Trainers'
+      },
+      image: '/assets/images/college_convocation_1793988239815.jpg',
+      imageAlt: 'College Athletics and Sports Arena',
+      categories: [
+        {
+          name: '1. Outdoor Grounds & Tournaments',
+          items: [
+            'FIFA-Standard Natural Turf Football & Athletic Running Track',
+            'Dual Floodlit Polyurethane Basketball & Volleyball Courts',
+            'Full-Size Cricket Field with Professional Turf Practice Nets',
+            'Annual Inter-Collegiate Olympus Sports Championship'
+          ]
+        },
+        {
+          name: '2. Indoor Pavilion & Fitness Center',
+          items: [
+            'Four BWF-Grade Synthetic Badminton Indoor Courts',
+            'Air-Conditioned Gym with TechnoGym Cardio & Strength Equipment',
+            'Indoor Table Tennis, Billiards & Chess Tournament Lounge',
+            'Dedicated Yoga, Meditation & Martial Arts Dojo Pavilion'
+          ]
+        }
+      ]
+    },
+    {
+      id: '06',
+      title: 'Smart Eco-Hostels & Campus',
+      motto: 'HOME AWAY FROM HOME · 10+ ACRES GREEN LIVING',
+      description:
+        'Secure, vibrant on-campus student residences surrounded by 10+ acres of manicured botanical greens in Infocity. Features Wi-Fi enabled wings, 24/7 solar backup power, and dedicated warden care.',
+      badge: {
+        eyebrow: 'RESIDENTIAL LIVING & SECURITY',
+        title: '10+ Acres Green Living · 24/7 Security'
+      },
+      image: '/assets/images/college_campus_quad_1793988224316.jpg',
+      imageAlt: 'Green Campus Quadrangle & Student Hostels',
+      categories: [
+        {
+          name: '1. Residential Accommodations',
+          items: [
+            'Furnished Double & Triple Occupancy AC & Non-AC Rooms',
+            'Ergonomic Work Desks, High-Speed Wi-Fi & Wardrobe Storage',
+            'Common Lounges with Satellite TV, Indoor Games & Library Nooks',
+            'On-Campus Automated Laundromat & Housekeeping Services'
+          ]
+        },
+        {
+          name: '2. Safety, Health & Sustainability',
+          items: [
+            '24/7 Biometric RFID Access Control & CCTV Surveillance',
+            'Dedicated On-Campus Medical Health Dispensary & Ambulance',
+            '100% Solar-Powered Rooftop Clean Energy Generation',
+            'Zero-Discharge Eco-Friendly Rainwater Harvesting Systems'
+          ]
+        }
+      ]
+    }
+  ];
 
   // 6 Student Technical Clubs & Societies (Cinematic Card Carousel & Impact Data)
   const clubsData = [
@@ -555,7 +758,68 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       if (animFrame) cancelAnimationFrame(animFrame);
     };
   }, []);
-const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAMPUS_FACILITIES[0];
+
+  // ScrollTrigger: Facilities sticky left showcase syncing & entrance animations
+  useEffect(() => {
+    const section = facilitiesSectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      campusFacilitiesData.forEach((facility, index) => {
+        const facEl = facilityRefs.current[index];
+        if (!facEl) return;
+
+        const header = facEl.querySelector('.facility-header-reveal');
+        const motto = facEl.querySelector('.facility-motto-reveal');
+        const desc = facEl.querySelector('.facility-desc-reveal');
+        const badge = facEl.querySelector('.facility-badge-reveal');
+        const catHeaders = facEl.querySelectorAll('.facility-cat-reveal');
+        const rows = facEl.querySelectorAll('.facility-row-reveal');
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: facEl,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          }
+        });
+
+        if (header) {
+          tl.fromTo(header, { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)' });
+        }
+        if (motto) {
+          tl.fromTo(motto, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.3');
+        }
+        if (desc) {
+          tl.fromTo(desc, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+        }
+        if (badge) {
+          tl.fromTo(badge, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.5)' }, '-=0.2');
+        }
+        if (catHeaders.length) {
+          tl.fromTo(catHeaders, { opacity: 0, x: -15 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }, '-=0.2');
+        }
+        if (rows.length) {
+          tl.fromTo(
+            rows,
+            { opacity: 0, x: -20, scale: 0.97 },
+            { opacity: 1, x: 0, scale: 1, duration: 0.45, stagger: 0.04, ease: 'back.out(1.2)' },
+            '-=0.3'
+          );
+        }
+
+        ScrollTrigger.create({
+          trigger: facEl,
+          start: index === 0 ? 'top 70%' : 'top 45%',
+          end: index === campusFacilitiesData.length - 1 ? 'bottom 20%' : 'bottom 45%',
+          onEnter: () => setActiveFacilityIndex(index),
+          onEnterBack: () => setActiveFacilityIndex(index)
+        });
+      });
+    }, facilitiesSectionRef.current);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24">
@@ -676,89 +940,278 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
 
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 space-y-16">
-        {/* Interactive Campus Facilities Showcase */}
-        <div id="campus-facilities" className="scroll-mt-20">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <h3 className="text-2xl font-serif font-bold text-slate-900">
-              World-Class Campus Infrastructure
-            </h3>
-            <p className="text-xs text-stone-500 mt-1">Select a facility to view detailed amenities and specifications</p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-            {CAMPUS_FACILITIES.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setActiveFacility(f.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  activeFacility === f.id
-                    ? 'bg-[#1b2a60] text-white shadow-md'
-                    : 'bg-white text-stone-600 hover:bg-stone-100 border border-stone-200'
-                }`}
-              >
-                {f.title}
-              </button>
-            ))}
-          </div>
-
-          {/* Active Facility Card */}
-          <div className="rounded-3xl bg-white border border-stone-200 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto min-h-[360px]">
-              <img
-                src={currentFac.image}
-                alt={currentFac.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-4 left-4 right-4 text-white">
-                <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-mono inline-block mb-1">
-                  Featured Facility
-                </span>
-                <h4 className="text-xl font-bold font-serif">{currentFac.title}</h4>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
-              <div>
-                <span className="text-xs font-semibold text-blue-700 block mb-1">
-                  {currentFac.tagline}
-                </span>
-                <h3 className="text-2xl font-bold font-serif text-slate-900">
-                  {currentFac.title}
-                </h3>
-                <p className="text-xs text-stone-600 mt-3 leading-relaxed">
-                  {currentFac.desc}
-                </p>
-
-                <div className="mt-5 space-y-2">
-                  <span className="text-[10px] uppercase font-bold text-stone-400 tracking-wider block">
-                    Key Features &amp; Provisions
+      {/* =========================================================================
+          WORLD-CLASS CAMPUS INFRASTRUCTURE (50/50 SPLIT CINEMATIC SECTION)
+          Matching ACADEMIC DISCIPLINES & PROGRAMMES from Admissions Page
+          - Left: 50% width sticky image (full screen height) with smooth crossfade, dark gradient & Facility Title in Chango font + Motto
+          - Center: Vertical CURVED S SEPARATOR dividing the left image column and right scrolling text column
+          - Right: 50% width scrolling content with geometric background, facility title in Chango font, circular action button, motto, description, badge, and categorized specs with divided rows & right arrows
+          - Left border of each facility block also features an S-curve separator
+          ========================================================================= */}
+      <section
+        id="campus-facilities"
+        ref={facilitiesSectionRef}
+        className="relative w-full bg-[#EDF5FD] border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
+      >
+        {/* PART A: FULL-WIDTH HEADER STRIP */}
+        <div className="w-full bg-white/95 border-b border-stone-200/80 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+              <div className="max-w-3xl">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
+                  <span className="text-xs sm:text-sm font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase">
+                    CAMPUS LIFE &amp; INFRASTRUCTURE
                   </span>
-                  <ul className="space-y-1.5 text-xs text-stone-700">
-                    {currentFac.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
+                {/* Grand Larger Heading */}
+                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold text-[#111827] leading-[1.05] tracking-tight mb-4">
+                  World-Class Campus{' '}
+                  <span className="italic font-serif text-[#0D9488] font-normal block sm:inline">
+                    Infrastructure.
+                  </span>
+                </h2>
+                <p className="text-stone-700 text-sm sm:text-base lg:text-lg sm:leading-relaxed font-sans max-w-2xl">
+                  Explore our modern 10+ acre campus ecosystem featuring 24/7 digital libraries, high-performance AI computing labs, robotics maker fablabs, multi-cuisine dining courts, and Olympic-grade athletic pavilions.
+                </p>
               </div>
 
-              <div className="pt-4 border-t border-stone-100 flex items-center justify-between">
-                <span className="text-xs text-stone-500 font-mono">10+ Acres Campus · Infocity</span>
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="px-4 py-2 bg-[#1b2a60] hover:bg-blue-900 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
-                >
-                  Schedule Campus Visit
-                </button>
+              {/* Quality Badges Strip */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono shrink-0">
+                <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  10+ Acres Smart Campus
+                </span>
+                <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500" />
+                  24/7 Digital Hubs
+                </span>
+                <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-500" />
+                  NBA Tier-1 &amp; NAAC A+
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+        {/* PART B: 50/50 SPLIT SHOWCASE WITH CURVED S SEPARATOR */}
+        <div className="w-full bg-[#EDF5FD] relative">
+          <div className="w-full flex flex-col lg:flex-row items-start relative">
+
+            {/* LEFT COLUMN: 50% WIDTH STICKY SHOWCASE (ZERO GAP, FULL BLEED) */}
+            <div className="w-full lg:w-1/2 lg:sticky lg:top-0 h-[480px] sm:h-[600px] lg:h-screen self-start overflow-hidden bg-stone-950 z-20">
+              {campusFacilitiesData.map((facility, fIdx) => {
+                const isActive = activeFacilityIndex === fIdx;
+
+                return (
+                  <div
+                    key={facility.id}
+                    className={`absolute inset-0 transition-all duration-700 ease-out ${
+                      isActive
+                        ? 'opacity-100 scale-100 z-10'
+                        : 'opacity-0 scale-105 z-0 pointer-events-none'
+                    }`}
+                  >
+                    {/* Full 50% width facility photo */}
+                    <img
+                      src={facility.image}
+                      alt={facility.imageAlt}
+                      className="w-full h-full object-cover"
+                    />
+
+                    {/* Smooth Cinematic Gradient Overlay */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: 'linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 24%, rgba(15, 23, 42, 0.2) 44%, transparent 70%)'
+                      }}
+                    />
+
+                    {/* Facility Title in Chango Font & Motto at Bottom Left */}
+                    <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
+                      <h3 className="font-chango text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
+                        {facility.title}
+                      </h3>
+                      <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-stone-200 font-bold drop-shadow-sm">
+                        {facility.motto}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* CURVED S SEPARATOR: Pinned along the central seam dividing Left Images and Right Texts */}
+            <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 z-30 pointer-events-none">
+              <div className="sticky top-0 h-screen w-14 flex items-center justify-center pointer-events-none overflow-visible">
+                <svg
+                  className="w-full h-full overflow-visible"
+                  viewBox="0 0 56 1000"
+                  preserveAspectRatio="none"
+                  fill="none"
+                >
+                  {/* Subtle outer glow */}
+                  <path
+                    d="M 28,0 C 50,260 6,740 28,1000"
+                    stroke="rgba(120, 68, 33, 0.22)"
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  {/* Main S-Curve Line in Accent Bronze/Brown #784421 */}
+                  <path
+                    d="M 28,0 C 50,260 6,740 28,1000"
+                    stroke="#784421"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  {/* Decorative Anchor & Inflection Nodes */}
+                  <circle cx="28" cy="20" r="4" fill="#784421" />
+                  <circle cx="28" cy="20" r="2" fill="#FAF6EF" />
+
+                  <circle cx="28" cy="500" r="5" fill="#784421" />
+                  <circle cx="28" cy="500" r="2.5" fill="#FAF6EF" />
+
+                  <circle cx="28" cy="980" r="4" fill="#784421" />
+                  <circle cx="28" cy="980" r="2" fill="#FAF6EF" />
+                </svg>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT WITH GEOMETRIC BACKGROUND */}
+            <div className="w-full lg:w-1/2 relative bg-[#EDF5FD]">
+              {/* STICKY REFERENCE GEOMETRIC BLUE BACKGROUND (DESKTOP) */}
+              <div className="hidden lg:block sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
+                <img
+                  src="/admissions-programs/geometric-blue-bg.png"
+                  alt=""
+                  className="w-full h-full object-cover object-right opacity-95"
+                />
+              </div>
+
+              {/* MOBILE BACKGROUND */}
+              <div className="lg:hidden absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <img
+                  src="/admissions-programs/geometric-blue-bg.png"
+                  alt=""
+                  className="w-full h-full object-cover object-right opacity-95"
+                />
+              </div>
+
+              {/* Scrolling Content */}
+              <div className="relative z-10 px-8 sm:px-12 lg:px-16 xl:px-20 py-16 sm:py-24 space-y-24 sm:space-y-32">
+                {campusFacilitiesData.map((facility, fIdx) => {
+                  return (
+                    <div
+                      key={facility.id}
+                      ref={(el) => { facilityRefs.current[fIdx] = el; }}
+                      className="facility-section relative pl-8 sm:pl-10"
+                    >
+                      {/* Curved S Separator replacing straight vertical border */}
+                      <div className="absolute left-0 top-0 bottom-0 w-8 pointer-events-none overflow-visible">
+                        <svg
+                          className="w-full h-full"
+                          viewBox="0 0 32 1000"
+                          preserveAspectRatio="none"
+                          fill="none"
+                        >
+                          <path
+                            d="M 16,0 C 30,260 2,740 16,1000"
+                            stroke="rgba(120, 68, 33, 0.2)"
+                            strokeWidth="7"
+                            strokeLinecap="round"
+                            vectorEffect="non-scaling-stroke"
+                          />
+                          <path
+                            d="M 16,0 C 30,260 2,740 16,1000"
+                            stroke="#784421"
+                            strokeWidth="3.5"
+                            strokeLinecap="round"
+                            vectorEffect="non-scaling-stroke"
+                          />
+                          <circle cx="16" cy="15" r="3.5" fill="#784421" />
+                          <circle cx="16" cy="500" r="4" fill="#784421" />
+                          <circle cx="16" cy="500" r="2" fill="#FAF6EF" />
+                          <circle cx="16" cy="985" r="3.5" fill="#784421" />
+                        </svg>
+                      </div>
+
+                      {/* Header Row: Facility Title in Chango Font + Circular Action Button */}
+                      <div className="facility-header-reveal flex items-start justify-between gap-4 mb-2">
+                        <h3 className="font-chango text-3xl sm:text-4xl lg:text-[40px] text-stone-900 tracking-normal leading-[1.2]">
+                          {facility.title}
+                        </h3>
+
+                        <button
+                          onClick={() => onNavigate('contact')}
+                          aria-label={`Schedule visit for ${facility.title}`}
+                          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#8E877E] hover:bg-[#784421] text-white flex items-center justify-center shrink-0 transition-all duration-300 shadow-sm hover:scale-105 cursor-pointer mt-1"
+                        >
+                          <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                        </button>
+                      </div>
+
+                      {/* Motto */}
+                      <p className="facility-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
+                        {facility.motto}
+                      </p>
+
+                      {/* Editorial Description */}
+                      <p className="facility-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
+                        {facility.description}
+                      </p>
+
+                      {/* Optional Badge */}
+                      {facility.badge && (
+                        <div className="facility-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
+                          <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
+                            {facility.badge.eyebrow}
+                          </span>
+                          <span className="text-base font-bold text-stone-900 block mt-0.5">
+                            {facility.badge.title}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Categories and Divided Specification Rows */}
+                      <div className="space-y-6">
+                        {facility.categories.map((category, cIdx) => (
+                          <div key={cIdx} className="space-y-1">
+                            {/* Category Header */}
+                            <h4 className="facility-cat-reveal text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
+                              {category.name}
+                            </h4>
+
+                            {/* Amenity / Spec rows with horizontal dividing lines and right arrows */}
+                            <div className="space-y-0">
+                              {category.items.map((item, iIdx) => (
+                                <div
+                                  key={iIdx}
+                                  onClick={() => onNavigate('contact')}
+                                  className="facility-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
+                                >
+                                  <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
+                                    {item}
+                                  </span>
+                                  <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#784421] group-hover:translate-x-1 transition-all shrink-0" />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       {/* =========================================================================
           Student Technical Clubs & Societies (Pinned Horizontal Scrub & Screen Recording Style)
