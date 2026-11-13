@@ -23,7 +23,7 @@ export const Header: React.FC<Props> = ({
   const [isScrolled, setIsScrolled] = useState(false);
 
   const isHome = currentTab === 'home';
-  const isHeroTransparent = currentTab === 'home' || currentTab === 'programs';
+  const isHeroTransparent = currentTab === 'home' || currentTab === 'programs' || currentTab === 'campus' || currentTab === 'admissions';
 
   // Monitor scroll position to adapt navbar background on hero pages
   useEffect(() => {
@@ -54,11 +54,7 @@ export const Header: React.FC<Props> = ({
   };
 
   const handleApplyClick = () => {
-    if (onOpenAuth) {
-      onOpenAuth('signup');
-    } else {
-      onNavigate('admissions');
-    }
+    onNavigate('admissions');
   };
 
   return (

@@ -22,10 +22,6 @@ export const NoticesPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
       {/* Header Banner */}
       <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Bell className="w-4 h-4 text-amber-700" />
-            <span>Institutional Gazette &amp; Official Notifications · TAT Bhubaneswar</span>
-          </div>
           <h1 className="text-4xl sm:text-5xl font-serif font-bold text-[#172554] tracking-tight leading-tight">
             Official Notices, Circulars &amp; Gazette
           </h1>

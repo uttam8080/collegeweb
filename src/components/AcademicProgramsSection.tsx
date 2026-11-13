@@ -451,12 +451,6 @@ export const AcademicProgramsSection: React.FC<Props> = ({ onNavigate }) => {
             ===================================================================== */}
         <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
           
-          {/* Eyebrow Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B1528] text-amber-300 border border-stone-800 text-[11px] sm:text-xs font-mono font-semibold tracking-wider uppercase mb-4 shadow-sm">
-            <GraduationCap className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Academic Degrees &amp; Syllabi · Admissions 2026</span>
-          </div>
-
           {/* Main Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-serif font-bold text-[#0B1528] tracking-tight leading-[1.14]">
             Academic Schools &amp; Degree Programs
