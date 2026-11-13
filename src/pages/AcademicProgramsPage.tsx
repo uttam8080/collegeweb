@@ -526,12 +526,11 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
       </section>
 
       {/* =========================================================================
-          SECTION 2: OUR SCHOOLS & PROGRAMMES (Matching Reference Screenshot)
+          SECTION 2: OUR SCHOOLS & PROGRAMMES (Full-Width Curved Orbital Showcase)
           ========================================================================= */}
-      <section id="schools-programs" className="relative w-full py-20 sm:py-28 bg-[#FAF8F5] border-b border-stone-200/80 scroll-mt-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
-          {/* Section Heading */}
+      <section id="schools-programs" className="relative w-full pt-16 sm:pt-24 pb-20 sm:pb-28 bg-[#FAF8F5] border-b border-stone-200/80 scroll-mt-10 overflow-hidden">
+        {/* Section Heading */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-6">
               <span className="text-xs font-mono font-bold tracking-widest text-[#1E3A8A] uppercase block mb-2">
@@ -548,16 +547,15 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
               </p>
             </div>
           </div>
-
-          {/* CURVED ORBITAL SHOWCASE (Matching Reference Design: Semi-circle hub with radiating circular cards) */}
-          <CircularProgramsOrbit
-            schools={schoolsData}
-            activeSchoolId={activeSchoolId}
-            onSelectSchool={(school) => setActiveSchoolId(school.id)}
-            onOpenModal={(school) => setSelectedSchoolModal(school)}
-          />
-
         </div>
+
+        {/* FULL-WIDTH CURVED ORBITAL SHOWCASE (Not constrained inside a box, Semicircle stuck to right edge) */}
+        <CircularProgramsOrbit
+          schools={schoolsData}
+          activeSchoolId={activeSchoolId}
+          onSelectSchool={(school) => setActiveSchoolId(school.id)}
+          onOpenModal={(school) => setSelectedSchoolModal(school)}
+        />
       </section>
 
       {/* =========================================================================

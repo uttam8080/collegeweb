@@ -8,7 +8,8 @@ import {
   CheckCircle2, 
   Layers, 
   ExternalLink,
-  MousePointer
+  MousePointer,
+  Compass
 } from 'lucide-react';
 
 export interface SchoolProgram {
@@ -43,9 +44,11 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
   onSelectSchool,
   onOpenModal,
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const lastWheelTime = useRef<number>(0);
   const touchStartY = useRef<number>(0);
+  const isDragging = useRef<boolean>(false);
+  const dragStartY = useRef<number>(0);
 
   // Find index of currently active school
   const initialIndex = Math.max(0, schools.findIndex(s => s.id === activeSchoolId));
@@ -75,19 +78,17 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
     onSelectSchool(schools[prevIdx]);
   };
 
-  // Wheel listener: smoothly intercepts mouse scroll within the orbit container
+  // Mouse wheel listener: Smoothly rotates circular orbit when scrolling mouse over section
   useEffect(() => {
-    const el = containerRef.current;
+    const el = stageRef.current;
     if (!el) return;
 
     const onNativeWheel = (e: WheelEvent) => {
-      // If user scrolls vertically inside this orbital container
-      if (Math.abs(e.deltaY) > 8) {
-        const now = Date.now();
-        // Prevent default window scroll to capture interactive orbital stepping
+      // Intercept vertical scroll when cursor is over the orbital section
+      if (Math.abs(e.deltaY) > 6) {
         e.preventDefault();
-
-        if (now - lastWheelTime.current > 180) {
+        const now = Date.now();
+        if (now - lastWheelTime.current > 160) {
           lastWheelTime.current = now;
           if (e.deltaY > 0) {
             nextProgram();
@@ -109,7 +110,26 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     const diffY = touchStartY.current - e.changedTouches[0].clientY;
-    if (Math.abs(diffY) > 35) {
+    if (Math.abs(diffY) > 30) {
+      if (diffY > 0) {
+        nextProgram();
+      } else {
+        prevProgram();
+      }
+    }
+  };
+
+  // Mouse drag to rotate
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    dragStartY.current = e.clientY;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    const diffY = dragStartY.current - e.clientY;
+    if (Math.abs(diffY) > 30) {
       if (diffY > 0) {
         nextProgram();
       } else {
@@ -130,150 +150,138 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
   };
 
   return (
-    <div className="w-full space-y-6">
-      {/* Outer Curved Container matching reference design */}
+    <div className="w-full space-y-8 select-none">
+      {/* =========================================================================
+          UNBOUNDED FULL-WIDTH ORBITAL STAGE (No Inner Box Framing)
+          ========================================================================= */}
       <div
-        ref={containerRef}
+        ref={stageRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="relative w-full min-h-[580px] lg:min-h-[640px] xl:min-h-[660px] rounded-[36px] border border-sky-200/90 bg-gradient-to-br from-white via-sky-50/25 to-blue-50/40 shadow-xl overflow-hidden select-none outline-none focus:ring-2 focus:ring-sky-400/40"
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        className="relative w-full h-[620px] sm:h-[700px] md:h-[750px] lg:h-[800px] xl:h-[840px] overflow-hidden outline-none cursor-grab active:cursor-grabbing"
       >
-        {/* Subtle Background Radial Aura */}
+        {/* Soft Ambient Background Aura */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-blue-100/40 blur-3xl" />
-          <div className="absolute top-1/2 -right-20 w-[500px] h-[500px] rounded-full bg-sky-200/30 blur-3xl" />
+          <div className="absolute top-1/4 -left-24 w-[500px] h-[500px] rounded-full bg-blue-100/35 blur-3xl" />
+          <div className="absolute top-1/2 right-0 w-[600px] h-[600px] rounded-full bg-sky-200/25 blur-3xl" />
         </div>
 
-        {/* Top Header Pill / Cue inside container */}
-        <div className="absolute top-6 left-6 sm:left-10 z-20 flex items-center gap-2">
-          <div className="px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-stone-200 text-stone-700 shadow-xs flex items-center gap-2 text-xs font-mono font-semibold">
-            <span className="w-2 h-2 rounded-full bg-[#1E3A8A] animate-pulse" />
-            <span>CURVED ORBITAL SHOWCASE</span>
-          </div>
-          <span className="text-[11px] font-mono text-stone-500 hidden sm:inline-block">
-            Pages move around the semi-circle
-          </span>
-        </div>
-
-        {/* Orbit SVG Circular Track Guidelines */}
+        {/* Orbit SVG Circular Track Guideline (Curving gracefully across the section) */}
         <svg 
           className="absolute inset-0 w-full h-full pointer-events-none hidden md:block" 
           aria-hidden="true"
         >
-          {/* Radial concentric dashed orbital guides centered on the right hub */}
-          <circle 
-            cx="calc(100% - 150px)" 
-            cy="50%" 
-            r="230" 
+          {/* Main orbital track passing right through the semicircular card caps */}
+          <path 
+            d="M calc(100% - 440px) -100 A 750 750 0 0 0 calc(100% - 440px) 940" 
+            fill="none" 
+            stroke="#38BDF8" 
+            strokeWidth="2.5" 
+            strokeDasharray="8 10" 
+            opacity="0.45" 
+          />
+          <path 
+            d="M calc(100% - 390px) -50 A 700 700 0 0 0 calc(100% - 390px) 890" 
             fill="none" 
             stroke="#38BDF8" 
             strokeWidth="1.5" 
-            strokeDasharray="6 8" 
-            opacity="0.35" 
-          />
-          <circle 
-            cx="calc(100% - 150px)" 
-            cy="50%" 
-            r="340" 
-            fill="none" 
-            stroke="#38BDF8" 
-            strokeWidth="1" 
             strokeDasharray="4 8" 
             opacity="0.25" 
-          />
-          <circle 
-            cx="calc(100% - 150px)" 
-            cy="50%" 
-            r="460" 
-            fill="none" 
-            stroke="#38BDF8" 
-            strokeWidth="1" 
-            strokeDasharray="4 10" 
-            opacity="0.18" 
           />
         </svg>
 
         {/* =========================================================================
-            RIGHT SEMICIRCLE / CIRCLE HUB (Matching "YOUR JOURNEY / SCROLL TO MOVE" Reference)
+            TRUE SEMICIRCLE STUCK TO THE RIGHT (Matching Reference Image "YOUR JOURNEY")
             ========================================================================= */}
         <div 
-          className="absolute -right-28 sm:-right-24 md:-right-20 lg:-right-16 xl:right-4 top-1/2 -translate-y-1/2 z-20 w-[330px] sm:w-[380px] lg:w-[430px] h-[330px] sm:h-[380px] lg:h-[430px] rounded-full bg-gradient-to-br from-[#0F2850] via-[#153E75] to-[#0A1633] border-[6px] border-[#38BDF8] shadow-[0_0_60px_rgba(56,189,248,0.35)] flex flex-col items-center justify-center p-6 text-white text-center cursor-pointer group transition-transform duration-300 hover:scale-[1.01]"
           onClick={() => onOpenModal(activeSchool)}
-          title="Click to view detailed curriculum"
+          className="absolute top-1/2 -translate-y-1/2 right-0 z-30 w-[240px] sm:w-[300px] md:w-[360px] lg:w-[420px] xl:w-[460px] h-[480px] sm:h-[600px] md:h-[700px] lg:h-[780px] xl:h-[820px] rounded-l-full bg-gradient-to-br from-[#0B1E48] via-[#123068] to-[#0A1633] border-l-[6px] border-y-[6px] border-r-0 border-[#38BDF8] shadow-[-20px_0_60px_rgba(56,189,248,0.38)] flex flex-col items-center justify-center pl-8 sm:pl-14 md:pl-18 pr-4 sm:pr-8 text-white text-center cursor-pointer group transition-all duration-300 hover:shadow-[-25px_0_75px_rgba(56,189,248,0.5)]"
+          title="Click to explore full curriculum"
         >
-          {/* Pulsing Concentric Outer Aura */}
-          <div className="absolute inset-[-14px] rounded-full border border-cyan-400/25 pointer-events-none animate-pulse" />
-          <div className="absolute inset-[-28px] rounded-full border border-dashed border-cyan-300/15 pointer-events-none animate-spin-slow" />
+          {/* Concentric Pulsing Aura along Semicircular Arc */}
+          <div className="absolute inset-y-[-14px] left-[-14px] right-0 rounded-l-full border-l border-y border-r-0 border-cyan-400/30 pointer-events-none animate-pulse" />
+          <div className="absolute inset-y-[-28px] left-[-28px] right-0 rounded-l-full border-l border-y border-r-0 border-dashed border-cyan-300/20 pointer-events-none" />
 
-          {/* Interactive Navigation Chevron Buttons */}
+          {/* Interactive Top Chevron Button (Rotate Up) */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               prevProgram();
             }}
-            className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-md"
+            className="absolute top-6 sm:top-10 left-12 sm:left-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-lg z-20"
             aria-label="Previous programme"
+            title="Previous programme"
           >
-            <ChevronUp className="w-5 h-5 stroke-[2.5]" />
+            <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
           </button>
 
-          {/* Hub Content */}
-          <div className="space-y-2 sm:space-y-3 px-6 max-w-xs relative z-10">
+          {/* Central Semicircle Typography (Matching Reference "YOUR JOURNEY / SCROLL TO MOVE") */}
+          <div className="space-y-2 sm:space-y-3 relative z-10 max-w-[220px] sm:max-w-[260px] select-none">
             <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.25em] text-cyan-300 uppercase block">
               ACADEMIC DISCIPLINES
             </span>
-            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-none text-white drop-shadow-md">
+
+            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-serif font-black tracking-tight leading-[0.95] text-white drop-shadow-lg">
               YOUR<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-white to-blue-200">
                 JOURNEY
               </span>
             </h3>
             
-            <div className="pt-2 flex flex-col items-center gap-1.5">
-              <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-cyan-200 uppercase font-semibold flex items-center gap-1.5">
-                <MousePointer className="w-3.5 h-3.5 animate-bounce" />
+            <div className="pt-2 flex flex-col items-center gap-2">
+              <span className="text-[10px] sm:text-[11px] font-mono tracking-widest text-cyan-200 uppercase font-semibold flex items-center gap-1.5 drop-shadow-sm">
+                <MousePointer className="w-3.5 h-3.5 animate-bounce text-cyan-300" />
                 <span>SCROLL TO MOVE</span>
               </span>
-              <span className="text-xs font-mono font-bold text-white/80 bg-white/10 px-3 py-0.5 rounded-full border border-white/15">
-                {String(activeIndex + 1).padStart(2, '0')} / {String(schools.length).padStart(2, '0')}
-              </span>
+
+              {/* Progress Count Badge */}
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-xs sm:text-sm font-mono font-bold text-white/95 bg-white/15 px-3.5 py-1 rounded-full border border-white/20 shadow-xs">
+                  {String(activeIndex + 1).padStart(2, '0')} / {String(schools.length).padStart(2, '0')}
+                </span>
+              </div>
             </div>
           </div>
 
+          {/* Interactive Bottom Chevron Button (Rotate Down) */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               nextProgram();
             }}
-            className="absolute bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-md"
+            className="absolute bottom-6 sm:bottom-10 left-12 sm:left-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-lg z-20"
             aria-label="Next programme"
+            title="Next programme"
           >
-            <ChevronDown className="w-5 h-5 stroke-[2.5]" />
+            <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
           </button>
         </div>
 
         {/* =========================================================================
-            CIRCULAR ORBITAL CARDS ("Pages move around semi-circle")
+            BIG SUB-CONTENT DIVS (Moving Circularly Around the Semicircle)
             ========================================================================= */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {schools.map((school, index) => {
-            // Calculate signed distance along circular modulo
+            // Compute circular angular offset (-3 to +3 steps)
             const total = schools.length;
             let offset = index - activeIndex;
             // Shortest circular wrap distance
             if (offset > total / 2) offset -= total;
             if (offset < -total / 2) offset += total;
 
-            // Only render cards within visible orbital range (-2 to +2 steps)
+            // Only display cards within visible orbital sweep
             const isVisible = Math.abs(offset) <= 2;
             if (!isVisible) return null;
 
-            // Angular step around the right semicircle (22 deg per card slot)
-            const angle = offset * 22; // -44 deg (top) to +44 deg (bottom)
-            
-            // Opacity: center card is 100%, moving upward or downward fades smoothly
+            // Rotation angle: 18 degrees per card step
+            const angle = offset * 18; // -36 deg (top) to +36 deg (bottom)
+            const angleRad = (angle * Math.PI) / 180;
+
+            // Opacity & scaling: Center card is 100% crisp. As it moves upward or downward, it fades away!
             let opacity = 1;
             let scale = 1;
             let zIndex = 30;
@@ -284,22 +292,18 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
               zIndex = 30;
             } else if (Math.abs(offset) === 1) {
               opacity = 0.88;
-              scale = 0.96;
+              scale = 0.97;
               zIndex = 20;
             } else if (Math.abs(offset) === 2) {
-              opacity = 0.42;
-              scale = 0.90;
+              opacity = 0.35;
+              scale = 0.92;
               zIndex = 10;
             }
 
-            // Radius from center of right hub
-            const radius = 250; // pixels
-            const angleRad = (angle * Math.PI) / 180;
-            
-            // Card position along circular arc
-            // Right edge follows circle: X = Xc - R * cos(theta), Y = Yc + R * sin(theta)
-            const yOffset = Math.sin(angleRad) * radius;
-            const xOffset = -(1 - Math.cos(angleRad)) * 80;
+            // Radial offsets along the circular contour
+            // Top/bottom cards shift slightly based on circle cosine
+            const yOffset = Math.sin(angleRad) * 370;
+            const xOffset = -(1 - Math.cos(angleRad)) * 140;
 
             const isCurrent = offset === 0;
 
@@ -312,62 +316,84 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
                 }}
                 style={{
                   top: `calc(50% + ${yOffset}px)`,
-                  right: `calc(130px + ${xOffset}px)`,
+                  // Position right end of card right against the semicircle on the right edge
+                  right: `calc(clamp(200px, 24vw, 420px) + ${xOffset}px)`,
                   transformOrigin: 'right center',
                   transform: `translateY(-50%) rotate(${angle}deg) scale(${scale})`,
                   opacity,
                   zIndex,
-                  transition: 'transform 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.45s ease-out, top 0.45s ease-out'
+                  transition: 'transform 0.5s cubic-bezier(0.2, 0.9, 0.35, 1.15), opacity 0.5s ease-out, top 0.5s ease-out'
                 }}
-                className={`pointer-events-auto absolute w-[360px] sm:w-[440px] md:w-[490px] lg:w-[540px] h-[100px] sm:h-[112px] rounded-3xl bg-white border cursor-pointer flex items-stretch overflow-hidden transition-shadow duration-300 group ${
+                className={`pointer-events-auto absolute w-[85vw] sm:w-[620px] md:w-[720px] lg:w-[820px] xl:w-[920px] h-[130px] sm:h-[150px] lg:h-[168px] rounded-3xl bg-white/95 backdrop-blur-md border cursor-pointer flex items-stretch overflow-hidden transition-all duration-300 group ${
                   isCurrent 
-                    ? `border-stone-300 shadow-2xl ${school.glowColor} ring-2 ring-sky-400/40`
-                    : 'border-stone-200/90 shadow-md hover:shadow-xl hover:border-stone-300'
+                    ? `border-stone-300 shadow-2xl ${school.glowColor} ring-2 ring-sky-400/40 -translate-x-2`
+                    : 'border-stone-200/90 shadow-lg hover:shadow-xl hover:border-stone-300'
                 }`}
               >
-                {/* 1. LEFT NUMBER TAG (Purple, Orange, Green matching reference 04, 03, 02) */}
+                {/* 1. LEFT NUMBER TAG (Big vibrant block matching reference 04, 03, 02) */}
                 <div 
-                  className={`w-14 sm:w-16 md:w-20 bg-gradient-to-br ${school.gradientBadge} text-white flex flex-col items-center justify-center shrink-0 rounded-l-3xl shadow-inner relative`}
+                  className={`w-18 sm:w-22 md:w-26 lg:w-30 bg-gradient-to-br ${school.gradientBadge} text-white flex flex-col items-center justify-center shrink-0 rounded-l-3xl shadow-inner relative p-2`}
                 >
-                  <span className="font-mono font-black text-lg sm:text-2xl tracking-wider">
+                  <span className="font-mono font-black text-2xl sm:text-3xl md:text-4xl tracking-wider drop-shadow-sm">
                     {school.numberTag}
                   </span>
-                  <school.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80 mt-0.5" />
+                  <school.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white/80 mt-1" />
+                  <span className="text-[9px] font-mono font-bold tracking-widest text-white/70 uppercase mt-0.5 hidden sm:block">
+                    SCHOOL
+                  </span>
                 </div>
 
-                {/* 2. CENTER CONTENT (Title, Degrees, Specializations) */}
-                <div className="flex-1 px-4 sm:px-5 py-2.5 sm:py-3 flex flex-col justify-center min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-stone-500 truncate">
-                      {school.degrees.split('·')[0]}
+                {/* 2. CENTER CONTENT (Big rich details covering the section) */}
+                <div className="flex-1 px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex flex-col justify-center min-w-0">
+                  {/* Top Badges Row */}
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-stone-500">
+                      {school.degrees}
                     </span>
-                    <span className={`hidden sm:inline-block text-[9px] font-mono px-2 py-0.5 rounded-full border ${school.badgeBg}`}>
-                      {school.tagline.split('&')[0]}
+                    <span className={`text-[9px] sm:text-[10px] font-mono px-2.5 py-0.5 rounded-full border ${school.badgeBg}`}>
+                      {school.tagline}
+                    </span>
+                    <span className="text-[10px] font-mono text-stone-400 hidden xl:inline-block">
+                      {school.credits}
                     </span>
                   </div>
 
-                  <h4 className="text-sm sm:text-base md:text-lg font-serif font-bold text-stone-900 tracking-tight leading-snug truncate group-hover:text-blue-900 transition-colors">
+                  {/* Main School Heading */}
+                  <h4 className="text-base sm:text-lg md:text-xl lg:text-[23px] font-serif font-bold text-stone-900 tracking-tight leading-snug truncate group-hover:text-blue-900 transition-colors">
                     {school.name}
                   </h4>
 
-                  <p className="text-[11px] sm:text-xs text-stone-600 line-clamp-1 mt-0.5 font-sans">
-                    {school.specializations.slice(0, 2).join(' · ')}
+                  {/* Description snippet */}
+                  <p className="text-xs sm:text-sm text-stone-600 line-clamp-1 mt-1 font-sans">
+                    {school.description}
                   </p>
+
+                  {/* Specialization Tags Row */}
+                  <div className="pt-2 flex flex-wrap items-center gap-1.5 hidden sm:flex">
+                    {school.specializations.slice(0, 3).map((spec, sIdx) => (
+                      <span 
+                        key={sIdx}
+                        className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-700 text-[10px] md:text-[11px] font-mono"
+                      >
+                        ✓ {spec}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                {/* 3. RIGHT SEMICIRCULAR END WITH CIRCULAR ACTION BUTTON (Contours circular hub) */}
+                {/* 3. RIGHT SEMICIRCULAR CAP WITH CIRCULAR ACTION BUTTON (Contours the Semicircle on the right) */}
                 <div 
-                  className="pr-4 sm:pr-5 flex items-center justify-center shrink-0 rounded-r-full"
-                  title="Explore Syllabus"
+                  className="pr-4 sm:pr-6 md:pr-8 flex items-center justify-center shrink-0 rounded-r-full"
+                  title="Explore Full Curriculum & Syllabus"
                 >
                   <div 
                     onClick={(e) => {
                       e.stopPropagation();
                       onOpenModal(school);
                     }}
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${school.gradientBadge} text-white flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}
+                    className={`w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-full bg-gradient-to-br ${school.gradientBadge} text-white flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl cursor-pointer`}
                   >
-                    <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white ml-0.5" />
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white ml-0.5" />
                   </div>
                 </div>
               </div>
@@ -375,21 +401,21 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
           })}
         </div>
 
-        {/* Mobile / Narrow Screen Horizontal Quick Indicator */}
-        <div className="absolute bottom-4 left-6 right-6 z-20 flex sm:hidden items-center justify-between bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-stone-200 text-xs font-mono">
+        {/* Mobile quick indicator pill */}
+        <div className="absolute bottom-4 left-6 right-6 z-20 flex sm:hidden items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-stone-200 text-xs font-mono shadow-md">
           <span className="font-bold text-stone-800">
             {activeSchool.shortName}
           </span>
           <div className="flex items-center gap-2">
             <button 
               onClick={prevProgram}
-              className="w-7 h-7 rounded-full bg-stone-100 flex items-center justify-center text-stone-700"
+              className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-700"
             >
               <ChevronUp className="w-4 h-4" />
             </button>
             <button 
               onClick={nextProgram}
-              className="w-7 h-7 rounded-full bg-stone-100 flex items-center justify-center text-stone-700"
+              className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-700"
             >
               <ChevronDown className="w-4 h-4" />
             </button>
@@ -398,50 +424,52 @@ export const CircularProgramsOrbit: React.FC<CircularProgramsOrbitProps> = ({
       </div>
 
       {/* =========================================================================
-          ACTIVE PROGRAM PREVIEW / DETAIL ACCENT STRIP
+          ACTIVE PROGRAM PREVIEW / DETAIL ACCENT STRIP (Full Width)
           ========================================================================= */}
-      <div className="rounded-3xl bg-white border border-stone-200/90 p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6 transition-all duration-300">
-        <div className="space-y-2 max-w-2xl">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${activeSchool.badgeBg}`}>
-              {activeSchool.degrees}
-            </span>
-            <span className="text-xs font-mono text-stone-500">
-              {activeSchool.credits} · {activeSchool.enrolled}
-            </span>
-          </div>
-
-          <h3 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 tracking-tight">
-            {activeSchool.name}
-          </h3>
-
-          <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-            {activeSchool.description}
-          </p>
-
-          <div className="pt-2 flex flex-wrap gap-2">
-            {activeSchool.specializations.map((spec, i) => (
-              <span 
-                key={i} 
-                className="px-2.5 py-1 rounded-lg bg-stone-100 text-stone-700 text-[11px] font-mono"
-              >
-                ✓ {spec}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-3xl bg-white border border-stone-200/90 p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6 transition-all duration-300">
+          <div className="space-y-2 max-w-3xl">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${activeSchool.badgeBg}`}>
+                {activeSchool.degrees}
               </span>
-            ))}
-          </div>
-        </div>
+              <span className="text-xs font-mono text-stone-500">
+                {activeSchool.credits} · {activeSchool.enrolled}
+              </span>
+            </div>
 
-        <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-          <button
-            onClick={() => onOpenModal(activeSchool)}
-            className="px-6 py-3 rounded-xl bg-[#1E3A8A] hover:bg-blue-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg"
-          >
-            <span>View Full Syllabus &amp; Labs</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <div className="text-[11px] font-mono text-stone-500 text-center flex items-center justify-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>AICTE &amp; NBA Accredited Curriculum</span>
+            <h3 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 tracking-tight">
+              {activeSchool.name}
+            </h3>
+
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              {activeSchool.description}
+            </p>
+
+            <div className="pt-2 flex flex-wrap gap-2">
+              {activeSchool.specializations.map((spec, i) => (
+                <span 
+                  key={i} 
+                  className="px-2.5 py-1 rounded-lg bg-stone-100 text-stone-700 text-[11px] font-mono"
+                >
+                  ✓ {spec}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+            <button
+              onClick={() => onOpenModal(activeSchool)}
+              className="px-6 py-3.5 rounded-xl bg-[#1E3A8A] hover:bg-blue-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg"
+            >
+              <span>View Full Syllabus &amp; Labs</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <div className="text-[11px] font-mono text-stone-500 text-center flex items-center justify-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>AICTE &amp; NBA Accredited Curriculum</span>
+            </div>
           </div>
         </div>
       </div>
