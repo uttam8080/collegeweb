@@ -198,7 +198,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
     },
     {
       id: '05',
-      title: 'School of Advanced Research & Polytechnic',
+      title: 'School of Polytechnic',
       motto: 'HANDS-ON TECHNICAL RIGOR & DIPLOMA WORKSHOPS',
       image: '/admissions-programs/diploma-polytechnic-workshop.jpg',
       imageAlt: 'School of Polytechnic Engineering and CNC Machining Workshop',
