@@ -69,12 +69,6 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 w-full my-auto pb-6">
           <div className="max-w-2xl text-left">
             
-            {/* Eyebrow Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#22D3EE] text-xs font-mono font-semibold tracking-wider uppercase mb-5 shadow-md">
-              <GraduationCap className="w-4 h-4 text-cyan-400" />
-              <span>Academic Directorate · Academic Session 2026–27</span>
-            </div>
-
             {/* Main Huge Serif Headline (Matching landing page typography) */}
             <h1 className="font-serif font-bold text-white text-5xl sm:text-6xl md:text-7xl lg:text-[78px] leading-[1.06] tracking-tight drop-shadow-md">
               Curricula &amp;<br />
@@ -145,7 +139,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-blue-900 block">
               Institutional Regulations
             </span>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900">

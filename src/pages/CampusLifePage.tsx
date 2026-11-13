@@ -113,12 +113,6 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 w-full my-auto pb-6">
           <div className="max-w-2xl text-left">
             
-            {/* Eyebrow Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#22D3EE] text-xs font-mono font-semibold tracking-wider uppercase mb-5 shadow-md">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span>Student Affairs · Life at Trident Bhubaneswar</span>
-            </div>
-
             {/* Main Huge Serif Headline (Matching landing page typography) */}
             <h1 className="font-serif font-bold text-white text-5xl sm:text-6xl md:text-7xl lg:text-[78px] leading-[1.06] tracking-tight drop-shadow-md">
               Vibrant campus<br />

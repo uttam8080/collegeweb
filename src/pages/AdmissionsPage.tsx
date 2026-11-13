@@ -214,12 +214,6 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto pt-24 sm:pt-28 pb-12 sm:pb-16">
           <div className="max-w-2xl text-left space-y-5">
             
-            {/* Admissions Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#22D3EE] text-xs font-mono font-semibold tracking-wider uppercase shadow-md">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>Admissions Open · Academic Session 2026–27</span>
-            </div>
-
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.08]">
               Begin your journey at<br />
@@ -300,9 +294,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             
             {/* Left Headline & Accreditation Column */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-mono font-semibold tracking-wider uppercase">
-                <span>ABOUT US</span>
-              </div>
+              <span className="text-xs font-mono font-bold tracking-widest text-slate-500 uppercase block">
+                ABOUT US
+              </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight leading-[1.12]">
                 Where ambition<br />
@@ -372,9 +366,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-cyan-300 text-xs font-mono font-semibold tracking-wider uppercase border border-white/15">
-              <span>PROGRAMS</span>
-            </div>
+            <span className="text-xs font-mono font-bold tracking-widest text-[#22D3EE] uppercase block">
+              PROGRAMS
+            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
               Choose your <span className="italic font-serif font-normal text-[#22D3EE]">path.</span>
             </h2>
@@ -502,9 +496,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
           
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-mono font-semibold tracking-wider uppercase">
-              <span>ADMISSIONS</span>
-            </div>
+            <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase block">
+              ADMISSIONS
+            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight">
               Eligibility <span className="italic font-serif font-normal text-[#0D9488]">criteria.</span>
             </h2>
@@ -594,9 +588,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-indigo-200 text-xs font-mono font-semibold tracking-wider uppercase border border-white/15">
-              <span>FINANCIAL ASSISTANCE</span>
-            </div>
+            <span className="text-xs font-mono font-bold tracking-widest text-[#A5B4FC] uppercase block">
+              SCHOLARSHIPS
+            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
               Scholarship <span className="italic font-serif font-normal text-[#A5B4FC]">support.</span>
             </h2>
@@ -729,9 +723,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-mono font-semibold tracking-wider uppercase">
-              <span>SEAT &amp; FEE</span>
-            </div>
+            <span className="text-xs font-mono font-bold tracking-widest text-slate-500 uppercase block">
+              SEATS &amp; FEES
+            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1528] tracking-tight">
               Fee &amp; Seat Distribution
             </h2>
@@ -805,9 +799,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
           
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 text-slate-700 text-xs font-mono font-semibold tracking-wider uppercase">
-              <span>PROCESS</span>
-            </div>
+            <span className="text-xs font-mono font-bold tracking-widest text-[#F97316] uppercase block">
+              ADMISSIONS
+            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight">
               Five steps to <span className="italic font-serif font-normal text-[#F97316]">enrollment.</span>
             </h2>
@@ -887,9 +881,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
           
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-mono font-semibold tracking-wider uppercase">
-              <span>EXAMINATIONS</span>
-            </div>
+            <span className="text-xs font-mono font-bold tracking-widest text-[#F97316] uppercase block">
+              ENTRANCE
+            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight">
               Mandatory <span className="italic font-serif font-normal text-[#F97316]">examinations.</span>
             </h2>

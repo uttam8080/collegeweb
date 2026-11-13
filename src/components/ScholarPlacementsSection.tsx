@@ -19,10 +19,6 @@ export const ScholarPlacementsSection: React.FC<Props> = ({ onNavigate }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Award className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Corporate Placements &amp; Career Ascendancy</span>
-          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#172554] tracking-tight">
             Proven Career Launchpads &amp; Global Recruiters
           </h2>

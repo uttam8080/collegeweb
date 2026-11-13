@@ -108,10 +108,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
       {/* Header Banner */}
       <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Award className="w-4 h-4 text-emerald-700" />
-            <span>Corporate Placement Report · Directorate of Training &amp; Placements</span>
-          </div>
           <h1 className="text-4xl sm:text-5xl font-serif font-bold text-[#172554] tracking-tight leading-tight">
             Career Ascendancy &amp; Corporate Placements
           </h1>

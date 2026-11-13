@@ -489,11 +489,6 @@ export const SuccessStoriesSection: React.FC<SuccessStoriesSectionProps> = ({ on
             ========================================================================= */}
         <div className="text-center max-w-2xl mx-auto flex flex-col items-center">
           
-          {/* Top Pill: "Testimonials" (Requested Exact Match) */}
-          <div className="inline-flex items-center px-4 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-600 text-xs font-semibold tracking-wide mb-4">
-            <span>Testimonials</span>
-          </div>
-
           {/* Main Headline (Requested Exact Match: Bold Black + Muted Grey) */}
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-[#111827] leading-[1.15]">
             Trusted by leaders<br />
