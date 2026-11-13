@@ -29,7 +29,7 @@ export const TekkzyLogo: React.FC<Props> = ({
         <img
           src={logoBadge}
           alt="Tekkzy College of Technology Logo"
-          className="w-full h-full object-contain rounded-full"
+          className="w-full h-full object-cover rounded-full"
         />
       </div>
 
