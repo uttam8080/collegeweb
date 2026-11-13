@@ -338,6 +338,51 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     }
   ];
+  // Horizontal scroll with mouse wheel (right-to-left) & GSAP ScrollTrigger sync
+  useEffect(() => {
+    const container = clubsScrollRef.current;
+    if (!container) return;
+
+    // Direct mouse-wheel horizontal translation: scrolling mouse down moves cards right-to-left
+    const onWheelHandler = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        const canScroll = (e.deltaY > 0 && container.scrollLeft < maxScroll - 1) || 
+                          (e.deltaY < 0 && container.scrollLeft > 1);
+        if (canScroll) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY * 1.3;
+          checkScrollButtons();
+        }
+      }
+    };
+
+    container.addEventListener('wheel', onWheelHandler, { passive: false });
+
+    // GSAP ScrollTrigger page-scroll scrub: as page scrolls down through the section, translate cards right to left
+    let st: any = null;
+    if (clubsSectionRef.current && ScrollTrigger) {
+      st = ScrollTrigger.create({
+        trigger: clubsSectionRef.current,
+        start: 'top 75%',
+        end: 'bottom 25%',
+        scrub: 1.2,
+        onUpdate: (self) => {
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          if (maxScroll > 0) {
+            container.scrollLeft = self.progress * maxScroll;
+            checkScrollButtons();
+          }
+        }
+      });
+    }
+
+    return () => {
+      container.removeEventListener('wheel', onWheelHandler);
+      if (st) st.kill();
+    };
+  }, []);
+
   // Count-up animation for Campus Life Highlights stats (screen recording style)
   useEffect(() => {
     if (!statsRef.current) return;
@@ -651,41 +696,45 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
             </div>
           </div>
 
-          {/* HORIZONTAL CARDS TRACK (Reference Screen Recording Style) */}
+          {/* HORIZONTAL CARDS TRACK (Reference Screen Recording Style: Slanted Bended Boxes, Clear Top / Faded Black Gradient Bottom, No Top Numbering) */}
           <div 
             ref={clubsScrollRef}
             onScroll={checkScrollButtons}
-            className="flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-6 pt-2 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 snap-x snap-mandatory"
+            className="flex gap-7 sm:gap-9 overflow-x-auto no-scrollbar scroll-smooth pb-8 pt-4 -mx-4 sm:-mx-6 lg:-mx-8 px-8 sm:px-12 lg:px-16 snap-x snap-mandatory cursor-grab active:cursor-grabbing"
           >
             {clubsData.map((club) => (
               <div
                 key={club.id}
                 onClick={() => setSelectedClub(club)}
-                className="w-[310px] sm:w-[350px] md:w-[370px] h-[480px] sm:h-[510px] shrink-0 rounded-3xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/80 bg-stone-900 flex flex-col justify-between p-6"
+                style={{ transform: 'skewX(-6deg)' }}
+                className="w-[310px] sm:w-[350px] md:w-[370px] h-[480px] sm:h-[510px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/90 bg-stone-900 flex flex-col justify-between p-6"
               >
-                {/* Full-Bleed Image with Subtle Dark & Tint Gradient */}
+                {/* Clear Background Image (scale-115 to seamlessly fill the 6-deg slanted box without clipping gaps) */}
                 <img
                   src={club.image}
                   alt={club.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover scale-115 transition-transform duration-700 ease-out group-hover:scale-120"
                 />
-                {/* Cinematic Vignette Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${club.accentGradient}`} />
-                <div className="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors" />
 
-                {/* Card Top Row */}
-                <div className="relative z-10 flex items-center justify-between">
+                {/* Gradient: Upper part is 100% CLEAR, lower part has a smooth faded black gradient for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/80 via-45% to-transparent pointer-events-none" />
+
+                {/* Card Top Row: Category Pill only (No Numbering) - Unskewed for crisp text */}
+                <div 
+                  style={{ transform: 'skewX(6deg)' }}
+                  className="relative z-10 flex items-center justify-between"
+                >
                   <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-stone-900 text-[10px] font-mono font-bold tracking-wider uppercase shadow-xs">
                     {club.tabCategory}
                   </span>
-                  <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white font-mono text-xs font-semibold border border-white/25">
-                    {club.id} / 06
-                  </span>
                 </div>
 
-                {/* Card Bottom Container */}
-                <div className="relative z-10 space-y-3 pt-6">
-                  {/* Eyebrow / Tagline */}
+                {/* Card Bottom Container: Unskewed for crystal-clear readability */}
+                <div 
+                  style={{ transform: 'skewX(6deg)' }}
+                  className="relative z-10 space-y-2.5 pt-6"
+                >
+                  {/* Eyebrow Tagline */}
                   <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-cyan-300 block drop-shadow-sm">
                     {club.pillars[0]?.eyebrow || club.category}
                   </span>
@@ -695,7 +744,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
                     {club.name}
                   </h3>
 
-                  {/* Headline Motto */}
+                  {/* Headline Summary */}
                   <p className="text-xs text-stone-200 font-sans line-clamp-2 leading-relaxed drop-shadow-sm">
                     {club.pillars[0]?.headline} · {club.pillars[0]?.description}
                   </p>
@@ -715,10 +764,11 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
               </div>
             ))}
 
-            {/* CARD 7: EXPLORE MORE CARD (Matches reference video blue card) */}
+            {/* CARD 7: EXPLORE MORE CARD (Slanted Bended Box matching video blue card, No Numbering) */}
             <div
               onClick={() => onNavigate('contact')}
-              className="w-[310px] sm:w-[350px] md:w-[370px] h-[480px] sm:h-[510px] shrink-0 rounded-3xl overflow-hidden relative shadow-lg hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-blue-400/40 bg-gradient-to-br from-[#1E3A8A] via-[#1D4ED8] to-[#0F172A] flex flex-col justify-between p-7 text-white"
+              style={{ transform: 'skewX(-6deg)' }}
+              className="w-[310px] sm:w-[350px] md:w-[370px] h-[480px] sm:h-[510px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-blue-400/40 bg-gradient-to-br from-[#1E3A8A] via-[#1D4ED8] to-[#0F172A] flex flex-col justify-between p-7 text-white"
             >
               {/* Subtle Dotted Pattern Overlay */}
               <div 
@@ -729,16 +779,22 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
                 }}
               />
 
-              {/* Top Row */}
-              <div className="relative z-10 flex items-center justify-between">
+              {/* Top Row: Unskewed */}
+              <div 
+                style={{ transform: 'skewX(6deg)' }}
+                className="relative z-10 flex items-center justify-between"
+              >
                 <span className="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] font-mono font-bold tracking-wider uppercase border border-white/30">
                   20+ CHAPTERS
                 </span>
                 <Sparkles className="w-5 h-5 text-amber-300 animate-pulse" />
               </div>
 
-              {/* Center Content */}
-              <div className="relative z-10 my-auto text-center space-y-4 px-2">
+              {/* Center Content: Unskewed */}
+              <div 
+                style={{ transform: 'skewX(6deg)' }}
+                className="relative z-10 my-auto text-center space-y-4 px-2"
+              >
                 <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mx-auto text-amber-300">
                   <Trophy className="w-7 h-7" />
                 </div>
@@ -758,8 +814,11 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
                 </div>
               </div>
 
-              {/* Bottom Row */}
-              <div className="relative z-10 pt-4 border-t border-white/20 text-center">
+              {/* Bottom Row: Unskewed */}
+              <div 
+                style={{ transform: 'skewX(6deg)' }}
+                className="relative z-10 pt-4 border-t border-white/20 text-center"
+              >
                 <span className="text-[11px] font-mono text-blue-200">
                   Open to all engineering &amp; management branches
                 </span>
