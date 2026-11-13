@@ -221,6 +221,8 @@ export const NoticeAndEventsSection: React.FC<Props> = ({ onNavigate }) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
+        </div>
+      </div>
 
       {/* =========================================================================
           ORANGE BREADCRUMB ACCENT STRIP (Exact match from screenshot)
