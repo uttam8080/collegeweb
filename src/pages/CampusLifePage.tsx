@@ -729,113 +729,22 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
           <div className="absolute bottom-10 left-1/3 w-[400px] h-[400px] rounded-full bg-[#FBEFE3]/60 blur-3xl" />
         </div>
 
-        {/* Floating Division Indicator bar (Sleek pill that appears when the main header moves upward during scroll) */}
-        <div 
-          className={`hidden md:flex absolute top-5 right-6 lg:right-12 z-30 items-center gap-3 transition-all duration-300 ${
-            scrollProgress > 0.04 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
-          }`}
-        >
-          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-stone-200/90 shadow-sm">
-            <div className="w-16 h-1.5 bg-stone-200 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-[#0D9488] transition-all duration-150 rounded-full"
-                style={{ width: `${Math.max(14, Math.min(100, Math.round(scrollProgress * 100)))}%` }}
-              />
-            </div>
-            <span className="text-xs font-mono text-stone-700 font-bold">
-              Division {Math.min(7, Math.max(1, Math.round(scrollProgress * 6) + 1))} / 7
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => scrollClubs('left')}
-              disabled={!canScrollLeft}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
-                canScrollLeft
-                  ? 'bg-white hover:bg-stone-50 border-stone-300 text-stone-800 shadow-xs cursor-pointer hover:scale-105 active:scale-95'
-                  : 'bg-stone-100/70 border-stone-200 text-stone-300 cursor-not-allowed opacity-60'
-              }`}
-              aria-label="Previous clubs"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scrollClubs('right')}
-              disabled={!canScrollRight}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
-                canScrollRight
-                  ? 'bg-white hover:bg-stone-50 border-stone-300 text-stone-800 shadow-xs cursor-pointer hover:scale-105 active:scale-95'
-                  : 'bg-stone-100/70 border-stone-200 text-stone-300 cursor-not-allowed opacity-60'
-              }`}
-              aria-label="Next clubs"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
         <div ref={clubsHeaderRef} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 will-change-transform">
           {/* Header Row */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6 sm:mb-8">
-            <div className="max-w-3xl">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
-                <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase">
-                  STUDENT CLUBS &amp; SOCIETIES
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold text-[#111827] leading-[1.1] tracking-tight mb-2">
-                Student Technical<br />
-                Clubs &amp; <span className="italic font-serif text-[#0D9488] font-normal">Societies.</span>
-              </h2>
-              <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-2xl">
-                Over 20+ active student-driven organizations, innovation councils, competitive coding circles, and cultural societies shaping talent outside classrooms.
-              </p>
+          <div className="max-w-3xl mb-6 sm:mb-8">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
+              <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase">
+                STUDENT CLUBS &amp; SOCIETIES
+              </span>
             </div>
-
-            {/* Scroll Navigation Controls & Division Counter */}
-            <div className="flex items-center gap-3 shrink-0">
-              {/* Division Progress Indicator */}
-              <div className="hidden sm:flex items-center gap-2.5 mr-2">
-                <div className="w-20 h-1.5 bg-stone-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-[#0D9488] transition-all duration-150 rounded-full"
-                    style={{ width: `${Math.max(14, Math.min(100, Math.round(scrollProgress * 100)))}%` }}
-                  />
-                </div>
-                <span className="text-xs font-mono text-stone-500 font-semibold">
-                  Division {Math.min(7, Math.max(1, Math.round(scrollProgress * 6) + 1))} / 7
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => scrollClubs('left')}
-                  disabled={!canScrollLeft}
-                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
-                    canScrollLeft
-                      ? 'bg-white hover:bg-stone-50 border-stone-300 text-stone-800 shadow-xs cursor-pointer hover:scale-105 active:scale-95'
-                      : 'bg-stone-100/70 border-stone-200 text-stone-300 cursor-not-allowed opacity-60'
-                  }`}
-                  aria-label="Previous clubs"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => scrollClubs('right')}
-                  disabled={!canScrollRight}
-                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
-                    canScrollRight
-                      ? 'bg-white hover:bg-stone-50 border-stone-300 text-stone-800 shadow-xs cursor-pointer hover:scale-105 active:scale-95'
-                      : 'bg-stone-100/70 border-stone-200 text-stone-300 cursor-not-allowed opacity-60'
-                  }`}
-                  aria-label="Next clubs"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold text-[#111827] leading-[1.1] tracking-tight mb-2">
+              Student Technical<br />
+              Clubs &amp; <span className="italic font-serif text-[#0D9488] font-normal">Societies.</span>
+            </h2>
+            <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-2xl">
+              Over 20+ active student-driven organizations, innovation councils, competitive coding circles, and cultural societies shaping talent outside classrooms.
+            </p>
           </div>
         </div>
 
