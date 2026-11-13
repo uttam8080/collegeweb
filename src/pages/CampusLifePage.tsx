@@ -11,16 +11,19 @@ import {
   Calendar, 
   CheckCircle2, 
   ChevronRight, 
+  ChevronLeft,
   Coffee, 
   Trophy, 
   ShieldCheck,
   ArrowRight,
+  ArrowUpRight,
   Cpu,
   Terminal,
   Layers,
   Code2,
   Briefcase,
-  Binary
+  Binary,
+  X
 } from 'lucide-react';
 import { gsap, ScrollTrigger, usePageTextAnimations } from '../utils/animations';
 import { CAMPUS_FACILITIES } from '../data/collegeData';
@@ -31,9 +34,64 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [activeFacility, setActiveFacility] = useState<string>(CAMPUS_FACILITIES[0].id);
   const [activeClubIndex, setActiveClubIndex] = useState<number>(0);
   const clubsSectionRef = useRef<HTMLElement>(null);
+  const clubsHeaderRef = useRef<HTMLDivElement>(null);
+  const clubsTrackContainerRef = useRef<HTMLDivElement>(null);
   const clubCardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // 6 Student Technical Clubs & Societies ("From First Principles" 2-Col Interactive Architecture)
+  // State for horizontal cards carousel & interactive detail modal
+  const [selectedClub, setSelectedClub] = useState<any | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const clubsScrollRef = useRef<HTMLDivElement>(null);
+  const clubsTriggerRef = useRef<any>(null);
+  const statsRef = useRef<HTMLElement>(null);
+  const [stats, setStats] = useState({ clubs: 0, members: 0, events: 0, trophies: 0 });
+  const [statsAnimated, setStatsAnimated] = useState(false);
+
+  const checkScrollButtons = () => {
+    if (!clubsScrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = clubsScrollRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  const scrollClubs = (direction: 'left' | 'right') => {
+    const st = clubsTriggerRef.current;
+    if (st) {
+      const totalDistance = st.end - st.start;
+      const step = totalDistance / 6;
+      const currentY = window.scrollY;
+      let targetY: number;
+
+      if (direction === 'right') {
+        if (currentY < st.start) {
+          targetY = st.start + step;
+        } else {
+          targetY = Math.min(st.end, currentY + step);
+        }
+      } else {
+        if (currentY > st.end) {
+          targetY = st.end - step;
+        } else {
+          targetY = Math.max(st.start, currentY - step);
+        }
+      }
+
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+      });
+    } else if (clubsScrollRef.current) {
+      const scrollAmount = 380;
+      clubsScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // 6 Student Technical Clubs & Societies (Cinematic Card Carousel & Impact Data)
   const clubsData = [
     {
       id: '01',
@@ -44,6 +102,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       headerDotColor: 'bg-[#1E3A8A]',
       headerTextColor: 'text-[#1E3A8A]',
       name: 'Trident Robotics & Drone Club (TRDC)',
+      image: '/campus-clubs/trdc_robotics_drones.jpg',
+      accentGradient: 'from-blue-950/95 via-slate-900/80 to-slate-950/95',
+      badgeText: '320+ Makers · 12 UAVs',
       members: 320,
       pillars: [
         {
@@ -87,6 +148,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       headerDotColor: 'bg-[#047857]',
       headerTextColor: 'text-[#047857]',
       name: 'CodeNation & AI Developer Circle',
+      image: '/campus-clubs/codenation_ai_hackathons.jpg',
+      accentGradient: 'from-emerald-950/95 via-slate-900/80 to-slate-950/95',
+      badgeText: '450+ Coders · SIH Finalists',
       members: 450,
       pillars: [
         {
@@ -130,6 +194,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       headerDotColor: 'bg-[#926315]',
       headerTextColor: 'text-[#926315]',
       name: 'E-Cell & Startup Incubation Forum',
+      image: '/campus-clubs/ecell_startup_incubation.jpg',
+      accentGradient: 'from-amber-950/95 via-slate-900/80 to-slate-950/95',
+      badgeText: '280+ Founders · 18 Startups',
       members: 280,
       pillars: [
         {
@@ -173,6 +240,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       headerDotColor: 'bg-[#C41F3B]',
       headerTextColor: 'text-[#C41F3B]',
       name: 'Srijan Cultural & Performing Arts Society',
+      image: '/campus-clubs/srijan_cultural_arts.jpg',
+      accentGradient: 'from-rose-950/95 via-slate-900/80 to-slate-950/95',
+      badgeText: '220+ Artists · Annual Fest',
       members: 220,
       pillars: [
         {
@@ -216,6 +286,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       headerDotColor: 'bg-[#0D9488]',
       headerTextColor: 'text-[#0D9488]',
       name: 'Olympus Athletics & Sports Council',
+      image: '/campus-clubs/olympus_athletics_sports.jpg',
+      accentGradient: 'from-teal-950/95 via-slate-900/80 to-slate-950/95',
+      badgeText: '380+ Athletes · 14 Sports',
       members: 380,
       pillars: [
         {
@@ -259,6 +332,9 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       headerDotColor: 'bg-[#047857]',
       headerTextColor: 'text-[#047857]',
       name: 'Unnat Bharat & Green Eco Council',
+      image: '/campus-clubs/unnat_bharat_eco_council.jpg',
+      accentGradient: 'from-green-950/95 via-slate-900/80 to-slate-950/95',
+      badgeText: '190+ Volunteers · 15 Villages',
       members: 190,
       pillars: [
         {
@@ -294,56 +370,192 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     }
   ];
-
-  // ScrollTrigger: Smooth entrance for each card and sync active club with right sticky sidebar
+  // Pinned Horizontal Scroll with GSAP ScrollTrigger: locks section, smoothly moves heading upward, and scrubs cards
   useEffect(() => {
-    if (!clubsSectionRef.current) return;
-    const ctx = gsap.context(() => {
-      clubCardRefs.current.forEach((card, index) => {
-        if (!card) return;
+    const section = clubsSectionRef.current;
+    const track = clubsScrollRef.current;
+    const header = clubsHeaderRef.current;
+    const trackContainer = clubsTrackContainerRef.current;
+    if (!section || !track) return;
 
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add('(min-width: 768px)', () => {
+        // Desktop / Laptop: Pin the section, move heading upward to maximize view, and scrub cards
+        const getDistance = () => {
+          return track.scrollWidth - window.innerWidth + 140;
+        };
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            pin: true,
+            start: 'top 70px',
+            end: () => `+=${Math.max(1100, getDistance() + 450)}`,
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            onUpdate: (self) => {
+              setScrollProgress(self.progress);
+              setCanScrollLeft(self.progress > 0.02);
+              setCanScrollRight(self.progress < 0.98);
             }
           }
-        );
-
-        ScrollTrigger.create({
-          trigger: card,
-          start: index === clubsData.length - 1 ? 'top 75%' : 'top 45%',
-          end: index === clubsData.length - 1 ? 'bottom 15%' : 'bottom 45%',
-          onEnter: () => setActiveClubIndex(index),
-          onEnterBack: () => setActiveClubIndex(index)
         });
-      });
-    }, clubsSectionRef.current);
 
-    return () => ctx.revert();
+        // 1. As user begins scrolling: heading moves UPWARD and fades out cleanly
+        if (header) {
+          tl.to(header, {
+            y: -240,
+            opacity: 0,
+            ease: 'power1.out',
+            duration: 0.18,
+          }, 0);
+        }
+
+        // 2. Simultaneously: cards track container moves UPWARD so the full cards fit the viewport
+        if (trackContainer) {
+          tl.to(trackContainer, {
+            y: -200,
+            ease: 'power1.out',
+            duration: 0.18,
+          }, 0);
+        }
+
+        // 3. Scrub cards track horizontally across the screen
+        tl.to(track, {
+          x: () => -Math.max(0, getDistance()),
+          ease: 'none',
+          duration: 0.94,
+        }, 0.06);
+
+        clubsTriggerRef.current = tl.scrollTrigger;
+
+        return () => {
+          tl.kill();
+        };
+      });
+
+      mm.add('(max-width: 767px)', () => {
+        // Mobile / Small screen: reset x and y so standard touch swipe works
+        gsap.set(track, { x: 0 });
+        if (header) gsap.set(header, { y: 0, opacity: 1 });
+        if (trackContainer) gsap.set(trackContainer, { y: 0 });
+        clubsTriggerRef.current = null;
+      });
+    }, section);
+
+    // Trackpad horizontal swipe listener: smoothly maps horizontal deltaX to vertical window scroll when pinned
+    const onTrackpadWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 10) {
+        const st = clubsTriggerRef.current;
+        if (st && window.scrollY >= st.start && window.scrollY <= st.end) {
+          e.preventDefault();
+          window.scrollBy({ top: e.deltaX * 1.2 });
+        }
+      }
+    };
+
+    window.addEventListener('wheel', onTrackpadWheel, { passive: false });
+
+    // Refresh ScrollTrigger once images/fonts are fully rendered
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 350);
+
+    return () => {
+      window.removeEventListener('wheel', onTrackpadWheel);
+      clearTimeout(timer);
+      ctx.revert();
+    };
   }, []);
 
-  const scrollToClub = (index: number) => {
-    setActiveClubIndex(index);
-    const targetCard = clubCardRefs.current[index];
-    if (targetCard) {
-      const topOffset = targetCard.getBoundingClientRect().top + window.pageYOffset - 100;
-      window.scrollTo({
-        top: topOffset,
-        behavior: 'smooth'
-      });
-    }
-  };
+  // Scroll-triggered text entrance and synchronized 2-second count-up animation
+  useEffect(() => {
+    const section = statsRef.current;
+    if (!section) return;
 
-  const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAMPUS_FACILITIES[0];
+    let animFrame: number;
+    let hasAnimated = false;
+
+    const ctx = gsap.context(() => {
+      // 1. Text elements coming out smoothly on scroll with stagger
+      gsap.fromTo(
+        '.stat-text-reveal',
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+
+      // 2. Division cards coming out smoothly on scroll with stagger
+      gsap.fromTo(
+        '.stat-card-reveal',
+        { opacity: 0, y: 55, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 78%',
+            toggleActions: 'play none none none',
+            onEnter: () => {
+              if (hasAnimated) return;
+              hasAnimated = true;
+
+              // Exact 2-second synchronized count-up: all numbers finish at the exact same millisecond
+              const targets = { clubs: 20, members: 2500, events: 50, trophies: 14 };
+              const startTime = performance.now();
+              const duration = 2000; // exactly 2 seconds
+
+              const update = (now: number) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Unified smooth cubic ease-out
+                const ease = 1 - Math.pow(1 - progress, 3);
+
+                setStats({
+                  clubs: Math.round(targets.clubs * ease),
+                  members: Math.round(targets.members * ease),
+                  events: Math.round(targets.events * ease),
+                  trophies: Math.round(targets.trophies * ease)
+                });
+
+                if (progress < 1) {
+                  animFrame = requestAnimationFrame(update);
+                } else {
+                  // Guarantee all numbers reach their final values simultaneously at 2.0s
+                  setStats(targets);
+                }
+              };
+
+              animFrame = requestAnimationFrame(update);
+            }
+          }
+        }
+      );
+    }, section);
+
+    return () => {
+      ctx.revert();
+      if (animFrame) cancelAnimationFrame(animFrame);
+    };
+  }, []);
+const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAMPUS_FACILITIES[0];
 
   return (
     <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24">
@@ -549,152 +761,464 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       </div>
 
       {/* =========================================================================
-          Student Technical Clubs & Societies (Milestones-Style 2-Col Interactive Showcase)
+          Student Technical Clubs & Societies (Pinned Horizontal Scrub & Screen Recording Style)
           ========================================================================= */}
       <section 
         id="student-clubs"
         ref={clubsSectionRef}
-        className="relative w-full pt-20 sm:pt-28 pb-32 sm:pb-44 bg-[#FAF8F5] select-none border-t border-b border-stone-200 scroll-mt-10"
+        className="relative w-full pt-8 sm:pt-12 pb-10 sm:pb-14 bg-[#FAF8F5] select-none border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
       >
-        {/* Background Pastel Geometric Shapes */}
+        {/* Subtle Background Pastel Ambience */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div className="absolute top-12 -left-20 w-[460px] h-[460px] rounded-full bg-[#EADBEC]/65 blur-3xl" />
-          <div className="absolute top-1/2 -right-24 w-[420px] h-[420px] rounded-full bg-[#E2EFE7]/70 blur-3xl" />
-          <div className="absolute bottom-24 left-1/3 w-[380px] h-[380px] rounded-full bg-[#FBEFE3]/75 blur-3xl" />
+          <div className="absolute top-10 -left-20 w-[500px] h-[500px] rounded-full bg-[#EADBEC]/50 blur-3xl" />
+          <div className="absolute top-1/2 -right-24 w-[460px] h-[460px] rounded-full bg-[#E2EFE7]/60 blur-3xl" />
+          <div className="absolute bottom-10 left-1/3 w-[400px] h-[400px] rounded-full bg-[#FBEFE3]/60 blur-3xl" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            
-            {/* LEFT SIDE: 6 CLUBS IN SERIES FORMAT */}
-            <div className="lg:col-span-7 space-y-16 sm:space-y-24 order-2 lg:order-1">
-              {clubsData.map((club, cIdx) => {
-                const isLastClub = cIdx === clubsData.length - 1;
-                return (
-                  <div
-                    key={club.id}
-                    ref={(el) => { clubCardRefs.current[cIdx] = el; }}
-                    className={`club-card transition-all duration-300 ${
-                      !isLastClub ? 'pb-16 sm:pb-20 border-b border-stone-200/80' : 'pb-24 sm:pb-36'
-                    }`}
-                  >
-                    {/* Top Status Header Strip */}
-                    <div className="flex items-center justify-between gap-4 pb-5 border-b border-stone-200/80 mb-8 sm:mb-10">
-                      <div className="flex items-center gap-2.5 shrink-0">
-                        <span className={`w-2.5 h-2.5 rounded-full ${club.headerDotColor}`} />
-                        <span className={`text-xs font-mono font-bold tracking-[0.2em] uppercase ${club.headerTextColor}`}>
-                          {club.headerTag}
-                        </span>
-                      </div>
-                      <div className="flex-1 h-px bg-stone-200/70 mx-3 hidden sm:block" />
-                      <div className="flex items-center gap-3.5 shrink-0">
-                        <span className="text-xs font-mono font-bold text-stone-400">
-                          {club.id}
-                        </span>
-                        <button
-                          onClick={() => onNavigate('contact')}
-                          className="group px-4 py-1.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300/80 text-stone-800 text-[11px] font-mono font-bold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer shadow-2xs hover:shadow-xs"
-                        >
-                          <span>JOIN CLUB</span>
-                          <div className="w-4 h-4 rounded-full bg-stone-100 group-hover:bg-[#0D9488] group-hover:text-white flex items-center justify-center transition-colors">
-                            <ArrowRight className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5" />
-                          </div>
-                        </button>
-                      </div>
-                    </div>
+        <div ref={clubsHeaderRef} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 will-change-transform">
+          {/* Header Row */}
+          <div className="max-w-3xl mb-6 sm:mb-8">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
+              <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase">
+                STUDENT CLUBS &amp; SOCIETIES
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold text-[#111827] leading-[1.1] tracking-tight mb-2">
+              Student Technical<br />
+              Clubs &amp; <span className="italic font-serif text-[#0D9488] font-normal">Societies.</span>
+            </h2>
+            <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-2xl">
+              Over 20+ active student-driven organizations, innovation councils, competitive coding circles, and cultural societies shaping talent outside classrooms.
+            </p>
+          </div>
+        </div>
 
-                    {/* 3 Stacked Pillars */}
-                    <div className="space-y-8 sm:space-y-10">
-                      {club.pillars.map((pillar, pIdx) => {
-                        const IconComp = pillar.icon;
-                        const isLastPillar = pIdx === club.pillars.length - 1;
-                        return (
-                          <div 
-                            key={`${club.id}-${pIdx}`}
-                            className={`flex items-start gap-4 sm:gap-6 ${
-                              !isLastPillar ? 'pb-8 sm:pb-10 border-b border-stone-200/80' : ''
-                            }`}
-                          >
-                            <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-xs transition-transform duration-300 hover:scale-105 ${pillar.badgeBg} ${pillar.iconColor}`}>
-                              <IconComp className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] uppercase text-stone-400 mb-1.5">
-                                {pillar.eyebrow}
-                              </div>
-                              <h3 className={`text-2xl sm:text-3xl lg:text-[38px] font-serif font-bold tracking-tight leading-tight mb-2.5 ${pillar.headlineColor}`}>
-                                {pillar.headline}
-                              </h3>
-                              <p className="text-stone-600 text-xs sm:text-sm sm:leading-relaxed font-sans max-w-xl">
-                                {pillar.description}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
+        {/* HORIZONTAL CARDS TRACK WRAPPER (Smoothly moves upward during scroll to fill viewport perfectly) */}
+        <div ref={clubsTrackContainerRef} className="relative w-full overflow-hidden z-10 will-change-transform">
+          <div 
+            ref={clubsScrollRef}
+            className="flex gap-6 sm:gap-8 pb-6 pt-2 px-4 sm:px-8 lg:px-12 xl:px-16 will-change-transform md:overflow-visible overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing"
+          >
+            {clubsData.map((club) => (
+              <div
+                key={club.id}
+                onClick={() => setSelectedClub(club)}
+                style={{ transform: 'skewX(-6deg)' }}
+                className="w-[295px] sm:w-[325px] md:w-[345px] h-[430px] sm:h-[455px] lg:h-[470px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-stone-200/90 bg-stone-900 flex flex-col justify-between p-5 sm:p-6"
+              >
+                {/* Clear Background Image (scale-115 to seamlessly fill the 6-deg slanted box without clipping gaps) */}
+                <img
+                  src={club.image}
+                  alt={club.name}
+                  className="absolute inset-0 w-full h-full object-cover scale-115 transition-transform duration-700 ease-out group-hover:scale-120"
+                />
+
+                {/* Gradient: Upper part is 100% CLEAR, lower part has a smooth faded black gradient for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/80 via-45% to-transparent pointer-events-none" />
+
+                {/* Card Top Row: Category Pill only (No Numbering) - Unskewed for crisp text */}
+                <div 
+                  style={{ transform: 'skewX(6deg)' }}
+                  className="relative z-10 flex items-center justify-between"
+                >
+                  <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-stone-900 text-[10px] font-mono font-bold tracking-wider uppercase shadow-xs">
+                    {club.tabCategory}
+                  </span>
+                </div>
+
+                {/* Card Bottom Container: Unskewed for crystal-clear readability */}
+                <div 
+                  style={{ transform: 'skewX(6deg)' }}
+                  className="relative z-10 space-y-2.5 pt-4"
+                >
+                  {/* Eyebrow Tagline */}
+                  <span className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-cyan-300 block drop-shadow-sm">
+                    {club.pillars[0]?.eyebrow || club.category}
+                  </span>
+
+                  {/* Club Title */}
+                  <h3 className="text-xl sm:text-[23px] font-serif font-bold text-white tracking-tight leading-snug drop-shadow-md group-hover:text-emerald-300 transition-colors">
+                    {club.name}
+                  </h3>
+
+                  {/* Headline Summary */}
+                  <p className="text-xs text-stone-200 font-sans line-clamp-2 leading-relaxed drop-shadow-sm">
+                    {club.pillars[0]?.headline} · {club.pillars[0]?.description}
+                  </p>
+
+                  {/* Bottom Stats & Action Button Row */}
+                  <div className="pt-2 flex items-center justify-between border-t border-white/20">
+                    <span className="text-xs font-mono font-semibold text-stone-200">
+                      {club.badgeText}
+                    </span>
+
+                    {/* Circular Action Button with ↗ (Diagonal Arrow) */}
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center group-hover:bg-[#0D9488] group-hover:border-[#0D9488] group-hover:text-white transition-all duration-300 shadow-md group-hover:scale-110">
+                      <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              </div>
+            ))}
 
-            {/* RIGHT SIDE: STICKY COLUMN */}
-            <div className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-20 xl:top-24 self-start max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar">
-              <div className="pr-2 sm:pr-4">
-                <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase block mb-2">
-                  STUDENT CLUBS &amp; SOCIETIES
+            {/* CARD 7: EXPLORE MORE CARD (Slanted Bended Box matching video blue card, No Numbering) */}
+            <div
+              onClick={() => onNavigate('contact')}
+              style={{ transform: 'skewX(-6deg)' }}
+              className="w-[295px] sm:w-[325px] md:w-[345px] h-[430px] sm:h-[455px] lg:h-[470px] shrink-0 rounded-3xl overflow-hidden relative shadow-xl hover:shadow-2xl transition-all duration-500 group snap-start cursor-pointer border border-blue-400/40 bg-gradient-to-br from-[#1E3A8A] via-[#1D4ED8] to-[#0F172A] flex flex-col justify-between p-6 text-white"
+            >
+              {/* Subtle Dotted Pattern Overlay */}
+              <div 
+                className="absolute inset-0 opacity-15 pointer-events-none"
+                style={{
+                  backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+                  backgroundSize: '16px 16px'
+                }}
+              />
+
+              {/* Top Row: Unskewed */}
+              <div 
+                style={{ transform: 'skewX(6deg)' }}
+                className="relative z-10 flex items-center justify-between"
+              >
+                <span className="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] font-mono font-bold tracking-wider uppercase border border-white/30">
+                  20+ CHAPTERS
                 </span>
-                <h2 className="text-3xl sm:text-4xl lg:text-[38px] xl:text-[44px] font-serif font-bold text-[#111827] leading-[1.10] tracking-tight mb-3">
-                  Student Technical<br />
-                  Clubs &amp;<br />
-                  <span className="italic font-serif text-[#0D9488] font-normal">Societies.</span>
-                </h2>
-                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 font-sans max-w-md">
-                  Over 20+ active student-driven organizations, innovation councils, competitive coding circles, and cultural societies shaping talent outside classrooms.
+                <Sparkles className="w-5 h-5 text-amber-300 animate-pulse" />
+              </div>
+
+              {/* Center Content: Unskewed */}
+              <div 
+                style={{ transform: 'skewX(6deg)' }}
+                className="relative z-10 my-auto text-center space-y-4 px-2"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mx-auto text-amber-300">
+                  <Trophy className="w-7 h-7" />
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight leading-tight">
+                  Discover Your Passion Beyond The Classroom.
+                </h3>
+                <p className="text-xs text-blue-100/90 leading-relaxed max-w-xs mx-auto">
+                  From autonomous robotics to classical Odissi arts, find your circle and build leadership that lasts a lifetime.
                 </p>
 
-                {/* 6 Interactive Vertical Tabs */}
-                <div className="space-y-2 max-w-md">
-                  {clubsData.map((club, idx) => {
-                    const isActive = activeClubIndex === idx;
+                {/* Center Explore More Pill Button (Yellow/Gold hover from video) */}
+                <div className="pt-2">
+                  <span className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#FACC15] hover:bg-[#FDE047] text-stone-950 font-bold text-xs uppercase tracking-wider font-mono shadow-xl transition-all group-hover:scale-105">
+                    <span>EXPLORE ALL CLUBS</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Bottom Row: Unskewed */}
+              <div 
+                style={{ transform: 'skewX(6deg)' }}
+                className="relative z-10 pt-4 border-t border-white/20 text-center"
+              >
+                <span className="text-[11px] font-mono text-blue-200">
+                  Open to all engineering &amp; management branches
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HIGHLIGHTS STATS SECTION: Spatial Gradient Background & Full-Width 4-Division Layout */}
+      <section 
+        ref={statsRef}
+        className="relative w-full py-20 sm:py-28 lg:py-32 bg-[#020617] overflow-hidden select-none border-y border-cyan-500/20"
+      >
+        {/* Spatial Cosmic & Nebula Gradient Overlays */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,165,233,0.18),rgba(255,255,255,0))] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#071328] via-50% to-[#020617] pointer-events-none" />
+        
+        {/* Spatial Glowing Nebula Orbs */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-cyan-500/20 blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/2 -right-32 w-[30rem] h-[30rem] rounded-full bg-indigo-600/20 blur-[150px] pointer-events-none" />
+        <div className="absolute -bottom-32 left-1/3 w-[26rem] h-[26rem] rounded-full bg-teal-500/15 blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/4 left-2/3 w-80 h-80 rounded-full bg-purple-600/15 blur-[140px] pointer-events-none" />
+
+        {/* Spatial Grid Texture */}
+        <div 
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px)`,
+            backgroundSize: '36px 36px',
+          }}
+        />
+
+        {/* Subtle Cosmic Light Horizon Lines */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
+
+        <div className="relative z-10 w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
+          {/* Section Header with Scroll-Triggered Text Reveal */}
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+            <div className="stat-text-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-cyan-300 text-[11px] sm:text-xs font-mono font-bold tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              CAMPUS IMPACT &amp; LEADERSHIP
+            </div>
+            
+            <h2 className="stat-text-reveal text-3xl sm:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-white mb-4">
+              Student Life, <span className="bg-gradient-to-r from-cyan-300 via-teal-200 to-sky-300 bg-clip-text text-transparent">At a Glance.</span>
+            </h2>
+
+            <p className="stat-text-reveal text-sm sm:text-base text-slate-300/90 font-sans max-w-2xl mx-auto leading-relaxed">
+              Empowering technical mastery, entrepreneurial ventures, and artistic distinction across an expansive, student-governed ecosystem.
+            </p>
+          </div>
+
+          {/* 4 Expansive Divisions Spanning Across Entire Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 w-full">
+            {/* Division 1: Active Societies */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-emerald-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(16,185,129,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-emerald-500/10 blur-2xl group-hover:bg-emerald-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300">
+                    Division 01
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+                    <Award className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.clubs}<span className="text-emerald-400">+</span>
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-emerald-300 font-bold mb-2">
+                  Active Societies
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Technical, coding, robotic, cultural &amp; social councils driving student autonomy.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Council Governance</span>
+                <span className="text-emerald-400 font-semibold">100% Student-Led</span>
+              </div>
+            </div>
+
+            {/* Division 2: Student Members */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(6,182,212,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-cyan-500/10 blur-2xl group-hover:bg-cyan-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300">
+                    Division 02
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.members.toLocaleString()}<span className="text-cyan-400">+</span>
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-cyan-300 font-bold mb-2">
+                  Student Members
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Active makers, coders, startup founders, performing artists and community leads.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Community Footprint</span>
+                <span className="text-cyan-400 font-semibold">Across 4 Batches</span>
+              </div>
+            </div>
+
+            {/* Division 3: Annual Events */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-amber-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-amber-500/10 blur-2xl group-hover:bg-amber-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-amber-950/70 border border-amber-500/30 text-amber-300">
+                    Division 03
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform duration-300">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.events}<span className="text-amber-400">+</span>
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-amber-300 font-bold mb-2">
+                  Annual Events
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Round-the-clock hackathons, national cultural fests, athletic meets and speaker summits.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Festive Engagement</span>
+                <span className="text-amber-400 font-semibold">Year-Round Calendar</span>
+              </div>
+            </div>
+
+            {/* Division 4: National Trophies */}
+            <div className="stat-card-reveal group relative flex flex-col justify-between p-7 sm:p-8 lg:p-9 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-purple-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(168,85,247,0.2)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-purple-500/10 blur-2xl group-hover:bg-purple-500/25 transition-all duration-500 pointer-events-none" />
+
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-purple-950/70 border border-purple-500/30 text-purple-300">
+                    Division 04
+                  </span>
+                  <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                    <Trophy className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black font-mono tracking-tight text-white tabular-nums mb-2.5">
+                  {stats.trophies}
+                </div>
+
+                <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-purple-300 font-bold mb-2">
+                  National Trophies
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  Championship wins at IIT Bombay Mood Indigo, Smart India Hackathon, BPUT &amp; National Leagues.
+                </p>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Podium Honors</span>
+                <span className="text-purple-400 font-semibold">Tier-1 Circuit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        {/* CLUB DETAILS MODAL (When any card is clicked) */}
+        {selectedClub && (
+          <div 
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+            onClick={() => setSelectedClub(null)}
+          >
+            <div 
+              className="relative w-full max-w-3xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-stone-200 my-8 flex flex-col max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header with Club Image Banner */}
+              <div className="relative h-48 sm:h-56 bg-stone-900 shrink-0">
+                <img
+                  src={selectedClub.image}
+                  alt={selectedClub.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-t ${selectedClub.accentGradient}`} />
+                
+                {/* Close Button */}
+                <button
+                  onClick={() => setSelectedClub(null)}
+                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20 z-20"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                {/* Banner Content */}
+                <div className="absolute bottom-5 inset-x-6 z-10 text-white">
+                  <span className="px-3 py-1 rounded-full bg-white/90 text-stone-900 font-mono text-[10px] font-bold uppercase tracking-wider mb-2 inline-block shadow-xs">
+                    {selectedClub.tabCategory}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold tracking-tight">
+                    {selectedClub.name}
+                  </h3>
+                  <p className="text-xs font-mono text-cyan-300 mt-1">
+                    {selectedClub.members}+ Active Student Members · Infocity Campus Chapter
+                  </p>
+                </div>
+              </div>
+
+              {/* Modal Body with 3 Pillars */}
+              <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+                <div>
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-[#0D9488] mb-1">
+                    PILLARS &amp; INITIATIVES
+                  </h4>
+                  <p className="text-xs text-stone-500">
+                    Comprehensive activities, competitions, and hands-on laboratory immersion offered by this society.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {selectedClub.pillars.map((pillar: any, pIdx: number) => {
+                    const IconComponent = pillar.icon;
                     return (
-                      <button
-                        key={club.id}
-                        onClick={() => scrollToClub(idx)}
-                        className={`w-full px-3.5 py-2.5 sm:py-3 rounded-xl text-left transition-all duration-300 flex items-center gap-3.5 cursor-pointer ${
-                          isActive
-                            ? 'bg-white text-stone-900 shadow-md border border-stone-200/90 ring-1 ring-black/5 translate-x-1.5'
-                            : 'bg-transparent text-stone-800 hover:bg-white/50 border border-transparent'
-                        }`}
+                      <div 
+                        key={pIdx}
+                        className="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200/80 flex items-start gap-4"
                       >
-                        <div className={`w-7 h-7 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0 transition-colors ${
-                          isActive
-                            ? 'border-2 border-stone-900 text-stone-900 bg-stone-50'
-                            : 'border border-stone-300 text-stone-400 group-hover:border-stone-400'
-                        }`}>
-                          {club.id}
+                        <div className={`w-10 h-10 rounded-xl ${pillar.badgeBg} text-white flex items-center justify-center shrink-0 shadow-xs`}>
+                          <IconComponent className="w-5 h-5" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 block leading-tight">
-                            {club.tabCategory}
+                          <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-stone-400 block mb-0.5">
+                            {pillar.eyebrow}
                           </span>
-                          <h4 className="text-xs sm:text-[14px] font-serif font-bold text-stone-900 tracking-tight truncate leading-snug">
-                            {club.tabTitle}
-                          </h4>
+                          <h5 className="text-base sm:text-lg font-serif font-bold text-stone-900 mb-1">
+                            {pillar.headline}
+                          </h5>
+                          <p className="text-xs sm:text-[13px] text-stone-600 leading-relaxed font-sans">
+                            {pillar.description}
+                          </p>
                         </div>
-                        {isActive && (
-                          <ArrowRight className="w-4 h-4 text-[#0D9488] shrink-0 stroke-[2.2]" />
-                        )}
-                      </button>
+                      </div>
                     );
                   })}
                 </div>
               </div>
-            </div>
 
+              {/* Modal Footer */}
+              <div className="p-4 sm:p-6 bg-stone-50 border-t border-stone-200 flex items-center justify-between gap-4 shrink-0">
+                <span className="text-xs font-mono text-stone-500">
+                  {selectedClub.id} of 06 Premier Technical Societies
+                </span>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setSelectedClub(null)}
+                    className="px-4 py-2 rounded-xl text-stone-600 hover:text-stone-900 text-xs font-mono font-semibold transition-colors cursor-pointer"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedClub(null);
+                      onNavigate('contact');
+                    }}
+                    className="px-5 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-mono font-bold tracking-wider uppercase shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>JOIN THIS CLUB</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16 space-y-16">
         {/* Residential Hostels & Life at Bhubaneswar */}

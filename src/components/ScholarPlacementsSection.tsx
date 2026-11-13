@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Award, Building2, Globe, TrendingUp, CheckCircle, Quote, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { RECRUITERS, ALUMNI_SPOTLIGHT } from '../data/collegeData';
+import { RecruiterLogo } from './RecruiterLogo';
+import { MasonryGallery, MasonryItem } from './MasonryGallery';
 
 interface Props {
   onNavigate?: (tab: string) => void;
@@ -13,6 +15,19 @@ export const ScholarPlacementsSection: React.FC<Props> = ({ onNavigate }) => {
     { value: '₹44.0 LPA', label: 'Highest Salary Package', sub: 'Offered by premier tier-1 tech enterprises' },
     { value: '₹7.8 LPA', label: 'Average Branch Package', sub: 'Substantial multi-year growth across all departments' },
   ];
+
+  interface RecruiterMasonryItem extends MasonryItem {
+    recruiter: typeof RECRUITERS[0];
+  }
+
+  const masonryRecruiters = useMemo<RecruiterMasonryItem[]>(() => {
+    return RECRUITERS.map((r, idx) => ({
+      id: `scholar-recruiter-${idx}-${r.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`,
+      height: idx % 3 === 0 ? 300 : (idx % 2 === 0 ? 270 : 285),
+      title: r.name,
+      recruiter: r,
+    }));
+  }, []);
 
   return (
     <section className="py-16 sm:py-24 bg-white border-b border-stone-200 relative overflow-hidden">
@@ -67,31 +82,60 @@ export const ScholarPlacementsSection: React.FC<Props> = ({ onNavigate }) => {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            {RECRUITERS.map((r, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs hover:shadow-md hover:border-emerald-400 transition-all text-left flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-base font-extrabold text-slate-900 tracking-tight">
-                      {r.logoText}
-                    </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                      {r.highestPackage}
-                    </span>
+          <div className="w-full">
+            <MasonryGallery<RecruiterMasonryItem>
+              items={masonryRecruiters}
+              animateFrom="bottom"
+              blurToFocus={true}
+              stagger={0.05}
+              scaleOnHover={true}
+              hoverScale={0.98}
+              colorShiftOnHover={true}
+              duration={0.6}
+              ease="power3.out"
+              className="w-full"
+              onItemClick={() => onNavigate && onNavigate('placements')}
+              renderItem={(item) => {
+                const r = item.recruiter;
+                return (
+                  <div
+                    className="w-full h-full group relative p-5 rounded-2xl bg-gradient-to-br from-white via-slate-50/90 to-teal-50/40 border border-stone-200/80 shadow-2xs hover:shadow-xl hover:border-[#0D9488] transition-all duration-300 text-left flex flex-col justify-between overflow-hidden cursor-pointer"
+                  >
+                    {/* Top subtle accent gradient */}
+                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-600 opacity-80" />
+
+                    <div>
+                      {/* Top Row: Package in Gradient Format */}
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className="text-[10px] uppercase font-mono font-bold text-stone-400 truncate">
+                          {r.category.split('&')[0]}
+                        </span>
+                        <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-2xs">
+                          {r.highestPackage}
+                        </span>
+                      </div>
+
+                      {/* Bigger Logo Container in Gradient Format */}
+                      <div className="w-full h-18 sm:h-20 rounded-xl bg-gradient-to-b from-white to-slate-100/70 border border-white p-3 flex items-center justify-center shadow-2xs mb-3 group-hover:from-white group-hover:to-teal-50/30 transition-all">
+                        <RecruiterLogo name={r.name} logoText={r.logoText} className="max-h-12 max-w-[140px] object-contain transition-transform duration-300 group-hover:scale-108" />
+                      </div>
+
+                      <span className="text-xs font-bold text-slate-800 block truncate group-hover:text-[#0D9488] transition-colors">
+                        {r.name}
+                      </span>
+                    </div>
+
+                    <div className="mt-3 pt-2.5 border-t border-stone-200/60 flex items-center justify-between text-[11px] text-stone-500 font-mono">
+                      <span>Intake</span>
+                      <span className="text-[#0D9488] font-bold">{r.intakeAnnual}</span>
+                    </div>
+
+                    {/* Fluid color shift overlay on hover */}
+                    <div className="color-overlay absolute inset-0 bg-gradient-to-tr from-[#0D9488]/15 to-indigo-500/15 opacity-0 pointer-events-none transition-opacity" />
                   </div>
-                  <span className="text-[11px] font-medium text-stone-500 block truncate">
-                    {r.name}
-                  </span>
-                </div>
-                <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-400 font-mono">
-                  <span>{r.category.split('&')[0]}</span>
-                  <span className="text-emerald-700 font-semibold">{r.intakeAnnual}</span>
-                </div>
-              </div>
-            ))}
+                );
+              }}
+            />
           </div>
         </div>
 
