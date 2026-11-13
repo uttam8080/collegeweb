@@ -77,6 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
   // Quick Links sub-columns matching exact layout from screenshot
   const quickLinksLeft = [
+    { label: 'Admissions Portal & Seat Matrix', action: 'admissions' },
     { label: 'List of Degree Programs & Courses', action: 'programs' },
     { label: 'Medium of Instructions & Syllabus', action: 'programs' },
     { label: 'Academic Regulations & Statutes', action: 'about' },
