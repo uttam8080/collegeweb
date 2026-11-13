@@ -448,8 +448,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
         </div>
 
-        {/* Quick Facts Dark Navy Bottom Strip */}
-        <div className="relative z-10 w-full bg-[#0B1528]/95 backdrop-blur-md border-t border-white/10 py-3.5 px-4 sm:px-8">
+        {/* Quick Facts Dark Navy Bottom Strip - Clean Straight Section Transition */}
+        <div className="relative z-10 w-full bg-[#0B1528]/95 backdrop-blur-md border-t border-b border-white/10 py-3.5 px-4 sm:px-8">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs text-slate-300">
             <span className="flex items-center gap-2 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -468,20 +468,6 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               <span>94.8% Placement Success Rate</span>
             </span>
           </div>
-        </div>
-
-        {/* Normal Section Divider: "Waves" (Matching Reference Divider Card 1) */}
-        <div className="relative w-full overflow-hidden leading-none z-10 pointer-events-none bg-white -mt-px" aria-hidden="true">
-          <svg 
-            viewBox="0 0 1440 120" 
-            preserveAspectRatio="none" 
-            className="w-full h-10 sm:h-14 md:h-16 lg:h-20 block"
-          >
-            <path 
-              d="M0,0 L0,65 C240,115 480,45 720,55 C960,65 1200,115 1440,80 L1440,0 Z" 
-              className="fill-[#0B1528]"
-            />
-          </svg>
         </div>
       </section>
 
@@ -569,8 +555,30 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       <section 
         id="admissions-programs"
         ref={programsSectionRef}
-        className="relative w-full pt-20 sm:pt-28 pb-32 sm:pb-44 bg-[#FAF8F5] select-none"
+        className="relative w-full pt-16 sm:pt-24 pb-32 sm:pb-44 bg-[#FAF8F5] select-none"
       >
+        {/* Wave Section Divider: Flowing from Section 2 (White) into Section 3 (Warm Cream #FAF8F5) */}
+        <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-10 pointer-events-none -mt-px" aria-hidden="true">
+          <svg 
+            viewBox="0 0 1440 120" 
+            preserveAspectRatio="none" 
+            className="w-full h-10 sm:h-14 md:h-16 lg:h-20 block"
+          >
+            {/* White wave fill from Section 2 */}
+            <path 
+              d="M0,0 L0,65 C240,115 480,45 720,55 C960,65 1200,115 1440,80 L1440,0 Z" 
+              className="fill-white"
+            />
+            {/* Subtle hairline edge stroke for crisp definition against cream canvas */}
+            <path 
+              d="M0,65 C240,115 480,45 720,55 C960,65 1200,115 1440,80" 
+              fill="none" 
+              stroke="rgba(0,0,0,0.06)" 
+              strokeWidth="1.5"
+            />
+          </svg>
+        </div>
+
         {/* Background Pastel Geometric Shapes */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <div className="absolute top-12 -left-20 w-[460px] h-[460px] rounded-full bg-[#EADBEC]/65 blur-3xl" />
