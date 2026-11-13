@@ -211,28 +211,52 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
     }
   ];
 
-  // ScrollTrigger: Smooth entrance for each school section and sync active school with left sticky showcase
+  // ScrollTrigger: Smooth pop-out entrance for each school section and sync active school with left sticky showcase
   useEffect(() => {
     if (!programsSectionRef.current) return;
     const ctx = gsap.context(() => {
       schoolRefs.current.forEach((schoolEl, index) => {
         if (!schoolEl) return;
 
-        gsap.fromTo(
-          schoolEl,
-          { opacity: 0, y: 35 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: schoolEl,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
-            }
+        // Texts and program rows popping out smoothly while scrolling down
+        const header = schoolEl.querySelector('.school-header-reveal');
+        const motto = schoolEl.querySelector('.school-motto-reveal');
+        const desc = schoolEl.querySelector('.school-desc-reveal');
+        const badge = schoolEl.querySelector('.school-badge-reveal');
+        const catHeaders = schoolEl.querySelectorAll('.school-cat-reveal');
+        const rows = schoolEl.querySelectorAll('.school-row-reveal');
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: schoolEl,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
           }
-        );
+        });
+
+        if (header) {
+          tl.fromTo(header, { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)' });
+        }
+        if (motto) {
+          tl.fromTo(motto, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.3');
+        }
+        if (desc) {
+          tl.fromTo(desc, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+        }
+        if (badge) {
+          tl.fromTo(badge, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.5)' }, '-=0.2');
+        }
+        if (catHeaders.length) {
+          tl.fromTo(catHeaders, { opacity: 0, x: -15 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }, '-=0.2');
+        }
+        if (rows.length) {
+          tl.fromTo(
+            rows, 
+            { opacity: 0, x: -20, scale: 0.97 }, 
+            { opacity: 1, x: 0, scale: 1, duration: 0.45, stagger: 0.04, ease: 'back.out(1.2)' }, 
+            '-=0.3'
+          );
+        }
 
         ScrollTrigger.create({
           trigger: schoolEl,
@@ -751,7 +775,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     className="school-section relative pl-6 sm:pl-8 border-l-[3.5px] border-[#784421]"
                   >
                     {/* Header Row: School Title + Circular Arrow Button */}
-                    <div className="flex items-start justify-between gap-4 mb-2">
+                    <div className="school-header-reveal flex items-start justify-between gap-4 mb-2">
                       <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-stone-900 tracking-tight leading-[1.12]">
                         {school.title}
                       </h3>
@@ -766,18 +790,18 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     </div>
 
                     {/* Motto */}
-                    <p className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
+                    <p className="school-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
                       {school.motto}
                     </p>
 
                     {/* Editorial Description */}
-                    <p className="text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
+                    <p className="school-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
                       {school.description}
                     </p>
 
                     {/* Optional Accreditation Badge (e.g. School of Business) */}
                     {school.badge && (
-                      <div className="mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
+                      <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
                         <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
                           {school.badge.eyebrow}
                         </span>
@@ -792,7 +816,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                       {school.categories.map((category, cIdx) => (
                         <div key={cIdx} className="space-y-1">
                           {/* Category Header */}
-                          <h4 className="text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
+                          <h4 className="school-cat-reveal text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
                             {category.name}
                           </h4>
 
@@ -802,7 +826,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                               <div
                                 key={pIdx}
                                 onClick={() => handleOpenApplyModal(prog.name)}
-                                className="group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
+                                className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
                               >
                                 <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
                                   {prog.name}
