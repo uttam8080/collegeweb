@@ -1,3 +1,4 @@
+import { useEffect, RefObject } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -8,7 +9,7 @@ if (typeof window !== 'undefined') {
 export { gsap, ScrollTrigger };
 
 /**
- * Animate words sliding up from an overflow hidden container
+ * Animate words sliding up from an overflow hidden container with 3D perspective
  */
 export const animateWordsUp = (
   container: HTMLElement | null,
@@ -57,7 +58,7 @@ export const animateWordsUp = (
 };
 
 /**
- * Animate subtle text fade up on scroll
+ * Animate subtle text and elements fade up on scroll
  */
 export const animateFadeUp = (
   elements: string | Element | Element[] | NodeListOf<Element>,
@@ -73,15 +74,15 @@ export const animateFadeUp = (
     elements,
     {
       opacity: 0,
-      y: options?.distance ?? 24,
+      y: options?.distance ?? 28,
     },
     {
       opacity: 1,
       y: 0,
-      duration: options?.duration ?? 0.75,
-      stagger: options?.stagger ?? 0.08,
+      duration: options?.duration ?? 0.8,
+      stagger: options?.stagger ?? 0.06,
       delay: options?.delay ?? 0,
-      ease: 'power2.out',
+      ease: 'power3.out',
       scrollTrigger: options?.trigger
         ? {
             trigger: options.trigger,
@@ -91,4 +92,87 @@ export const animateFadeUp = (
         : undefined,
     }
   );
+};
+
+/**
+ * React Hook: Automatically activates GSAP text and heading entrance animations
+ * across every page container with ScrollTrigger and Lenis smooth scroll synchronization.
+ */
+export const usePageTextAnimations = (containerRef: RefObject<HTMLElement | null>, deps: any[] = []) => {
+  useEffect(() => {
+    if (typeof window === 'undefined' || !containerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Kinetic split-line heading reveals for major page titles
+      const headings = containerRef.current?.querySelectorAll<HTMLElement>(
+        'h1, h2, .gsap-reveal-title'
+      );
+
+      headings?.forEach((heading) => {
+        // Skip elements that explicitly opt out
+        if (heading.hasAttribute('data-no-gsap')) return;
+
+        gsap.fromTo(
+          heading,
+          {
+            opacity: 0,
+            y: 35,
+            rotateX: -8,
+            transformOrigin: '50% 100%',
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: heading,
+              start: 'top 90%',
+              toggleActions: 'play none none none',
+              once: true,
+            },
+          }
+        );
+      });
+
+      // 2. Subtitle, Eyebrow pills, and paragraph stagger entrances
+      const textBlocks = containerRef.current?.querySelectorAll<HTMLElement>(
+        '.gsap-fade-up, p.gsap-text, .gsap-badge'
+      );
+
+      if (textBlocks && textBlocks.length > 0) {
+        textBlocks.forEach((block) => {
+          gsap.fromTo(
+            block,
+            {
+              opacity: 0,
+              y: 20,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.75,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: block,
+                start: 'top 92%',
+                toggleActions: 'play none none none',
+                once: true,
+              },
+            }
+          );
+        });
+      }
+
+      // 3. Refresh ScrollTrigger after DOM settle for Lenis accuracy
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 150);
+    }, containerRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, deps);
 };

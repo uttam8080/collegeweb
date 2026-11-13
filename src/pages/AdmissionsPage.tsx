@@ -34,7 +34,7 @@ import {
   Cloud,
   FileCheck2
 } from 'lucide-react';
-import { gsap, ScrollTrigger } from '../utils/animations';
+import { gsap, ScrollTrigger, usePageTextAnimations } from '../utils/animations';
 
 interface AdmissionsPageProps {
   onNavigate: (tab: string) => void;
@@ -42,6 +42,8 @@ interface AdmissionsPageProps {
 }
 
 export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOpenAuth }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
   // Active Program index for the sticky right column ("From First Principles" architecture)
   const [activeProgramIndex, setActiveProgramIndex] = useState<number>(0);
   const programsSectionRef = useRef<HTMLElement>(null);
@@ -388,7 +390,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] text-slate-800 selection:bg-[#FF9933]/20 selection:text-[#172554]">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] text-slate-800 selection:bg-[#FF9933]/20 selection:text-[#172554]">
       
       {/* =========================================================================
           SECTION 1: HERO BANNER ("Begin your journey at Trident")
@@ -456,7 +458,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             </span>
             <span className="flex items-center gap-2 font-medium">
               <Building2 className="w-4 h-4 text-cyan-400" />
-              <span>BPUT Affiliated (Autonomous State Univ.)</span>
+              <span>TCT Affiliated (Autonomous State Univ.)</span>
             </span>
             <span className="flex items-center gap-2 font-medium">
               <Award className="w-4 h-4 text-amber-400" />
@@ -505,7 +507,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
               <div className="w-16 h-1 bg-[#0D9488] rounded-full" />
 
-              {/* Accreditation Badges Row (NAAC, NBA, AICTE, BPUT) */}
+              {/* Accreditation Badges Row (NAAC, NBA, AICTE, TCT) */}
               <div className="pt-4 flex flex-wrap items-center gap-3">
                 <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
                   NAAC A+
@@ -517,7 +519,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                   AICTE
                 </span>
                 <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  BPUT Odisha
+                  TCT Odisha
                 </span>
                 <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
                   DSIR-SIRO

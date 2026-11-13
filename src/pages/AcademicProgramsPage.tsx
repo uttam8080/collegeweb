@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { 
   GraduationCap, 
   ShieldCheck, 
@@ -35,6 +36,8 @@ interface AcademicProgramsPageProps {
 }
 
 export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNavigate }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
   const [activeSchoolId, setActiveSchoolId] = useState<string>('computing');
   const [selectedSchoolModal, setSelectedSchoolModal] = useState<any | null>(null);
   const [selectedGovModal, setSelectedGovModal] = useState<any | null>(null);
@@ -262,7 +265,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
   const activeSchool = schoolsData.find(s => s.id === activeSchoolId) || schoolsData[0];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-stone-900">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF8F5] text-stone-900">
       
       {/* =========================================================================
           HERO SECTION: Preserved 100% as requested by User
@@ -321,7 +324,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
 
             {/* Subtitle / Descriptive Text */}
             <p className="text-white/90 text-sm sm:text-base md:text-lg font-normal leading-relaxed max-w-xl mt-5 drop-shadow-xs">
-              Outcome-Based Technical Pedagogy approved by AICTE New Delhi and affiliated with Biju Patnaik University of Technology (BPUT), Odisha. Fostering rigorous inquiry, state-of-the-art research centers, and global placement ecosystems.
+              Outcome-Based Technical Pedagogy approved by AICTE New Delhi and affiliated with Biju Patnaik University of Technology (TCT), Odisha. Fostering rigorous inquiry, state-of-the-art research centers, and global placement ecosystems.
             </p>
 
             {/* Action CTA Buttons */}
@@ -364,7 +367,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
             </span>
             <span className="flex items-center gap-2 font-medium">
               <Building2 className="w-4 h-4 text-cyan-400" />
-              <span>BPUT Autonomous Regulations</span>
+              <span>TCT Autonomous Regulations</span>
             </span>
             <span className="flex items-center gap-2 font-medium">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -444,7 +447,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
                   </span>
                   <span className="inline-flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-full border border-amber-300/20">
                     <Building2 className="w-3.5 h-3.5 text-amber-300" />
-                    <span>BPUT Autonomous</span>
+                    <span>TCT Autonomous</span>
                   </span>
                   <span className="inline-flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-full border border-amber-300/20">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-300" />
@@ -504,7 +507,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
                     FEATURED CURRICULUM
                   </span>
                   <span className="text-xs font-mono text-stone-400">
-                    BPUT 2026–27
+                    TCT 2026–27
                   </span>
                 </div>
 
@@ -677,7 +680,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#1E3A8A]" />
                   <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#1E3A8A]">
-                    ORDINANCE · BPUT AUTONOMOUS GAZETTE
+                    ORDINANCE · TCT AUTONOMOUS GAZETTE
                   </span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 tracking-tight leading-tight">
@@ -722,7 +725,7 @@ export const AcademicProgramsPage: React.FC<AcademicProgramsPageProps> = ({ onNa
                   <h4 className="text-base font-bold text-stone-900 tracking-tight mt-1">
                     AUTONOMOUS ACADEMIC REGULATIONS GAZETTE
                   </h4>
-                  <span className="text-[10px] font-mono text-stone-400">Ref: BPUT/ACA/2026/REG-01 · Effective Academic Year 2026-27</span>
+                  <span className="text-[10px] font-mono text-stone-400">Ref: TCT/ACA/2026/REG-01 · Effective Academic Year 2026-27</span>
                 </div>
 
                 <div className="space-y-3 text-[11px] text-stone-700 font-sans leading-relaxed">

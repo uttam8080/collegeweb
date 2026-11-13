@@ -113,7 +113,7 @@ const ALL_NOTICES: NoticeItem[] = [
     title: 'Notification for Re-checking and Photocopy of Evaluated Answer Scripts for Final Year B.Tech Examinees',
     isNew: false,
     category: 'result',
-    memoNo: 'BPUT/EXAM/RECHECK/2026/7190',
+    memoNo: 'TCT/EXAM/RECHECK/2026/7190',
     authority: 'Examination Verification Cell',
     description: 'Examinees who desire re-totaling, re-checking, or obtaining digitized photocopies of their evaluated answer scripts can submit online application forms through the official examination portal on or before 15/11/2026 with the prescribed fees.',
   },
@@ -124,7 +124,7 @@ const ALL_NOTICES: NoticeItem[] = [
     title: 'Special Carryover Examination Timetable for 2022–2026 Batches (Lateral Entry & Regular)',
     isNew: false,
     category: 'exam',
-    memoNo: 'BPUT/EXAM/SPECIAL/2026/6841',
+    memoNo: 'TCT/EXAM/SPECIAL/2026/6841',
     authority: 'Conduct of Examination Committee',
     description: 'Comprehensive schedule of Special Supplementary Examination for final year graduating students having single backlog courses to facilitate timely issuance of provisional passing certificates.',
   },
@@ -135,7 +135,7 @@ const ALL_NOTICES: NoticeItem[] = [
     title: 'Guidelines for Centre Superintendents, Flying Squads, and Observers on Anti-Malpractice Protocols',
     isNew: false,
     category: 'circular',
-    memoNo: 'BPUT/CONF/SQUAD/2026/5129',
+    memoNo: 'TCT/CONF/SQUAD/2026/5129',
     authority: 'Disciplinary Action & Malpractice Prevention Council',
     description: 'Institutional operating instructions regarding CCTV surveillance footage archiving, biometric attendance stamping, and prohibition of programmable calculators or smart wearables inside test venues.',
   },
@@ -207,14 +207,14 @@ export const NoticeAndEventsSection: React.FC<Props> = ({ onNavigate }) => {
     <section className="w-full bg-[#FAF9F5] border-b border-stone-200/90 select-none">
       
       {/* =========================================================================
-          TOP UNIVERSITY PANORAMIC BANNER (Matched with BPUT image header)
+          TOP UNIVERSITY PANORAMIC BANNER (Matched with TCT image header)
           Left: Red entrance gate · Center: University emblem & crest · Right: Clock tower quad
           ========================================================================= */}
       <div className="w-full bg-stone-900 border-b border-stone-300 overflow-hidden shadow-xs">
         <div className="max-w-[1521px] mx-auto relative aspect-[1024/137] max-h-[160px] w-full">
           <img
-            src="/assets/images/bput_examination_banner.jpg"
-            alt="Biju Patnaik University of Technology (BPUT) - A Pride of Odisha & TEKKZY Autonomous Campus"
+            src="/assets/images/TCT_examination_banner.jpg"
+            alt="Biju Patnaik University of Technology (TCT) - A Pride of Odisha & TEKKZY Autonomous Campus"
             className="w-full h-full object-cover object-center"
             onError={(e) => {
               // Fallback responsive banner with pure CSS styling if image fails
@@ -260,7 +260,7 @@ export const NoticeAndEventsSection: React.FC<Props> = ({ onNavigate }) => {
             Examination Info
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 max-w-2xl mx-auto">
-            Official BPUT statutory circulars, end-semester evaluation timetables, Ph.D defense proceedings, and autonomous gazettes.
+            Official TCT statutory circulars, end-semester evaluation timetables, Ph.D defense proceedings, and autonomous gazettes.
           </p>
         </div>
 
@@ -468,7 +468,7 @@ export const NoticeAndEventsSection: React.FC<Props> = ({ onNavigate }) => {
         {/* Bottom Pagination Strip & Direct Link to Full Archive */}
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
           <div className="font-mono">
-            BPUT Statutory Gazette Reference: <span className="font-bold text-slate-700">OD/BPUT/EXAM/TEKKZY-AUTO-2026</span>
+            TCT Statutory Gazette Reference: <span className="font-bold text-slate-700">OD/TCT/EXAM/TEKKZY-AUTO-2026</span>
           </div>
 
           <div className="flex items-center gap-3">

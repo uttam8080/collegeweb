@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { 
   Award, 
   ShieldCheck, 
@@ -32,6 +33,8 @@ type AboutTab =
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   const [activeTab, setActiveTab] = useState<AboutTab>('legacy');
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef, [activeTab]);
 
   const navTabs: { id: AboutTab; label: string }[] = [
     { id: 'core-values', label: 'CORE VALUES' },
@@ -143,7 +146,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1E293B] antialiased selection:bg-[#E8BD63]/30 selection:text-[#1E293B]">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF8F5] text-[#1E293B] antialiased selection:bg-[#E8BD63]/30 selection:text-[#1E293B]">
       
       {/* =========================================================================
           SUB-NAVBAR / EDITORIAL SECTION TAB STRIP
@@ -478,7 +481,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
             {[
               { title: 'AICTE Approved', sub: 'New Delhi Norms' },
-              { title: 'BPUT Affiliated', sub: 'State Tech University' },
+              { title: 'TCT Affiliated', sub: 'State Tech University' },
               { title: 'NAAC Accredited', sub: 'Institutional Grade' },
               { title: 'NBA Tier-1', sub: 'Outcome-Based Curricula' },
               { title: 'DSIR-SIRO', sub: 'Govt Research Body' },

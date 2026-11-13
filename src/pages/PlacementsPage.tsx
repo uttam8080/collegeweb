@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { usePageTextAnimations } from '../utils/animations';
 import { 
   Briefcase, 
   TrendingUp, 
@@ -21,6 +22,8 @@ import {
 import { RECRUITERS, ALUMNI_SPOTLIGHT, RecruiterCompany } from '../data/collegeData';
 
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [recruiterFormOpen, setRecruiterFormOpen] = useState(false);
   const [orgName, setOrgName] = useState('');
@@ -104,7 +107,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] pb-24">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24">
       {/* Header Banner */}
       <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">

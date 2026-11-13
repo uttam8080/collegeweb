@@ -22,10 +22,12 @@ import {
   Briefcase,
   Binary
 } from 'lucide-react';
-import { gsap, ScrollTrigger } from '../utils/animations';
+import { gsap, ScrollTrigger, usePageTextAnimations } from '../utils/animations';
 import { CAMPUS_FACILITIES } from '../data/collegeData';
 
 export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
+  const pageRef = useRef<HTMLDivElement>(null);
+  usePageTextAnimations(pageRef);
   const [activeFacility, setActiveFacility] = useState<string>(CAMPUS_FACILITIES[0].id);
   const [activeClubIndex, setActiveClubIndex] = useState<number>(0);
   const clubsSectionRef = useRef<HTMLElement>(null);
@@ -241,7 +243,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
           iconColor: 'text-white',
           icon: ShieldCheck,
           eyebrow: 'CHAMPIONSHIP HONORS',
-          headline: 'BPUT Inter-University Trophies',
+          headline: 'TCT Inter-University Trophies',
           headlineColor: 'text-[#926315]',
           description:
             'Multiple consecutive gold championships in BPUT inter-university athletics, volleyball, table tennis, and powerlifting tournaments.'
@@ -344,7 +346,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAMPUS_FACILITIES[0];
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] pb-24">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] pb-24">
       
       {/* =========================================================================
           HERO SECTION: Equal size & exact gradient format as Landing & Academics Page
