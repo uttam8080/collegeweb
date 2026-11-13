@@ -563,7 +563,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
       {/* =========================================================================
           HERO SECTION: Equal size & exact gradient format as Landing & Academics Page
           ========================================================================= */}
-      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between">
         
         {/* Background Campus Life Hero Image (Uploaded by user) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -766,7 +766,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
       <section 
         id="student-clubs"
         ref={clubsSectionRef}
-        className="relative w-full pt-8 sm:pt-12 pb-10 sm:pb-14 bg-[#FAF8F5] select-none border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
+        className="relative w-full pt-8 sm:pt-12 pb-10 sm:pb-14 bg-[#FAF8F5] border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
       >
         {/* Subtle Background Pastel Ambience */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -929,7 +929,7 @@ const currentFac = CAMPUS_FACILITIES.find((f) => f.id === activeFacility) || CAM
       {/* HIGHLIGHTS STATS SECTION: Spatial Gradient Background & Full-Width 4-Division Layout */}
       <section 
         ref={statsRef}
-        className="relative w-full py-20 sm:py-28 lg:py-32 bg-[#020617] overflow-hidden select-none border-y border-cyan-500/20"
+        className="relative w-full py-20 sm:py-28 lg:py-32 bg-[#020617] overflow-hidden border-y border-cyan-500/20"
       >
         {/* Spatial Cosmic & Nebula Gradient Overlays */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,165,233,0.18),rgba(255,255,255,0))] pointer-events-none" />

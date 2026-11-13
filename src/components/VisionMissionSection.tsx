@@ -145,7 +145,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
   ];
 
   return (
-    <section className="relative w-full border-b border-stone-200 overflow-hidden select-none">
+    <section className="relative w-full border-b border-stone-200 overflow-hidden">
       
       {/* "Curve" Section Divider extending Academic Units Green & Dark Gradient into Vision & Mission */}
       <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">

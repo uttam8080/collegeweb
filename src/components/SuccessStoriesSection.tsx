@@ -261,7 +261,7 @@ export const SuccessStoriesSection: React.FC<SuccessStoriesSectionProps> = ({ on
   ];
 
   return (
-    <section className="relative w-full bg-[#FAF9F6] pt-16 sm:pt-24 pb-20 sm:pb-28 border-b border-stone-200 overflow-hidden select-none">
+    <section className="relative w-full bg-[#FAF9F6] pt-16 sm:pt-24 pb-20 sm:pb-28 border-b border-stone-200 overflow-hidden">
       
       {/* Background Architectural Ceiling Guidelines (Subtle lines extending from top, matching screenshot) */}
       <div 

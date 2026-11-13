@@ -204,7 +204,7 @@ export const NoticeAndEventsSection: React.FC<Props> = ({ onNavigate }) => {
   };
 
   return (
-    <section className="w-full bg-[#FAF9F5] border-b border-stone-200/90 select-none">
+    <section className="w-full bg-[#FAF9F5] border-b border-stone-200/90">
       
       {/* =========================================================================
           TOP UNIVERSITY PANORAMIC BANNER (Matched with TCT image header)

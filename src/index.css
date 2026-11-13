@@ -49,6 +49,25 @@
     pointer-events: none;
   }
 
+  html, body {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  p, h1, h2, h3, h4, h5, h6, span, a, li, blockquote, dt, dd, td, th, label, figcaption {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  ::selection {
+    background-color: rgba(13, 148, 136, 0.25);
+    color: inherit;
+  }
+  ::-moz-selection {
+    background-color: rgba(13, 148, 136, 0.25);
+    color: inherit;
+  }
+
   body {
     font-family: var(--font-body);
     color: #1e293b;

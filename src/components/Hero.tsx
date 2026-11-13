@@ -129,7 +129,7 @@ export const Hero: React.FC<Props> = ({
   }, [nextSlide]);
 
   return (
-    <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+    <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between">
       {/* =========================================================================
           BACKGROUND CAROUSEL: Images swap from right to left every 2 seconds
           ========================================================================= */}

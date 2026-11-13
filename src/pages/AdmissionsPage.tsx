@@ -469,7 +469,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       {/* =========================================================================
           SECTION 1: HERO BANNER ("Begin your journey at Trident")
           ========================================================================= */}
-      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between">
         {/* Background Hero Image (Uploaded Seminar/Mentorship Photo) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
@@ -670,7 +670,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       <section
         id="admissions-programs"
         ref={programsSectionRef}
-        className="relative w-full select-none"
+        className="relative w-full"
       >
         {/* Wave Section Divider: Flowing from Section 2 (White) into Header */}
         <div className="overflow-hidden leading-none z-10 pointer-events-none -mb-px" aria-hidden="true">
@@ -996,7 +996,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section
         ref={scholarshipSectionRef}
-        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10 select-none"
+        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10"
       >
         {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
         <div
@@ -1131,7 +1131,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section
         ref={placementSectionRef}
-        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80 select-none"
+        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80"
       >
         {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
         <div
