@@ -152,285 +152,9 @@ const ALL_RECRUITERS_EXPANDED: RecruiterCompany[] = [
     logoText: 'IBM',
   },
 
-  // Consulting & IT Services
-  {
-    name: 'Accenture',
-    category: 'Consulting & IT Services',
-    location: 'Pan India',
-    rolesHired: ['Associate Software Engineer', 'Cyber Security Analyst', 'Data Analyst'],
-    intakeAnnual: '120+ Offers',
-    highestPackage: '₹14.0 LPA',
-    logoText: 'Accenture',
-  },
-  {
-    name: 'Tata Consultancy Services (TCS)',
-    category: 'Consulting & IT Services',
-    location: 'Bhubaneswar / Kolkata / Pune',
-    rolesHired: ['TCS Digital', 'TCS Prime', 'TCS Ninja Developer'],
-    intakeAnnual: '180+ Offers',
-    highestPackage: '₹11.5 LPA',
-    logoText: 'TCS',
-  },
-  {
-    name: 'Persistent Systems',
-    category: 'Consulting & IT Services',
-    location: 'Pune / Hyderabad',
-    rolesHired: ['Full Stack Engineer', 'Cloud Product Trainee'],
-    intakeAnnual: '32 Offers',
-    highestPackage: '₹11.0 LPA',
-    logoText: 'Persistent',
-  },
-  {
-    name: 'Infosys',
-    category: 'Consulting & IT Services',
-    location: 'Bhubaneswar / Bengaluru / Pune',
-    rolesHired: ['Specialist Programmer (SP)', 'Digital Specialist (DSE)', 'System Engineer'],
-    intakeAnnual: '150+ Offers',
-    highestPackage: '₹10.5 LPA',
-    logoText: 'Infosys',
-  },
-  {
-    name: 'LTIMindtree',
-    category: 'Consulting & IT Services',
-    location: 'Bengaluru / Mumbai',
-    rolesHired: ['Digital Solutions Engineer', 'Cloud Integration Lead'],
-    intakeAnnual: '75+ Offers',
-    highestPackage: '₹10.0 LPA',
-    logoText: 'LTIMindtree',
-  },
-  {
-    name: 'HCLTech',
-    category: 'Consulting & IT Services',
-    location: 'Noida / Chennai',
-    rolesHired: ['Software Engineer Trainee', 'Enterprise Infra Specialist'],
-    intakeAnnual: '85+ Offers',
-    highestPackage: '₹9.5 LPA',
-    logoText: 'HCLTech',
-  },
-  {
-    name: 'Cognizant',
-    category: 'Consulting & IT Services',
-    location: 'Bhubaneswar / Kolkata',
-    rolesHired: ['GenC Next Developer', 'GenC Elevate Engineer'],
-    intakeAnnual: '110+ Offers',
-    highestPackage: '₹9.2 LPA',
-    logoText: 'Cognizant',
-  },
-  {
-    name: 'Wipro',
-    category: 'Consulting & IT Services',
-    location: 'Bengaluru / Hyderabad',
-    rolesHired: ['Turbo Developer', 'Project Engineer', 'Cloud Developer'],
-    intakeAnnual: '90+ Offers',
-    highestPackage: '₹9.0 LPA',
-    logoText: 'Wipro',
-  },
-  {
-    name: 'KPIT Technologies',
-    category: 'Consulting & IT Services',
-    location: 'Pune / Bengaluru',
-    rolesHired: ['Autonomous Vehicle Software', 'Automotive Embedded Systems'],
-    intakeAnnual: '35 Offers',
-    highestPackage: '₹9.0 LPA',
-    logoText: 'KPIT',
-  },
-  {
-    name: 'Capgemini',
-    category: 'Consulting & IT Services',
-    location: 'Kolkata / Pune',
-    rolesHired: ['Senior Software Analyst', 'Software Engineer'],
-    intakeAnnual: '95+ Offers',
-    highestPackage: '₹8.5 LPA',
-    logoText: 'Capgemini',
-  },
-  {
-    name: 'Hexaware Technologies',
-    category: 'Consulting & IT Services',
-    location: 'Chennai / Mumbai',
-    rolesHired: ['Associate Software Engineer', 'Automation Test Engineer'],
-    intakeAnnual: '45 Offers',
-    highestPackage: '₹8.5 LPA',
-    logoText: 'Hexaware',
-  },
-  {
-    name: 'Tech Mahindra',
-    category: 'Consulting & IT Services',
-    location: 'Bhubaneswar / Pune',
-    rolesHired: ['Telecom Systems Engineer', 'AI Associate Engineer'],
-    intakeAnnual: '65+ Offers',
-    highestPackage: '₹8.0 LPA',
-    logoText: 'Tech Mahindra',
-  },
-  {
-    name: 'Dell Technologies',
-    category: 'Consulting & IT Services',
-    location: 'Bengaluru',
-    rolesHired: ['Systems Software Engineer', 'Data Storage Associate'],
-    intakeAnnual: '18 Offers',
-    highestPackage: '₹16.0 LPA',
-    logoText: 'Dell',
-  },
-  {
-    name: 'HP (Hewlett-Packard)',
-    category: 'Consulting & IT Services',
-    location: 'Bengaluru',
-    rolesHired: ['Software Engineer', 'Hardware Firmware Diagnostics'],
-    intakeAnnual: '15 Offers',
-    highestPackage: '₹14.5 LPA',
-    logoText: 'HP',
-  },
-
-  // Core Engineering & Infra
-  {
-    name: 'Philips Healthcare',
-    category: 'Core Engineering & Infra',
-    location: 'Bengaluru',
-    rolesHired: ['Biomedical Software Engineer', 'Embedded C++ Developer'],
-    intakeAnnual: '12 Offers',
-    highestPackage: '₹15.0 LPA',
-    logoText: 'Philips',
-  },
-  {
-    name: 'Honeywell',
-    category: 'Core Engineering & Infra',
-    location: 'Bengaluru / Hyderabad',
-    rolesHired: ['Avionics Software Engineer', 'Industrial Automation Specialist'],
-    intakeAnnual: '20 Offers',
-    highestPackage: '₹14.0 LPA',
-    logoText: 'Honeywell',
-  },
-  {
-    name: 'Robert Bosch',
-    category: 'Core Engineering & Infra',
-    location: 'Bengaluru / Coimbatore',
-    rolesHired: ['Embedded Automotive Systems', 'Mobility IoT Engineer'],
-    intakeAnnual: '22 Offers',
-    highestPackage: '₹13.5 LPA',
-    logoText: 'Bosch',
-  },
-  {
-    name: 'Siemens',
-    category: 'Core Engineering & Infra',
-    location: 'Bengaluru / Mumbai',
-    rolesHired: ['Industrial Automation Engineer', 'Smart Grid Systems Trainee'],
-    intakeAnnual: '14 Offers',
-    highestPackage: '₹12.0 LPA',
-    logoText: 'Siemens',
-  },
-  {
-    name: 'MIDHANI (Ministry of Defence)',
-    category: 'Core Engineering & Infra',
-    location: 'Hyderabad',
-    rolesHired: ['Assistant Manager', 'Materials & Quality Metallurgist'],
-    intakeAnnual: '8 Offers',
-    highestPackage: '₹12.0 LPA',
-    logoText: 'MIDHANI',
-  },
-  {
-    name: 'Schneider Electric',
-    category: 'Core Engineering & Infra',
-    location: 'Bengaluru / Gurugram',
-    rolesHired: ['Energy Automation Associate', 'PLC Hardware Systems'],
-    intakeAnnual: '16 Offers',
-    highestPackage: '₹10.5 LPA',
-    logoText: 'Schneider',
-  },
-  {
-    name: 'Tata Power',
-    category: 'Core Engineering & Infra',
-    location: 'Odisha / Mumbai / Jamshedpur',
-    rolesHired: ['Graduate Engineer Trainee (GET)', 'Power Transmission Systems'],
-    intakeAnnual: '28 Offers',
-    highestPackage: '₹8.5 LPA',
-    logoText: 'Tata Power',
-  },
-  {
-    name: 'Larsen & Toubro (L&T)',
-    category: 'Core Engineering & Infra',
-    location: 'Mumbai / Chennai',
-    rolesHired: ['Graduate Engineer Trainee (GET)', 'Heavy Civil & Electrical'],
-    intakeAnnual: '20 Offers',
-    highestPackage: '₹7.5 LPA',
-    logoText: 'L&T',
-  },
-
-  // FinTech & Analytics
-  {
-    name: 'Goldman Sachs',
-    category: 'FinTech & Analytics',
-    location: 'Bengaluru',
-    rolesHired: ['Quantitative Financial Analyst', 'Risk Technology Developer'],
-    intakeAnnual: '6 Offers',
-    highestPackage: '₹32.0 LPA',
-    logoText: 'Goldman',
-  },
-  {
-    name: 'Morgan Stanley',
-    category: 'FinTech & Analytics',
-    location: 'Mumbai / Bengaluru',
-    rolesHired: ['Financial Technologist', 'Algorithmic Execution Developer'],
-    intakeAnnual: '8 Offers',
-    highestPackage: '₹29.0 LPA',
-    logoText: 'Morgan Stanley',
-  },
-  {
-    name: 'Deloitte',
-    category: 'FinTech & Analytics',
-    location: 'Hyderabad / Bengaluru',
-    rolesHired: ['Associate Analyst', 'Technology Risk Consultant'],
-    intakeAnnual: '24 Offers',
-    highestPackage: '₹12.5 LPA',
-    logoText: 'Deloitte',
-  },
-  {
-    name: 'Reliance Jio',
-    category: 'FinTech & Analytics',
-    location: 'Mumbai / Navi Mumbai',
-    rolesHired: ['5G Core Network Engineer', 'AI Analytics Trainee'],
-    intakeAnnual: '45 Offers',
-    highestPackage: '₹12.0 LPA',
-    logoText: 'Jio',
-  },
-  {
-    name: 'PwC',
-    category: 'FinTech & Analytics',
-    location: 'Kolkata / Mumbai',
-    rolesHired: ['Technology Consulting Associate', 'Risk Assurance Analyst'],
-    intakeAnnual: '24 Offers',
-    highestPackage: '₹11.5 LPA',
-    logoText: 'PwC',
-  },
-  {
-    name: 'Ernst & Young (EY)',
-    category: 'FinTech & Analytics',
-    location: 'Gurugram / Bengaluru',
-    rolesHired: ['Cybersecurity Advisory Consultant', 'Data Analytics Specialist'],
-    intakeAnnual: '28 Offers',
-    highestPackage: '₹11.0 LPA',
-    logoText: 'EY',
-  },
-  {
-    name: 'KPMG',
-    category: 'FinTech & Analytics',
-    location: 'Bengaluru / Gurugram',
-    rolesHired: ['IT Advisory Associate', 'Forensic & Financial Analytics'],
-    intakeAnnual: '20 Offers',
-    highestPackage: '₹10.5 LPA',
-    logoText: 'KPMG',
-  },
-  {
-    name: 'Adani Group',
-    category: 'FinTech & Analytics',
-    location: 'Ahmedabad / Bhubaneswar',
-    rolesHired: ['Energy Analytics Trainee', 'Enterprise ERP Technologist'],
-    intakeAnnual: '25 Offers',
-    highestPackage: '₹9.5 LPA',
-    logoText: 'Adani',
-  },
 ];
 
 export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
-  const [activeCategory, setActiveCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'masonry' | 'wall' | 'cards'>('masonry');
   const [galleryKey, setGalleryKey] = useState<number>(0);
@@ -442,35 +166,19 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   const [contactEmail, setContactEmail] = useState('');
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
-  // Category counts
-  const categoryCounts = useMemo(() => {
-    return {
-      All: ALL_RECRUITERS_EXPANDED.length,
-      'Tech Giants': ALL_RECRUITERS_EXPANDED.filter(r => r.category.includes('Tech Giants')).length,
-      Consulting: ALL_RECRUITERS_EXPANDED.filter(r => r.category.includes('Consulting')).length,
-      'Core Engineering': ALL_RECRUITERS_EXPANDED.filter(r => r.category.includes('Core Engineering')).length,
-      FinTech: ALL_RECRUITERS_EXPANDED.filter(r => r.category.includes('FinTech')).length,
-    };
-  }, []);
-
-  // Filtered recruiters based on category & search query
+  // Filtered recruiters based on search query
   const filteredRecruiters = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return ALL_RECRUITERS_EXPANDED;
     return ALL_RECRUITERS_EXPANDED.filter((r) => {
-      const matchesCategory =
-        activeCategory === 'All' ||
-        r.category.toLowerCase().includes(activeCategory.toLowerCase());
-
-      const query = searchQuery.trim().toLowerCase();
-      const matchesSearch =
-        !query ||
+      return (
         r.name.toLowerCase().includes(query) ||
         r.location.toLowerCase().includes(query) ||
         r.logoText.toLowerCase().includes(query) ||
-        r.rolesHired.some((role) => role.toLowerCase().includes(query));
-
-      return matchesCategory && matchesSearch;
+        r.rolesHired.some((role) => role.toLowerCase().includes(query))
+      );
     });
-  }, [activeCategory, searchQuery]);
+  }, [searchQuery]);
 
   interface CompanyMasonryItem extends MasonryItem {
     company: RecruiterCompany;
@@ -503,45 +211,14 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
   };
 
   // Helper for category-tailored modern gradient cards and accents
-  const getCategoryGradient = (category: string) => {
-    if (category.includes('Tech Giants')) {
-      return {
-        cardBg: 'bg-gradient-to-br from-blue-50/90 via-white to-cyan-50/70 hover:from-blue-100/90 hover:via-white hover:to-cyan-100/80',
-        borderColor: 'border-blue-200/80 hover:border-blue-400',
-        accentBar: 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600',
-        badgeBg: 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white',
-        textAccent: 'text-blue-700',
-        shadowGlow: 'hover:shadow-cyan-900/15',
-      };
-    }
-    if (category.includes('Consulting')) {
-      return {
-        cardBg: 'bg-gradient-to-br from-indigo-50/90 via-white to-purple-50/70 hover:from-indigo-100/90 hover:via-white hover:to-purple-100/80',
-        borderColor: 'border-indigo-200/80 hover:border-purple-400',
-        accentBar: 'bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500',
-        badgeBg: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white',
-        textAccent: 'text-indigo-700',
-        shadowGlow: 'hover:shadow-indigo-900/15',
-      };
-    }
-    if (category.includes('Core Engineering')) {
-      return {
-        cardBg: 'bg-gradient-to-br from-amber-50/90 via-white to-orange-50/70 hover:from-amber-100/90 hover:via-white hover:to-orange-100/80',
-        borderColor: 'border-amber-200/80 hover:border-amber-400',
-        accentBar: 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500',
-        badgeBg: 'bg-gradient-to-r from-amber-600 to-orange-600 text-white',
-        textAccent: 'text-amber-800',
-        shadowGlow: 'hover:shadow-amber-900/15',
-      };
-    }
-    // FinTech & Analytics
+  const getCategoryGradient = (_category?: string) => {
     return {
-      cardBg: 'bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/70 hover:from-emerald-100/90 hover:via-white hover:to-teal-100/80',
-      borderColor: 'border-emerald-200/80 hover:border-teal-400',
-      accentBar: 'bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-600',
-      badgeBg: 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white',
-      textAccent: 'text-emerald-700',
-      shadowGlow: 'hover:shadow-teal-900/15',
+      cardBg: 'bg-gradient-to-br from-blue-50/90 via-white to-cyan-50/70 hover:from-blue-100/90 hover:via-white hover:to-cyan-100/80',
+      borderColor: 'border-blue-200/80 hover:border-blue-400',
+      accentBar: 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600',
+      badgeBg: 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white',
+      textAccent: 'text-blue-700',
+      shadowGlow: 'hover:shadow-cyan-900/15',
     };
   };
 
@@ -665,8 +342,8 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
             </div>
           </div>
 
-          {/* Interactive Toolbar: Search Bar, Category Filters & View Toggle */}
-          <div className="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-2xs space-y-4">
+          {/* Interactive Toolbar: Search Bar & View Toggle */}
+          <div className="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-2xs">
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
               
               {/* Live Search Input */}
@@ -676,13 +353,13 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search company (e.g. Amazon, Google, L&T, TCS, Deloitte)..."
+                  placeholder="Search tech & product giants (e.g. Google, Microsoft, Amazon, NVIDIA, Cisco)..."
                   className="w-full pl-9 pr-8 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-slate-800 placeholder-stone-400 focus:outline-hidden focus:border-[#0D9488] focus:bg-white transition-all"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-0.5"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-0.5 cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -734,39 +411,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
               </div>
 
             </div>
-
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-stone-100">
-              {[
-                { label: 'All', key: 'All', count: categoryCounts.All },
-                { label: 'Tech Giants & Product', key: 'Tech Giants', count: categoryCounts['Tech Giants'] },
-                { label: 'Consulting & IT Services', key: 'Consulting', count: categoryCounts.Consulting },
-                { label: 'Core Engineering & Infra', key: 'Core Engineering', count: categoryCounts['Core Engineering'] },
-                { label: 'FinTech & Analytics', key: 'FinTech', count: categoryCounts.FinTech },
-              ].map((cat) => {
-                const isActive = activeCategory === cat.key;
-                return (
-                  <button
-                    key={cat.key}
-                    onClick={() => setActiveCategory(cat.key)}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 ${
-                      isActive
-                        ? 'bg-[#1b2a60] text-white shadow-xs'
-                        : 'bg-stone-50 text-stone-700 hover:bg-stone-100 border border-stone-200/80'
-                    }`}
-                  >
-                    <span>{cat.label}</span>
-                    <span
-                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                        isActive ? 'bg-white/20 text-white' : 'bg-stone-200 text-stone-700'
-                      }`}
-                    >
-                      {cat.count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
           {/* =========================================================================
@@ -779,7 +423,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-stone-500 pb-3 border-b border-stone-100 font-mono">
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Showing <strong>{filteredRecruiters.length}</strong> verified corporate partners</span>
+                <span>Showing <strong>{filteredRecruiters.length}</strong> premier tech &amp; product recruiting partners</span>
               </span>
               <span className="text-[11px] text-stone-400">Click any partner card to view package &amp; eligibility specs</span>
             </div>
@@ -788,7 +432,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
             {viewMode === 'masonry' && (
               <div className="w-full">
                 <MasonryGallery<CompanyMasonryItem>
-                  key={`${galleryKey}-${activeCategory}-${searchQuery ? 'search' : 'all'}`}
+                  key={`${galleryKey}-${searchQuery ? 'search' : 'all'}`}
                   items={masonryCompanyItems}
                   animateFrom="bottom"
                   blurToFocus={true}
@@ -813,11 +457,8 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                         <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
 
                         <div>
-                          {/* Header Row: Domain tag + Gradient Package Badge */}
-                          <div className="w-full flex items-center justify-between gap-2 mb-3 pt-1">
-                            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-500 truncate max-w-[55%]">
-                              {company.category.split('&')[0]}
-                            </span>
+                          {/* Header Row: Gradient Package Badge */}
+                          <div className="w-full flex items-center justify-end mb-3 pt-1">
                             <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
                               {company.highestPackage}
                             </span>
@@ -891,11 +532,8 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                       {/* Top Accent Gradient Line */}
                       <div className={`absolute top-0 inset-x-0 h-1.5 ${grad.accentBar}`} />
 
-                      {/* Header Row: Domain tag + Gradient Package Badge */}
-                      <div className="w-full flex items-center justify-between gap-2 mb-3 pt-1">
-                        <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-500 truncate max-w-[55%]">
-                          {company.category.split('&')[0]}
-                        </span>
+                      {/* Header Row: Gradient Package Badge */}
+                      <div className="w-full flex items-center justify-end mb-3 pt-1">
                         <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-xs shrink-0">
                           {company.highestPackage}
                         </span>
@@ -958,11 +596,7 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                           </span>
                         </div>
 
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 font-bold">
-                            {r.category}
-                          </span>
-                        </div>
+
 
                         <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0D9488] transition-colors">
                           {r.name}
@@ -1007,16 +641,13 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
                 </div>
                 <h4 className="text-base font-bold text-slate-800">No recruiting partner found</h4>
                 <p className="text-xs text-stone-500 max-w-sm mx-auto">
-                  No companies matched "{searchQuery}". Try searching for other product giants like Google, Amazon, Cisco, L&amp;T, or reset your filters.
+                  No companies matched "{searchQuery}". Try searching for Google, Microsoft, Amazon, NVIDIA, or clear your search.
                 </p>
                 <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    setActiveCategory('All');
-                  }}
+                  onClick={() => setSearchQuery('')}
                   className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-xs font-bold text-slate-700 cursor-pointer"
                 >
-                  Reset All Filters
+                  Clear Search
                 </button>
               </div>
             )}
@@ -1129,9 +760,6 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
 
             <div className="space-y-4">
               <div>
-                <span className="text-[10px] font-mono font-bold tracking-widest text-[#0D9488] uppercase block">
-                  {selectedCompany.category}
-                </span>
                 <h3 className="text-2xl font-serif font-bold text-slate-900 mt-0.5">
                   {selectedCompany.name}
                 </h3>
