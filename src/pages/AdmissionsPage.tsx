@@ -745,24 +745,24 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               })}
             </div>
 
-            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT (WITH REFERENCE GEOMETRIC BLUE BACKGROUND) */}
+            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT (WITH STICKY REFERENCE GEOMETRIC BLUE BACKGROUND) */}
             <div className="w-full lg:w-1/2 relative bg-[#EDF5FD]">
-              {/* STICKY REFERENCE GEOMETRIC BLUE BACKGROUND */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-                <div className="hidden lg:block sticky top-0 h-screen w-full overflow-hidden">
-                  <img
-                    src="/admissions-programs/geometric-blue-bg.png"
-                    alt=""
-                    className="w-full h-full object-cover object-right opacity-95"
-                  />
-                </div>
-                <div className="lg:hidden absolute inset-0">
-                  <img
-                    src="/admissions-programs/geometric-blue-bg.png"
-                    alt=""
-                    className="w-full h-full object-cover object-right opacity-95"
-                  />
-                </div>
+              {/* STICKY REFERENCE GEOMETRIC BLUE BACKGROUND (DESKTOP) */}
+              <div className="hidden lg:block sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
+                <img
+                  src="/admissions-programs/geometric-blue-bg.png"
+                  alt=""
+                  className="w-full h-full object-cover object-right opacity-95"
+                />
+              </div>
+
+              {/* MOBILE BACKGROUND */}
+              <div className="lg:hidden absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <img
+                  src="/admissions-programs/geometric-blue-bg.png"
+                  alt=""
+                  className="w-full h-full object-cover object-right opacity-95"
+                />
               </div>
 
               {/* Scrolling Content */}
