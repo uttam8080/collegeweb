@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
-import { Landmark, Compass, Award, Users, BookOpen, Music, Sparkles, MapPin, Calendar, CheckCircle2, ChevronRight, Coffee, Trophy, ShieldCheck } from 'lucide-react';
+import { 
+  Landmark, 
+  Compass, 
+  Award, 
+  Users, 
+  BookOpen, 
+  Music, 
+  Sparkles, 
+  MapPin, 
+  Calendar, 
+  CheckCircle2, 
+  ChevronRight, 
+  Coffee, 
+  Trophy, 
+  ShieldCheck,
+  ArrowRight
+} from 'lucide-react';
 import { CAMPUS_FACILITIES } from '../data/collegeData';
 
 export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = ({ onNavigate }) => {
@@ -48,25 +64,132 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
 
   return (
     <div className="min-h-screen bg-[#FAF9F5] pb-24">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-b from-[#FFFDF9] via-[#FAF6EE] to-[#F5EFE1] border-b border-stone-200 pt-12 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 border border-blue-300 text-blue-900 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Landmark className="w-4 h-4 text-blue-700" />
-            <span>Campus Infrastructure &amp; Student Life · Bhubaneswar</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-[#172554] tracking-tight leading-tight">
-            Vibrant Campus Ecosystem &amp; Community
-          </h1>
-          <p className="text-stone-600 text-base sm:text-lg mt-4 leading-relaxed max-w-2xl mx-auto">
-            Experience life on our 10+ acres eco-friendly smart campus in Bhubaneswar, featuring 24/7 central digital library, high-tech labs, sports arenas, residential hostels, and active student clubs.
-          </p>
+      
+      {/* =========================================================================
+          HERO SECTION: Equal size & exact gradient format as Landing & Academics Page
+          ========================================================================= */}
+      <section className="relative w-full h-screen min-h-[100dvh] bg-stone-950 overflow-hidden flex flex-col justify-between select-none">
+        
+        {/* Background Campus Life Hero Image (Uploaded by user) */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img
+            src="/campus_life_hero.jpg"
+            alt="Vibrant Student Campus Life & Community Walk"
+            className="w-full h-full object-cover object-center scale-102"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/assets/images/college_campus_hero_1793988186342.jpg';
+            }}
+          />
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-16">
+        {/* Soft black gradient on the left side: Exactly matching landing page */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to right, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.86) 28%, rgba(0, 0, 0, 0.65) 48%, rgba(0, 0, 0, 0.3) 68%, rgba(0, 0, 0, 0.08) 84%, transparent 100%)'
+          }}
+        />
+
+        {/* Top subtle gradient for header legibility */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.3) 18%, transparent 35%)'
+          }}
+        />
+
+        {/* Bottom subtle gradient for bottom strip */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 16%, transparent 34%)'
+          }}
+        />
+
+        {/* Top Spacer to preserve perfect headline spacing when navbar is fixed */}
+        <div className="w-full h-24 sm:h-28 pointer-events-none select-none" aria-hidden="true" />
+
+        {/* Hero Content Zone: Matching landing page serif headline and typography */}
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 w-full my-auto pb-6">
+          <div className="max-w-2xl text-left">
+            
+            {/* Eyebrow Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#22D3EE] text-xs font-mono font-semibold tracking-wider uppercase mb-5 shadow-md">
+              <Sparkles className="w-4 h-4 text-cyan-400" />
+              <span>Student Affairs · Life at Trident Bhubaneswar</span>
+            </div>
+
+            {/* Main Huge Serif Headline (Matching landing page typography) */}
+            <h1 className="font-serif font-bold text-white text-5xl sm:text-6xl md:text-7xl lg:text-[78px] leading-[1.06] tracking-tight drop-shadow-md">
+              Vibrant campus<br />
+              life &amp;<br />
+              community
+            </h1>
+
+            {/* Subtitle / Descriptive Text */}
+            <p className="text-white/90 text-sm sm:text-base md:text-lg font-normal leading-relaxed max-w-xl mt-5 drop-shadow-xs">
+              Experience life on our 10+ acres eco-friendly smart campus in Bhubaneswar. Beyond academics: 24/7 central digital library, innovation hubs, vibrant cultural festivals, sports leagues, and residential communities.
+            </p>
+
+            {/* Action CTA Buttons */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => {
+                  const target = document.getElementById('campus-facilities');
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="px-6 sm:px-8 py-3.5 rounded-md bg-[#E03D2E] hover:bg-[#c93224] active:scale-98 text-white font-bold text-xs sm:text-sm tracking-wider uppercase transition-all shadow-lg shadow-red-950/40 flex items-center gap-2 cursor-pointer"
+              >
+                <span>Explore Facilities</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => {
+                  const target = document.getElementById('student-clubs');
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="px-6 py-3.5 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-semibold text-xs sm:text-sm tracking-wide transition-all cursor-pointer flex items-center gap-2"
+              >
+                <span>Student Clubs &amp; Societies</span>
+                <ChevronRight className="w-4 h-4 text-amber-300" />
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Hero Bottom Strip: Key Highlights */}
+        <div className="relative z-20 w-full px-4 sm:px-8 pb-7 sm:pb-9">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/15 text-xs text-white/90">
+            <span className="flex items-center gap-2 font-medium">
+              <Landmark className="w-4 h-4 text-cyan-400" />
+              <span>10+ Acres Eco-Friendly Smart Campus</span>
+            </span>
+            <span className="flex items-center gap-2 font-medium">
+              <BookOpen className="w-4 h-4 text-amber-400" />
+              <span>24/7 Air-Conditioned Central Digital Library</span>
+            </span>
+            <span className="flex items-center gap-2 font-medium">
+              <Trophy className="w-4 h-4 text-emerald-400" />
+              <span>Multi-Sport Complex &amp; Gymnasium</span>
+            </span>
+            <span className="flex items-center gap-2 font-medium">
+              <Users className="w-4 h-4 text-rose-400" />
+              <span>25+ Technical &amp; Cultural Student Clubs</span>
+            </span>
+          </div>
+        </div>
+
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 space-y-16">
         {/* Interactive Campus Facilities Showcase */}
-        <div>
+        <div id="campus-facilities" className="scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <h3 className="text-2xl font-serif font-bold text-slate-900">
               World-Class Campus Infrastructure
@@ -148,7 +271,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         </div>
 
         {/* Student Clubs & Societies Grid */}
-        <div className="space-y-6">
+        <div id="student-clubs" className="space-y-6 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto">
             <h3 className="text-2xl font-serif font-bold text-slate-900">
               Student Technical Clubs &amp; Societies
