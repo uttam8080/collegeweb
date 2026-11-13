@@ -46,6 +46,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   // Active School index for sticky left showcase
   const [activeSchoolIndex, setActiveSchoolIndex] = useState<number>(0);
   const programsSectionRef = useRef<HTMLElement>(null);
+  const scholarshipSectionRef = useRef<HTMLElement>(null);
   const schoolRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Direct Application Modal state
@@ -241,6 +242,54 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         });
       });
     }, programsSectionRef.current);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ScrollTrigger: Scholarship section texts and cards popping out while scrolling down
+  useEffect(() => {
+    const section = scholarshipSectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Header texts popping out smoothly with playful back.out curve
+      gsap.fromTo(
+        '.scholarship-text-reveal',
+        { opacity: 0, y: 35, scale: 0.94 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.14,
+          ease: 'back.out(1.4)',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // 2. Scholarship cards popping out with stagger
+      gsap.fromTo(
+        '.scholarship-card-reveal',
+        { opacity: 0, y: 55, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.16,
+          ease: 'back.out(1.5)',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 78%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, section);
 
     return () => ctx.revert();
   }, []);
@@ -558,7 +607,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             - School title with circular arrow button
             - Categorized disciplines with clean divided rows and right arrows
             --------------------------------------------------------------------- */}
-        <div className="w-full bg-[#FAF6EF] relative">
+        <div className="w-full bg-[#EDF5FD] relative">
           <div className="w-full flex flex-col lg:flex-row items-start">
             
             {/* LEFT COLUMN: 50% WIDTH STICKY SHOWCASE (ZERO GAP, FULL BLEED) */}
@@ -604,8 +653,28 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               })}
             </div>
 
-            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT (SEAMLESS PARCHMENT, ZERO BOXES) */}
-            <div className="w-full lg:w-1/2 bg-[#FAF6EF] px-8 sm:px-12 lg:px-16 xl:px-20 py-16 sm:py-24 space-y-24 sm:space-y-32">
+            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT (WITH REFERENCE GEOMETRIC BLUE BACKGROUND) */}
+            <div className="w-full lg:w-1/2 relative bg-[#EDF5FD]">
+              {/* STICKY REFERENCE GEOMETRIC BLUE BACKGROUND */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <div className="hidden lg:block sticky top-0 h-screen w-full overflow-hidden">
+                  <img
+                    src="/admissions-programs/geometric-blue-bg.png"
+                    alt=""
+                    className="w-full h-full object-cover object-right opacity-95"
+                  />
+                </div>
+                <div className="lg:hidden absolute inset-0">
+                  <img
+                    src="/admissions-programs/geometric-blue-bg.png"
+                    alt=""
+                    className="w-full h-full object-cover object-right opacity-95"
+                  />
+                </div>
+              </div>
+
+              {/* Scrolling Content */}
+              <div className="relative z-10 px-8 sm:px-12 lg:px-16 xl:px-20 py-16 sm:py-24 space-y-24 sm:space-y-32">
               {schoolsData.map((school, sIdx) => {
                 return (
                   <div
@@ -681,6 +750,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                   </div>
                 );
               })}
+              </div>
             </div>
 
           </div>
@@ -785,22 +855,39 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 5: "Scholarship support."
+          SECTION 5: "Scholarship support." (Reference Geometric Sage/Mint Background & Pop-Out Scroll Animation)
           ========================================================================= */}
-      <section className="relative py-16 sm:py-24 bg-gradient-to-br from-[#1E1B4B] via-[#312E81] to-[#1E1B4B] text-white overflow-hidden">
-        {/* Subtle Geometric Overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
+      <section 
+        ref={scholarshipSectionRef}
+        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10 select-none"
+      >
+        {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('/admissions-programs/scholarship-geometric-bg.jpg')`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+          }}
+        />
+
+        {/* Ambient Subtle Emerald & Teal Glow Accents */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-500/10 blur-[130px] pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-teal-500/10 blur-[130px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs font-mono font-bold tracking-widest text-[#A5B4FC] uppercase block">
-              SCHOLARSHIPS
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Scholarship <span className="italic font-serif font-normal text-[#A5B4FC]">support.</span>
+            <div className="scholarship-text-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/10 border border-emerald-600/20 text-[#047857] text-[11px] font-mono font-bold tracking-[0.25em] uppercase shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+              SCHOLARSHIPS &amp; ENDOWMENTS
+            </div>
+
+            <h2 className="scholarship-text-reveal text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight">
+              Scholarship <span className="italic font-serif font-normal text-[#0D9488]">support.</span>
             </h2>
-            <p className="text-indigo-200 text-xs sm:text-sm leading-relaxed">
+
+            <p className="scholarship-text-reveal text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto font-sans">
               We believe financial constraints should never stand in the way of exceptional academic talent. Explore our comprehensive scholarship ecosystems.
             </p>
           </div>
@@ -808,63 +895,93 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             
             {/* Pillar 1: Merit Scholarships */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between hover:bg-white/15 transition-all">
+            <div className="scholarship-card-reveal group relative bg-white/85 hover:bg-white backdrop-blur-xl border border-emerald-900/10 hover:border-amber-400/60 rounded-3xl p-7 sm:p-8 space-y-5 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_45px_rgba(245,158,11,0.15)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+              
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-400/20 text-amber-300 flex items-center justify-center">
-                  <Award className="w-6 h-6 text-amber-400" />
+                <div className="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/25 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Award className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Merit Scholarships</h3>
-                <p className="text-xs text-indigo-100 leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-amber-800 transition-colors">
+                  Merit Scholarships
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
                   Up to 100% tuition fee waiver for top rankers in JEE Main (AIR &lt; 50,000) and OJEE (Rank &lt; 1,000). Academic excellence cash awards and fee concessions for branch toppers across every semester.
                 </p>
               </div>
-              <button 
-                onClick={() => alert('Merit Scholarship Guidelines: Candidates maintaining CGPA >= 8.5 qualify for annual tuition waivers under Trident Merit Policy.')}
-                className="text-xs font-semibold text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 cursor-pointer pt-2"
-              >
-                <span>View Merit Guidelines</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+
+              <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+                <button 
+                  onClick={() => alert('Merit Scholarship Guidelines: Candidates maintaining CGPA >= 8.5 qualify for annual tuition waivers under Trident Merit Policy.')}
+                  className="text-xs font-bold text-[#0D9488] hover:text-[#0f766e] flex items-center gap-1.5 cursor-pointer transition-colors group-hover:translate-x-0.5"
+                >
+                  <span>View Merit Guidelines</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
+                  Up to 100%
+                </span>
+              </div>
             </div>
 
             {/* Pillar 2: Government Schemes */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between hover:bg-white/15 transition-all">
+            <div className="scholarship-card-reveal group relative bg-white/85 hover:bg-white backdrop-blur-xl border border-emerald-900/10 hover:border-emerald-500/60 rounded-3xl p-7 sm:p-8 space-y-5 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_45px_rgba(16,185,129,0.15)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-400/20 text-emerald-300 flex items-center justify-center">
-                  <ShieldCheck className="w-6 h-6 text-emerald-400" />
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Government Schemes</h3>
-                <p className="text-xs text-indigo-100 leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-emerald-800 transition-colors">
+                  Government Schemes
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
                   Dedicated facilitation for Odisha State PRERANA Post-Matric Scholarship for SC/ST/OBC/SEBC students. Complete guidance for National Scholarship Portal (NSP), Medhabruti, and Pragati scholarships.
                 </p>
               </div>
-              <button 
-                onClick={() => alert('Govt Scholarship Portal: Full verification assistance provided by the Trident Student Welfare Secretariat.')}
-                className="text-xs font-semibold text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 cursor-pointer pt-2"
-              >
-                <span>Government Portal Info</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+
+              <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+                <button 
+                  onClick={() => alert('Govt Scholarship Portal: Full verification assistance provided by the Trident Student Welfare Secretariat.')}
+                  className="text-xs font-bold text-[#0D9488] hover:text-[#0f766e] flex items-center gap-1.5 cursor-pointer transition-colors group-hover:translate-x-0.5"
+                >
+                  <span>Government Portal Info</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                  State &amp; National
+                </span>
+              </div>
             </div>
 
             {/* Pillar 3: Special Grants */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between hover:bg-white/15 transition-all">
+            <div className="scholarship-card-reveal group relative bg-white/85 hover:bg-white backdrop-blur-xl border border-emerald-900/10 hover:border-rose-400/60 rounded-3xl p-7 sm:p-8 space-y-5 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_45px_rgba(244,63,94,0.15)] transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-400 via-pink-400 to-purple-500 opacity-80 group-hover:h-1.5 transition-all duration-300" />
+
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-rose-400/20 text-rose-300 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-rose-400" />
+                <div className="w-12 h-12 rounded-2xl bg-rose-500/15 border border-rose-500/25 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Special Grants</h3>
-                <p className="text-xs text-indigo-100 leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-rose-800 transition-colors">
+                  Special Grants
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
                   Special fee benefits for wards of Indian Armed Forces and Paramilitary personnel. Women in STEM tuition concessions, sports achiever fellowships, and seed funds for student hardware prototypes.
                 </p>
               </div>
-              <button 
-                onClick={() => alert('Special Grants Desk: Reach out to admissions@trident.ac.in for defense and sports concession applications.')}
-                className="text-xs font-semibold text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 cursor-pointer pt-2"
-              >
-                <span>Apply for Special Grants</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+
+              <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+                <button 
+                  onClick={() => alert('Special Grants Desk: Reach out to admissions@trident.ac.in for defense and sports concession applications.')}
+                  className="text-xs font-bold text-[#0D9488] hover:text-[#0f766e] flex items-center gap-1.5 cursor-pointer transition-colors group-hover:translate-x-0.5"
+                >
+                  <span>Apply for Special Grants</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-200">
+                  Welfare &amp; STEM
+                </span>
+              </div>
             </div>
 
           </div>
