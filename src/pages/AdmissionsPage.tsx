@@ -1,25 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  GraduationCap, 
-  CheckCircle2, 
-  ArrowRight, 
-  Award, 
-  Building2, 
-  ShieldCheck, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
-  Download, 
-  Sparkles, 
-  FileText, 
-  HelpCircle, 
-  BookOpen, 
-  Laptop, 
-  Users, 
-  TrendingUp, 
-  Compass, 
-  ChevronRight, 
+import {
+  GraduationCap,
+  CheckCircle2,
+  ArrowRight,
+  Award,
+  Building2,
+  ShieldCheck,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Download,
+  Sparkles,
+  FileText,
+  HelpCircle,
+  BookOpen,
+  Laptop,
+  Users,
+  TrendingUp,
+  Compass,
+  ChevronRight,
   ExternalLink,
   Check,
   Send,
@@ -262,9 +262,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         }
         if (rows.length) {
           tl.fromTo(
-            rows, 
-            { opacity: 0, x: -20, scale: 0.97 }, 
-            { opacity: 1, x: 0, scale: 1, duration: 0.45, stagger: 0.04, ease: 'back.out(1.2)' }, 
+            rows,
+            { opacity: 0, x: -20, scale: 0.97 },
+            { opacity: 1, x: 0, scale: 1, duration: 0.45, stagger: 0.04, ease: 'back.out(1.2)' },
             '-=0.3'
           );
         }
@@ -467,8 +467,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   };
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-[#FAF9F5] text-slate-800 selection:bg-[#FF9933]/20 selection:text-[#172554]">
-      
+    <div className="min-h-screen bg-[#FAF9F5] text-slate-800 selection:bg-[#FF9933]/20 selection:text-[#172554]">
+
       {/* =========================================================================
           SECTION 1: HERO BANNER ("Begin your journey at Trident")
           ========================================================================= */}
@@ -487,7 +487,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         </div>
 
         {/* Soft black gradient on the left side: Exactly matching landing page */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none z-10"
           style={{
             background: 'linear-gradient(to right, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.86) 28%, rgba(0, 0, 0, 0.65) 48%, rgba(0, 0, 0, 0.3) 68%, rgba(0, 0, 0, 0.08) 84%, transparent 100%)'
@@ -495,7 +495,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         />
 
         {/* Top subtle gradient for header legibility */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none z-10"
           style={{
             background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.3) 18%, transparent 35%)'
@@ -503,7 +503,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         />
 
         {/* Bottom subtle gradient for bottom strip */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none z-10"
           style={{
             background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.45) 16%, transparent 34%)'
@@ -516,7 +516,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         {/* Hero Content Area */}
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 w-full my-auto pb-6">
           <div className="max-w-2xl text-left">
-            
+
             {/* Main Huge Serif Headline (Matching Landing Page Hero typography) */}
             <h1 className="font-serif font-bold text-white text-5xl sm:text-6xl md:text-7xl lg:text-[78px] leading-[1.06] tracking-tight drop-shadow-md">
               Begin your<br />
@@ -573,7 +573,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             </span>
             <span className="flex items-center gap-2 font-medium">
               <Building2 className="w-4 h-4 text-cyan-400" />
-              <span>TCT Affiliated (Autonomous State Univ.)</span>
+              <span>BPUT Affiliated (Autonomous State Univ.)</span>
             </span>
             <span className="flex items-center gap-2 font-medium">
               <Award className="w-4 h-4 text-amber-400" />
@@ -592,7 +592,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section className="relative py-16 sm:py-24 bg-white overflow-hidden">
         {/* Soft geometric faceted background watermark */}
-        <div 
+        <div
           className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-40 pointer-events-none"
           style={{
             background: 'radial-gradient(ellipse at center, rgba(13, 148, 136, 0.08) 0%, rgba(248, 250, 252, 0) 70%)'
@@ -601,7 +601,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            
+
             {/* Left Headline & Accreditation Column */}
             <div className="lg:col-span-5 space-y-6">
               <span className="text-xs font-mono font-bold tracking-widest text-slate-500 uppercase block">
@@ -615,7 +615,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
               <div className="w-16 h-1 bg-[#0D9488] rounded-full" />
 
-              {/* Accreditation Badges Row (NAAC, NBA, AICTE, TCT) */}
+              {/* Accreditation Badges Row (NAAC, NBA, AICTE, BPUT) */}
               <div className="pt-4 flex flex-wrap items-center gap-3">
                 <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
                   NAAC A+
@@ -627,7 +627,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                   AICTE
                 </span>
                 <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  TCT Odisha
+                  BPUT Odisha
                 </span>
                 <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
                   DSIR-SIRO
@@ -670,20 +670,20 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           PART A: HEADING BLOCK (Distinct Architectural Sand/Stone Background #EFEAE1)
           PART B: MAIN CONTENT (Distinct Clean Canvas #FAF9F6 with Full-Bleed Sticky Dynamic Showcase)
           ========================================================================= */}
-      <section 
+      <section
         id="admissions-programs"
         ref={programsSectionRef}
         className="relative w-full select-none"
       >
         {/* Wave Section Divider: Flowing from Section 2 (White) into Header */}
         <div className="overflow-hidden leading-none z-10 pointer-events-none -mb-px" aria-hidden="true">
-          <svg 
-            viewBox="0 0 1440 80" 
-            preserveAspectRatio="none" 
+          <svg
+            viewBox="0 0 1440 80"
+            preserveAspectRatio="none"
             className="w-full h-8 sm:h-12 md:h-14 block"
           >
-            <path 
-              d="M0,0 L0,45 C240,75 480,25 720,35 C960,45 1200,75 1440,50 L1440,0 Z" 
+            <path
+              d="M0,0 L0,45 C240,75 480,25 720,35 C960,45 1200,75 1440,50 L1440,0 Z"
               className="fill-white"
             />
           </svg>
@@ -750,7 +750,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             --------------------------------------------------------------------- */}
         <div className="w-full bg-[#EDF5FD] relative">
           <div className="w-full flex flex-col lg:flex-row items-start">
-            
+
             {/* LEFT COLUMN: 50% WIDTH STICKY SHOWCASE (ZERO GAP, FULL BLEED) */}
             <div className="w-full lg:w-1/2 lg:sticky lg:top-0 h-[480px] sm:h-[600px] lg:h-screen self-start overflow-hidden bg-stone-950 z-20">
               {schoolsData.map((school, sIdx) => {
@@ -759,11 +759,10 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                 return (
                   <div
                     key={school.id}
-                    className={`absolute inset-0 transition-all duration-700 ease-out ${
-                      isActive
+                    className={`absolute inset-0 transition-all duration-700 ease-out ${isActive
                         ? 'opacity-100 scale-100 z-10'
                         : 'opacity-0 scale-105 z-0 pointer-events-none'
-                    }`}
+                      }`}
                   >
                     {/* Full 50% width image */}
                     <img
@@ -773,7 +772,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     />
 
                     {/* Smooth Cinematic Gradient Overlay (Dark at bottom for crisp title legibility) */}
-                    <div 
+                    <div
                       className="absolute inset-0 pointer-events-none"
                       style={{
                         background: 'linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 24%, rgba(15, 23, 42, 0.2) 44%, transparent 70%)'
@@ -782,7 +781,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
                     {/* School Title & Motto at Bottom (Matching Reference Video Exactly) */}
                     <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
-                      <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md">
+                      <h3 className="font-chango text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
                         {school.title}
                       </h3>
                       <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-stone-200 font-bold drop-shadow-sm">
@@ -816,81 +815,81 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
               {/* Scrolling Content */}
               <div className="relative z-10 px-8 sm:px-12 lg:px-16 xl:px-20 py-16 sm:py-24 space-y-24 sm:space-y-32">
-              {schoolsData.map((school, sIdx) => {
-                return (
-                  <div
-                    key={school.id}
-                    ref={(el) => { schoolRefs.current[sIdx] = el; }}
-                    className="school-section relative pl-6 sm:pl-8 border-l-[3.5px] border-[#784421]"
-                  >
-                    {/* Header Row: School Title + Circular Arrow Button */}
-                    <div className="school-header-reveal flex items-start justify-between gap-4 mb-2">
-                      <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-stone-900 tracking-tight leading-[1.12]">
-                        {school.title}
-                      </h3>
+                {schoolsData.map((school, sIdx) => {
+                  return (
+                    <div
+                      key={school.id}
+                      ref={(el) => { schoolRefs.current[sIdx] = el; }}
+                      className="school-section relative pl-6 sm:pl-8 border-l-[3.5px] border-[#784421]"
+                    >
+                      {/* Header Row: School Title + Circular Arrow Button */}
+                      <div className="school-header-reveal flex items-start justify-between gap-4 mb-2">
+                        <h3 className="font-chango text-3xl sm:text-4xl lg:text-[40px] text-stone-900 tracking-normal leading-[1.2]">
+                          {school.title}
+                        </h3>
 
-                      <button
-                        onClick={() => handleOpenApplyModal(school.title)}
-                        aria-label={`Apply for ${school.title}`}
-                        className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#8E877E] hover:bg-[#784421] text-white flex items-center justify-center shrink-0 transition-all duration-300 shadow-sm hover:scale-105 cursor-pointer mt-1"
-                      >
-                        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
-                      </button>
-                    </div>
-
-                    {/* Motto */}
-                    <p className="school-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
-                      {school.motto}
-                    </p>
-
-                    {/* Editorial Description */}
-                    <p className="school-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
-                      {school.description}
-                    </p>
-
-                    {/* Optional Accreditation Badge (e.g. School of Business) */}
-                    {school.badge && (
-                      <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
-                        <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
-                          {school.badge.eyebrow}
-                        </span>
-                        <span className="text-base font-bold text-stone-900 block mt-0.5">
-                          {school.badge.title}
-                        </span>
+                        <button
+                          onClick={() => handleOpenApplyModal(school.title)}
+                          aria-label={`Apply for ${school.title}`}
+                          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#8E877E] hover:bg-[#784421] text-white flex items-center justify-center shrink-0 transition-all duration-300 shadow-sm hover:scale-105 cursor-pointer mt-1"
+                        >
+                          <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                        </button>
                       </div>
-                    )}
 
-                    {/* Categories and Divided Program Rows */}
-                    <div className="space-y-6">
-                      {school.categories.map((category, cIdx) => (
-                        <div key={cIdx} className="space-y-1">
-                          {/* Category Header */}
-                          <h4 className="school-cat-reveal text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
-                            {category.name}
-                          </h4>
+                      {/* Motto */}
+                      <p className="school-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
+                        {school.motto}
+                      </p>
 
-                          {/* Program Rows with horizontal dividing lines on every row and right arrows */}
-                          <div className="space-y-0">
-                            {category.programs.map((prog, pIdx) => (
-                              <div
-                                key={pIdx}
-                                onClick={() => handleOpenApplyModal(prog.name)}
-                                className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
-                              >
-                                <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
-                                  {prog.name}
-                                </span>
-                                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#784421] group-hover:translate-x-1 transition-all shrink-0" />
-                              </div>
-                            ))}
-                          </div>
+                      {/* Editorial Description */}
+                      <p className="school-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
+                        {school.description}
+                      </p>
+
+                      {/* Optional Accreditation Badge (e.g. School of Business) */}
+                      {school.badge && (
+                        <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
+                          <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
+                            {school.badge.eyebrow}
+                          </span>
+                          <span className="text-base font-bold text-stone-900 block mt-0.5">
+                            {school.badge.title}
+                          </span>
                         </div>
-                      ))}
-                    </div>
+                      )}
 
-                  </div>
-                );
-              })}
+                      {/* Categories and Divided Program Rows */}
+                      <div className="space-y-6">
+                        {school.categories.map((category, cIdx) => (
+                          <div key={cIdx} className="space-y-1">
+                            {/* Category Header */}
+                            <h4 className="school-cat-reveal text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
+                              {category.name}
+                            </h4>
+
+                            {/* Program Rows with horizontal dividing lines on every row and right arrows */}
+                            <div className="space-y-0">
+                              {category.programs.map((prog, pIdx) => (
+                                <div
+                                  key={pIdx}
+                                  onClick={() => handleOpenApplyModal(prog.name)}
+                                  className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
+                                >
+                                  <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
+                                    {prog.name}
+                                  </span>
+                                  <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#784421] group-hover:translate-x-1 transition-all shrink-0" />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -903,7 +902,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section className="relative py-16 sm:py-24 bg-white overflow-hidden">
         {/* Subtle Watermark '?' on the right */}
-        <div 
+        <div
           className="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 text-[260px] sm:text-[340px] font-black text-slate-100 select-none pointer-events-none opacity-60 leading-none"
           aria-hidden="true"
         >
@@ -911,7 +910,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
-          
+
           <div className="space-y-3">
             <span className="text-xs font-mono font-bold tracking-widest text-[#0D9488] uppercase block">
               ADMISSIONS
@@ -922,7 +921,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
 
           <div className="space-y-6 max-w-4xl">
-            
+
             {/* Category 1: 1st Year B.Tech (Direct Entry) */}
             <div className="p-6 sm:p-8 rounded-2xl bg-[#FAF9F5] border-l-4 border-l-[#1E3A8A] border-y border-r border-stone-200/80 shadow-2xs space-y-3">
               <h3 className="text-lg sm:text-xl font-bold text-slate-900">
@@ -998,12 +997,12 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       {/* =========================================================================
           SECTION 5: "Scholarship support." (Reference Geometric Sage/Mint Background & Pop-Out Scroll Animation)
           ========================================================================= */}
-      <section 
+      <section
         ref={scholarshipSectionRef}
         className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10 select-none"
       >
         {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-center"
           style={{
             backgroundImage: `url('/admissions-programs/scholarship-geometric-bg.jpg')`,
@@ -1017,7 +1016,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-teal-500/10 blur-[130px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
-          
+
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <div className="scholarship-text-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/10 border border-emerald-600/20 text-[#047857] text-[11px] font-mono font-bold tracking-[0.25em] uppercase shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
@@ -1034,11 +1033,11 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            
+
             {/* Pillar 1: Merit Scholarships */}
             <div className="scholarship-card-reveal group relative bg-white/85 hover:bg-white backdrop-blur-xl border border-emerald-900/10 hover:border-amber-400/60 rounded-3xl p-7 sm:p-8 space-y-5 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_45px_rgba(245,158,11,0.15)] transition-all duration-500 overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 opacity-80 group-hover:h-1.5 transition-all duration-300" />
-              
+
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/25 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Award className="w-6 h-6" />
@@ -1052,7 +1051,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               </div>
 
               <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between">
-                <button 
+                <button
                   onClick={() => alert('Merit Scholarship Guidelines: Candidates maintaining CGPA >= 8.5 qualify for annual tuition waivers under Trident Merit Policy.')}
                   className="text-xs font-bold text-[#0D9488] hover:text-[#0f766e] flex items-center gap-1.5 cursor-pointer transition-colors group-hover:translate-x-0.5"
                 >
@@ -1082,7 +1081,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               </div>
 
               <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between">
-                <button 
+                <button
                   onClick={() => alert('Govt Scholarship Portal: Full verification assistance provided by the Trident Student Welfare Secretariat.')}
                   className="text-xs font-bold text-[#0D9488] hover:text-[#0f766e] flex items-center gap-1.5 cursor-pointer transition-colors group-hover:translate-x-0.5"
                 >
@@ -1112,7 +1111,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               </div>
 
               <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between">
-                <button 
+                <button
                   onClick={() => alert('Special Grants Desk: Reach out to admissions@trident.ac.in for defense and sports concession applications.')}
                   className="text-xs font-bold text-[#0D9488] hover:text-[#0f766e] flex items-center gap-1.5 cursor-pointer transition-colors group-hover:translate-x-0.5"
                 >
@@ -1133,12 +1132,12 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       {/* =========================================================================
           SECTION 6: "Placement Highlights" (Reference 3D White Isometric Hexagons Background & 2s Pop-Out Counter Animation)
           ========================================================================= */}
-      <section 
+      <section
         ref={placementSectionRef}
         className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80 select-none"
       >
         {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-95 bg-cover bg-left sm:bg-center"
           style={{
             backgroundImage: `url('/admissions-programs/white-hexagons-bg.png')`,
@@ -1151,7 +1150,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42rem] h-[22rem] rounded-full bg-teal-500/5 blur-[130px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-10">
-          
+
           <div className="space-y-3 max-w-2xl mx-auto">
             <div className="placement-text-reveal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/5 border border-slate-900/10 text-slate-700 text-[11px] font-mono font-bold tracking-[0.25em] uppercase shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-[#0D9488] animate-pulse" />
@@ -1170,29 +1169,29 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           {/* Big Key Stats (Animated 2-Second Increments) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 max-w-5xl mx-auto pt-2">
             {[
-              { 
-                value: `${placementStats.offers.toLocaleString()}+`, 
-                label: 'Placement Offers', 
-                border: 'from-emerald-400 to-teal-500' 
+              {
+                value: `${placementStats.offers.toLocaleString()}+`,
+                label: 'Placement Offers',
+                border: 'from-emerald-400 to-teal-500'
               },
-              { 
-                value: `${placementStats.highest}+ LPA`, 
-                label: 'Highest Package', 
-                border: 'from-cyan-400 to-blue-500' 
+              {
+                value: `${placementStats.highest}+ LPA`,
+                label: 'Highest Package',
+                border: 'from-cyan-400 to-blue-500'
               },
-              { 
-                value: `${placementStats.rate.toFixed(1)}%`, 
-                label: 'Placement Rate', 
-                border: 'from-amber-400 to-orange-500' 
+              {
+                value: `${placementStats.rate.toFixed(1)}%`,
+                label: 'Placement Rate',
+                border: 'from-amber-400 to-orange-500'
               },
-              { 
-                value: `${placementStats.partners}+`, 
-                label: 'Hiring Partners', 
-                border: 'from-purple-400 to-indigo-500' 
+              {
+                value: `${placementStats.partners}+`,
+                label: 'Hiring Partners',
+                border: 'from-purple-400 to-indigo-500'
               },
             ].map((stat, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="placement-card-reveal group relative p-6 sm:p-7 rounded-3xl bg-white/90 hover:bg-white backdrop-blur-xl border border-slate-200/90 hover:border-teal-500/50 shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(13,148,136,0.12)] transition-all duration-300 overflow-hidden text-center"
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.border} opacity-80 group-hover:h-1.5 transition-all duration-300`} />
@@ -1213,8 +1212,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             </span>
             <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl mx-auto">
               {['TCS Digital', 'Infosys', 'Wipro', 'Cognizant GenC', 'Amazon AWS', 'Cisco Systems', 'Capgemini', 'Accenture', 'Tech Mahindra'].map((rec, i) => (
-                <span 
-                  key={i} 
+                <span
+                  key={i}
                   className="placement-badge-reveal px-4 py-2 rounded-full bg-white/95 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-200 shadow-2xs text-xs font-semibold transition-all hover:scale-105 hover:border-teal-400/50 cursor-default"
                 >
                   {rec}
@@ -1231,7 +1230,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section className="relative py-16 sm:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          
+
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-xs font-mono font-bold tracking-widest text-slate-500 uppercase block">
               SEATS &amp; FEES
@@ -1282,7 +1281,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
 
           <div className="flex justify-end">
-            <button 
+            <button
               onClick={() => alert('Downloading official BPUT Gazette Tuition Fee Structure (Academic Session 2026–27)...')}
               className="text-xs font-semibold text-blue-900 hover:text-blue-700 flex items-center gap-1.5 cursor-pointer"
             >
@@ -1299,7 +1298,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section className="relative py-16 sm:py-24 bg-[#FAF9F5] overflow-hidden">
         {/* Giant Watermark '5' on the Right */}
-        <div 
+        <div
           className="absolute right-6 sm:right-16 top-1/2 -translate-y-1/2 text-[300px] sm:text-[440px] font-black text-slate-200 select-none pointer-events-none opacity-40 leading-none"
           aria-hidden="true"
         >
@@ -1307,7 +1306,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
-          
+
           <div className="space-y-3">
             <span className="text-xs font-mono font-bold tracking-widest text-[#F97316] uppercase block">
               ADMISSIONS
@@ -1354,8 +1353,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                 iconBg: 'bg-[#047857]',
               },
             ].map((st, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="bg-white rounded-2xl p-6 border border-stone-200 shadow-2xs space-y-4 flex flex-col justify-between hover:shadow-md transition-shadow relative"
               >
                 <div className="space-y-3">
@@ -1381,7 +1380,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section className="relative py-16 sm:py-24 bg-white overflow-hidden">
         {/* Giant Watermark 'JEE' */}
-        <div 
+        <div
           className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[200px] sm:text-[340px] font-black text-slate-100 select-none pointer-events-none opacity-50 tracking-widest"
           aria-hidden="true"
         >
@@ -1389,7 +1388,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
-          
+
           <div className="space-y-3">
             <span className="text-xs font-mono font-bold tracking-widest text-[#F97316] uppercase block">
               ENTRANCE
@@ -1403,7 +1402,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
-            
+
             {/* JEE Main Card */}
             <div className="p-8 rounded-3xl bg-[#FAF9F5] border border-stone-200/90 shadow-2xs space-y-5">
               <div className="flex items-center justify-between">
@@ -1464,7 +1463,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           ========================================================================= */}
       <section className="relative py-16 sm:py-24 bg-[#0B1528] text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
+
           <div className="max-w-2xl space-y-2">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
               Admission Helpdesk
@@ -1475,7 +1474,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            
+
             {/* Left Contact Directory */}
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-4">
@@ -1644,11 +1643,11 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           INTERACTIVE DIRECT APPLICATION MODAL
           ========================================================================= */}
       {isApplyModalOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-200"
           onClick={() => setIsApplyModalOpen(false)}
         >
-          <div 
+          <div
             className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200"
             onClick={(e) => e.stopPropagation()}
           >

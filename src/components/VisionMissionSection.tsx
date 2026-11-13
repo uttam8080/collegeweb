@@ -145,37 +145,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
   ];
 
   return (
-    <section className="relative w-full border-b border-stone-200 overflow-hidden select-none">
-      
-      {/* "Curve" Section Divider extending Academic Units Green & Dark Gradient into Vision & Mission */}
-      <div className="absolute top-0 inset-x-0 overflow-hidden leading-none z-20 pointer-events-none" aria-hidden="true">
-        <svg 
-          viewBox="0 0 1440 64" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-          className="w-full h-8 sm:h-12 lg:h-16 block"
-        >
-          <defs>
-            <linearGradient id="academicUnitsGreenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#0b6623" />
-              <stop offset="45%" stopColor="#074626" />
-              <stop offset="100%" stopColor="#04140c" />
-            </linearGradient>
-          </defs>
-          <path 
-            d="M0,0 Q720,64 1440,0 L1440,0 L0,0 Z" 
-            fill="url(#academicUnitsGreenGrad)" 
-          />
-          <path 
-            d="M0,0 Q720,64 1440,0" 
-            stroke="rgba(52, 211, 153, 0.2)" 
-            strokeWidth="1.5" 
-            fill="none"
-          />
-        </svg>
-      </div>
-
+    <section className="relative w-full -mt-px bg-[#0E1726] border-b border-stone-200 overflow-hidden select-none">
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
         
         {/* =========================================================================

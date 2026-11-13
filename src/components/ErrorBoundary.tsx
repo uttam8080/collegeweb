@@ -39,7 +39,7 @@ export class ErrorBoundary extends Component<Props, State> {
               TEKKZY College of Technology
             </h1>
             <p className="text-sm text-emerald-200/80 mb-6">
-              A temporary rendering issue occurred. Click below to return to the homepage.
+              {this.state.error?.message || 'A temporary rendering issue occurred. Click below to return to the homepage.'}
             </p>
             <button
               onClick={() => {
