@@ -164,40 +164,6 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
     },
     {
       id: '03',
-      title: 'Robotics & Maker FabLab',
-      motto: 'HARDWARE INNOVATION & AUTONOMOUS UAV FABLAB',
-      description:
-        'A state-of-the-art maker haven equipped with rapid 3D prototyping printers, precision CNC mills, Cadence PCB fabrication, and autonomous drone flight testing cages for student inventors.',
-      badge: {
-        eyebrow: 'HARDWARE PROTOTYPING & PATENTS',
-        title: 'Texas Instruments & ARM Partner Lab'
-      },
-      image: '/assets/images/college_drone_lab_hero.jpg',
-      imageAlt: 'Robotics and Drone Prototyping FabLab',
-      snapshots: ['Industrial 3D Printers', 'Drone Testing Cage', 'Cadence PCB Studio', 'ARM Embedded Telemetry'],
-      categories: [
-        {
-          name: '1. Fabrication & Prototyping Equipment',
-          items: [
-            'Industrial Dual-Extrusion 3D Printers & Laser Cutters',
-            'Cadence Allegro PCB Design & Surface Mount Soldering Stations',
-            'Precision CNC Milling, Lathe & Mechanical Fabrication Shop',
-            'Digital Storage Oscilloscopes & Spectrum RF Analyzers'
-          ]
-        },
-        {
-          name: '2. Autonomous Systems & Robotics',
-          items: [
-            'ROS2 Autonomous Rover Navigation & Obstacle Traversal Arenas',
-            'Quadcopter Drone Indoor Testing Flight Enclosure',
-            'Industrial Robotic Arm Kinematics & Vision Inspection Stations',
-            'Embedded IoT Sensor Networks & Telemetry Testbeds'
-          ]
-        }
-      ]
-    },
-    {
-      id: '04',
       title: 'Smart Lecture Theatres',
       motto: 'ACOUSTIC ARCHITECTURE & 4K DIGITAL LECTURE THEATRES',
       description:
@@ -231,7 +197,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '05',
+      id: '04',
       title: 'Engineering Workshops',
       motto: 'HEAVY FABRICATION & ADVANCED MATERIALS WORKSHOPS',
       description:
@@ -265,7 +231,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '06',
+      id: '05',
       title: 'AR/VR Simulation Studio',
       motto: 'IMMERSIVE SPATIAL COMPUTING & XR FOUNDRY',
       description:
@@ -299,7 +265,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '07',
+      id: '06',
       title: 'Cafeteria & Dining Court',
       motto: 'HYGIENIC DINING & VIBRANT STUDENT SOCIAL HUB',
       description:
@@ -333,7 +299,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '08',
+      id: '07',
       title: 'Sports & Athletics Arena',
       motto: 'PHYSICAL VITALITY & CHAMPIONSHIP ATHLETICS',
       description:
@@ -367,7 +333,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '09',
+      id: '08',
       title: 'Smart Eco-Hostels & Campus',
       motto: 'HOME AWAY FROM HOME · 10+ ACRES GREEN LIVING',
       description:
@@ -1098,7 +1064,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       {/* =========================================================================
           WORLD-CLASS CAMPUS INFRASTRUCTURE (50/50 SPLIT CINEMATIC SECTION)
           - Headings: Playfair Display font (font-playfair font-bold)
-          - 9 Premier Campus Facilities with complete photos (Central Library, Computing, Robotics, Lecture Halls, Workshops, VR Studio, Dining, Sports, Hostels)
+          - 8 Premier Campus Facilities with complete photos (Central Library, Computing, Lecture Halls, Workshops, VR Studio, Dining, Sports, Hostels)
           - Divider: The image container itself is curved (S-curve clipPath) - NOT curved lines drawn on top!
           - Background: 100% Sticky 2D multi-colored flowing wavy background matching reference image
           - Quick-Jump Pill Bar for instant access to every facility & photo
@@ -1136,7 +1102,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                   </span>
                 </h2>
                 <p className="text-stone-700 text-sm sm:text-base lg:text-lg sm:leading-relaxed font-sans max-w-2xl">
-                  Explore our modern 10+ acre campus ecosystem featuring 24/7 digital libraries, AI supercomputing labs, robotics maker fablabs, lecture amphitheaters, engineering workshops, AR/VR studios, dining courts, and Olympic athletic pavilions.
+                  Explore our modern 10+ acre campus ecosystem featuring 24/7 digital libraries, AI supercomputing labs, lecture amphitheaters, engineering workshops, AR/VR studios, dining courts, and Olympic athletic pavilions.
                 </p>
               </div>
 
@@ -1148,7 +1114,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                 </span>
                 <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-blue-500" />
-                  9 Specialized Spaces
+                  8 Specialized Spaces
                 </span>
                 <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
@@ -1159,7 +1125,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
           </div>
         </div>
 
-        {/* Quick-Jump Facility Navigation Pills (1-Click Direct Access to all 9 Facilities & Photos) */}
+        {/* Quick-Jump Facility Navigation Pills (1-Click Direct Access to all 8 Facilities & Photos) */}
         <div className="w-full bg-[#FAF7F2] border-b border-stone-300/70 py-3.5 px-4 sm:px-8 overflow-x-auto no-scrollbar shadow-2xs">
           <div className="max-w-7xl mx-auto flex items-center justify-start lg:justify-center gap-2 sm:gap-2.5">
             {campusFacilitiesData.map((f, idx) => (
@@ -1226,7 +1192,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                     {/* Facility Title in Playfair Display Font & Motto at Bottom Left */}
                     <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
                       <span className="text-[10px] font-mono font-bold tracking-widest text-emerald-400 uppercase px-2.5 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/40 inline-block mb-1">
-                        Facility {facility.id} of 09
+                        Facility {facility.id} of 08
                       </span>
                       <h3 className="font-playfair font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight leading-tight drop-shadow-md">
                         {facility.title}
@@ -1276,29 +1242,6 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                       <p className="facility-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-stone-600 mb-4">
                         {facility.motto}
                       </p>
-
-                      {/* Facility Photo Snapshot Card inside the section */}
-                      <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-md my-6 group border border-stone-300/80">
-                        <img
-                          src={facility.image}
-                          alt={facility.imageAlt}
-                          className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 ease-out"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent pointer-events-none" />
-                        <div className="absolute bottom-4 left-5 right-5 text-white flex items-end justify-between">
-                          <div>
-                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 block mb-0.5">
-                              Space {facility.id} · Campus Space
-                            </span>
-                            <h4 className="font-playfair text-xl sm:text-2xl font-bold text-white drop-shadow-sm">
-                              {facility.title}
-                            </h4>
-                          </div>
-                          <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white shrink-0">
-                            Verified Space
-                          </span>
-                        </div>
-                      </div>
 
                       {/* Editorial Description */}
                       <p className="facility-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-6">
