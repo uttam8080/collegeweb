@@ -26,38 +26,18 @@ interface AboutPageProps {
   onNavigate?: (tab: string) => void;
 }
 
-type AboutTab = 
-  | 'core-values' 
-  | 'legacy' 
-  | 'vision' 
-  | 'journey' 
-  | 'recognitions' 
-  | 'leadership' 
-  | 'success' 
-  | 'compliance';
-
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
-  const [activeTab, setActiveTab] = useState<AboutTab>('legacy');
   const pageRef = useRef<HTMLDivElement>(null);
-  usePageTextAnimations(pageRef, [activeTab]);
+  usePageTextAnimations(pageRef, []);
 
   // Archival Video Autoplay on Scroll State & Controls
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
-  const [videoProgress, setVideoProgress] = useState<number>(0);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
-    const handleTimeUpdate = () => {
-      if (video.duration) {
-        setVideoProgress((video.currentTime / video.duration) * 100);
-      }
-    };
-
-    video.addEventListener('timeupdate', handleTimeUpdate);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -82,7 +62,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
     observer.observe(video);
 
     return () => {
-      video.removeEventListener('timeupdate', handleTimeUpdate);
       observer.disconnect();
     };
   }, []);
@@ -103,25 +82,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
     if (!video) return;
     video.muted = !video.muted;
     setIsVideoMuted(video.muted);
-  };
-
-  const navTabs: { id: AboutTab; label: string }[] = [
-    { id: 'core-values', label: 'CORE VALUES' },
-    { id: 'legacy', label: 'LEGACY' },
-    { id: 'vision', label: 'VISION' },
-    { id: 'journey', label: 'JOURNEY' },
-    { id: 'recognitions', label: 'RECOGNITIONS' },
-    { id: 'leadership', label: 'LEADERSHIP' },
-    { id: 'success', label: 'SUCCESS' },
-    { id: 'compliance', label: 'COMPLIANCE' },
-  ];
-
-  const handleTabClick = (id: AboutTab) => {
-    setActiveTab(id);
-    const targetElement = document.getElementById(id);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   const milestones = [
@@ -216,36 +176,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-[#FAF8F5] text-[#1E293B] antialiased selection:bg-[#E8BD63]/30 selection:text-[#1E293B]">
-      
-      {/* =========================================================================
-          SUB-NAVBAR / EDITORIAL SECTION TAB STRIP
-          Sticky bar beneath top navigation with 4px grid rhythm and flat design
-          ========================================================================= */}
-      <div className="sticky top-16 z-30 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-stone-200/80 transition-all">
-        <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center justify-start sm:justify-center overflow-x-auto no-scrollbar py-3 gap-6 sm:gap-8 lg:gap-10">
-            {navTabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabClick(tab.id)}
-                  className={`text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap transition-all pb-1 relative cursor-pointer ${
-                    isActive 
-                      ? 'text-[#1E293B]' 
-                      : 'text-stone-400 hover:text-stone-700'
-                  }`}
-                >
-                  {tab.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E8BD63] rounded-full" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      </div>
 
       {/* =========================================================================
           MAIN EDITORIAL HERO SECTION: "A Legacy of Excellence."
