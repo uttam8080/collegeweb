@@ -1450,41 +1450,63 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             </p>
           </div>
 
-          {/* Big Key Stats (Animated 2-Second Increments) */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 max-w-5xl mx-auto pt-2">
+          {/* Big Key Stats (Floating Numbers Without Box) */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 max-w-5xl mx-auto pt-4 pb-2">
             {[
               {
                 value: `${placementStats.offers.toLocaleString()}+`,
+                unit: null,
                 label: 'Placement Offers',
-                border: 'from-emerald-400 to-teal-500'
+                duration: '4.2s',
+                delay: '0s'
               },
               {
-                value: `${placementStats.highest}+ LPA`,
+                value: `${placementStats.highest}+`,
+                unit: 'LPA',
                 label: 'Highest Package',
-                border: 'from-cyan-400 to-blue-500'
+                duration: '4.7s',
+                delay: '0.8s'
               },
               {
                 value: `${placementStats.rate.toFixed(1)}%`,
+                unit: null,
                 label: 'Placement Rate',
-                border: 'from-amber-400 to-orange-500'
+                duration: '4.0s',
+                delay: '1.5s'
               },
               {
                 value: `${placementStats.partners}+`,
+                unit: null,
                 label: 'Hiring Partners',
-                border: 'from-purple-400 to-indigo-500'
+                duration: '4.9s',
+                delay: '2.2s'
               },
             ].map((stat, i) => (
               <div
                 key={i}
-                className="placement-card-reveal group relative p-6 sm:p-7 rounded-3xl bg-white/90 hover:bg-white backdrop-blur-xl border border-slate-200/90 hover:border-teal-500/50 shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(13,148,136,0.12)] transition-all duration-300 overflow-hidden text-center"
+                className="placement-card-reveal text-center select-none"
               >
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.border} opacity-80 group-hover:h-1.5 transition-all duration-300`} />
-                <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 font-mono tracking-tight block tabular-nums group-hover:text-[#0D9488] transition-colors">
-                  {stat.value}
-                </span>
-                <span className="text-xs font-mono uppercase tracking-[0.18em] text-slate-500 font-bold mt-2.5 block">
-                  {stat.label}
-                </span>
+                <div
+                  style={{
+                    animation: `floatingStat ${stat.duration} ease-in-out infinite`,
+                    animationDelay: stat.delay,
+                  }}
+                  className="py-4 px-2 hover:scale-108 transition-transform duration-300 flex flex-col items-center justify-center cursor-default group"
+                >
+                  <div className="flex flex-col items-center justify-center min-h-[85px] sm:min-h-[105px]">
+                    <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 font-mono tracking-tight block tabular-nums group-hover:text-[#0D9488] transition-colors drop-shadow-xs">
+                      {stat.value}
+                    </span>
+                    {stat.unit && (
+                      <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 font-mono tracking-tight block -mt-1 group-hover:text-[#0D9488] transition-colors">
+                        {stat.unit}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.2em] text-slate-600 font-bold mt-2.5 block">
+                    {stat.label}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
