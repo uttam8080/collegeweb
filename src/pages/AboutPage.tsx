@@ -35,6 +35,30 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
 
+  // Photo Collage Pop-Out Scroll Animation State & Ref
+  const photoContainerRef = useRef<HTMLDivElement>(null);
+  const [isPhotoPopped, setIsPhotoPopped] = useState<boolean>(false);
+  const [activePhoto, setActivePhoto] = useState<'lab' | 'convocation'>('lab');
+
+  useEffect(() => {
+    const el = photoContainerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsPhotoPopped(true);
+        }
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -193,32 +217,98 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
 
         <div className="relative z-10 max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
             
-            {/* Left Column: Student VR Tech Lab Photo (Exact match from reference) */}
-            <div className="lg:col-span-5 xl:col-span-5">
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-stone-200 shadow-xs aspect-[4/5] max-w-md mx-auto lg:max-w-none group">
-                <img
-                  src="/assets/images/about_students_vr_lab.jpg"
-                  alt="Tekkzy College Students in Virtual Reality & Advanced Computing Lab"
-                  className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-700 ease-out"
-                  onError={(e) => {
-                    // Fallback to high-res campus tech lab
-                    (e.target as HTMLImageElement).src = '/assets/images/college_tech_lab_1793988185936.jpg';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 via-transparent to-transparent pointer-events-none" />
-                
-                {/* Subtle Inset Badge */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/95 text-[11px] font-mono backdrop-blur-md bg-black/40 px-3 py-2 rounded-xl border border-white/10">
-                  <span className="font-semibold tracking-wide">CISCO thingQbator Lab</span>
-                  <span className="text-amber-300">ESTD 2005</span>
+            {/* Left Column: Animated Dual-Photo Showcase Popping Out Like Video */}
+            <div className="lg:col-span-6 xl:col-span-6">
+              <div 
+                ref={photoContainerRef}
+                className="relative max-w-md sm:max-w-lg mx-auto lg:max-w-none pt-4 pb-12 sm:pb-16 pr-4 sm:pr-8 pl-2 group select-none"
+              >
+                {/* Background Ambient Glow */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#2c3a8c]/12 via-[#E8BD63]/10 to-transparent rounded-full blur-3xl -z-10 pointer-events-none" />
+
+                {/* Primary Photo (Left): VR Lab Students in Technology Lab */}
+                <div 
+                  onClick={() => setActivePhoto('lab')}
+                  className={`relative w-[78%] sm:w-[76%] rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 bg-white border border-stone-200/90 shadow-xl cursor-pointer transition-all duration-700 ease-out ${
+                    activePhoto === 'lab' ? 'z-20' : 'z-10'
+                  } ${
+                    isPhotoPopped 
+                      ? 'opacity-100 translate-y-0 rotate-[-2.5deg] scale-100 group-hover:rotate-[-4deg] group-hover:scale-102 group-hover:shadow-2xl' 
+                      : 'opacity-0 translate-y-8 rotate-0 scale-95'
+                  }`}
+                >
+                  <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[4/5] bg-stone-100">
+                    <img
+                      src="/assets/images/about_students_vr_lab.jpg"
+                      alt="Tekkzy College Students in Virtual Reality & Advanced Computing Lab"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/assets/images/college_tech_lab_1793988185936.jpg';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/50 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Inset Badge */}
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-mono backdrop-blur-md bg-black/50 px-3 py-1.5 rounded-xl border border-white/20">
+                      <span className="font-semibold tracking-wide">CISCO thingQbator Lab</span>
+                      <span className="text-amber-300 font-bold">INNOVATION</span>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Secondary Photo (Right of the Photo): "A Legacy of Excellence" Convocation Photo */}
+                <div 
+                  onClick={() => setActivePhoto('convocation')}
+                  className={`absolute right-0 sm:-right-2 lg:-right-4 top-10 sm:top-14 w-[74%] sm:w-[72%] rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 bg-white border border-stone-200/90 shadow-2xl cursor-pointer transition-all duration-700 delay-200 ease-out ${
+                    activePhoto === 'convocation' ? 'z-20' : 'z-10'
+                  } ${
+                    isPhotoPopped 
+                      ? 'opacity-100 translate-x-0 translate-y-0 rotate-[4.5deg] scale-100 group-hover:translate-x-3 group-hover:-translate-y-2 group-hover:rotate-[7deg] group-hover:scale-104 group-hover:shadow-[0_28px_60px_rgba(0,0,0,0.22)]' 
+                      : 'opacity-0 translate-x-8 translate-y-12 rotate-0 scale-90'
+                  }`}
+                >
+                  <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[4/5] bg-stone-100">
+                    <img
+                      src="/assets/images/college_convocation_1793988239815.jpg"
+                      alt="A Legacy of Excellence - Graduating Engineers & Scholars Convocation"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/graduating-scholars-convocation.jpg';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/55 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Inset Badge */}
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-mono backdrop-blur-md bg-black/50 px-3 py-1.5 rounded-xl border border-white/20">
+                      <span className="font-semibold tracking-wide truncate">Annual Convocation</span>
+                      <span className="text-emerald-400 font-bold">EXCELLENCE</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating "A Legacy of Excellence" Stamp / Pill Badge */}
+                <div 
+                  className={`absolute -bottom-2 left-6 sm:left-12 z-30 transition-all duration-700 delay-300 ease-out pointer-events-none ${
+                    isPhotoPopped 
+                      ? 'opacity-100 translate-y-0 scale-100 group-hover:scale-108 group-hover:-rotate-2' 
+                      : 'opacity-0 translate-y-6 scale-90'
+                  }`}
+                >
+                  <div className="px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-xl flex items-center gap-2.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#E8BD63] animate-pulse" />
+                    <span className="text-[11px] font-mono font-bold text-[#1E293B] tracking-wider uppercase">
+                      ESTD 2005 · TWO DECADES
+                    </span>
+                  </div>
+                </div>
+
               </div>
             </div>
 
             {/* Right Column: Editorial Headline & Drop-Cap Story */}
-            <div className="lg:col-span-7 xl:col-span-7 space-y-6">
+            <div className="lg:col-span-6 xl:col-span-6 space-y-6">
               
               {/* Main Headline: "A Legacy of Excellence." */}
               <div className="space-y-1">
