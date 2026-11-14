@@ -594,8 +594,8 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
           - Slightly increased text pixels for elevated legibility
           ========================================================================= */}
       <section className="relative py-20 sm:py-28 overflow-hidden bg-[#FAFBFD]">
-        {/* Exact 2D Wavy Layered Vector Background in HTML & CSS matching reference image */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+        {/* Exact 2D Wavy Layered Vector Background in HTML & CSS matching reference image (Softened opacity for optimal text legibility) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none opacity-45" aria-hidden="true">
           <svg
             viewBox="0 0 1440 900"
             preserveAspectRatio="none"
@@ -608,24 +608,24 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                 <stop offset="100%" stopColor="#F1F5F9" />
               </linearGradient>
               <linearGradient id="waveLayer1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#F5F8FA" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#E6EBEF" stopOpacity="0.95" />
+                <stop offset="0%" stopColor="#F5F8FA" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#E6EBEF" stopOpacity="0.9" />
               </linearGradient>
               <linearGradient id="waveLayer2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#DEE7EE" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#BACCDA" stopOpacity="0.85" />
+                <stop offset="0%" stopColor="#DEE7EE" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#BACCDA" stopOpacity="0.8" />
               </linearGradient>
               <linearGradient id="waveLayer3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#9BB8CB" stopOpacity="0.55" />
-                <stop offset="100%" stopColor="#678BA3" stopOpacity="0.65" />
+                <stop offset="0%" stopColor="#9BB8CB" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#678BA3" stopOpacity="0.55" />
               </linearGradient>
               <linearGradient id="waveLayer4" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#4A7595" stopOpacity="0.45" />
-                <stop offset="100%" stopColor="#336586" stopOpacity="0.6" />
+                <stop offset="0%" stopColor="#4A7595" stopOpacity="0.32" />
+                <stop offset="100%" stopColor="#336586" stopOpacity="0.42" />
               </linearGradient>
               <linearGradient id="waveLayer5" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#25597D" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#1F577C" stopOpacity="0.55" />
+                <stop offset="0%" stopColor="#25597D" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#1F577C" stopOpacity="0.35" />
               </linearGradient>
             </defs>
 
@@ -685,42 +685,42 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
               <div className="w-20 h-1.5 bg-[#0D9488] rounded-full" />
 
               {/* Accreditation Badges Row (No Boxes, Clean Text with Line Separators & Increased Pixels) */}
-              <div className="pt-4 flex flex-wrap items-center gap-x-3.5 gap-y-2 text-sm sm:text-base font-semibold text-slate-800">
+              <div className="pt-4 flex flex-wrap items-center gap-x-3.5 gap-y-2 text-sm sm:text-base font-bold text-slate-900">
                 <span className="hover:text-[#0D9488] transition-colors">NAAC A+</span>
-                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="text-slate-400 font-light select-none">|</span>
                 <span className="hover:text-[#0D9488] transition-colors">NBA Tier-1</span>
-                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="text-slate-400 font-light select-none">|</span>
                 <span className="hover:text-[#0D9488] transition-colors">AICTE</span>
-                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="text-slate-400 font-light select-none">|</span>
                 <span className="hover:text-[#0D9488] transition-colors">BPUT Odisha</span>
-                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="text-slate-400 font-light select-none">|</span>
                 <span className="hover:text-[#0D9488] transition-colors">DSIR-SIRO</span>
               </div>
             </div>
 
             {/* Right Detailed Narrative (Clean Text directly on Normal Background, No Container Box, Increased Pixels) */}
             <div className="lg:col-span-7 space-y-6 pt-1">
-              <p className="text-slate-800 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
+              <p className="text-slate-900 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
                 Trident Academy of Technology (TAT), Bhubaneswar is a premier engineering institution established in 2005 under the visionary DF Group. Known for academic rigor, cutting-edge research, and an exceptional faculty-student mentorship framework, Trident stands as a benchmark of technical excellence in Eastern India.
               </p>
 
-              <p className="text-slate-700 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
+              <p className="text-slate-800 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
                 Equipped with world-class laboratories, DST-SIRO recognized research centers, Cisco thingQbator IoT makerspace, and an outcome-based education model aligned with National Education Policy (NEP), we groom aspiring students into industry-ready leaders, innovators, and entrepreneurs.
               </p>
 
               {/* Key Institutional Highlights with Dividing Line Separators */}
-              <div className="pt-6 border-t border-slate-300/80 space-y-3.5">
-                <div className="flex items-center gap-3 text-sm sm:text-base font-semibold text-slate-800">
+              <div className="pt-6 border-t border-slate-300 space-y-3.5">
+                <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-slate-900">
                   <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>20+ Years of Academic Excellence, Rigor &amp; Transparent Institutional Governance</span>
                 </div>
-                <div className="border-t border-slate-200/70" />
-                <div className="flex items-center gap-3 text-sm sm:text-base font-semibold text-slate-800">
+                <div className="border-t border-slate-200" />
+                <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-slate-900">
                   <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>100% Placement Assistance with 120+ Global Fortune 500 Recruiters</span>
                 </div>
-                <div className="border-t border-slate-200/70" />
-                <div className="flex items-center gap-3 text-sm sm:text-base font-semibold text-slate-800">
+                <div className="border-t border-slate-200" />
+                <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-slate-900">
                   <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>10+ Acres Lush Eco-Friendly Smart Campus Situated in Infocity, Bhubaneswar</span>
                 </div>
