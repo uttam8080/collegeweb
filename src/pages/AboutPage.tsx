@@ -382,7 +382,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* =========================================================================
           VISION & MISSION SECTION: Editorial Contrast
           ========================================================================= */}
-      <section id="vision" className="py-16 sm:py-20 bg-[#FAF8F5] border-b border-stone-200/80">
+      <section id="vision" className="relative z-10 py-16 sm:py-20 bg-[#FAF8F5] border-b border-stone-200/80">
         <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -444,158 +444,100 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* =========================================================================
-          CINEMATIC ARCHIVAL FILM: The Living Campus Journey (2005 - 2026)
-          - Static in-flow cinema container bridging Vision & Mission and Historical Timeline
-          - Automatically plays as the user scrolls into view
-          - Sleek glass badges, play/pause controls, mute/unmute audio toggle, and progress bar
+          CINEMATIC ARCHIVAL FILM: STANFORD-STYLE FULLSCREEN CURTAIN-REVEAL TRANSITION
+          - Pinned / Sticky 100vw x 100vh full-bleed video that stays static in the viewport
+          - Autoplays automatically as the user scrolls into view
+          - The next section ("Two Decades of Milestones") slides smoothly UP over it like a curtain
+          - Exact Stanford-style bottom-right circular glass controls (Audio toggle & Play/Pause)
           ========================================================================= */}
-      <section className="relative py-12 sm:py-16 bg-[#FAF8F5] border-b border-stone-200/80 overflow-hidden">
-        {/* Subtle Ambient Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAF8F5] to-white/80 pointer-events-none" />
+      <div className="relative">
+        {/* Sticky Fullscreen Video Player */}
+        <div className="sticky top-0 h-screen w-full z-0 overflow-hidden select-none bg-slate-950">
+          <video
+            ref={videoRef}
+            muted={isVideoMuted}
+            playsInline
+            loop
+            preload="auto"
+            poster="/about/milestones-video-poster.jpg"
+            onClick={toggleVideoPlay}
+            className="w-full h-full object-cover object-center cursor-pointer"
+          >
+            <source src="/about/historical-milestones-video.mp4" type="video/mp4" />
+            <source src="https://res.cloudinary.com/n0c7bqpd/video/upload/v1794673476/WhatsApp_Video_2026-11-14_at_21.52.53_ebb1tk.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
 
-        <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
-          
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#2c3a8c] animate-pulse" />
-                <span className="text-xs font-mono font-bold tracking-widest text-[#2c3a8c] uppercase">
-                  CINEMATIC HERITAGE &amp; MILESTONES ARCHIVE
-                </span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-serif font-black text-[#1E293B] tracking-tight">
-                Watch Our Journey in Motion
-              </h3>
+          {/* Subtle Ambient Film Vignette / Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25 pointer-events-none" />
+
+          {/* Stanford-Style Floating Circular Glass Controls (Bottom Right) */}
+          <div className="absolute bottom-6 sm:bottom-8 right-6 sm:right-8 z-20 flex items-center gap-3">
+            <button
+              onClick={toggleVideoMute}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-white/40 text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xl hover:scale-105 active:scale-95"
+              aria-label={isVideoMuted ? "Unmute Audio" : "Mute Audio"}
+            >
+              {isVideoMuted ? <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-white" /> : <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />}
+            </button>
+            <button
+              onClick={toggleVideoPlay}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/75 hover:bg-black/95 backdrop-blur-md border border-white/40 text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xl hover:scale-105 active:scale-95"
+              aria-label={isVideoPlaying ? "Pause Video" : "Play Video"}
+            >
+              {isVideoPlaying ? (
+                <Pause className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white" />
+              ) : (
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white translate-x-0.5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Scroll Track Buffer: keeps the video locked fullscreen during scroll before the curtain rises */}
+        <div className="h-[40vh] pointer-events-none" />
+
+        {/* =========================================================================
+            JOURNEY SECTION: 2005 - 2026 Historical Milestones Timeline
+            - Slides UP OVER the sticky video like a curtain sheet with an elevated top shadow
+            ========================================================================= */}
+        <section id="journey" className="relative z-10 py-16 sm:py-24 bg-white border-t border-stone-200 shadow-[0_-30px_60px_rgba(0,0,0,0.18)]">
+          <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            
+            <div className="max-w-2xl">
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#2c3a8c] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                Historical Timeline
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-serif font-black text-[#1E293B] tracking-tight mt-2">
+                Two Decades of Milestones
+              </h2>
               <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                Visualizing two decades of educational excellence, state-of-the-art facilities, and student transformation.
+                Tracing our growth from inception in 2005 into Eastern India's acclaimed center for engineering education.
               </p>
             </div>
 
-            {/* Quick Status Indicator */}
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-2xs text-[11px] font-mono font-bold text-stone-600">
-                <span className={`w-2 h-2 rounded-full ${isVideoPlaying ? 'bg-emerald-500 animate-ping' : 'bg-amber-500'}`} />
-                {isVideoPlaying ? 'PLAYING ON SCROLL' : 'AUTOPLAY ON SCROLL'}
-              </span>
-            </div>
-          </div>
-
-          {/* Static Video Cinema Player */}
-          <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-stone-300/80 shadow-[0_20px_50px_rgba(0,0,0,0.12)] group aspect-video max-h-[640px] w-full">
-            <video
-              ref={videoRef}
-              muted={isVideoMuted}
-              playsInline
-              loop
-              preload="metadata"
-              poster="/about/milestones-video-poster.jpg"
-              onClick={toggleVideoPlay}
-              className="w-full h-full object-cover cursor-pointer"
-            >
-              <source src="/about/historical-milestones-video.mp4" type="video/mp4" />
-              <source src="https://res.cloudinary.com/n0c7bqpd/video/upload/v1794673476/WhatsApp_Video_2026-11-14_at_21.52.53_ebb1tk.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-
-            {/* Top Overlay Badge */}
-            <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-              <div className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono font-bold tracking-widest uppercase flex items-center gap-2">
-                <Film className="w-3.5 h-3.5 text-[#E8BD63]" />
-                <span>TRIDENT CAMPUS ARCHIVE · 2005 - 2026</span>
-              </div>
-            </div>
-
-            {/* Center Play/Pause Floating Icon on Hover or Paused */}
-            <button
-              onClick={toggleVideoPlay}
-              aria-label={isVideoPlaying ? "Pause Video" : "Play Video"}
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 text-white flex items-center justify-center transition-all duration-300 cursor-pointer shadow-2xl ${
-                isVideoPlaying ? 'opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100' : 'opacity-100 scale-100'
-              }`}
-            >
-              {isVideoPlaying ? (
-                <Pause className="w-7 h-7 sm:w-8 sm:h-8 fill-white" />
-              ) : (
-                <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-white translate-x-0.5" />
-              )}
-            </button>
-
-            {/* Bottom Controls Bar */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/85 via-black/45 to-transparent flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={toggleVideoPlay}
-                  className="w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-                  aria-label={isVideoPlaying ? "Pause" : "Play"}
+            <div className="space-y-4">
+              {milestones.map((m, idx) => (
+                <div 
+                  key={idx} 
+                  className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 hover:bg-white hover:border-[#2c3a8c]/30 hover:shadow-sm transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
-                  {isVideoPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white translate-x-0.5" />}
-                </button>
-                <button
-                  onClick={toggleVideoMute}
-                  className="w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-                  aria-label={isVideoMuted ? "Unmute Audio" : "Mute Audio"}
-                >
-                  {isVideoMuted ? <VolumeX className="w-4 h-4 text-amber-300" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-                </button>
-                <span className="text-white/80 text-xs font-mono font-medium hidden sm:inline-block">
-                  {isVideoMuted ? 'Muted (Tap to hear sound)' : 'Audio Active'}
-                </span>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="flex-1 max-w-xs sm:max-w-md h-1.5 bg-white/20 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-[#2c3a8c] via-cyan-400 to-[#E8BD63] transition-all duration-150"
-                  style={{ width: `${videoProgress}%` }}
-                />
-              </div>
+                  <div className="sm:w-32 shrink-0">
+                    <span className="text-base sm:text-lg font-mono font-bold text-[#1E293B] px-3.5 py-1.5 rounded-xl bg-white border border-stone-200 inline-block shadow-2xs">
+                      {m.year}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-base font-bold text-[#1E293B]">{m.title}</h4>
+                    <p className="text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed">{m.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
           </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          JOURNEY SECTION: 2005 - 2026 Historical Milestones Timeline
-          ========================================================================= */}
-      <section id="journey" className="py-16 sm:py-20 bg-white border-b border-stone-200/80">
-        <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
-          <div className="max-w-2xl">
-            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#2c3a8c] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-              Historical Timeline
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-black text-[#1E293B] tracking-tight mt-2">
-              Two Decades of Milestones
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-500 mt-1">
-              Tracing our growth from inception in 2005 into Eastern India's acclaimed center for engineering education.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {milestones.map((m, idx) => (
-              <div 
-                key={idx} 
-                className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 hover:bg-white hover:border-[#2c3a8c]/30 hover:shadow-sm transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                <div className="sm:w-32 shrink-0">
-                  <span className="text-base sm:text-lg font-mono font-bold text-[#1E293B] px-3.5 py-1.5 rounded-xl bg-white border border-stone-200 inline-block shadow-2xs">
-                    {m.year}
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-base font-bold text-[#1E293B]">{m.title}</h4>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed">{m.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* =========================================================================
           LEADERSHIP SECTION: Key Institutional Governance
