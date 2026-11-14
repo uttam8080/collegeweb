@@ -833,15 +833,6 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
     };
   }, []);
 
-  // Direct jump to any facility photo & details
-  const handleSelectFacility = (index: number) => {
-    setActiveFacilityIndex(index);
-    const targetEl = facilityRefs.current[index];
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   // Dual-Engine Sync: Native IntersectionObserver + GSAP ScrollTrigger
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1122,26 +1113,6 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                 </span>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Quick-Jump Facility Navigation Pills (1-Click Direct Access to all 8 Facilities & Photos) */}
-        <div className="w-full bg-[#FAF7F2] border-b border-stone-300/70 py-3.5 px-4 sm:px-8 overflow-x-auto no-scrollbar shadow-2xs">
-          <div className="max-w-7xl mx-auto flex items-center justify-start lg:justify-center gap-2 sm:gap-2.5">
-            {campusFacilitiesData.map((f, idx) => (
-              <button
-                key={f.id}
-                onClick={() => handleSelectFacility(idx)}
-                className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-mono font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
-                  activeFacilityIndex === idx
-                    ? 'bg-[#0D9488] text-white shadow-sm scale-102 font-bold'
-                    : 'bg-white/90 text-stone-700 hover:bg-stone-100 border border-stone-300/80'
-                }`}
-              >
-                <span className={`w-1.5 h-1.5 rounded-full ${activeFacilityIndex === idx ? 'bg-white' : 'bg-[#0D9488]'}`} />
-                <span>{f.id} {f.title}</span>
-              </button>
-            ))}
           </div>
         </div>
 
