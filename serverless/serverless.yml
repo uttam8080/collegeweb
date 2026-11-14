@@ -1,0 +1,238 @@
+service: tekkzy-college-platform
+
+frameworkVersion: "3"
+
+useDotenv: true
+
+plugins:
+  - serverless-esbuild
+  - serverless-dotenv-plugin
+  - serverless-plugin-common-excludes
+  - serverless-plugin-include-dependencies
+
+package:
+  excludeDevDependencies: false
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-south-1'}
+  environment:
+    COLLEGE_USER_TABLE_NAME: "college_user_profile_${self:provider.stage}"
+    COLLEGE_ADMISSIONS_TABLE_NAME: "college_admissions_${self:provider.stage}"
+    COLLEGE_INQUIRIES_TABLE_NAME: "college_inquiries_${self:provider.stage}"
+    COLLEGE_PLACEMENTS_TABLE_NAME: "college_placements_${self:provider.stage}"
+    COLLEGE_SECURITY_TABLE_NAME: "college_security_logs_${self:provider.stage}"
+    COLLEGE_NOTICES_TABLE_NAME: "college_notices_${self:provider.stage}"
+    COLLEGE_CONFIG_TABLE_NAME: "college_config_variable_${self:provider.stage}"
+    DOCUMENTS_BUCKET_NAME: "tekkzy-college-documents-${self:provider.stage}"
+    COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID, 'mock-user-pool-id'}
+    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID, 'mock-client-id'}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - "dynamodb:GetItem"
+            - "dynamodb:PutItem"
+            - "dynamodb:UpdateItem"
+            - "dynamodb:DeleteItem"
+            - "dynamodb:Query"
+            - "dynamodb:Scan"
+          Resource:
+            - "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/college_*"
+
+        - Effect: Allow
+          Action:
+            - "s3:PutObject"
+            - "s3:GetObject"
+          Resource:
+            - "arn:aws:s3:::tekkzy-college-documents-${self:provider.stage}/*"
+
+functions:
+  # ============================================================================
+  # 1. ADMISSIONS LIFECYCLE APIS
+  # ============================================================================
+  create-application:
+    handler: functions/admissions/apply.main
+    events:
+      - http:
+          path: /api/admissions/apply
+          method: post
+          cors: true
+
+  list-applications:
+    handler: functions/admissions/list-applications.main
+    events:
+      - http:
+          path: /api/admissions
+          method: get
+          cors: true
+
+  get-application:
+    handler: functions/admissions/get-application.main
+    events:
+      - http:
+          path: /api/admissions/{applicationId}
+          method: get
+          cors: true
+
+  update-application-status:
+    handler: functions/admissions/update-status.main
+    events:
+      - http:
+          path: /api/admissions/{applicationId}/status
+          method: put
+          cors: true
+
+  # ============================================================================
+  # 2. INQUIRIES & HELPDESK APIS
+  # ============================================================================
+  create-inquiry:
+    handler: functions/inquiries/create-inquiry.main
+    events:
+      - http:
+          path: /api/inquiries
+          method: post
+          cors: true
+
+  list-inquiries:
+    handler: functions/inquiries/list-inquiries.main
+    events:
+      - http:
+          path: /api/inquiries
+          method: get
+          cors: true
+
+  # ============================================================================
+  # 3. CORPORATE PLACEMENTS & RECRUITERS APIS
+  # ============================================================================
+  create-recruiter:
+    handler: functions/placements/create-recruiter.main
+    events:
+      - http:
+          path: /api/placements/recruiters
+          method: post
+          cors: true
+
+  list-recruiters:
+    handler: functions/placements/list-recruiters.main
+    events:
+      - http:
+          path: /api/placements/recruiters
+          method: get
+          cors: true
+
+  # ============================================================================
+  # 4. CAMPUS SECURITY & GATE PASS APIS
+  # ============================================================================
+  create-gatepass:
+    handler: functions/security/create-gatepass.main
+    events:
+      - http:
+          path: /api/security/gatepass
+          method: post
+          cors: true
+
+  checkout-gatepass:
+    handler: functions/security/checkout-gatepass.main
+    events:
+      - http:
+          path: /api/security/gatepass/{passId}/checkout
+          method: put
+          cors: true
+
+  list-active-visitors:
+    handler: functions/security/list-active-visitors.main
+    events:
+      - http:
+          path: /api/security/active-visitors
+          method: get
+          cors: true
+
+  # ============================================================================
+  # 5. OFFICIAL GAZETTE & NOTICE APIS
+  # ============================================================================
+  publish-notice:
+    handler: functions/notices/publish-notice.main
+    events:
+      - http:
+          path: /api/notices
+          method: post
+          cors: true
+
+  list-notices:
+    handler: functions/notices/list-notices.main
+    events:
+      - http:
+          path: /api/notices
+          method: get
+          cors: true
+
+  delete-notice:
+    handler: functions/notices/delete-notice.main
+    events:
+      - http:
+          path: /api/notices/{noticeId}
+          method: delete
+          cors: true
+
+  # ============================================================================
+  # 6. S3 DOCUMENT UPLOAD URL API
+  # ============================================================================
+  get-upload-url:
+    handler: functions/uploads/get-upload-url.main
+    events:
+      - http:
+          path: /api/uploads/presigned-url
+          method: post
+          cors: true
+
+  # ============================================================================
+  # 7. USER PROFILE & STAFF DIRECTORY APIS
+  # ============================================================================
+  create-profile:
+    handler: functions/user/create-profile.main
+    events:
+      - http:
+          path: /api/users
+          method: post
+          cors: true
+
+  get-profile:
+    handler: functions/user/get-profile.main
+    events:
+      - http:
+          path: /api/users/{cognitoId}
+          method: get
+          cors: true
+
+  list-profiles:
+    handler: functions/user/list-profiles.main
+    events:
+      - http:
+          path: /api/users
+          method: get
+          cors: true
+
+  # ============================================================================
+  # 8. COLLEGE SETTINGS & INSTITUTION CONFIG APIS
+  # ============================================================================
+  get-college-config:
+    handler: functions/settings/get-college-config.main
+    events:
+      - http:
+          path: /api/institution/config
+          method: get
+          cors: true
+
+  update-college-config:
+    handler: functions/settings/update-college-config.main
+    events:
+      - http:
+          path: /api/institution/config
+          method: put
+          cors: true
