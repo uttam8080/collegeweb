@@ -847,10 +847,10 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
                     {/* School Title & Motto at Bottom (Matching Reference Video Exactly) */}
                     <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
-                      <h3 className="font-chango text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
+                      <h3 className="font-chango font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
                         {school.title}
                       </h3>
-                      <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-stone-200 font-bold drop-shadow-sm">
+                      <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.22em] text-white font-extrabold drop-shadow-sm">
                         {school.motto}
                       </p>
                     </div>
@@ -890,7 +890,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     >
                       {/* Header Row: School Title + Circular Arrow Button */}
                       <div className="school-header-reveal flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-chango text-3xl sm:text-4xl lg:text-[40px] text-stone-900 tracking-normal leading-[1.2]">
+                        <h3 className="font-chango font-bold text-3xl sm:text-4xl lg:text-[42px] text-stone-950 tracking-normal leading-[1.2]">
                           {school.title}
                         </h3>
 
@@ -904,22 +904,22 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                       </div>
 
                       {/* Motto */}
-                      <p className="school-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
+                      <p className="school-motto-reveal text-xs sm:text-sm font-mono font-extrabold tracking-[0.2em] uppercase text-[#784421] mb-4">
                         {school.motto}
                       </p>
 
                       {/* Editorial Description */}
-                      <p className="school-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
+                      <p className="school-desc-reveal text-stone-950 text-base sm:text-lg leading-relaxed font-bold max-w-2xl mb-8">
                         {school.description}
                       </p>
 
                       {/* Optional Accreditation Badge (e.g. School of Business) */}
                       {school.badge && (
-                        <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
-                          <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
+                        <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/95 border border-stone-300 shadow-2xs">
+                          <span className="text-xs font-mono font-extrabold tracking-widest text-[#784421] uppercase block">
                             {school.badge.eyebrow}
                           </span>
-                          <span className="text-base font-bold text-stone-900 block mt-0.5">
+                          <span className="text-base sm:text-lg font-extrabold text-stone-950 block mt-0.5">
                             {school.badge.title}
                           </span>
                         </div>
@@ -930,7 +930,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                         {school.categories.map((category, cIdx) => (
                           <div key={cIdx} className="space-y-1">
                             {/* Category Header */}
-                            <h4 className="school-cat-reveal text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
+                            <h4 className="school-cat-reveal text-sm sm:text-base font-extrabold tracking-wider text-stone-950 uppercase pt-4 pb-2">
                               {category.name}
                             </h4>
 
@@ -940,12 +940,12 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                                 <div
                                   key={pIdx}
                                   onClick={() => handleOpenApplyModal(prog.name)}
-                                  className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
+                                  className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300 hover:border-[#784421] cursor-pointer transition-colors"
                                 >
-                                  <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
+                                  <span className="text-stone-950 text-base sm:text-lg font-bold group-hover:text-[#784421] transition-colors pr-4">
                                     {prog.name}
                                   </span>
-                                  <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#784421] group-hover:translate-x-1 transition-all shrink-0" />
+                                  <ArrowRight className="w-5 h-5 text-stone-600 stroke-[2.5] group-hover:text-[#784421] group-hover:translate-x-1.5 transition-all shrink-0" />
                                 </div>
                               ))}
                             </div>
