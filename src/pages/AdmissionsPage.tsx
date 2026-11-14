@@ -1268,24 +1268,170 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 6: "Placement Highlights" (Reference 3D White Isometric Hexagons Background & 2s Pop-Out Counter Animation)
+          SECTION 6: "Placement Highlights" (Reference 3D Low-Poly Origami Crystal Faceted Vector Background & 2s Pop-Out Counter Animation)
+          - Background: Exact 3D Low-Poly White Origami Crystal vector background crafted in HTML & CSS SVG matching reference image
+          - Multi-angle faceted geometry, directional linear gradients, crease drop-shadow filters, sharp specular ridge lines, and radiant apex glare flare
           ========================================================================= */}
       <section
         ref={placementSectionRef}
-        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80"
+        className="relative py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 overflow-hidden border-y border-slate-200/80"
       >
-        {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-left sm:bg-center"
-          style={{
-            backgroundImage: `url('/admissions-programs/white-hexagons-3d-bg.jpg')`,
-            backgroundPosition: 'left center',
-            backgroundSize: 'cover',
-          }}
-        />
+        {/* Exact 3D Low-Poly Origami Crystal Faceted Vector Background in HTML & CSS SVG matching reference image */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="none"
+            className="w-full h-full object-cover"
+          >
+            <defs>
+              {/* Facet Gradients for 3D Directional Shading */}
+              <linearGradient id="crystalFacetF1" x1="140" y1="200" x2="640" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#F1F4F8" />
+              </linearGradient>
 
-        {/* Ambient Subtle Light Teal Glow Accent */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42rem] h-[22rem] rounded-full bg-teal-500/5 blur-[130px] pointer-events-none" />
+              <linearGradient id="crystalFacetF2" x1="0" y1="0" x2="260" y2="200" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#F7F9FC" />
+                <stop offset="100%" stopColor="#ECF0F4" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF3" x1="1440" y1="0" x2="1120" y2="160" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#D8DDE3" />
+                <stop offset="100%" stopColor="#EAEFF4" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF4" x1="640" y1="180" x2="1440" y2="440" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="45%" stopColor="#F6F8FB" />
+                <stop offset="100%" stopColor="#E8ECF1" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF5" x1="0" y1="340" x2="320" y2="380" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#DFE4EA" />
+                <stop offset="100%" stopColor="#F3F5F8" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF6" x1="320" y1="380" x2="760" y2="560" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#EFF2F6" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF7" x1="1440" y1="340" x2="760" y2="560" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#DCE1E7" />
+                <stop offset="100%" stopColor="#F3F6F9" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF8" x1="440" y1="640" x2="1020" y2="720" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#F9FAFD" />
+                <stop offset="100%" stopColor="#E6EBF0" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF9" x1="0" y1="620" x2="440" y2="640" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#D3D8DF" />
+                <stop offset="100%" stopColor="#E7ECF1" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF10" x1="0" y1="900" x2="320" y2="760" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#C5CBD2" />
+                <stop offset="100%" stopColor="#DDE2E7" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF11" x1="520" y1="820" x2="880" y2="900" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#E8ECF2" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF12" x1="1020" y1="720" x2="1440" y2="900" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#DEE3E9" />
+                <stop offset="100%" stopColor="#D2D8DF" />
+              </linearGradient>
+
+              {/* Subtle Fold Drop Shadow Filter */}
+              <filter id="crystalCreaseShadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#4A5568" floodOpacity="0.14" />
+              </filter>
+
+              {/* Radiant Specular Apex Radial Flare */}
+              <radialGradient id="crystalApexGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
+                <stop offset="25%" stopColor="#FFFDF7" stopOpacity="0.9" />
+                <stop offset="60%" stopColor="#EFF4F9" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* Base Background Fill */}
+            <rect width="1440" height="900" fill="#F8FAFC" />
+
+            {/* ================= LOW-POLY CRYSTAL FACET MESH ================= */}
+            {/* Top-Left Facets */}
+            <polygon points="0,0 260,0 140,200" fill="url(#crystalFacetF2)" />
+            <polygon points="0,0 140,200 0,340" fill="url(#crystalFacetF2)" />
+            <polygon points="260,0 860,0 640,240 140,200" fill="url(#crystalFacetF1)" />
+
+            {/* Top-Right Facets */}
+            <polygon points="860,0 1440,0 1120,100" fill="url(#crystalFacetF3)" />
+            <polygon points="860,0 1120,100 640,240" fill="url(#crystalFacetF4)" />
+            <polygon points="1120,100 1440,0 1440,340 1080,420" fill="url(#crystalFacetF3)" />
+            <polygon points="640,240 1120,100 1080,420 760,560" fill="url(#crystalFacetF4)" filter="url(#crystalCreaseShadow)" />
+
+            {/* Mid-Left & Central Illuminated Planes */}
+            <polygon points="0,340 140,200 320,380" fill="url(#crystalFacetF5)" />
+            <polygon points="140,200 640,240 760,560 320,380" fill="url(#crystalFacetF6)" />
+            <polygon points="0,340 320,380 440,640 0,620" fill="url(#crystalFacetF5)" />
+            <polygon points="320,380 760,560 440,640" fill="url(#crystalFacetF6)" />
+
+            {/* Mid-Right Structural Planes */}
+            <polygon points="1080,420 1440,340 1440,680 760,560" fill="url(#crystalFacetF7)" />
+
+            {/* Lower Planes & Slabs with 3D Depth Creases */}
+            <polygon points="0,620 440,640 320,900 0,900" fill="url(#crystalFacetF9)" />
+            <polygon points="440,640 760,560 1020,720 520,820" fill="url(#crystalFacetF8)" filter="url(#crystalCreaseShadow)" />
+            <polygon points="760,560 1440,680 1020,720" fill="url(#crystalFacetF7)" />
+            <polygon points="440,640 520,820 320,900" fill="url(#crystalFacetF10)" />
+            <polygon points="520,820 1020,720 880,900 320,900" fill="url(#crystalFacetF11)" filter="url(#crystalCreaseShadow)" />
+            <polygon points="1020,720 1440,680 1440,900 880,900" fill="url(#crystalFacetF12)" />
+
+            {/* ================= SPECULAR RIDGE HIGHLIGHT LINES ================= */}
+            <line x1="0" y1="0" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="2" opacity="0.9" />
+            <line x1="260" y1="0" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.95" />
+            <line x1="140" y1="200" x2="640" y2="240" stroke="#FFFFFF" strokeWidth="2.75" opacity="1" />
+            <line x1="640" y1="240" x2="1120" y2="100" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="1120" y1="100" x2="1440" y2="0" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="0" y1="340" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="2" opacity="0.9" />
+            <line x1="140" y1="200" x2="320" y2="380" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.95" />
+            <line x1="640" y1="240" x2="760" y2="560" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.95" />
+            <line x1="1120" y1="100" x2="1080" y2="420" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.75" />
+            <line x1="320" y1="380" x2="760" y2="560" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.95" />
+            <line x1="0" y1="340" x2="320" y2="380" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="320" y1="380" x2="440" y2="640" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="440" y1="640" x2="760" y2="560" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="760" y1="560" x2="1080" y2="420" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="1080" y1="420" x2="1440" y2="340" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.75" />
+            <line x1="760" y1="560" x2="1440" y2="680" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="760" y1="560" x2="1020" y2="720" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="440" y1="640" x2="520" y2="820" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="520" y1="820" x2="1020" y2="720" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.95" />
+            <line x1="1020" y1="720" x2="1440" y2="680" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="520" y1="820" x2="320" y2="900" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="520" y1="820" x2="880" y2="900" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="1020" y1="720" x2="880" y2="900" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="0" y1="620" x2="440" y2="640" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+
+            {/* ================= RADIANT APEX SPECULAR FLARE ================= */}
+            {/* Ambient Radial Soft Bloom */}
+            <circle cx="140" cy="200" r="160" fill="url(#crystalApexGlow)" />
+            <circle cx="140" cy="200" r="70" fill="url(#crystalApexGlow)" opacity="0.85" />
+            {/* Primary Glare Cross Rays */}
+            <line x1="20" y1="200" x2="260" y2="200" stroke="#FFFFFF" strokeWidth="3" opacity="0.85" strokeLinecap="round" />
+            <line x1="140" y1="80" x2="140" y2="320" stroke="#FFFFFF" strokeWidth="3" opacity="0.85" strokeLinecap="round" />
+            {/* Diagonal Secondary Glare Beams */}
+            <line x1="65" y1="125" x2="215" y2="275" stroke="#FFFFFF" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
+            <line x1="65" y1="275" x2="215" y2="125" stroke="#FFFFFF" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
+            {/* Diamond Core Specular Star */}
+            <polygon points="140,184 156,200 140,216 124,200" fill="#FFFFFF" opacity="0.98" />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-10">
 
