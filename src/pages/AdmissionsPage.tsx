@@ -586,73 +586,142 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
       {/* =========================================================================
           SECTION 2: "Where ambition takes shape." (About Institutional Legacy)
+          - Background: Exact 2D layered wavy curves created in HTML & CSS SVG matching reference image
+          - Typography: "Where ambition takes shape." in Playfair Display
+          - No container boxes: Text rendered directly on the background
+          - Accreditations: Clean text with line separators
+          - Key highlights: Clean prominent text with dividing line separators
+          - Slightly increased text pixels for elevated legibility
           ========================================================================= */}
-      <section className="relative py-16 sm:py-24 bg-white overflow-hidden">
-        {/* Soft geometric faceted background watermark */}
-        <div
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-40 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at center, rgba(13, 148, 136, 0.08) 0%, rgba(248, 250, 252, 0) 70%)'
-          }}
-        />
+      <section className="relative py-20 sm:py-28 overflow-hidden bg-[#FAFBFD]">
+        {/* Exact 2D Wavy Layered Vector Background in HTML & CSS matching reference image */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="none"
+            className="w-full h-full object-cover"
+          >
+            <defs>
+              <linearGradient id="waveBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="40%" stopColor="#FAFBFD" />
+                <stop offset="100%" stopColor="#F1F5F9" />
+              </linearGradient>
+              <linearGradient id="waveLayer1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F5F8FA" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#E6EBEF" stopOpacity="0.95" />
+              </linearGradient>
+              <linearGradient id="waveLayer2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#DEE7EE" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#BACCDA" stopOpacity="0.85" />
+              </linearGradient>
+              <linearGradient id="waveLayer3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#9BB8CB" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#678BA3" stopOpacity="0.65" />
+              </linearGradient>
+              <linearGradient id="waveLayer4" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#4A7595" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#336586" stopOpacity="0.6" />
+              </linearGradient>
+              <linearGradient id="waveLayer5" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#25597D" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#1F577C" stopOpacity="0.55" />
+              </linearGradient>
+            </defs>
+
+            {/* Base Canvas */}
+            <rect width="1440" height="900" fill="url(#waveBaseGrad)" />
+
+            {/* Layer 1: Top Soft Wave */}
+            <path
+              d="M 0,170 C 260,110 500,240 820,200 C 1120,160 1300,270 1440,240 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer1)"
+            />
+
+            {/* Layer 2: Upper Mid Flowing Curve */}
+            <path
+              d="M 0,350 C 280,280 540,440 880,370 C 1180,300 1340,460 1440,420 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer2)"
+            />
+
+            {/* Layer 3: Central Ambient Wave */}
+            <path
+              d="M 0,530 C 300,460 560,630 920,550 C 1220,480 1360,630 1440,590 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer3)"
+            />
+
+            {/* Layer 4: Lower Slate Wave */}
+            <path
+              d="M 0,700 C 320,640 600,790 960,710 C 1240,650 1380,760 1440,730 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer4)"
+            />
+
+            {/* Layer 5: Bottom Deep Ocean Wave */}
+            <path
+              d="M 0,820 C 360,770 680,880 1040,810 C 1260,770 1380,850 1440,830 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer5)"
+            />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
 
             {/* Left Headline & Accreditation Column */}
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-xs font-mono font-bold tracking-widest text-slate-500 uppercase block">
-                ABOUT US
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
+                <span className="text-xs sm:text-sm font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase block">
+                  ABOUT US
+                </span>
+              </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight leading-[1.12]">
+              {/* Headline in Playfair Display with Increased Pixels */}
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-playfair font-bold text-[#0B1528] tracking-tight leading-[1.12]">
                 Where ambition<br />
-                <span className="italic font-serif font-normal text-[#0D9488]">takes shape.</span>
+                <span className="italic font-playfair font-normal text-[#0D9488]">takes shape.</span>
               </h2>
 
-              <div className="w-16 h-1 bg-[#0D9488] rounded-full" />
+              <div className="w-20 h-1.5 bg-[#0D9488] rounded-full" />
 
-              {/* Accreditation Badges Row (NAAC, NBA, AICTE, BPUT) */}
-              <div className="pt-4 flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  NAAC A+
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  NBA Tier-1
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  AICTE
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  BPUT Odisha
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  DSIR-SIRO
-                </span>
+              {/* Accreditation Badges Row (No Boxes, Clean Text with Line Separators & Increased Pixels) */}
+              <div className="pt-4 flex flex-wrap items-center gap-x-3.5 gap-y-2 text-sm sm:text-base font-semibold text-slate-800">
+                <span className="hover:text-[#0D9488] transition-colors">NAAC A+</span>
+                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">NBA Tier-1</span>
+                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">AICTE</span>
+                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">BPUT Odisha</span>
+                <span className="text-slate-300 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">DSIR-SIRO</span>
               </div>
             </div>
 
-            {/* Right Detailed Narrative Card */}
-            <div className="lg:col-span-7 bg-[#FAF9F5] border border-stone-200/90 rounded-3xl p-8 sm:p-10 shadow-xs space-y-5">
-              <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
+            {/* Right Detailed Narrative (Clean Text directly on Normal Background, No Container Box, Increased Pixels) */}
+            <div className="lg:col-span-7 space-y-6 pt-1">
+              <p className="text-slate-800 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
                 Trident Academy of Technology (TAT), Bhubaneswar is a premier engineering institution established in 2005 under the visionary DF Group. Known for academic rigor, cutting-edge research, and an exceptional faculty-student mentorship framework, Trident stands as a benchmark of technical excellence in Eastern India.
               </p>
 
-              <p className="text-stone-600 text-sm leading-relaxed">
+              <p className="text-slate-700 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
                 Equipped with world-class laboratories, DST-SIRO recognized research centers, Cisco thingQbator IoT makerspace, and an outcome-based education model aligned with National Education Policy (NEP), we groom aspiring students into industry-ready leaders, innovators, and entrepreneurs.
               </p>
 
-              <div className="pt-4 border-t border-stone-200/70 space-y-2.5">
-                <div className="flex items-center gap-2.5 text-xs font-medium text-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+              {/* Key Institutional Highlights with Dividing Line Separators */}
+              <div className="pt-6 border-t border-slate-300/80 space-y-3.5">
+                <div className="flex items-center gap-3 text-sm sm:text-base font-semibold text-slate-800">
+                  <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>20+ Years of Academic Excellence, Rigor &amp; Transparent Institutional Governance</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs font-medium text-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+                <div className="border-t border-slate-200/70" />
+                <div className="flex items-center gap-3 text-sm sm:text-base font-semibold text-slate-800">
+                  <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>100% Placement Assistance with 120+ Global Fortune 500 Recruiters</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs font-medium text-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+                <div className="border-t border-slate-200/70" />
+                <div className="flex items-center gap-3 text-sm sm:text-base font-semibold text-slate-800">
+                  <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>10+ Acres Lush Eco-Friendly Smart Campus Situated in Infocity, Bhubaneswar</span>
                 </div>
               </div>
