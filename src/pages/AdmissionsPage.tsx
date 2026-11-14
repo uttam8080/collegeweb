@@ -1061,25 +1061,97 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 5: "Scholarship support." (Reference Geometric Sage/Mint Background & Pop-Out Scroll Animation)
+          SECTION 5: "Scholarship support." (Exact HTML & CSS Vector Mint Geometric Background matching reference)
           ========================================================================= */}
       <section
         ref={scholarshipSectionRef}
-        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10"
+        className="relative py-20 sm:py-28 bg-[#F6FAF8] overflow-hidden border-y border-emerald-900/10"
       >
-        {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/admissions-programs/scholarship-mint-geometric-bg.jpg')`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        />
+        {/* Exact Geometric Mint & Sage Line-Art Background in HTML & CSS SVG matching reference image */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="none"
+            className="w-full h-full object-cover"
+          >
+            <defs>
+              <linearGradient id="scholarshipBgBase" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F6FAF8" />
+                <stop offset="50%" stopColor="#FAFCFB" />
+                <stop offset="100%" stopColor="#F3F8F5" />
+              </linearGradient>
+            </defs>
 
-        {/* Ambient Subtle Emerald & Teal Glow Accents */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-500/10 blur-[130px] pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-teal-500/10 blur-[130px] pointer-events-none" />
+            {/* Base Canvas */}
+            <rect width="1440" height="900" fill="url(#scholarshipBgBase)" />
+
+            {/* ================= TOP-LEFT GEOMETRIC POLYGONS ================= */}
+            <polygon points="0,0 620,0 420,240 0,440" fill="#D7EBE0" opacity="0.5" />
+            <polygon points="0,0 460,0 300,320 0,560" fill="#C4E0D1" opacity="0.45" />
+            <polygon points="0,220 320,300 180,520 0,680" fill="#E6F2EC" opacity="0.55" />
+            <polygon points="120,0 520,0 380,180 180,120" fill="#B8D9C6" opacity="0.38" />
+
+            {/* Top-Left Concentric Bent Lines */}
+            <polyline points="280,0 460,260 0,620" stroke="#84AC97" strokeWidth="1.75" fill="none" opacity="0.75" />
+            <polyline points="255,0 435,245 0,590" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="230,0 410,230 0,560" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="205,0 385,215 0,530" stroke="#84AC97" strokeWidth="1.75" fill="none" opacity="0.75" />
+            <polyline points="180,0 360,200 0,500" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="155,0 335,185 0,470" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="130,0 310,170 0,440" stroke="#84AC97" strokeWidth="1.75" fill="none" opacity="0.7" />
+            <polyline points="105,0 285,155 0,410" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.6" />
+            <polyline points="80,0 260,140 0,380" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.6" />
+            <polyline points="55,0 235,125 0,350" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.55" />
+            <polyline points="30,0 210,110 0,320" stroke="#84AC97" strokeWidth="1.5" fill="none" opacity="0.6" />
+            <polyline points="5,0 185,95 0,290" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.5" />
+
+            {/* Top-Left Diagonal Parallel Hatch Lines */}
+            <line x1="0" y1="280" x2="380" y2="680" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="320" x2="350" y2="700" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="360" x2="320" y2="720" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="400" x2="290" y2="740" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="440" x2="260" y2="760" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="480" x2="230" y2="780" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="520" x2="200" y2="800" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+
+            {/* ================= TOP-RIGHT STREAMING PARALLEL LINES ================= */}
+            <polygon points="900,0 1440,0 1440,180 1120,90" fill="#E2EFE7" opacity="0.55" />
+            <polygon points="1100,0 1440,0 1440,120" fill="#D3E8DC" opacity="0.45" />
+            <line x1="820" y1="0" x2="1440" y2="60" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="860" y1="0" x2="1440" y2="85" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="900" y1="0" x2="1440" y2="110" stroke="#7DA48E" strokeWidth="1.5" opacity="0.75" />
+            <line x1="940" y1="0" x2="1440" y2="135" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="980" y1="0" x2="1440" y2="160" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="1020" y1="0" x2="1440" y2="185" stroke="#7DA48E" strokeWidth="1.5" opacity="0.7" />
+            <line x1="1060" y1="0" x2="1440" y2="210" stroke="#90B4A0" strokeWidth="1.25" opacity="0.6" />
+            <line x1="1100" y1="0" x2="1440" y2="235" stroke="#90B4A0" strokeWidth="1.25" opacity="0.6" />
+            <line x1="1140" y1="0" x2="1440" y2="260" stroke="#90B4A0" strokeWidth="1.25" opacity="0.55" />
+
+            {/* ================= BOTTOM-RIGHT GEOMETRIC POLYGONS & LINES ================= */}
+            <polygon points="1440,480 1140,680 1280,900 1440,900" fill="#C5DFD0" opacity="0.6" />
+            <polygon points="1440,620 1220,780 1360,900 1440,900" fill="#B3D7C1" opacity="0.5" />
+            <polygon points="1020,900 1240,720 1440,840 1440,900" fill="#D8ECE0" opacity="0.55" />
+
+            <polyline points="1440,480 1140,690 1280,900" stroke="#7FA792" strokeWidth="1.75" fill="none" opacity="0.75" />
+            <polyline points="1440,505 1160,705 1300,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="1440,530 1180,720 1320,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="1440,555 1200,735 1340,900" stroke="#7FA792" strokeWidth="1.75" fill="none" opacity="0.7" />
+            <polyline points="1440,580 1220,750 1360,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="1440,605 1240,765 1380,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="1440,630 1260,780 1400,900" stroke="#7FA792" strokeWidth="1.5" fill="none" opacity="0.65" />
+            <polyline points="1440,655 1280,795 1420,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.6" />
+            <polyline points="1440,680 1300,810 1440,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.55" />
+
+            {/* ================= BOTTOM-CENTER UPWARD CHEVRONS ================= */}
+            <polygon points="680,900 780,740 980,900" fill="#DCEDE4" opacity="0.5" />
+            <polyline points="660,900 780,740 970,900" stroke="#7AA38E" strokeWidth="1.75" fill="none" opacity="0.8" />
+            <polyline points="680,900 785,760 950,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="700,900 790,780 930,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="720,900 795,800 910,900" stroke="#7AA38E" strokeWidth="1.5" fill="none" opacity="0.7" />
+            <polyline points="740,900 800,820 890,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="760,900 805,840 870,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.6" />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
 
