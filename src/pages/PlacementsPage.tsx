@@ -27,6 +27,7 @@ import { ALUMNI_SPOTLIGHT, RecruiterCompany } from '../data/collegeData';
 import { RecruiterLogo } from '../components/RecruiterLogo';
 import { gsap } from '../utils/animations';
 import { PlacementHighlightsBanner } from '../components/PlacementHighlightsBanner';
+import { WhiteHexagonsBackground } from '../components/WhiteHexagonsBackground';
 
 // Comprehensive roster of 24 leading global corporate recruiters visiting campus with varied sizes
 interface MasonryRecruiterCompany extends RecruiterCompany {
@@ -457,19 +458,15 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
       {/* =========================================================================
           SECTION: ANNUAL CAMPUS RECRUITERS DIRECTORY (MASONRY GALLERY)
           - Full-width section; not placed inside a box
-          - Sticky reference 3D geometric background
+          - Sticky 3D White Hexagonal Honeycomb vector background in native HTML & CSS SVG
           - Small, medium, and big divisions with ZERO blank space
           ========================================================================= */}
       <section id="recruiting-partners-section" className="relative w-full py-16 sm:py-24 overflow-visible">
-        {/* STICKY REFERENCE GEOMETRIC 3D BACKGROUND */}
-        <div className="sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
-          <img
-            src="/placements/recruiters-geometric-3d-bg.jpg"
-            alt="3D Minimalist Geometric Floating Tiles Background"
-            className="w-full h-full object-cover object-center"
-          />
+        {/* STICKY 3D WHITE HEXAGONAL HONEYCOMB VECTOR BACKGROUND (Native HTML & CSS SVG) */}
+        <div className="sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden select-none" aria-hidden="true">
+          <WhiteHexagonsBackground className="w-full h-full object-cover object-center" />
           {/* Subtle gradient overlays to ensure seamless top/bottom transitions into page without washing out the center */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F5] via-transparent to-[#FAF9F5] opacity-75 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F5]/40 via-transparent to-[#FAF9F5]/60 pointer-events-none" />
         </div>
 
         {/* SECTION CONTENT: Relative z-10 so it scrolls smoothly over the sticky background */}
