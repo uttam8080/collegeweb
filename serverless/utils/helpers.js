@@ -16,7 +16,7 @@ const buildResponse = (statusCode, body, customHeaders = {}) => {
     headers: { ...defaultHeaders, ...customHeaders },
     body: JSON.stringify(body)
   };
-};
+};  
 
 module.exports = {
   success: (data = {}, message = 'Success') => {
