@@ -157,3 +157,13 @@
 .group-marquee:hover .animate-marquee-40s {
   animation-play-state: paused;
 }
+
+/* Smooth Continuous Floating Stat Animation */
+@keyframes floatingStat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

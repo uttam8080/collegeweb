@@ -1,0 +1,455 @@
+<svg
+      viewBox="0 0 1600 1000"
+      preserveAspectRatio="none"
+      class="w-full h-full"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        {/* Tier 3: High Elevation Drop Shadow Filter */}
+        <filter id="hexDropHigh" x="-35%" y="-35%" width="180%" height="180%">
+          <feDropShadow dx="3" dy="9" stdDeviation="9" floodColor="#334155" floodOpacity="0.16" />
+          <feDropShadow dx="1" dy="3" stdDeviation="4" floodColor="#475569" floodOpacity="0.10" />
+        </filter>
+
+        {/* Tier 2: Medium Elevation Drop Shadow Filter */}
+        <filter id="hexDropMed" x="-25%" y="-25%" width="160%" height="160%">
+          <feDropShadow dx="2" dy="5" stdDeviation="6" floodColor="#475569" floodOpacity="0.11" />
+        </filter>
+
+        {/* Tier 1: Base / Recessed Drop Shadow Filter */}
+        <filter id="hexDropLow" x="-20%" y="-20%" width="150%" height="150%">
+          <feDropShadow dx="1" dy="3" stdDeviation="4" floodColor="#64748B" floodOpacity="0.08" />
+        </filter>
+
+        {/* Face Shading Linear Gradients */}
+        <linearGradient id="hexGradElevated" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="55%" stopColor="#FAFCFE" />
+          <stop offset="100%" stopColor="#E9EDF3" />
+        </linearGradient>
+
+        <linearGradient id="hexGradStandard" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="50%" stopColor="#F8F9FA" />
+          <stop offset="100%" stopColor="#ECEFF4" />
+        </linearGradient>
+
+        <linearGradient id="hexGradRecessed" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#F5F7FA" />
+          <stop offset="100%" stopColor="#E5E9EE" />
+        </linearGradient>
+      </defs>
+
+      {/* Base Canvas */}
+      <rect width="1600" height="1000" fill="#FAF9F5" />
+
+      {/* 3D Hexagon Tiles (Rendered in Z-order: recessed first, medium next, elevated on top) */}
+      <g>
+        <g opacity="0.932">
+          <polygon points="70.0,-162.0 25.0,-84.06 -65.0,-84.06 -110.0,-162.0 -65.0,-239.94 25.0,-239.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M -110,-162 L -65.0,-239.94 L 25.0,-239.94 L 70,-162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,-162 L -65.0,-84.06 L 25.0,-84.06 L 70,-162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.968">
+          <polygon points="70.0,0.0 25.0,77.94 -65.0,77.94 -110.0,0.0 -65.0,-77.94 25.0,-77.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M -110,0 L -65.0,-77.94 L 25.0,-77.94 L 70,0" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,0 L -65.0,77.94 L 25.0,77.94 L 70,0" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,810.0 25.0,887.94 -65.0,887.94 -110.0,810.0 -65.0,732.06 25.0,732.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M -110,810 L -65.0,732.06 L 25.0,732.06 L 70,810" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,810 L -65.0,887.94 L 25.0,887.94 L 70,810" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,972.0 25.0,1049.94 -65.0,1049.94 -110.0,972.0 -65.0,894.06 25.0,894.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M -110,972 L -65.0,894.06 L 25.0,894.06 L 70,972" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,972 L -65.0,1049.94 L 25.0,1049.94 L 70,972" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,1134.0 25.0,1211.94 -65.0,1211.94 -110.0,1134.0 -65.0,1056.06 25.0,1056.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M -110,1134 L -65.0,1056.06 L 25.0,1056.06 L 70,1134" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,1134 L -65.0,1211.94 L 25.0,1211.94 L 70,1134" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.826">
+          <polygon points="210.0,-81.0 165.0,-3.06 75.0,-3.06 30.0,-81.0 75.0,-158.94 165.0,-158.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 30,-81 L 75.0,-158.94 L 165.0,-158.94 L 210,-81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,-81 L 75.0,-3.06 L 165.0,-3.06 L 210,-81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.862">
+          <polygon points="210.0,81.0 165.0,158.94 75.0,158.94 30.0,81.0 75.0,3.06 165.0,3.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 30,81 L 75.0,3.06 L 165.0,3.06 L 210,81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,81 L 75.0,158.94 L 165.0,158.94 L 210,81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,891.0 165.0,968.94 75.0,968.94 30.0,891.0 75.0,813.06 165.0,813.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 30,891 L 75.0,813.06 L 165.0,813.06 L 210,891" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,891 L 75.0,968.94 L 165.0,968.94 L 210,891" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,1053.0 165.0,1130.94 75.0,1130.94 30.0,1053.0 75.0,975.06 165.0,975.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 30,1053 L 75.0,975.06 L 165.0,975.06 L 210,1053" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,1053 L 75.0,1130.94 L 165.0,1130.94 L 210,1053" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,1215.0 165.0,1292.94 75.0,1292.94 30.0,1215.0 75.0,1137.06 165.0,1137.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 30,1215 L 75.0,1137.06 L 165.0,1137.06 L 210,1215" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,1215 L 75.0,1292.94 L 165.0,1292.94 L 210,1215" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.684">
+          <polygon points="350.0,-162.0 305.0,-84.06 215.0,-84.06 170.0,-162.0 215.0,-239.94 305.0,-239.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 170,-162 L 215.0,-239.94 L 305.0,-239.94 L 350,-162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,-162 L 215.0,-84.06 L 305.0,-84.06 L 350,-162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.72">
+          <polygon points="350.0,0.0 305.0,77.94 215.0,77.94 170.0,0.0 215.0,-77.94 305.0,-77.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 170,0 L 215.0,-77.94 L 305.0,-77.94 L 350,0" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,0 L 215.0,77.94 L 305.0,77.94 L 350,0" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.934">
+          <polygon points="350.0,972.0 305.0,1049.94 215.0,1049.94 170.0,972.0 215.0,894.06 305.0,894.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 170,972 L 215.0,894.06 L 305.0,894.06 L 350,972" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,972 L 215.0,1049.94 L 305.0,1049.94 L 350,972" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.969">
+          <polygon points="350.0,1134.0 305.0,1211.94 215.0,1211.94 170.0,1134.0 215.0,1056.06 305.0,1056.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 170,1134 L 215.0,1056.06 L 305.0,1056.06 L 350,1134" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,1134 L 215.0,1211.94 L 305.0,1211.94 L 350,1134" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.578">
+          <polygon points="490.0,-81.0 445.0,-3.06 355.0,-3.06 310.0,-81.0 355.0,-158.94 445.0,-158.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 310,-81 L 355.0,-158.94 L 445.0,-158.94 L 490,-81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,-81 L 355.0,-3.06 L 445.0,-3.06 L 490,-81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.614">
+          <polygon points="490.0,81.0 445.0,158.94 355.0,158.94 310.0,81.0 355.0,3.06 445.0,3.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 310,81 L 355.0,3.06 L 445.0,3.06 L 490,81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,81 L 355.0,158.94 L 445.0,158.94 L 490,81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.792">
+          <polygon points="490.0,891.0 445.0,968.94 355.0,968.94 310.0,891.0 355.0,813.06 445.0,813.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 310,891 L 355.0,813.06 L 445.0,813.06 L 490,891" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,891 L 355.0,968.94 L 445.0,968.94 L 490,891" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.828">
+          <polygon points="490.0,1053.0 445.0,1130.94 355.0,1130.94 310.0,1053.0 355.0,975.06 445.0,975.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 310,1053 L 355.0,975.06 L 445.0,975.06 L 490,1053" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,1053 L 355.0,1130.94 L 445.0,1130.94 L 490,1053" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.863">
+          <polygon points="490.0,1215.0 445.0,1292.94 355.0,1292.94 310.0,1215.0 355.0,1137.06 445.0,1137.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 310,1215 L 355.0,1137.06 L 445.0,1137.06 L 490,1215" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,1215 L 355.0,1292.94 L 445.0,1292.94 L 490,1215" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.437">
+          <polygon points="630.0,-162.0 585.0,-84.06 495.0,-84.06 450.0,-162.0 495.0,-239.94 585.0,-239.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 450,-162 L 495.0,-239.94 L 585.0,-239.94 L 630,-162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,-162 L 495.0,-84.06 L 585.0,-84.06 L 630,-162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.472">
+          <polygon points="630.0,0.0 585.0,77.94 495.0,77.94 450.0,0.0 495.0,-77.94 585.0,-77.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 450,0 L 495.0,-77.94 L 585.0,-77.94 L 630,0" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,0 L 495.0,77.94 L 585.0,77.94 L 630,0" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.508">
+          <polygon points="630.0,162.0 585.0,239.94 495.0,239.94 450.0,162.0 495.0,84.06 585.0,84.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 450,162 L 495.0,84.06 L 585.0,84.06 L 630,162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,162 L 495.0,239.94 L 585.0,239.94 L 630,162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.651">
+          <polygon points="630.0,810.0 585.0,887.94 495.0,887.94 450.0,810.0 495.0,732.06 585.0,732.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 450,810 L 495.0,732.06 L 585.0,732.06 L 630,810" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,810 L 495.0,887.94 L 585.0,887.94 L 630,810" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.686">
+          <polygon points="630.0,972.0 585.0,1049.94 495.0,1049.94 450.0,972.0 495.0,894.06 585.0,894.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 450,972 L 495.0,894.06 L 585.0,894.06 L 630,972" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,972 L 495.0,1049.94 L 585.0,1049.94 L 630,972" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.722">
+          <polygon points="630.0,1134.0 585.0,1211.94 495.0,1211.94 450.0,1134.0 495.0,1056.06 585.0,1056.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 450,1134 L 495.0,1056.06 L 585.0,1056.06 L 630,1134" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,1134 L 495.0,1211.94 L 585.0,1211.94 L 630,1134" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.331">
+          <polygon points="770.0,-81.0 725.0,-3.06 635.0,-3.06 590.0,-81.0 635.0,-158.94 725.0,-158.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 590,-81 L 635.0,-158.94 L 725.0,-158.94 L 770,-81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,-81 L 635.0,-3.06 L 725.0,-3.06 L 770,-81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.366">
+          <polygon points="770.0,81.0 725.0,158.94 635.0,158.94 590.0,81.0 635.0,3.06 725.0,3.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 590,81 L 635.0,3.06 L 725.0,3.06 L 770,81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,81 L 635.0,158.94 L 725.0,158.94 L 770,81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.402">
+          <polygon points="770.0,243.0 725.0,320.94 635.0,320.94 590.0,243.0 635.0,165.06 725.0,165.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 590,243 L 635.0,165.06 L 725.0,165.06 L 770,243" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,243 L 635.0,320.94 L 725.0,320.94 L 770,243" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.544">
+          <polygon points="770.0,891.0 725.0,968.94 635.0,968.94 590.0,891.0 635.0,813.06 725.0,813.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 590,891 L 635.0,813.06 L 725.0,813.06 L 770,891" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,891 L 635.0,968.94 L 725.0,968.94 L 770,891" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.58">
+          <polygon points="770.0,1053.0 725.0,1130.94 635.0,1130.94 590.0,1053.0 635.0,975.06 725.0,975.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 590,1053 L 635.0,975.06 L 725.0,975.06 L 770,1053" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,1053 L 635.0,1130.94 L 725.0,1130.94 L 770,1053" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.616">
+          <polygon points="770.0,1215.0 725.0,1292.94 635.0,1292.94 590.0,1215.0 635.0,1137.06 725.0,1137.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 590,1215 L 635.0,1137.06 L 725.0,1137.06 L 770,1215" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,1215 L 635.0,1292.94 L 725.0,1292.94 L 770,1215" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.189">
+          <polygon points="910.0,-162.0 865.0,-84.06 775.0,-84.06 730.0,-162.0 775.0,-239.94 865.0,-239.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,-162 L 775.0,-239.94 L 865.0,-239.94 L 910,-162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,-162 L 775.0,-84.06 L 865.0,-84.06 L 910,-162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.225">
+          <polygon points="910.0,0.0 865.0,77.94 775.0,77.94 730.0,0.0 775.0,-77.94 865.0,-77.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,0 L 775.0,-77.94 L 865.0,-77.94 L 910,0" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,0 L 775.0,77.94 L 865.0,77.94 L 910,0" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.26">
+          <polygon points="910.0,162.0 865.0,239.94 775.0,239.94 730.0,162.0 775.0,84.06 865.0,84.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,162 L 775.0,84.06 L 865.0,84.06 L 910,162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,162 L 775.0,239.94 L 865.0,239.94 L 910,162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.296">
+          <polygon points="910.0,324.0 865.0,401.94 775.0,401.94 730.0,324.0 775.0,246.06 865.0,246.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,324 L 775.0,246.06 L 865.0,246.06 L 910,324" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,324 L 775.0,401.94 L 865.0,401.94 L 910,324" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.403">
+          <polygon points="910.0,810.0 865.0,887.94 775.0,887.94 730.0,810.0 775.0,732.06 865.0,732.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,810 L 775.0,732.06 L 865.0,732.06 L 910,810" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,810 L 775.0,887.94 L 865.0,887.94 L 910,810" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.438">
+          <polygon points="910.0,972.0 865.0,1049.94 775.0,1049.94 730.0,972.0 775.0,894.06 865.0,894.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,972 L 775.0,894.06 L 865.0,894.06 L 910,972" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,972 L 775.0,1049.94 L 865.0,1049.94 L 910,972" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.474">
+          <polygon points="910.0,1134.0 865.0,1211.94 775.0,1211.94 730.0,1134.0 775.0,1056.06 865.0,1056.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 730,1134 L 775.0,1056.06 L 865.0,1056.06 L 910,1134" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,1134 L 775.0,1211.94 L 865.0,1211.94 L 910,1134" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.083">
+          <polygon points="1050.0,-81.0 1005.0,-3.06 915.0,-3.06 870.0,-81.0 915.0,-158.94 1005.0,-158.94" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,-81 L 915.0,-158.94 L 1005.0,-158.94 L 1050,-81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,-81 L 915.0,-3.06 L 1005.0,-3.06 L 1050,-81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.119">
+          <polygon points="1050.0,81.0 1005.0,158.94 915.0,158.94 870.0,81.0 915.0,3.06 1005.0,3.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,81 L 915.0,3.06 L 1005.0,3.06 L 1050,81" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,81 L 915.0,158.94 L 1005.0,158.94 L 1050,81" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.154">
+          <polygon points="1050.0,243.0 1005.0,320.94 915.0,320.94 870.0,243.0 915.0,165.06 1005.0,165.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,243 L 915.0,165.06 L 1005.0,165.06 L 1050,243" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,243 L 915.0,320.94 L 1005.0,320.94 L 1050,243" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.19">
+          <polygon points="1050.0,405.0 1005.0,482.94 915.0,482.94 870.0,405.0 915.0,327.06 1005.0,327.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,405 L 915.0,327.06 L 1005.0,327.06 L 1050,405" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,405 L 915.0,482.94 L 1005.0,482.94 L 1050,405" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.226">
+          <polygon points="1050.0,567.0 1005.0,644.94 915.0,644.94 870.0,567.0 915.0,489.06 1005.0,489.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,567 L 915.0,489.06 L 1005.0,489.06 L 1050,567" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,567 L 915.0,644.94 L 1005.0,644.94 L 1050,567" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.261">
+          <polygon points="1050.0,729.0 1005.0,806.94 915.0,806.94 870.0,729.0 915.0,651.06 1005.0,651.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,729 L 915.0,651.06 L 1005.0,651.06 L 1050,729" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,729 L 915.0,806.94 L 1005.0,806.94 L 1050,729" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.297">
+          <polygon points="1050.0,891.0 1005.0,968.94 915.0,968.94 870.0,891.0 915.0,813.06 1005.0,813.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,891 L 915.0,813.06 L 1005.0,813.06 L 1050,891" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,891 L 915.0,968.94 L 1005.0,968.94 L 1050,891" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.332">
+          <polygon points="1050.0,1053.0 1005.0,1130.94 915.0,1130.94 870.0,1053.0 915.0,975.06 1005.0,975.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,1053 L 915.0,975.06 L 1005.0,975.06 L 1050,1053" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,1053 L 915.0,1130.94 L 1005.0,1130.94 L 1050,1053" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.368">
+          <polygon points="1050.0,1215.0 1005.0,1292.94 915.0,1292.94 870.0,1215.0 915.0,1137.06 1005.0,1137.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 870,1215 L 915.0,1137.06 L 1005.0,1137.06 L 1050,1215" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 870,1215 L 915.0,1292.94 L 1005.0,1292.94 L 1050,1215" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.048">
+          <polygon points="1190.0,324.0 1145.0,401.94 1055.0,401.94 1010.0,324.0 1055.0,246.06 1145.0,246.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1010,324 L 1055.0,246.06 L 1145.0,246.06 L 1190,324" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1010,324 L 1055.0,401.94 L 1145.0,401.94 L 1190,324" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.084">
+          <polygon points="1190.0,486.0 1145.0,563.94 1055.0,563.94 1010.0,486.0 1055.0,408.06 1145.0,408.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1010,486 L 1055.0,408.06 L 1145.0,408.06 L 1190,486" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1010,486 L 1055.0,563.94 L 1145.0,563.94 L 1190,486" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.119">
+          <polygon points="1190.0,648.0 1145.0,725.94 1055.0,725.94 1010.0,648.0 1055.0,570.06 1145.0,570.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1010,648 L 1055.0,570.06 L 1145.0,570.06 L 1190,648" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1010,648 L 1055.0,725.94 L 1145.0,725.94 L 1190,648" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.155">
+          <polygon points="1190.0,810.0 1145.0,887.94 1055.0,887.94 1010.0,810.0 1055.0,732.06 1145.0,732.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1010,810 L 1055.0,732.06 L 1145.0,732.06 L 1190,810" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1010,810 L 1055.0,887.94 L 1145.0,887.94 L 1190,810" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.191">
+          <polygon points="1190.0,972.0 1145.0,1049.94 1055.0,1049.94 1010.0,972.0 1055.0,894.06 1145.0,894.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1010,972 L 1055.0,894.06 L 1145.0,894.06 L 1190,972" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1010,972 L 1055.0,1049.94 L 1145.0,1049.94 L 1190,972" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.226">
+          <polygon points="1190.0,1134.0 1145.0,1211.94 1055.0,1211.94 1010.0,1134.0 1055.0,1056.06 1145.0,1056.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1010,1134 L 1055.0,1056.06 L 1145.0,1056.06 L 1190,1134" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1010,1134 L 1055.0,1211.94 L 1145.0,1211.94 L 1190,1134" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.049">
+          <polygon points="1330.0,891.0 1285.0,968.94 1195.0,968.94 1150.0,891.0 1195.0,813.06 1285.0,813.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1150,891 L 1195.0,813.06 L 1285.0,813.06 L 1330,891" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1150,891 L 1195.0,968.94 L 1285.0,968.94 L 1330,891" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.085">
+          <polygon points="1330.0,1053.0 1285.0,1130.94 1195.0,1130.94 1150.0,1053.0 1195.0,975.06 1285.0,975.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1150,1053 L 1195.0,975.06 L 1285.0,975.06 L 1330,1053" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1150,1053 L 1195.0,1130.94 L 1285.0,1130.94 L 1330,1053" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.12">
+          <polygon points="1330.0,1215.0 1285.0,1292.94 1195.0,1292.94 1150.0,1215.0 1195.0,1137.06 1285.0,1137.06" fill="url(#hexGradRecessed)" filter="url(#hexDropLow)" />
+          <path d="M 1150,1215 L 1195.0,1137.06 L 1285.0,1137.06 L 1330,1215" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 1150,1215 L 1195.0,1292.94 L 1285.0,1292.94 L 1330,1215" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,162.0 25.0,239.94 -65.0,239.94 -110.0,162.0 -65.0,84.06 25.0,84.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M -110,162 L -65.0,84.06 L 25.0,84.06 L 70,162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,162 L -65.0,239.94 L 25.0,239.94 L 70,162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,486.0 25.0,563.94 -65.0,563.94 -110.0,486.0 -65.0,408.06 25.0,408.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M -110,486 L -65.0,408.06 L 25.0,408.06 L 70,486" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,486 L -65.0,563.94 L 25.0,563.94 L 70,486" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,405.0 165.0,482.94 75.0,482.94 30.0,405.0 75.0,327.06 165.0,327.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 30,405 L 75.0,327.06 L 165.0,327.06 L 210,405" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,405 L 75.0,482.94 L 165.0,482.94 L 210,405" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,729.0 165.0,806.94 75.0,806.94 30.0,729.0 75.0,651.06 165.0,651.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 30,729 L 75.0,651.06 L 165.0,651.06 L 210,729" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,729 L 75.0,806.94 L 165.0,806.94 L 210,729" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.846">
+          <polygon points="350.0,162.0 305.0,239.94 215.0,239.94 170.0,162.0 215.0,84.06 305.0,84.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 170,162 L 215.0,84.06 L 305.0,84.06 L 350,162" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,162 L 215.0,239.94 L 305.0,239.94 L 350,162" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.917">
+          <polygon points="350.0,486.0 305.0,563.94 215.0,563.94 170.0,486.0 215.0,408.06 305.0,408.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 170,486 L 215.0,408.06 L 305.0,408.06 L 350,486" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,486 L 215.0,563.94 L 305.0,563.94 L 350,486" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.953">
+          <polygon points="350.0,648.0 305.0,725.94 215.0,725.94 170.0,648.0 215.0,570.06 305.0,570.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 170,648 L 215.0,570.06 L 305.0,570.06 L 350,648" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,648 L 215.0,725.94 L 305.0,725.94 L 350,648" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.775">
+          <polygon points="490.0,405.0 445.0,482.94 355.0,482.94 310.0,405.0 355.0,327.06 445.0,327.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 310,405 L 355.0,327.06 L 445.0,327.06 L 490,405" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,405 L 355.0,482.94 L 445.0,482.94 L 490,405" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.811">
+          <polygon points="490.0,567.0 445.0,644.94 355.0,644.94 310.0,567.0 355.0,489.06 445.0,489.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 310,567 L 355.0,489.06 L 445.0,489.06 L 490,567" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,567 L 355.0,644.94 L 445.0,644.94 L 490,567" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.634">
+          <polygon points="630.0,324.0 585.0,401.94 495.0,401.94 450.0,324.0 495.0,246.06 585.0,246.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 450,324 L 495.0,246.06 L 585.0,246.06 L 630,324" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,324 L 495.0,401.94 L 585.0,401.94 L 630,324" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.705">
+          <polygon points="630.0,648.0 585.0,725.94 495.0,725.94 450.0,648.0 495.0,570.06 585.0,570.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 450,648 L 495.0,570.06 L 585.0,570.06 L 630,648" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,648 L 495.0,725.94 L 585.0,725.94 L 630,648" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.528">
+          <polygon points="770.0,405.0 725.0,482.94 635.0,482.94 590.0,405.0 635.0,327.06 725.0,327.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 590,405 L 635.0,327.06 L 725.0,327.06 L 770,405" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,405 L 635.0,482.94 L 725.0,482.94 L 770,405" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.563">
+          <polygon points="770.0,567.0 725.0,644.94 635.0,644.94 590.0,567.0 635.0,489.06 725.0,489.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 590,567 L 635.0,489.06 L 725.0,489.06 L 770,567" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,567 L 635.0,644.94 L 725.0,644.94 L 770,567" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.599">
+          <polygon points="770.0,729.0 725.0,806.94 635.0,806.94 590.0,729.0 635.0,651.06 725.0,651.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 590,729 L 635.0,651.06 L 725.0,651.06 L 770,729" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 590,729 L 635.0,806.94 L 725.0,806.94 L 770,729" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.422">
+          <polygon points="910.0,486.0 865.0,563.94 775.0,563.94 730.0,486.0 775.0,408.06 865.0,408.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 730,486 L 775.0,408.06 L 865.0,408.06 L 910,486" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,486 L 775.0,563.94 L 865.0,563.94 L 910,486" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.457">
+          <polygon points="910.0,648.0 865.0,725.94 775.0,725.94 730.0,648.0 775.0,570.06 865.0,570.06" fill="url(#hexGradStandard)" filter="url(#hexDropMed)" />
+          <path d="M 730,648 L 775.0,570.06 L 865.0,570.06 L 910,648" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 730,648 L 775.0,725.94 L 865.0,725.94 L 910,648" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,324.0 25.0,401.94 -65.0,401.94 -110.0,324.0 -65.0,246.06 25.0,246.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M -110,324 L -65.0,246.06 L 25.0,246.06 L 70,324" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,324 L -65.0,401.94 L 25.0,401.94 L 70,324" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="70.0,648.0 25.0,725.94 -65.0,725.94 -110.0,648.0 -65.0,570.06 25.0,570.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M -110,648 L -65.0,570.06 L 25.0,570.06 L 70,648" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M -110,648 L -65.0,725.94 L 25.0,725.94 L 70,648" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,243.0 165.0,320.94 75.0,320.94 30.0,243.0 75.0,165.06 165.0,165.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 30,243 L 75.0,165.06 L 165.0,165.06 L 210,243" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,243 L 75.0,320.94 L 165.0,320.94 L 210,243" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="210.0,567.0 165.0,644.94 75.0,644.94 30.0,567.0 75.0,489.06 165.0,489.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 30,567 L 75.0,489.06 L 165.0,489.06 L 210,567" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 30,567 L 75.0,644.94 L 165.0,644.94 L 210,567" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.961">
+          <polygon points="350.0,324.0 305.0,401.94 215.0,401.94 170.0,324.0 215.0,246.06 305.0,246.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 170,324 L 215.0,246.06 L 305.0,246.06 L 350,324" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,324 L 215.0,401.94 L 305.0,401.94 L 350,324" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="1.0">
+          <polygon points="350.0,810.0 305.0,887.94 215.0,887.94 170.0,810.0 215.0,732.06 305.0,732.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 170,810 L 215.0,732.06 L 305.0,732.06 L 350,810" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 170,810 L 215.0,887.94 L 305.0,887.94 L 350,810" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.82">
+          <polygon points="490.0,243.0 445.0,320.94 355.0,320.94 310.0,243.0 355.0,165.06 445.0,165.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 310,243 L 355.0,165.06 L 445.0,165.06 L 490,243" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,243 L 355.0,320.94 L 445.0,320.94 L 490,243" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.927">
+          <polygon points="490.0,729.0 445.0,806.94 355.0,806.94 310.0,729.0 355.0,651.06 445.0,651.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 310,729 L 355.0,651.06 L 445.0,651.06 L 490,729" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 310,729 L 355.0,806.94 L 445.0,806.94 L 490,729" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+        <g opacity="0.749">
+          <polygon points="630.0,486.0 585.0,563.94 495.0,563.94 450.0,486.0 495.0,408.06 585.0,408.06" fill="url(#hexGradElevated)" filter="url(#hexDropHigh)" />
+          <path d="M 450,486 L 495.0,408.06 L 585.0,408.06 L 630,486" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9" />
+          <path d="M 450,486 L 495.0,563.94 L 585.0,563.94 L 630,486" stroke="#CBD2DA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+        </g>
+      </g>
+    </svg>

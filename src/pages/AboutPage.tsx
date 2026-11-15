@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { usePageTextAnimations } from '../utils/animations';
 import { 
   Award, 
@@ -13,7 +13,12 @@ import {
   Calendar,
   FileCheck,
   TrendingUp,
-  GraduationCap
+  GraduationCap,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Film
 } from 'lucide-react';
 import { COLLEGE_META, AT_A_GLANCE } from '../data/collegeData';
 
@@ -21,38 +26,86 @@ interface AboutPageProps {
   onNavigate?: (tab: string) => void;
 }
 
-type AboutTab = 
-  | 'core-values' 
-  | 'legacy' 
-  | 'vision' 
-  | 'journey' 
-  | 'recognitions' 
-  | 'leadership' 
-  | 'success' 
-  | 'compliance';
-
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
-  const [activeTab, setActiveTab] = useState<AboutTab>('legacy');
   const pageRef = useRef<HTMLDivElement>(null);
-  usePageTextAnimations(pageRef, [activeTab]);
+  usePageTextAnimations(pageRef, []);
 
-  const navTabs: { id: AboutTab; label: string }[] = [
-    { id: 'core-values', label: 'CORE VALUES' },
-    { id: 'legacy', label: 'LEGACY' },
-    { id: 'vision', label: 'VISION' },
-    { id: 'journey', label: 'JOURNEY' },
-    { id: 'recognitions', label: 'RECOGNITIONS' },
-    { id: 'leadership', label: 'LEADERSHIP' },
-    { id: 'success', label: 'SUCCESS' },
-    { id: 'compliance', label: 'COMPLIANCE' },
-  ];
+  // Archival Video Autoplay on Scroll State & Controls
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+  const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
 
-  const handleTabClick = (id: AboutTab) => {
-    setActiveTab(id);
-    const targetElement = document.getElementById(id);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Photo Collage Pop-Out Scroll Animation State & Ref
+  const photoContainerRef = useRef<HTMLDivElement>(null);
+  const [isPhotoPopped, setIsPhotoPopped] = useState<boolean>(false);
+  const [activePhoto, setActivePhoto] = useState<'lab' | 'convocation'>('lab');
+
+  useEffect(() => {
+    const el = photoContainerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsPhotoPopped(true);
+        }
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // When user scrolls till this section, auto-play
+            video.play()
+              .then(() => setIsVideoPlaying(true))
+              .catch(() => {});
+          } else {
+            // Pause when scrolled away
+            video.pause();
+            setIsVideoPlaying(false);
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+      }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const toggleVideoPlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().then(() => setIsVideoPlaying(true)).catch(() => {});
+    } else {
+      video.pause();
+      setIsVideoPlaying(false);
     }
+  };
+
+  const toggleVideoMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsVideoMuted(video.muted);
   };
 
   const milestones = [
@@ -147,36 +200,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-[#FAF8F5] text-[#1E293B] antialiased selection:bg-[#E8BD63]/30 selection:text-[#1E293B]">
-      
-      {/* =========================================================================
-          SUB-NAVBAR / EDITORIAL SECTION TAB STRIP
-          Sticky bar beneath top navigation with 4px grid rhythm and flat design
-          ========================================================================= */}
-      <div className="sticky top-16 z-30 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-stone-200/80 transition-all">
-        <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center justify-start sm:justify-center overflow-x-auto no-scrollbar py-3 gap-6 sm:gap-8 lg:gap-10">
-            {navTabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabClick(tab.id)}
-                  className={`text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap transition-all pb-1 relative cursor-pointer ${
-                    isActive 
-                      ? 'text-[#1E293B]' 
-                      : 'text-stone-400 hover:text-stone-700'
-                  }`}
-                >
-                  {tab.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E8BD63] rounded-full" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      </div>
 
       {/* =========================================================================
           MAIN EDITORIAL HERO SECTION: "A Legacy of Excellence."
@@ -194,32 +217,98 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
 
         <div className="relative z-10 max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
             
-            {/* Left Column: Student VR Tech Lab Photo (Exact match from reference) */}
-            <div className="lg:col-span-5 xl:col-span-5">
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-stone-200 shadow-xs aspect-[4/5] max-w-md mx-auto lg:max-w-none group">
-                <img
-                  src="/assets/images/about_students_vr_lab.jpg"
-                  alt="Tekkzy College Students in Virtual Reality & Advanced Computing Lab"
-                  className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-700 ease-out"
-                  onError={(e) => {
-                    // Fallback to high-res campus tech lab
-                    (e.target as HTMLImageElement).src = '/assets/images/college_tech_lab_1793988185936.jpg';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 via-transparent to-transparent pointer-events-none" />
-                
-                {/* Subtle Inset Badge */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/95 text-[11px] font-mono backdrop-blur-md bg-black/40 px-3 py-2 rounded-xl border border-white/10">
-                  <span className="font-semibold tracking-wide">CISCO thingQbator Lab</span>
-                  <span className="text-amber-300">ESTD 2005</span>
+            {/* Left Column: Animated Dual-Photo Showcase Popping Out Like Video */}
+            <div className="lg:col-span-6 xl:col-span-6">
+              <div 
+                ref={photoContainerRef}
+                className="relative max-w-md sm:max-w-lg mx-auto lg:max-w-none pt-4 pb-12 sm:pb-16 pr-4 sm:pr-8 pl-2 group select-none"
+              >
+                {/* Background Ambient Glow */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#2c3a8c]/12 via-[#E8BD63]/10 to-transparent rounded-full blur-3xl -z-10 pointer-events-none" />
+
+                {/* Primary Photo (Left): VR Lab Students in Technology Lab */}
+                <div 
+                  onClick={() => setActivePhoto('lab')}
+                  className={`relative w-[78%] sm:w-[76%] rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 bg-white border border-stone-200/90 shadow-xl cursor-pointer transition-all duration-700 ease-out ${
+                    activePhoto === 'lab' ? 'z-20' : 'z-10'
+                  } ${
+                    isPhotoPopped 
+                      ? 'opacity-100 translate-y-0 rotate-[-2.5deg] scale-100 group-hover:rotate-[-4deg] group-hover:scale-102 group-hover:shadow-2xl' 
+                      : 'opacity-0 translate-y-8 rotate-0 scale-95'
+                  }`}
+                >
+                  <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[4/5] bg-stone-100">
+                    <img
+                      src="/assets/images/about_students_vr_lab.jpg"
+                      alt="Tekkzy College Students in Virtual Reality & Advanced Computing Lab"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/assets/images/college_tech_lab_1793988185936.jpg';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/50 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Inset Badge */}
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-mono backdrop-blur-md bg-black/50 px-3 py-1.5 rounded-xl border border-white/20">
+                      <span className="font-semibold tracking-wide">CISCO thingQbator Lab</span>
+                      <span className="text-amber-300 font-bold">INNOVATION</span>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Secondary Photo (Right of the Photo): "A Legacy of Excellence" Convocation Photo */}
+                <div 
+                  onClick={() => setActivePhoto('convocation')}
+                  className={`absolute right-0 sm:-right-2 lg:-right-4 top-10 sm:top-14 w-[74%] sm:w-[72%] rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 bg-white border border-stone-200/90 shadow-2xl cursor-pointer transition-all duration-700 delay-200 ease-out ${
+                    activePhoto === 'convocation' ? 'z-20' : 'z-10'
+                  } ${
+                    isPhotoPopped 
+                      ? 'opacity-100 translate-x-0 translate-y-0 rotate-[4.5deg] scale-100 group-hover:translate-x-3 group-hover:-translate-y-2 group-hover:rotate-[7deg] group-hover:scale-104 group-hover:shadow-[0_28px_60px_rgba(0,0,0,0.22)]' 
+                      : 'opacity-0 translate-x-8 translate-y-12 rotate-0 scale-90'
+                  }`}
+                >
+                  <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[4/5] bg-stone-100">
+                    <img
+                      src="/assets/images/college_convocation_1793988239815.jpg"
+                      alt="A Legacy of Excellence - Graduating Engineers & Scholars Convocation"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/graduating-scholars-convocation.jpg';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/55 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Inset Badge */}
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-mono backdrop-blur-md bg-black/50 px-3 py-1.5 rounded-xl border border-white/20">
+                      <span className="font-semibold tracking-wide truncate">Annual Convocation</span>
+                      <span className="text-emerald-400 font-bold">EXCELLENCE</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating "A Legacy of Excellence" Stamp / Pill Badge */}
+                <div 
+                  className={`absolute -bottom-2 left-6 sm:left-12 z-30 transition-all duration-700 delay-300 ease-out pointer-events-none ${
+                    isPhotoPopped 
+                      ? 'opacity-100 translate-y-0 scale-100 group-hover:scale-108 group-hover:-rotate-2' 
+                      : 'opacity-0 translate-y-6 scale-90'
+                  }`}
+                >
+                  <div className="px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-xl flex items-center gap-2.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#E8BD63] animate-pulse" />
+                    <span className="text-[11px] font-mono font-bold text-[#1E293B] tracking-wider uppercase">
+                      ESTD 2005 · TWO DECADES
+                    </span>
+                  </div>
+                </div>
+
               </div>
             </div>
 
             {/* Right Column: Editorial Headline & Drop-Cap Story */}
-            <div className="lg:col-span-7 xl:col-span-7 space-y-6">
+            <div className="lg:col-span-6 xl:col-span-6 space-y-6">
               
               {/* Main Headline: "A Legacy of Excellence." */}
               <div className="space-y-1">
@@ -313,7 +402,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* =========================================================================
           VISION & MISSION SECTION: Editorial Contrast
           ========================================================================= */}
-      <section id="vision" className="py-16 sm:py-20 bg-[#FAF8F5] border-b border-stone-200/80">
+      <section id="vision" className="relative z-10 py-16 sm:py-20 bg-[#FAF8F5] border-b border-stone-200/80">
         <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -375,44 +464,100 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* =========================================================================
-          JOURNEY SECTION: 2005 - 2026 Historical Milestones Timeline
+          CINEMATIC ARCHIVAL FILM: STANFORD-STYLE FULLSCREEN CURTAIN-REVEAL TRANSITION
+          - Pinned / Sticky 100vw x 100vh full-bleed video that stays static in the viewport
+          - Autoplays automatically as the user scrolls into view
+          - The next section ("Two Decades of Milestones") slides smoothly UP over it like a curtain
+          - Exact Stanford-style bottom-right circular glass controls (Audio toggle & Play/Pause)
           ========================================================================= */}
-      <section id="journey" className="py-16 sm:py-20 bg-white border-b border-stone-200/80">
-        <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
-          <div className="max-w-2xl">
-            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#2c3a8c] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-              Historical Timeline
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-black text-[#1E293B] tracking-tight mt-2">
-              Two Decades of Milestones
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-500 mt-1">
-              Tracing our growth from inception in 2005 into Eastern India's acclaimed center for engineering education.
-            </p>
-          </div>
+      <div className="relative">
+        {/* Sticky Fullscreen Video Player */}
+        <div className="sticky top-0 h-screen w-full z-0 overflow-hidden select-none bg-slate-950">
+          <video
+            ref={videoRef}
+            muted={isVideoMuted}
+            playsInline
+            loop
+            preload="auto"
+            poster="/about/milestones-video-poster.jpg"
+            onClick={toggleVideoPlay}
+            className="w-full h-full object-cover object-center cursor-pointer"
+          >
+            <source src="/about/historical-milestones-video.mp4" type="video/mp4" />
+            <source src="https://res.cloudinary.com/n0c7bqpd/video/upload/v1794673476/WhatsApp_Video_2026-11-14_at_21.52.53_ebb1tk.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
 
-          <div className="space-y-4">
-            {milestones.map((m, idx) => (
-              <div 
-                key={idx} 
-                className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 hover:bg-white hover:border-[#2c3a8c]/30 hover:shadow-sm transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                <div className="sm:w-32 shrink-0">
-                  <span className="text-base sm:text-lg font-mono font-bold text-[#1E293B] px-3.5 py-1.5 rounded-xl bg-white border border-stone-200 inline-block shadow-2xs">
-                    {m.year}
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-base font-bold text-[#1E293B]">{m.title}</h4>
-                  <p className="text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed">{m.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Subtle Ambient Film Vignette / Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25 pointer-events-none" />
 
+          {/* Stanford-Style Floating Circular Glass Controls (Bottom Right) */}
+          <div className="absolute bottom-6 sm:bottom-8 right-6 sm:right-8 z-20 flex items-center gap-3">
+            <button
+              onClick={toggleVideoMute}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md border border-white/40 text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xl hover:scale-105 active:scale-95"
+              aria-label={isVideoMuted ? "Unmute Audio" : "Mute Audio"}
+            >
+              {isVideoMuted ? <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-white" /> : <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />}
+            </button>
+            <button
+              onClick={toggleVideoPlay}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/75 hover:bg-black/95 backdrop-blur-md border border-white/40 text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xl hover:scale-105 active:scale-95"
+              aria-label={isVideoPlaying ? "Pause Video" : "Play Video"}
+            >
+              {isVideoPlaying ? (
+                <Pause className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white" />
+              ) : (
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white translate-x-0.5" />
+              )}
+            </button>
+          </div>
         </div>
-      </section>
+
+        {/* Scroll Track Buffer: keeps the video locked fullscreen during scroll before the curtain rises */}
+        <div className="h-[40vh] pointer-events-none" />
+
+        {/* =========================================================================
+            JOURNEY SECTION: 2005 - 2026 Historical Milestones Timeline
+            - Slides UP OVER the sticky video like a curtain sheet with an elevated top shadow
+            ========================================================================= */}
+        <section id="journey" className="relative z-10 py-16 sm:py-24 bg-white border-t border-stone-200 shadow-[0_-30px_60px_rgba(0,0,0,0.18)]">
+          <div className="max-w-[1521px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            
+            <div className="max-w-2xl">
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#2c3a8c] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                Historical Timeline
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-serif font-black text-[#1E293B] tracking-tight mt-2">
+                Two Decades of Milestones
+              </h2>
+              <p className="text-xs sm:text-sm text-stone-500 mt-1">
+                Tracing our growth from inception in 2005 into Eastern India's acclaimed center for engineering education.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {milestones.map((m, idx) => (
+                <div 
+                  key={idx} 
+                  className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 hover:bg-white hover:border-[#2c3a8c]/30 hover:shadow-sm transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                >
+                  <div className="sm:w-32 shrink-0">
+                    <span className="text-base sm:text-lg font-mono font-bold text-[#1E293B] px-3.5 py-1.5 rounded-xl bg-white border border-stone-200 inline-block shadow-2xs">
+                      {m.year}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-base font-bold text-[#1E293B]">{m.title}</h4>
+                    <p className="text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed">{m.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+      </div>
 
       {/* =========================================================================
           LEADERSHIP SECTION: Key Institutional Governance

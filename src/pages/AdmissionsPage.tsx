@@ -589,73 +589,142 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
       {/* =========================================================================
           SECTION 2: "Where ambition takes shape." (About Institutional Legacy)
+          - Background: Exact 2D layered wavy curves created in HTML & CSS SVG matching reference image
+          - Typography: "Where ambition takes shape." in Playfair Display
+          - No container boxes: Text rendered directly on the background
+          - Accreditations: Clean text with line separators
+          - Key highlights: Clean prominent text with dividing line separators
+          - Slightly increased text pixels for elevated legibility
           ========================================================================= */}
-      <section className="relative py-16 sm:py-24 bg-white overflow-hidden">
-        {/* Soft geometric faceted background watermark */}
-        <div
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-40 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at center, rgba(13, 148, 136, 0.08) 0%, rgba(248, 250, 252, 0) 70%)'
-          }}
-        />
+      <section className="relative py-20 sm:py-28 overflow-hidden bg-[#FAFBFD]">
+        {/* Exact 2D Wavy Layered Vector Background in HTML & CSS matching reference image (Softened opacity for optimal text legibility) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none opacity-45" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="none"
+            className="w-full h-full object-cover"
+          >
+            <defs>
+              <linearGradient id="waveBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="40%" stopColor="#FAFBFD" />
+                <stop offset="100%" stopColor="#F1F5F9" />
+              </linearGradient>
+              <linearGradient id="waveLayer1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F5F8FA" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#E6EBEF" stopOpacity="0.9" />
+              </linearGradient>
+              <linearGradient id="waveLayer2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#DEE7EE" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#BACCDA" stopOpacity="0.8" />
+              </linearGradient>
+              <linearGradient id="waveLayer3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#9BB8CB" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#678BA3" stopOpacity="0.55" />
+              </linearGradient>
+              <linearGradient id="waveLayer4" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#4A7595" stopOpacity="0.32" />
+                <stop offset="100%" stopColor="#336586" stopOpacity="0.42" />
+              </linearGradient>
+              <linearGradient id="waveLayer5" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#25597D" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#1F577C" stopOpacity="0.35" />
+              </linearGradient>
+            </defs>
+
+            {/* Base Canvas */}
+            <rect width="1440" height="900" fill="url(#waveBaseGrad)" />
+
+            {/* Layer 1: Top Soft Wave */}
+            <path
+              d="M 0,170 C 260,110 500,240 820,200 C 1120,160 1300,270 1440,240 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer1)"
+            />
+
+            {/* Layer 2: Upper Mid Flowing Curve */}
+            <path
+              d="M 0,350 C 280,280 540,440 880,370 C 1180,300 1340,460 1440,420 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer2)"
+            />
+
+            {/* Layer 3: Central Ambient Wave */}
+            <path
+              d="M 0,530 C 300,460 560,630 920,550 C 1220,480 1360,630 1440,590 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer3)"
+            />
+
+            {/* Layer 4: Lower Slate Wave */}
+            <path
+              d="M 0,700 C 320,640 600,790 960,710 C 1240,650 1380,760 1440,730 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer4)"
+            />
+
+            {/* Layer 5: Bottom Deep Ocean Wave */}
+            <path
+              d="M 0,820 C 360,770 680,880 1040,810 C 1260,770 1380,850 1440,830 L 1440,900 L 0,900 Z"
+              fill="url(#waveLayer5)"
+            />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
 
             {/* Left Headline & Accreditation Column */}
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-xs font-mono font-bold tracking-widest text-slate-500 uppercase block">
-                ABOUT US
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#0D9488]" />
+                <span className="text-xs sm:text-sm font-mono font-bold tracking-[0.25em] text-[#0D9488] uppercase block">
+                  ABOUT US
+                </span>
+              </div>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1528] tracking-tight leading-[1.12]">
+              {/* Headline in Playfair Display with Increased Pixels */}
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-playfair font-bold text-[#0B1528] tracking-tight leading-[1.12]">
                 Where ambition<br />
-                <span className="italic font-serif font-normal text-[#0D9488]">takes shape.</span>
+                <span className="italic font-playfair font-normal text-[#0D9488]">takes shape.</span>
               </h2>
 
-              <div className="w-16 h-1 bg-[#0D9488] rounded-full" />
+              <div className="w-20 h-1.5 bg-[#0D9488] rounded-full" />
 
-              {/* Accreditation Badges Row (NAAC, NBA, AICTE, BPUT) */}
-              <div className="pt-4 flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  NAAC A+
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  NBA Tier-1
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  AICTE
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  BPUT Odisha
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
-                  DSIR-SIRO
-                </span>
+              {/* Accreditation Badges Row (No Boxes, Clean Text with Line Separators & Increased Pixels) */}
+              <div className="pt-4 flex flex-wrap items-center gap-x-3.5 gap-y-2 text-sm sm:text-base font-bold text-slate-900">
+                <span className="hover:text-[#0D9488] transition-colors">NAAC A+</span>
+                <span className="text-slate-400 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">NBA Tier-1</span>
+                <span className="text-slate-400 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">AICTE</span>
+                <span className="text-slate-400 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">BPUT Odisha</span>
+                <span className="text-slate-400 font-light select-none">|</span>
+                <span className="hover:text-[#0D9488] transition-colors">DSIR-SIRO</span>
               </div>
             </div>
 
-            {/* Right Detailed Narrative Card */}
-            <div className="lg:col-span-7 bg-[#FAF9F5] border border-stone-200/90 rounded-3xl p-8 sm:p-10 shadow-xs space-y-5">
-              <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
+            {/* Right Detailed Narrative (Clean Text directly on Normal Background, No Container Box, Increased Pixels) */}
+            <div className="lg:col-span-7 space-y-6 pt-1">
+              <p className="text-slate-900 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
                 Trident Academy of Technology (TAT), Bhubaneswar is a premier engineering institution established in 2005 under the visionary DF Group. Known for academic rigor, cutting-edge research, and an exceptional faculty-student mentorship framework, Trident stands as a benchmark of technical excellence in Eastern India.
               </p>
 
-              <p className="text-stone-600 text-sm leading-relaxed">
+              <p className="text-slate-800 text-base sm:text-lg lg:text-[19px] leading-relaxed font-normal">
                 Equipped with world-class laboratories, DST-SIRO recognized research centers, Cisco thingQbator IoT makerspace, and an outcome-based education model aligned with National Education Policy (NEP), we groom aspiring students into industry-ready leaders, innovators, and entrepreneurs.
               </p>
 
-              <div className="pt-4 border-t border-stone-200/70 space-y-2.5">
-                <div className="flex items-center gap-2.5 text-xs font-medium text-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+              {/* Key Institutional Highlights with Dividing Line Separators */}
+              <div className="pt-6 border-t border-slate-300 space-y-3.5">
+                <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-slate-900">
+                  <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>20+ Years of Academic Excellence, Rigor &amp; Transparent Institutional Governance</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs font-medium text-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+                <div className="border-t border-slate-200" />
+                <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-slate-900">
+                  <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>100% Placement Assistance with 120+ Global Fortune 500 Recruiters</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs font-medium text-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+                <div className="border-t border-slate-200" />
+                <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-slate-900">
+                  <CheckCircle2 className="w-5 h-5 text-[#0D9488] shrink-0" />
                   <span>10+ Acres Lush Eco-Friendly Smart Campus Situated in Infocity, Bhubaneswar</span>
                 </div>
               </div>
@@ -781,10 +850,10 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
 
                     {/* School Title & Motto at Bottom (Matching Reference Video Exactly) */}
                     <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
-                      <h3 className="font-chango text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
+                      <h3 className="font-chango font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-normal leading-tight drop-shadow-md">
                         {school.title}
                       </h3>
-                      <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-stone-200 font-bold drop-shadow-sm">
+                      <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.22em] text-white font-extrabold drop-shadow-sm">
                         {school.motto}
                       </p>
                     </div>
@@ -824,7 +893,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     >
                       {/* Header Row: School Title + Circular Arrow Button */}
                       <div className="school-header-reveal flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-chango text-3xl sm:text-4xl lg:text-[40px] text-stone-900 tracking-normal leading-[1.2]">
+                        <h3 className="font-chango font-bold text-3xl sm:text-4xl lg:text-[42px] text-stone-950 tracking-normal leading-[1.2]">
                           {school.title}
                         </h3>
 
@@ -838,22 +907,22 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                       </div>
 
                       {/* Motto */}
-                      <p className="school-motto-reveal text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-[#8B5A2B] mb-4">
+                      <p className="school-motto-reveal text-xs sm:text-sm font-mono font-extrabold tracking-[0.2em] uppercase text-[#784421] mb-4">
                         {school.motto}
                       </p>
 
                       {/* Editorial Description */}
-                      <p className="school-desc-reveal text-stone-700 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mb-8">
+                      <p className="school-desc-reveal text-stone-950 text-base sm:text-lg leading-relaxed font-bold max-w-2xl mb-8">
                         {school.description}
                       </p>
 
                       {/* Optional Accreditation Badge (e.g. School of Business) */}
                       {school.badge && (
-                        <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/90 border border-stone-200/90 shadow-2xs">
-                          <span className="text-[10px] font-mono font-bold tracking-widest text-[#8B5A2B] uppercase block">
+                        <div className="school-badge-reveal mb-8 inline-block px-5 py-3 rounded-lg bg-white/95 border border-stone-300 shadow-2xs">
+                          <span className="text-xs font-mono font-extrabold tracking-widest text-[#784421] uppercase block">
                             {school.badge.eyebrow}
                           </span>
-                          <span className="text-base font-bold text-stone-900 block mt-0.5">
+                          <span className="text-base sm:text-lg font-extrabold text-stone-950 block mt-0.5">
                             {school.badge.title}
                           </span>
                         </div>
@@ -864,7 +933,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                         {school.categories.map((category, cIdx) => (
                           <div key={cIdx} className="space-y-1">
                             {/* Category Header */}
-                            <h4 className="school-cat-reveal text-xs sm:text-sm font-bold tracking-wider text-stone-900 uppercase pt-4 pb-2">
+                            <h4 className="school-cat-reveal text-sm sm:text-base font-extrabold tracking-wider text-stone-950 uppercase pt-4 pb-2">
                               {category.name}
                             </h4>
 
@@ -874,12 +943,12 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                                 <div
                                   key={pIdx}
                                   onClick={() => handleOpenApplyModal(prog.name)}
-                                  className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300/80 hover:border-[#784421] cursor-pointer transition-colors"
+                                  className="school-row-reveal group flex items-center justify-between py-3.5 sm:py-4 border-b border-stone-300 hover:border-[#784421] cursor-pointer transition-colors"
                                 >
-                                  <span className="text-stone-800 text-sm sm:text-base font-medium group-hover:text-[#784421] transition-colors pr-4">
+                                  <span className="text-stone-950 text-base sm:text-lg font-bold group-hover:text-[#784421] transition-colors pr-4">
                                     {prog.name}
                                   </span>
-                                  <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#784421] group-hover:translate-x-1 transition-all shrink-0" />
+                                  <ArrowRight className="w-5 h-5 text-stone-600 stroke-[2.5] group-hover:text-[#784421] group-hover:translate-x-1.5 transition-all shrink-0" />
                                 </div>
                               ))}
                             </div>
@@ -995,25 +1064,97 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 5: "Scholarship support." (Reference Geometric Sage/Mint Background & Pop-Out Scroll Animation)
+          SECTION 5: "Scholarship support." (Exact HTML & CSS Vector Mint Geometric Background matching reference)
           ========================================================================= */}
       <section
         ref={scholarshipSectionRef}
-        className="relative py-20 sm:py-28 bg-[#F4F9F6] overflow-hidden border-y border-emerald-900/10"
+        className="relative py-20 sm:py-28 bg-[#F6FAF8] overflow-hidden border-y border-emerald-900/10"
       >
-        {/* Reference Geometric Light Mint/Sage Background with Wireframe Line Facets */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/admissions-programs/scholarship-mint-geometric-bg.jpg')`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        />
+        {/* Exact Geometric Mint & Sage Line-Art Background in HTML & CSS SVG matching reference image */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="none"
+            className="w-full h-full object-cover"
+          >
+            <defs>
+              <linearGradient id="scholarshipBgBase" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F6FAF8" />
+                <stop offset="50%" stopColor="#FAFCFB" />
+                <stop offset="100%" stopColor="#F3F8F5" />
+              </linearGradient>
+            </defs>
 
-        {/* Ambient Subtle Emerald & Teal Glow Accents */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-500/10 blur-[130px] pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-teal-500/10 blur-[130px] pointer-events-none" />
+            {/* Base Canvas */}
+            <rect width="1440" height="900" fill="url(#scholarshipBgBase)" />
+
+            {/* ================= TOP-LEFT GEOMETRIC POLYGONS ================= */}
+            <polygon points="0,0 620,0 420,240 0,440" fill="#D7EBE0" opacity="0.5" />
+            <polygon points="0,0 460,0 300,320 0,560" fill="#C4E0D1" opacity="0.45" />
+            <polygon points="0,220 320,300 180,520 0,680" fill="#E6F2EC" opacity="0.55" />
+            <polygon points="120,0 520,0 380,180 180,120" fill="#B8D9C6" opacity="0.38" />
+
+            {/* Top-Left Concentric Bent Lines */}
+            <polyline points="280,0 460,260 0,620" stroke="#84AC97" strokeWidth="1.75" fill="none" opacity="0.75" />
+            <polyline points="255,0 435,245 0,590" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="230,0 410,230 0,560" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="205,0 385,215 0,530" stroke="#84AC97" strokeWidth="1.75" fill="none" opacity="0.75" />
+            <polyline points="180,0 360,200 0,500" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="155,0 335,185 0,470" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="130,0 310,170 0,440" stroke="#84AC97" strokeWidth="1.75" fill="none" opacity="0.7" />
+            <polyline points="105,0 285,155 0,410" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.6" />
+            <polyline points="80,0 260,140 0,380" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.6" />
+            <polyline points="55,0 235,125 0,350" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.55" />
+            <polyline points="30,0 210,110 0,320" stroke="#84AC97" strokeWidth="1.5" fill="none" opacity="0.6" />
+            <polyline points="5,0 185,95 0,290" stroke="#92B6A3" strokeWidth="1.25" fill="none" opacity="0.5" />
+
+            {/* Top-Left Diagonal Parallel Hatch Lines */}
+            <line x1="0" y1="280" x2="380" y2="680" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="320" x2="350" y2="700" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="360" x2="320" y2="720" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="400" x2="290" y2="740" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="440" x2="260" y2="760" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="480" x2="230" y2="780" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+            <line x1="0" y1="520" x2="200" y2="800" stroke="#95B9A6" strokeWidth="1.25" opacity="0.45" />
+
+            {/* ================= TOP-RIGHT STREAMING PARALLEL LINES ================= */}
+            <polygon points="900,0 1440,0 1440,180 1120,90" fill="#E2EFE7" opacity="0.55" />
+            <polygon points="1100,0 1440,0 1440,120" fill="#D3E8DC" opacity="0.45" />
+            <line x1="820" y1="0" x2="1440" y2="60" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="860" y1="0" x2="1440" y2="85" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="900" y1="0" x2="1440" y2="110" stroke="#7DA48E" strokeWidth="1.5" opacity="0.75" />
+            <line x1="940" y1="0" x2="1440" y2="135" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="980" y1="0" x2="1440" y2="160" stroke="#90B4A0" strokeWidth="1.25" opacity="0.65" />
+            <line x1="1020" y1="0" x2="1440" y2="185" stroke="#7DA48E" strokeWidth="1.5" opacity="0.7" />
+            <line x1="1060" y1="0" x2="1440" y2="210" stroke="#90B4A0" strokeWidth="1.25" opacity="0.6" />
+            <line x1="1100" y1="0" x2="1440" y2="235" stroke="#90B4A0" strokeWidth="1.25" opacity="0.6" />
+            <line x1="1140" y1="0" x2="1440" y2="260" stroke="#90B4A0" strokeWidth="1.25" opacity="0.55" />
+
+            {/* ================= BOTTOM-RIGHT GEOMETRIC POLYGONS & LINES ================= */}
+            <polygon points="1440,480 1140,680 1280,900 1440,900" fill="#C5DFD0" opacity="0.6" />
+            <polygon points="1440,620 1220,780 1360,900 1440,900" fill="#B3D7C1" opacity="0.5" />
+            <polygon points="1020,900 1240,720 1440,840 1440,900" fill="#D8ECE0" opacity="0.55" />
+
+            <polyline points="1440,480 1140,690 1280,900" stroke="#7FA792" strokeWidth="1.75" fill="none" opacity="0.75" />
+            <polyline points="1440,505 1160,705 1300,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="1440,530 1180,720 1320,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="1440,555 1200,735 1340,900" stroke="#7FA792" strokeWidth="1.75" fill="none" opacity="0.7" />
+            <polyline points="1440,580 1220,750 1360,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="1440,605 1240,765 1380,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="1440,630 1260,780 1400,900" stroke="#7FA792" strokeWidth="1.5" fill="none" opacity="0.65" />
+            <polyline points="1440,655 1280,795 1420,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.6" />
+            <polyline points="1440,680 1300,810 1440,900" stroke="#90B4A0" strokeWidth="1.25" fill="none" opacity="0.55" />
+
+            {/* ================= BOTTOM-CENTER UPWARD CHEVRONS ================= */}
+            <polygon points="680,900 780,740 980,900" fill="#DCEDE4" opacity="0.5" />
+            <polyline points="660,900 780,740 970,900" stroke="#7AA38E" strokeWidth="1.75" fill="none" opacity="0.8" />
+            <polyline points="680,900 785,760 950,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="700,900 790,780 930,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.7" />
+            <polyline points="720,900 795,800 910,900" stroke="#7AA38E" strokeWidth="1.5" fill="none" opacity="0.7" />
+            <polyline points="740,900 800,820 890,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.65" />
+            <polyline points="760,900 805,840 870,900" stroke="#8EAF9D" strokeWidth="1.25" fill="none" opacity="0.6" />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
 
@@ -1130,24 +1271,170 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
       </section>
 
       {/* =========================================================================
-          SECTION 6: "Placement Highlights" (Reference 3D White Isometric Hexagons Background & 2s Pop-Out Counter Animation)
+          SECTION 6: "Placement Highlights" (Reference 3D Low-Poly Origami Crystal Faceted Vector Background & 2s Pop-Out Counter Animation)
+          - Background: Exact 3D Low-Poly White Origami Crystal vector background crafted in HTML & CSS SVG matching reference image
+          - Multi-angle faceted geometry, directional linear gradients, crease drop-shadow filters, sharp specular ridge lines, and radiant apex glare flare
           ========================================================================= */}
       <section
         ref={placementSectionRef}
-        className="relative py-20 sm:py-28 bg-[#FFFFFF] text-slate-900 overflow-hidden border-y border-slate-200/80"
+        className="relative py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 overflow-hidden border-y border-slate-200/80"
       >
-        {/* Reference 3D White Isometric Hexagons Honeycomb Background */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-100 bg-cover bg-left sm:bg-center"
-          style={{
-            backgroundImage: `url('/admissions-programs/white-hexagons-3d-bg.jpg')`,
-            backgroundPosition: 'left center',
-            backgroundSize: 'cover',
-          }}
-        />
+        {/* Exact 3D Low-Poly Origami Crystal Faceted Vector Background in HTML & CSS SVG matching reference image */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="none"
+            className="w-full h-full object-cover"
+          >
+            <defs>
+              {/* Facet Gradients for 3D Directional Shading */}
+              <linearGradient id="crystalFacetF1" x1="140" y1="200" x2="640" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#F1F4F8" />
+              </linearGradient>
 
-        {/* Ambient Subtle Light Teal Glow Accent */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42rem] h-[22rem] rounded-full bg-teal-500/5 blur-[130px] pointer-events-none" />
+              <linearGradient id="crystalFacetF2" x1="0" y1="0" x2="260" y2="200" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#F7F9FC" />
+                <stop offset="100%" stopColor="#ECF0F4" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF3" x1="1440" y1="0" x2="1120" y2="160" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#D8DDE3" />
+                <stop offset="100%" stopColor="#EAEFF4" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF4" x1="640" y1="180" x2="1440" y2="440" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="45%" stopColor="#F6F8FB" />
+                <stop offset="100%" stopColor="#E8ECF1" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF5" x1="0" y1="340" x2="320" y2="380" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#DFE4EA" />
+                <stop offset="100%" stopColor="#F3F5F8" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF6" x1="320" y1="380" x2="760" y2="560" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#EFF2F6" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF7" x1="1440" y1="340" x2="760" y2="560" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#DCE1E7" />
+                <stop offset="100%" stopColor="#F3F6F9" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF8" x1="440" y1="640" x2="1020" y2="720" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#F9FAFD" />
+                <stop offset="100%" stopColor="#E6EBF0" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF9" x1="0" y1="620" x2="440" y2="640" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#D3D8DF" />
+                <stop offset="100%" stopColor="#E7ECF1" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF10" x1="0" y1="900" x2="320" y2="760" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#C5CBD2" />
+                <stop offset="100%" stopColor="#DDE2E7" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF11" x1="520" y1="820" x2="880" y2="900" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#E8ECF2" />
+              </linearGradient>
+
+              <linearGradient id="crystalFacetF12" x1="1020" y1="720" x2="1440" y2="900" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#DEE3E9" />
+                <stop offset="100%" stopColor="#D2D8DF" />
+              </linearGradient>
+
+              {/* Subtle Fold Drop Shadow Filter */}
+              <filter id="crystalCreaseShadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#4A5568" floodOpacity="0.14" />
+              </filter>
+
+              {/* Radiant Specular Apex Radial Flare */}
+              <radialGradient id="crystalApexGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
+                <stop offset="25%" stopColor="#FFFDF7" stopOpacity="0.9" />
+                <stop offset="60%" stopColor="#EFF4F9" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* Base Background Fill */}
+            <rect width="1440" height="900" fill="#F8FAFC" />
+
+            {/* ================= LOW-POLY CRYSTAL FACET MESH ================= */}
+            {/* Top-Left Facets */}
+            <polygon points="0,0 260,0 140,200" fill="url(#crystalFacetF2)" />
+            <polygon points="0,0 140,200 0,340" fill="url(#crystalFacetF2)" />
+            <polygon points="260,0 860,0 640,240 140,200" fill="url(#crystalFacetF1)" />
+
+            {/* Top-Right Facets */}
+            <polygon points="860,0 1440,0 1120,100" fill="url(#crystalFacetF3)" />
+            <polygon points="860,0 1120,100 640,240" fill="url(#crystalFacetF4)" />
+            <polygon points="1120,100 1440,0 1440,340 1080,420" fill="url(#crystalFacetF3)" />
+            <polygon points="640,240 1120,100 1080,420 760,560" fill="url(#crystalFacetF4)" filter="url(#crystalCreaseShadow)" />
+
+            {/* Mid-Left & Central Illuminated Planes */}
+            <polygon points="0,340 140,200 320,380" fill="url(#crystalFacetF5)" />
+            <polygon points="140,200 640,240 760,560 320,380" fill="url(#crystalFacetF6)" />
+            <polygon points="0,340 320,380 440,640 0,620" fill="url(#crystalFacetF5)" />
+            <polygon points="320,380 760,560 440,640" fill="url(#crystalFacetF6)" />
+
+            {/* Mid-Right Structural Planes */}
+            <polygon points="1080,420 1440,340 1440,680 760,560" fill="url(#crystalFacetF7)" />
+
+            {/* Lower Planes & Slabs with 3D Depth Creases */}
+            <polygon points="0,620 440,640 320,900 0,900" fill="url(#crystalFacetF9)" />
+            <polygon points="440,640 760,560 1020,720 520,820" fill="url(#crystalFacetF8)" filter="url(#crystalCreaseShadow)" />
+            <polygon points="760,560 1440,680 1020,720" fill="url(#crystalFacetF7)" />
+            <polygon points="440,640 520,820 320,900" fill="url(#crystalFacetF10)" />
+            <polygon points="520,820 1020,720 880,900 320,900" fill="url(#crystalFacetF11)" filter="url(#crystalCreaseShadow)" />
+            <polygon points="1020,720 1440,680 1440,900 880,900" fill="url(#crystalFacetF12)" />
+
+            {/* ================= SPECULAR RIDGE HIGHLIGHT LINES ================= */}
+            <line x1="0" y1="0" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="2" opacity="0.9" />
+            <line x1="260" y1="0" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.95" />
+            <line x1="140" y1="200" x2="640" y2="240" stroke="#FFFFFF" strokeWidth="2.75" opacity="1" />
+            <line x1="640" y1="240" x2="1120" y2="100" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="1120" y1="100" x2="1440" y2="0" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="0" y1="340" x2="140" y2="200" stroke="#FFFFFF" strokeWidth="2" opacity="0.9" />
+            <line x1="140" y1="200" x2="320" y2="380" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.95" />
+            <line x1="640" y1="240" x2="760" y2="560" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.95" />
+            <line x1="1120" y1="100" x2="1080" y2="420" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.75" />
+            <line x1="320" y1="380" x2="760" y2="560" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.95" />
+            <line x1="0" y1="340" x2="320" y2="380" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="320" y1="380" x2="440" y2="640" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="440" y1="640" x2="760" y2="560" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="760" y1="560" x2="1080" y2="420" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="1080" y1="420" x2="1440" y2="340" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.75" />
+            <line x1="760" y1="560" x2="1440" y2="680" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="760" y1="560" x2="1020" y2="720" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="440" y1="640" x2="520" y2="820" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="520" y1="820" x2="1020" y2="720" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.95" />
+            <line x1="1020" y1="720" x2="1440" y2="680" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="520" y1="820" x2="320" y2="900" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+            <line x1="520" y1="820" x2="880" y2="900" stroke="#FFFFFF" strokeWidth="2.25" opacity="0.9" />
+            <line x1="1020" y1="720" x2="880" y2="900" stroke="#FFFFFF" strokeWidth="2" opacity="0.85" />
+            <line x1="0" y1="620" x2="440" y2="640" stroke="#FFFFFF" strokeWidth="1.75" opacity="0.8" />
+
+            {/* ================= RADIANT APEX SPECULAR FLARE ================= */}
+            {/* Ambient Radial Soft Bloom */}
+            <circle cx="140" cy="200" r="160" fill="url(#crystalApexGlow)" />
+            <circle cx="140" cy="200" r="70" fill="url(#crystalApexGlow)" opacity="0.85" />
+            {/* Primary Glare Cross Rays */}
+            <line x1="20" y1="200" x2="260" y2="200" stroke="#FFFFFF" strokeWidth="3" opacity="0.85" strokeLinecap="round" />
+            <line x1="140" y1="80" x2="140" y2="320" stroke="#FFFFFF" strokeWidth="3" opacity="0.85" strokeLinecap="round" />
+            {/* Diagonal Secondary Glare Beams */}
+            <line x1="65" y1="125" x2="215" y2="275" stroke="#FFFFFF" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
+            <line x1="65" y1="275" x2="215" y2="125" stroke="#FFFFFF" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
+            {/* Diamond Core Specular Star */}
+            <polygon points="140,184 156,200 140,216 124,200" fill="#FFFFFF" opacity="0.98" />
+          </svg>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-10">
 
@@ -1166,41 +1453,63 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             </p>
           </div>
 
-          {/* Big Key Stats (Animated 2-Second Increments) */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 max-w-5xl mx-auto pt-2">
+          {/* Big Key Stats (Floating Numbers Without Box) */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 max-w-5xl mx-auto pt-4 pb-2">
             {[
               {
                 value: `${placementStats.offers.toLocaleString()}+`,
+                unit: null,
                 label: 'Placement Offers',
-                border: 'from-emerald-400 to-teal-500'
+                duration: '4.2s',
+                delay: '0s'
               },
               {
-                value: `${placementStats.highest}+ LPA`,
+                value: `${placementStats.highest}+`,
+                unit: 'LPA',
                 label: 'Highest Package',
-                border: 'from-cyan-400 to-blue-500'
+                duration: '4.7s',
+                delay: '0.8s'
               },
               {
                 value: `${placementStats.rate.toFixed(1)}%`,
+                unit: null,
                 label: 'Placement Rate',
-                border: 'from-amber-400 to-orange-500'
+                duration: '4.0s',
+                delay: '1.5s'
               },
               {
                 value: `${placementStats.partners}+`,
+                unit: null,
                 label: 'Hiring Partners',
-                border: 'from-purple-400 to-indigo-500'
+                duration: '4.9s',
+                delay: '2.2s'
               },
             ].map((stat, i) => (
               <div
                 key={i}
-                className="placement-card-reveal group relative p-6 sm:p-7 rounded-3xl bg-white/90 hover:bg-white backdrop-blur-xl border border-slate-200/90 hover:border-teal-500/50 shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(13,148,136,0.12)] transition-all duration-300 overflow-hidden text-center"
+                className="placement-card-reveal text-center select-none"
               >
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.border} opacity-80 group-hover:h-1.5 transition-all duration-300`} />
-                <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 font-mono tracking-tight block tabular-nums group-hover:text-[#0D9488] transition-colors">
-                  {stat.value}
-                </span>
-                <span className="text-xs font-mono uppercase tracking-[0.18em] text-slate-500 font-bold mt-2.5 block">
-                  {stat.label}
-                </span>
+                <div
+                  style={{
+                    animation: `floatingStat ${stat.duration} ease-in-out infinite`,
+                    animationDelay: stat.delay,
+                  }}
+                  className="py-4 px-2 hover:scale-108 transition-transform duration-300 flex flex-col items-center justify-center cursor-default group"
+                >
+                  <div className="flex flex-col items-center justify-center min-h-[85px] sm:min-h-[105px]">
+                    <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 font-mono tracking-tight block tabular-nums group-hover:text-[#0D9488] transition-colors drop-shadow-xs">
+                      {stat.value}
+                    </span>
+                    {stat.unit && (
+                      <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 font-mono tracking-tight block -mt-1 group-hover:text-[#0D9488] transition-colors">
+                        {stat.unit}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.2em] text-slate-600 font-bold mt-2.5 block">
+                    {stat.label}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

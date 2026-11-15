@@ -164,40 +164,6 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
     },
     {
       id: '03',
-      title: 'Robotics & Maker FabLab',
-      motto: 'HARDWARE INNOVATION & AUTONOMOUS UAV FABLAB',
-      description:
-        'A state-of-the-art maker haven equipped with rapid 3D prototyping printers, precision CNC mills, Cadence PCB fabrication, and autonomous drone flight testing cages for student inventors.',
-      badge: {
-        eyebrow: 'HARDWARE PROTOTYPING & PATENTS',
-        title: 'Texas Instruments & ARM Partner Lab'
-      },
-      image: '/assets/images/college_drone_lab_hero.jpg',
-      imageAlt: 'Robotics and Drone Prototyping FabLab',
-      snapshots: ['Industrial 3D Printers', 'Drone Testing Cage', 'Cadence PCB Studio', 'ARM Embedded Telemetry'],
-      categories: [
-        {
-          name: '1. Fabrication & Prototyping Equipment',
-          items: [
-            'Industrial Dual-Extrusion 3D Printers & Laser Cutters',
-            'Cadence Allegro PCB Design & Surface Mount Soldering Stations',
-            'Precision CNC Milling, Lathe & Mechanical Fabrication Shop',
-            'Digital Storage Oscilloscopes & Spectrum RF Analyzers'
-          ]
-        },
-        {
-          name: '2. Autonomous Systems & Robotics',
-          items: [
-            'ROS2 Autonomous Rover Navigation & Obstacle Traversal Arenas',
-            'Quadcopter Drone Indoor Testing Flight Enclosure',
-            'Industrial Robotic Arm Kinematics & Vision Inspection Stations',
-            'Embedded IoT Sensor Networks & Telemetry Testbeds'
-          ]
-        }
-      ]
-    },
-    {
-      id: '04',
       title: 'Smart Lecture Theatres',
       motto: 'ACOUSTIC ARCHITECTURE & 4K DIGITAL LECTURE THEATRES',
       description:
@@ -231,7 +197,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '05',
+      id: '04',
       title: 'Engineering Workshops',
       motto: 'HEAVY FABRICATION & ADVANCED MATERIALS WORKSHOPS',
       description:
@@ -265,7 +231,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '06',
+      id: '05',
       title: 'AR/VR Simulation Studio',
       motto: 'IMMERSIVE SPATIAL COMPUTING & XR FOUNDRY',
       description:
@@ -299,7 +265,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '07',
+      id: '06',
       title: 'Cafeteria & Dining Court',
       motto: 'HYGIENIC DINING & VIBRANT STUDENT SOCIAL HUB',
       description:
@@ -308,7 +274,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         eyebrow: 'CULINARY EXCELLENCE & NUTRITION',
         title: '650+ Seating Capacity · HACCP Certified'
       },
-      image: '/assets/images/college_campus_hero_1793988186342.jpg',
+      image: '/campus-facilities/cafeteria_dining_court.jpg',
       imageAlt: 'Multi-Cuisine Student Cafeteria',
       snapshots: ['HACCP Certified Kitchen', '650+ Seating Concourse', 'Multi-Cuisine Counters', 'Industrial RO Plant'],
       categories: [
@@ -333,7 +299,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '08',
+      id: '07',
       title: 'Sports & Athletics Arena',
       motto: 'PHYSICAL VITALITY & CHAMPIONSHIP ATHLETICS',
       description:
@@ -342,7 +308,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         eyebrow: 'PHYSICAL WELLNESS & TROPHIES',
         title: 'Multi-Sport Complex · Certified Fitness Trainers'
       },
-      image: '/assets/images/college_convocation_1793988239815.jpg',
+      image: '/campus-facilities/sports_athletics_complex.jpg',
       imageAlt: 'College Athletics and Sports Arena',
       snapshots: ['FIFA Football Turf', 'Floodlit Basketball Arena', 'BWF Badminton Courts', 'Air-Conditioned Gym'],
       categories: [
@@ -367,7 +333,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       ]
     },
     {
-      id: '09',
+      id: '08',
       title: 'Smart Eco-Hostels & Campus',
       motto: 'HOME AWAY FROM HOME · 10+ ACRES GREEN LIVING',
       description:
@@ -867,7 +833,41 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
     };
   }, []);
 
-  // ScrollTrigger: Facilities sticky left showcase syncing & entrance animations
+  // Dual-Engine Sync: Native IntersectionObserver + GSAP ScrollTrigger
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const indexStr = entry.target.getAttribute('data-facility-index');
+            if (indexStr !== null) {
+              const idx = parseInt(indexStr, 10);
+              setActiveFacilityIndex(idx);
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '-20% 0px -40% 0px',
+        threshold: 0.1
+      }
+    );
+
+    facilityRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 450);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // ScrollTrigger: Facilities entrance animations
   useEffect(() => {
     const section = facilitiesSectionRef.current;
     if (!section) return;
@@ -1055,14 +1055,15 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
       {/* =========================================================================
           WORLD-CLASS CAMPUS INFRASTRUCTURE (50/50 SPLIT CINEMATIC SECTION)
           - Headings: Playfair Display font (font-playfair font-bold)
-          - 9 Premier Campus Facilities showcasing all campus spaces & images
+          - 8 Premier Campus Facilities with complete photos (Central Library, Computing, Lecture Halls, Workshops, VR Studio, Dining, Sports, Hostels)
           - Divider: The image container itself is curved (S-curve clipPath) - NOT curved lines drawn on top!
-          - Background: 2D multi-colored flowing wavy background matching reference image
+          - Background: 100% Sticky 2D multi-colored flowing wavy background matching reference image
+          - Quick-Jump Pill Bar for instant access to every facility & photo
           ========================================================================= */}
       <section
         id="campus-facilities"
         ref={facilitiesSectionRef}
-        className="relative w-full bg-[#FAF7F2] border-t border-b border-stone-200 scroll-mt-10 overflow-hidden"
+        className="relative w-full bg-[#FAF7F2] border-t border-b border-stone-200 scroll-mt-10"
       >
         {/* SVG Curved Divider ClipPath Definition (The boundary itself is an S-curve, no drawn lines) */}
         <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
@@ -1092,7 +1093,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                   </span>
                 </h2>
                 <p className="text-stone-700 text-sm sm:text-base lg:text-lg sm:leading-relaxed font-sans max-w-2xl">
-                  Explore our modern 10+ acre campus ecosystem featuring 24/7 digital libraries, AI supercomputing labs, robotics maker fablabs, lecture amphitheaters, engineering workshops, AR/VR studios, dining courts, and Olympic athletic pavilions.
+                  Explore our modern 10+ acre campus ecosystem featuring 24/7 digital libraries, AI supercomputing labs, lecture amphitheaters, engineering workshops, AR/VR studios, dining courts, and Olympic athletic pavilions.
                 </p>
               </div>
 
@@ -1104,7 +1105,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                 </span>
                 <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-blue-500" />
-                  9 Specialized Spaces
+                  8 Specialized Spaces
                 </span>
                 <span className="px-4 py-2 rounded-full bg-white/95 border border-stone-300/80 shadow-xs text-stone-800 font-semibold flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
@@ -1116,8 +1117,19 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
         </div>
 
         {/* PART B: 50/50 SPLIT SHOWCASE WITH CURVED BOUNDARY */}
-        <div className="w-full relative overflow-hidden bg-[#FAF7F2]">
-          <div className="w-full flex flex-col lg:flex-row items-start relative">
+        <div className="w-full relative bg-[#FAF7F2]">
+          {/* STICKY REFERENCE 2D MULTI-COLORED WAVY BACKGROUND */}
+          <div className="sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
+            <img
+              src="/campus-facilities/wavy-2d-colored-bg.jpg"
+              alt="2D Wavy Background"
+              className="w-full h-full object-cover object-center opacity-85"
+            />
+            {/* Subtle gentle gradient blend at top & bottom */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/40 via-transparent to-[#FAF7F2]/40 pointer-events-none" />
+          </div>
+
+          <div className="w-full flex flex-col lg:flex-row items-start relative z-10">
 
             {/* LEFT COLUMN: 50% WIDTH STICKY SHOWCASE WITH CURVED RIGHT EDGE (THE DIVIDER IS THE CURVE) */}
             <div className="w-full lg:w-[52%] lg:sticky lg:top-0 h-[480px] sm:h-[600px] lg:h-screen self-start overflow-hidden bg-stone-950 z-20 lg:[clip-path:url(#curved-divider-clip)] lg:[filter:drop-shadow(10px_0_24px_rgba(0,0,0,0.22))]">
@@ -1151,7 +1163,7 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
                     {/* Facility Title in Playfair Display Font & Motto at Bottom Left */}
                     <div className="absolute bottom-8 sm:bottom-12 inset-x-8 sm:inset-x-12 z-20 space-y-2 pointer-events-none">
                       <span className="text-[10px] font-mono font-bold tracking-widest text-emerald-400 uppercase px-2.5 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/40 inline-block mb-1">
-                        Facility {facility.id} of 09
+                        Facility {facility.id} of 08
                       </span>
                       <h3 className="font-playfair font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight leading-tight drop-shadow-md">
                         {facility.title}
@@ -1165,34 +1177,17 @@ export const CampusLifePage: React.FC<{ onNavigate: (tab: string) => void }> = (
               })}
             </div>
 
-            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT WITH 2D MULTI-COLORED WAVY REFERENCE BACKGROUND */}
-            <div className="w-full lg:w-[50%] lg:-ml-[2%] relative bg-[#FAF7F2]">
-              {/* STICKY REFERENCE 2D MULTI-COLORED WAVY BACKGROUND (DESKTOP) */}
-              <div className="hidden lg:block sticky top-0 h-screen w-full -mb-[100vh] pointer-events-none z-0 overflow-hidden">
-                <img
-                  src="/campus-facilities/wavy-2d-colored-bg.jpg"
-                  alt=""
-                  className="w-full h-full object-cover object-center opacity-85"
-                />
-              </div>
-
-              {/* MOBILE BACKGROUND */}
-              <div className="lg:hidden absolute inset-0 pointer-events-none z-0 overflow-hidden">
-                <img
-                  src="/campus-facilities/wavy-2d-colored-bg.jpg"
-                  alt=""
-                  className="w-full h-full object-cover object-center opacity-85"
-                />
-              </div>
-
+            {/* RIGHT COLUMN: 50% WIDTH SCROLLING CONTENT */}
+            <div className="w-full lg:w-[50%] lg:-ml-[2%] relative">
               {/* Scrolling Content */}
               <div className="relative z-10 px-8 sm:px-12 lg:pl-16 lg:pr-12 xl:pl-20 xl:pr-16 py-16 sm:py-24 space-y-24 sm:space-y-32">
                 {campusFacilitiesData.map((facility, fIdx) => {
                   return (
                     <div
                       key={facility.id}
+                      data-facility-index={fIdx}
                       ref={(el) => { facilityRefs.current[fIdx] = el; }}
-                      className="facility-section relative"
+                      className="facility-section relative scroll-mt-36"
                     >
                       {/* Header Row: Facility Title in Playfair Display Font + Circular Action Button */}
                       <div className="facility-header-reveal flex items-start justify-between gap-4 mb-2">
