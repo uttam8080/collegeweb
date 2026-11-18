@@ -134,6 +134,14 @@ functions:
           method: get
           cors: true
 
+  update-recruiter:
+    handler: functions/placements/update-recruiter.main
+    events:
+      - http:
+          path: /api/placements/recruiters/{recruiterId}
+          method: put
+          cors: true
+
   # ============================================================================
   # 4. CAMPUS SECURITY & GATE PASS APIS
   # ============================================================================
