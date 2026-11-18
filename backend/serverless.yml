@@ -234,6 +234,14 @@ functions:
           method: get
           cors: true
 
+  update-profile:
+    handler: functions/user/update-profile.main
+    events:
+      - http:
+          path: /api/users/{cognitoId}
+          method: put
+          cors: true
+
   # ============================================================================
   # 8. COLLEGE SETTINGS & INSTITUTION CONFIG APIS
   # ============================================================================
