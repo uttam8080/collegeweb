@@ -107,6 +107,14 @@ functions:
           method: get
           cors: true
 
+  update-inquiry:
+    handler: functions/inquiries/update-inquiry.main
+    events:
+      - http:
+          path: /api/inquiries/{inquiryId}
+          method: put
+          cors: true
+
   # ============================================================================
   # 3. CORPORATE PLACEMENTS & RECRUITERS APIS
   # ============================================================================
@@ -236,3 +244,121 @@ functions:
           path: /api/institution/config
           method: put
           cors: true
+
+# ==============================================================================
+# CLOUDFORMATION RESOURCES (DynamoDB Tables with institutionId as Partition Key)
+# ==============================================================================
+resources:
+  Resources:
+    AdmissionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_ADMISSIONS_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: applicationId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: applicationId
+            KeyType: RANGE
+
+    InquiriesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_INQUIRIES_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: inquiryId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: inquiryId
+            KeyType: RANGE
+
+    PlacementsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_PLACEMENTS_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: recruiterId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: recruiterId
+            KeyType: RANGE
+
+    SecurityPassesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_SECURITY_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: passId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: passId
+            KeyType: RANGE
+
+    NoticesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_NOTICES_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: noticeId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: noticeId
+            KeyType: RANGE
+
+    UserProfileTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_USER_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: cognitoId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: cognitoId
+            KeyType: RANGE
+
+    CollegeConfigTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.COLLEGE_CONFIG_TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: institutionId
+            AttributeType: S
+          - AttributeName: index
+            AttributeType: S
+        KeySchema:
+          - AttributeName: institutionId
+            KeyType: HASH
+          - AttributeName: index
+            KeyType: RANGE
+
