@@ -11,6 +11,7 @@
     "test:phase1": "node backend/test/test-phase-1.js",
     "test:phase2": "node backend/test/test-phase-2.js",
     "test:phase3": "node backend/test/test-phase-3.js",
-    "test:phase4": "node backend/test/test-phase-4.js"
+    "test:phase4": "node backend/test/test-phase-4.js",
+    "test:phase5": "node backend/test/test-phase-5.js"
   }
 }
