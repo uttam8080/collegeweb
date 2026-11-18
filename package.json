@@ -13,6 +13,8 @@
     "test:phase3": "node backend/test/test-phase-3.js",
     "test:phase4": "node backend/test/test-phase-4.js",
     "test:phase5": "node backend/test/test-phase-5.js",
-    "test:phase6": "node backend/test/test-phase-6.js"
+    "test:phase6": "node backend/test/test-phase-6.js",
+    "test:phase7": "node backend/test/test-phase-7.js",
+    "test:all": "node backend/test/test-college-phases.js"
   }
 }
