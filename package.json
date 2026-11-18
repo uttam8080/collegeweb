@@ -4,11 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm --prefix frontend run dev",
-    "build": "npm --prefix frontend run build",
-    "preview": "npm --prefix frontend run preview",
+    "dev": "node node_modules/vite/bin/vite.js frontend --port=3000 --host=0.0.0.0",
+    "build": "node node_modules/typescript/bin/tsc --project frontend/tsconfig.json --noEmit && node node_modules/vite/bin/vite.js build frontend",
+    "preview": "node node_modules/vite/bin/vite.js preview frontend",
     "test:backend": "node backend/test/test-college-phases.js",
     "test:phase1": "node backend/test/test-phase-1.js",
-    "test:phase2": "node backend/test/test-phase-2.js"
+    "test:phase2": "node backend/test/test-phase-2.js",
+    "test:phase3": "node backend/test/test-phase-3.js"
   }
 }
