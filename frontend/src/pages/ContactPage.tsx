@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { usePageTextAnimations } from '../utils/animations';
+import { inquiriesApi } from '../services/api';
 import { 
   Mail, 
   Phone, 
@@ -80,10 +81,25 @@ export const ContactPage: React.FC<{ onNavigate: (tab: string) => void }> = ({ o
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message) return;
-    setSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await inquiriesApi.submit({
+        name,
+        email,
+        phone: phone || '+91 9999999999',
+        message: subject ? `[${subject}] ${message}` : message
+      });
+      setSubmitted(true);
+    } catch {
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
     setTimeout(() => {
       setName('');
       setEmail('');

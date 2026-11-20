@@ -1,0 +1,268 @@
+{
+  "info": {
+    "name": "TEKKZY College of Technology — Backend APIs",
+    "description": "Multi-Tenant Serverless APIs for TEKKZY College of Technology platform.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "institutionId",
+      "value": "INST_TEKKZY_001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Admissions",
+      "item": [
+        {
+          "name": "Apply for Admission (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"applicantName\": \"Aarav Sharma\",\n  \"applicantEmail\": \"aarav.sharma@example.in\",\n  \"applicantPhone\": \"+919876543210\",\n  \"programName\": \"B.Tech Computer Science & Engineering\",\n  \"qualifyingExam\": \"JEE Advanced\",\n  \"examScore\": \"98.5 Percentile\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admissions/apply",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admissions", "apply"]
+            }
+          }
+        },
+        {
+          "name": "Get Application Status (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admissions/TAT-APP-SAMPLE-001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admissions", "TAT-APP-SAMPLE-001"]
+            }
+          }
+        },
+        {
+          "name": "List All Applications (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admissions"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Inquiries & Helpdesk",
+      "item": [
+        {
+          "name": "Submit Helpdesk Inquiry (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rohan Mehra\",\n  \"email\": \"rohan.mehra@gmail.com\",\n  \"phone\": \"+919988776655\",\n  \"message\": \"Please share details regarding AI & Robotics lab facilities and hostel security.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inquiries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inquiries"]
+            }
+          }
+        },
+        {
+          "name": "List Inquiries (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/inquiries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inquiries"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Corporate Placements",
+      "item": [
+        {
+          "name": "Register Visiting Recruiter (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"organizationName\": \"Google India\",\n  \"contactPerson\": \"Aditi Rao\",\n  \"contactEmail\": \"aditi.rao@google.com\",\n  \"website\": \"https://careers.google.com\",\n  \"packageCtc\": \"44.5 LPA\",\n  \"jobRoles\": [\"Software Engineer\", \"Cloud Architect\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/placements/recruiters",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "placements", "recruiters"]
+            }
+          }
+        },
+        {
+          "name": "List Recruiters (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/placements/recruiters",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "placements", "recruiters"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Campus Security & Gate Pass",
+      "item": [
+        {
+          "name": "Generate Visitor Gate Pass (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"visitorName\": \"Suresh Kumar\",\n  \"visitorPhone\": \"+919876500000\",\n  \"purpose\": \"Guest Lecture on Autonomous Systems\",\n  \"personToMeet\": \"Dean of Academics\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/security/gatepass",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "security", "gatepass"]
+            }
+          }
+        },
+        {
+          "name": "List Active Visitors On Campus (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/security/active-visitors",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "security", "active-visitors"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Official Notices & Gazette",
+      "item": [
+        {
+          "name": "Publish Notice (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Mid-Semester Examination Schedule - Winter 2026\",\n  \"category\": \"examination\",\n  \"summary\": \"Detailed department timetable published on student portal.\",\n  \"isUrgentTicker\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notices",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notices"]
+            }
+          }
+        },
+        {
+          "name": "List Notices (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notices",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notices"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. S3 Document Uploads",
+      "item": [
+        {
+          "name": "Get S3 Presigned Upload URL (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileName\": \"12th_Marksheet_Candidate.pdf\",\n  \"fileType\": \"application/pdf\",\n  \"folder\": \"admissions\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/uploads/presigned-url",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "uploads", "presigned-url"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. College Settings & Config",
+      "item": [
+        {
+          "name": "Get College Configuration (GET)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "institutionId", "value": "{{institutionId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/institution/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "institution", "config"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

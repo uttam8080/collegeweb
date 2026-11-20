@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node node_modules/vite/bin/vite.js frontend --port=3000 --host=0.0.0.0",
+    "dev:backend": "node backend/dev-server.js",
     "build": "node node_modules/typescript/bin/tsc --project frontend/tsconfig.json --noEmit && node node_modules/vite/bin/vite.js build frontend",
     "preview": "node node_modules/vite/bin/vite.js preview frontend",
     "test:backend": "node backend/test/test-college-phases.js",
@@ -15,6 +16,7 @@
     "test:phase5": "node backend/test/test-phase-5.js",
     "test:phase6": "node backend/test/test-phase-6.js",
     "test:phase7": "node backend/test/test-phase-7.js",
+    "test:phase8": "node backend/test/test-phase-8.js",
     "test:all": "node backend/test/test-college-phases.js"
   }
 }

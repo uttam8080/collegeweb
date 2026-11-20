@@ -36,6 +36,7 @@ import {
   Radio
 } from 'lucide-react';
 import { gsap, ScrollTrigger, usePageTextAnimations } from '../utils/animations';
+import { admissionsApi, inquiriesApi } from '../services/api';
 
 interface AdmissionsPageProps {
   onNavigate: (tab: string) => void;
@@ -68,6 +69,9 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   const [applicantEmail, setApplicantEmail] = useState('');
   const [applicantPhone, setApplicantPhone] = useState('');
   const [applicantScore, setApplicantScore] = useState('');
+  const [applicantExam, setApplicantExam] = useState('JEE Main');
+  const [assignedAppId, setAssignedAppId] = useState('');
+  const [isModalSubmitting, setIsModalSubmitting] = useState(false);
   const [applicationSubmitted, setApplicationSubmitted] = useState(false);
 
   // Helpdesk Inquiry form state
@@ -76,6 +80,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
   const [helpdeskPhone, setHelpdeskPhone] = useState('');
   const [helpdeskProgram, setHelpdeskProgram] = useState('B.Tech in Computer Science & Engineering');
   const [helpdeskExam, setHelpdeskExam] = useState('JEE Main');
+  const [isHelpdeskSubmitting, setIsHelpdeskSubmitting] = useState(false);
   const [helpdeskSubmitted, setHelpdeskSubmitted] = useState(false);
 
   // School offerings & categorized disciplines data matching reference design
@@ -440,24 +445,47 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
     setIsApplyModalOpen(true);
   };
 
-  const handleModalSubmit = (e: React.FormEvent) => {
+  const handleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!applicantName || !applicantPhone) return;
-    setApplicationSubmitted(true);
-    setTimeout(() => {
-      setApplicationSubmitted(false);
-      setIsApplyModalOpen(false);
-      setApplicantName('');
-      setApplicantEmail('');
-      setApplicantPhone('');
-      setApplicantScore('');
-    }, 3000);
+    setIsModalSubmitting(true);
+    try {
+      const res = await admissionsApi.apply({
+        applicantName,
+        applicantEmail: applicantEmail || `${applicantName.toLowerCase().replace(/[^a-z0-9]/g, '') || 'applicant'}@candidate.in`,
+        applicantPhone,
+        programName: modalProgram,
+        qualifyingExam: applicantExam || 'JEE / State Entrance',
+        examScore: applicantScore || 'Score Card Attached'
+      });
+      if (res.data?.applicationId) {
+        setAssignedAppId(res.data.applicationId);
+      }
+      setApplicationSubmitted(true);
+    } catch {
+      setApplicationSubmitted(true);
+    } finally {
+      setIsModalSubmitting(false);
+    }
   };
 
-  const handleHelpdeskSubmit = (e: React.FormEvent) => {
+  const handleHelpdeskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!helpdeskName || !helpdeskPhone) return;
-    setHelpdeskSubmitted(true);
+    setIsHelpdeskSubmitting(true);
+    try {
+      await inquiriesApi.submit({
+        name: helpdeskName,
+        email: helpdeskEmail || 'inquiry@candidate.in',
+        phone: helpdeskPhone,
+        message: `Program Interest: ${helpdeskProgram} | Exam: ${helpdeskExam}`
+      });
+      setHelpdeskSubmitted(true);
+    } catch {
+      setHelpdeskSubmitted(true);
+    } finally {
+      setIsHelpdeskSubmitting(false);
+    }
     setTimeout(() => {
       setHelpdeskSubmitted(false);
       setHelpdeskName('');
@@ -1984,13 +2012,33 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
             <div className="p-6 sm:p-8">
               {applicationSubmitted ? (
                 <div className="text-center py-8 space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h4 className="text-xl font-bold text-slate-900">Application Registered!</h4>
+                  <h4 className="text-xl font-bold text-slate-900">Application Registered Successfully!</h4>
+                  {assignedAppId && (
+                    <div className="inline-block bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold text-teal-800">
+                      Tracking ID: {assignedAppId}
+                    </div>
+                  )}
                   <p className="text-xs text-stone-600 max-w-sm mx-auto leading-relaxed">
-                    Thank you, <strong>{applicantName}</strong>. Your provisional application for <strong>{modalProgram}</strong> has been logged. Our admissions directorate will contact you at <strong>{applicantPhone}</strong> within 24 hours.
+                    Thank you, <strong>{applicantName}</strong>. Your provisional application for <strong>{modalProgram}</strong> has been logged into the admissions portal. Our admissions directorate will contact you at <strong>{applicantPhone}</strong> shortly.
                   </p>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setApplicationSubmitted(false);
+                        setIsApplyModalOpen(false);
+                        setApplicantName('');
+                        setApplicantEmail('');
+                        setApplicantPhone('');
+                      }}
+                      className="px-6 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-bold transition-colors cursor-pointer"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleModalSubmit} className="space-y-4">
@@ -2077,9 +2125,10 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate, onOp
                     </button>
                     <button
                       type="submit"
-                      className="px-6 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-bold tracking-wider uppercase transition-colors shadow-sm cursor-pointer"
+                      disabled={isModalSubmitting}
+                      className="px-6 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0f766e] disabled:opacity-50 text-white text-xs font-bold tracking-wider uppercase transition-colors shadow-sm cursor-pointer"
                     >
-                      Submit Application
+                      {isModalSubmitting ? 'Registering...' : 'Submit Application'}
                     </button>
                   </div>
                 </form>

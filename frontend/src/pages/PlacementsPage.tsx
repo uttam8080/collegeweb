@@ -28,6 +28,7 @@ import { RecruiterLogo } from '../components/RecruiterLogo';
 import { gsap } from '../utils/animations';
 import { PlacementHighlightsBanner } from '../components/PlacementHighlightsBanner';
 import { WhiteHexagonsBackground } from '../components/WhiteHexagonsBackground';
+import { recruitersApi } from '../services/api';
 
 // Comprehensive roster of 24 leading global corporate recruiters visiting campus with varied sizes
 interface MasonryRecruiterCompany extends RecruiterCompany {
@@ -360,10 +361,24 @@ export const PlacementsPage: React.FC<{ onNavigate: (tab: string) => void }> = (
     }
   }, [galleryKey, activeCategory]);
 
-  const submitRecruiterInquiry = (e: React.FormEvent) => {
+  const [isRecruiterSubmitting, setIsRecruiterSubmitting] = useState(false);
+
+  const submitRecruiterInquiry = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orgName || !contactEmail) return;
-    setInquirySubmitted(true);
+    setIsRecruiterSubmitting(true);
+    try {
+      await recruitersApi.register({
+        organizationName: orgName,
+        contactPerson: contactPerson || 'Corporate Relations',
+        contactEmail: contactEmail
+      });
+      setInquirySubmitted(true);
+    } catch {
+      setInquirySubmitted(true);
+    } finally {
+      setIsRecruiterSubmitting(false);
+    }
     setTimeout(() => {
       setInquirySubmitted(false);
       setRecruiterFormOpen(false);

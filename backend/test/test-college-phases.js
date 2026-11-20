@@ -11,7 +11,8 @@ const phases = [
   { num: 4, name: 'Phase 4: Corporate Placements & Campus Security', file: 'test-phase-4.js' },
   { num: 5, name: 'Phase 5: Official Notices & S3 Document Uploads', file: 'test-phase-5.js' },
   { num: 6, name: 'Phase 6: Multi-Tenant RBAC User Directory & Cognito', file: 'test-phase-6.js' },
-  { num: 7, name: 'Phase 7: End-to-End Multi-Tenant Cross-Service Suite', file: 'test-phase-7.js' }
+  { num: 7, name: 'Phase 7: End-to-End Multi-Tenant Cross-Service Suite', file: 'test-phase-7.js' },
+  { num: 8, name: 'Phase 8: Frontend Service Layer & Dev Server Suite', file: 'test-phase-8.js' }
 ];
 
 console.log('========================================================================');
