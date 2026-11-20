@@ -4,5 +4,21 @@ dist/
 coverage/
 .DS_Store
 *.log
-.env*
+
+# Sensitive environment variables (never commit to git)
+.env
+.env.*
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+backend/.env
+frontend/.env
+
+# Allow tracked examples
 !.env.example
+!*.env.example
+!backend/.env.example
+!frontend/.env.example
+
